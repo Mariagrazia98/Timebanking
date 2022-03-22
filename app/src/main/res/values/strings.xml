@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ShowProfileActivity</string>
+    <string name="fullname">FullName</string>
 </resources>

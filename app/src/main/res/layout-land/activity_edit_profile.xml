@@ -33,16 +33,16 @@
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/fullName"
+        <EditText
+            android:id="@+id/Edit_FullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/fullname"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/Nickname"
+        <EditText
+            android:id="@+id/Edit_Nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nickname"
@@ -50,7 +50,7 @@
             android:textStyle="italic" />
 
         <EditText
-            android:id="@+id/Email"
+            android:id="@+id/Edit_Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -59,8 +59,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textStyle="italic" />
 
-        <TextView
-            android:id="@+id/Location"
+        <EditText
+            android:id="@+id/Edit_Location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Location"

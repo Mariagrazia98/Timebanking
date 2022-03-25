@@ -35,7 +35,7 @@
         app:layout_constraintVertical_weight="2">
 
         <EditText
-            android:id="@+id/fullName"
+            android:id="@+id/Edit_FullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="FullName"
@@ -43,7 +43,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/Nickname"
+            android:id="@+id/Edit_Nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nickname"
@@ -51,7 +51,7 @@
             android:textStyle="italic" />
 
         <EditText
-            android:id="@+id/Email"
+            android:id="@+id/Edit_Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -61,7 +61,7 @@
             android:textStyle="italic" />
 
         <EditText
-            android:id="@+id/Location"
+            android:id="@+id/Edit_Location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Location"

@@ -4,12 +4,10 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
-import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 
 class EditProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +30,8 @@ class EditProfileActivity : AppCompatActivity() {
         val locationView = findViewById<EditText>(R.id.Edit_Location)
         locationView.setText(location)
 
-        val imageButton = findViewById<Button>(R.id.imageButton)
-        registerForContextMenu(imageButton)
+        val imgButton = findViewById<Button>(R.id.imageButton)
+        registerForContextMenu(imgButton)
     }
 
     override fun onBackPressed() {
@@ -53,7 +51,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View,
-                                     menuInfo: ContextMenu.ContextMenuInfo) {
+                                     menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.image_menu, menu)

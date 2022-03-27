@@ -6,11 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.ContextMenu
-import android.view.MenuInflater
-import android.view.View
 import android.widget.EditText
-import android.widget.ImageView
 import androidx.core.widget.doOnTextChanged
 
 class EditProfileActivity : AppCompatActivity() {
@@ -39,10 +35,6 @@ class EditProfileActivity : AppCompatActivity() {
         email_view.setText(email)
         var location_view = findViewById<EditText>(R.id.Edit_Location)
         location_view.setText(location)
-
-        //floating context menù
-        var image_view = findViewById<ImageView>(R.id.imageView_Edit)
-        registerForContextMenu(image_view)
 
         ///aggiungo listener
         fullname_view.addTextChangedListener(object : TextWatcher {
@@ -90,13 +82,4 @@ class EditProfileActivity : AppCompatActivity() {
         sendBroadcast(intent)
         //Log.i(info,data)
     }
-
-    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo){
-        super.onCreateContextMenu(menu, v, menuInfo)
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.context_menu, menu)
-    }
 }
-
-
-

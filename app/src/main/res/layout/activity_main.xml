@@ -51,7 +51,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textStyle="italic" />
 
-        <TextView
+        <EditText
             android:id="@+id/Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,60 +1,34 @@
 package it.polito.showprofileactivity
 
-import android.content.BroadcastReceiver
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
-import android.content.IntentFilter
-import android.graphics.drawable.Icon
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 
-var fullname = "FullNam"
-var nickname = "Nickname"
-var email = "email@address.com"
-var location = "Location"
 
 class MainActivity : AppCompatActivity() {
-    var receiver: BroadcastReceiver? = null
-
-
-    override fun onResume() {
-        super.onResume()
-        //infos setting
-        var fullname_view = findViewById<TextView>(R.id.fullName)
-        fullname_view.setText(fullname)
-        var nickname_view = findViewById<TextView>(R.id.Nickname)
-        nickname_view.setText(nickname)
-        var email_view =  findViewById<TextView>(R.id.Email)
-        email_view.setText(email)
-        var location_view = findViewById<TextView>(R.id.Location)
-        location_view.setText(location)
-
-    }
+    var fullname = "FullName"
+    var nickname = "Nickname"
+    var email = "email@address"
+    var location = "location"
+    lateinit var fullnameView:TextView
+    lateinit var nicknameView:TextView
+    lateinit var emailView: TextView
+    lateinit var locationView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //infos setting
-        var fullname_view = findViewById<TextView>(R.id.fullName)
-        fullname_view.setText(fullname)
-        var nickname_view = findViewById<TextView>(R.id.Nickname)
-        nickname_view.setText(nickname)
-        var email_view =  findViewById<TextView>(R.id.Email)
-        email_view.setText(email)
-        var location_view = findViewById<TextView>(R.id.Location)
-        location_view.setText(location)
-
-        //receiving broadcast intents
-        val filter = IntentFilter()
-        filter.addAction("it.polito.showprofileActivity")
-        receiver = MyReceiver()
-        registerReceiver(receiver,filter)
+        fullnameView = findViewById<TextView>(R.id.fullName)
+        nicknameView = findViewById<TextView>(R.id.Nickname)
+        emailView = findViewById<TextView>(R.id.Email)
+        locationView = findViewById<TextView>(R.id.Location)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -67,32 +41,70 @@ class MainActivity : AppCompatActivity() {
         // Handle item selection
         return when (item.itemId) {
             R.id.edit_button -> {
-                //call edit activity
-                val intent = Intent(this, EditProfileActivity::class.java)
-                intent.putExtra("fullname",fullname)
-                intent.putExtra("nickname",nickname)
-                intent.putExtra("email",email)
-                intent.putExtra("location",location)
-                startActivity(intent)
+                editProfile()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-}
+     val resultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val fullnameView = findViewById<TextView>(R.id.fullName)
+                fullnameView.text = result.data?.getStringExtra("group09.lab1.FULL_NAME")
 
-class MyReceiver : BroadcastReceiver(){
-    override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent != null) {
-            if(intent.getStringExtra("fullname") != null)
-                fullname = intent.getStringExtra("fullname") ?: fullname
-            if(intent.getStringExtra("nickname") != null)
-                nickname = intent.getStringExtra("nickname") ?: nickname
-            if(intent.getStringExtra("email") != null)
-                email = intent.getStringExtra("email") ?: email
-            if(intent.getStringExtra("location") != null)
-                location = intent.getStringExtra("location") ?: location
+                val nicknameView = findViewById<TextView>(R.id.Nickname)
+                nicknameView.text = result.data?.getStringExtra("group09.lab1.NICKNAME")
+
+                val emailView =  findViewById<TextView>(R.id.Email)
+                emailView.text = result.data?.getStringExtra("group09.lab1.EMAIL")
+
+                val locationView = findViewById<TextView>(R.id.Location)
+                locationView.text = result.data?.getStringExtra("group09.lab1.LOCATION")
+
+                fullname = result.data?.getStringExtra("group09.lab1.FULL_NAME").toString()
+                nickname = result.data?.getStringExtra("group09.lab1.NICKNAME").toString()
+                email = result.data?.getStringExtra("group09.lab1.EMAIL").toString()
+                location = result.data?.getStringExtra("group09.lab1.LOCATION").toString()
+            }
         }
+
+    private fun editProfile(){
+        //call edit activity
+        val intent = Intent(this, EditProfileActivity::class.java)
+        val fullnameView = findViewById<TextView>(R.id.fullName)
+        val nicknameView = findViewById<TextView>(R.id.Nickname)
+        val emailView =  findViewById<TextView>(R.id.Email)
+        val locationView = findViewById<TextView>(R.id.Location)
+
+        intent.putExtra("group09.lab1.FULL_NAME", fullnameView.text)
+        intent.putExtra("group09.lab1.NICKNAME", nicknameView.text)
+        intent.putExtra("group09.lab1.EMAIL", emailView.text)
+        intent.putExtra("group09.lab1.LOCATION", locationView.text)
+        resultLauncher.launch(intent)
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("fullname", fullname)
+        outState.putString("nickname", nickname)
+        outState.putString("email", email)
+        outState.putString("location", location)
+    }
+
+    //to fetch the data of the previous instance
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        fullname = savedInstanceState.getString("fullname", "FullNaiiiime")
+        nickname = savedInstanceState.getString("nickname", "Nickname")
+        email = savedInstanceState.getString("email", "email@address")
+        location = savedInstanceState.getString("location", "Location")
+        fullnameView.text = fullname
+        nicknameView.text = nickname
+        emailView.text = email
+        locationView.text = location
+   }
+
 }

@@ -7,8 +7,23 @@
     android:padding="16dp"
     android:weightSum="3.0">
 
+    <Button
+        android:id="@+id/imageButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/teal_700"
+        android:padding="8dp"
+        app:icon="@drawable/camera"
+        app:iconSize="40dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/Edit_imageView"
+        app:layout_constraintEnd_toEndOf="@+id/Edit_imageView"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/Edit_imageView"
+        app:layout_constraintTop_toTopOf="@+id/Edit_imageView"
+        app:layout_constraintVertical_bias="0.0" />
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/Edit_imageView"
         android:layout_width="0dp"
         android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/Edit_imageView"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText

@@ -1,85 +1,62 @@
 package it.polito.showprofileactivity
 
-import android.content.Intent
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
+import android.widget.Button
 import android.widget.EditText
-import androidx.core.widget.doOnTextChanged
+import android.widget.ImageView
 
 class EditProfileActivity : AppCompatActivity() {
-    var fullname = "FullName"
-    var nickname = "Nickname"
-    var email = "email@address.com"
-    var location = "Location"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
         ///get extras
         val i = intent
-        fullname = i.getStringExtra("fullname").toString()
-        nickname = i.getStringExtra("nickname").toString()
-        email = i.getStringExtra("email").toString()
-        location = i.getStringExtra("location").toString()
+        val fullname = i.getStringExtra("group09.lab1.FULL_NAME")
+        val nickname = i.getStringExtra("group09.lab1.NICKNAME")
+        val email = i.getStringExtra("group09.lab1.EMAIL")
+        val location = i.getStringExtra("group09.lab1.LOCATION")
 
-        ///cerco componenti text e setto testo di default
-        var fullname_view = findViewById<EditText>(R.id.Edit_FullName)
-        fullname_view.setText(fullname)
-        var nickname_view = findViewById<EditText>(R.id.Edit_Nickname)
-        nickname_view.setText(nickname)
-        var email_view =  findViewById<EditText>(R.id.Edit_Email)
-        email_view.setText(email)
-        var location_view = findViewById<EditText>(R.id.Edit_Location)
-        location_view.setText(location)
+        val fullnameView = findViewById<EditText>(R.id.Edit_FullName)
+        fullnameView.setText(fullname)
+        val nicknameView = findViewById<EditText>(R.id.Edit_Nickname)
+        nicknameView.setText(nickname)
+        val emailView =  findViewById<EditText>(R.id.Edit_Email)
+        emailView.setText(email)
+        val locationView = findViewById<EditText>(R.id.Edit_Location)
+        locationView.setText(location)
 
-        ///aggiungo listener
-        fullname_view.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                fullname = s.toString()
-                sendNotification("fullname",fullname)
-            }
-            override fun afterTextChanged(s: Editable) {}
-        })
-
-        nickname_view.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                nickname = s.toString()
-                sendNotification("nickname",nickname)
-            }
-            override fun afterTextChanged(s: Editable) {}
-        })
-
-        email_view.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                email = s.toString()
-                sendNotification("email",email)
-            }
-            override fun afterTextChanged(s: Editable) {}
-        })
-
-        location_view.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                location = s.toString()
-                sendNotification("location",location)
-            }
-            override fun afterTextChanged(s: Editable) {}
-        })
+        val imageButton = findViewById<Button>(R.id.imageButton)
+        registerForContextMenu(imageButton)
     }
 
-    private fun sendNotification(info:String, data:String){
-        val intent = Intent()
-        intent.action = "it.polito.showprofileActivity"
-        intent.putExtra(info,data)
-        intent.flags = Intent.FLAG_INCLUDE_STOPPED_PACKAGES
-        sendBroadcast(intent)
-        //Log.i(info,data)
+    override fun onBackPressed() {
+        val i = intent
+        val fullname = findViewById<EditText>(R.id.Edit_FullName).text.toString()
+        val nickname = findViewById<EditText>(R.id.Edit_Nickname).text.toString()
+        val email =  findViewById<EditText>(R.id.Edit_Email).text.toString()
+        val location = findViewById<EditText>(R.id.Edit_Location).text.toString()
+
+        i.putExtra("group09.lab1.FULL_NAME", fullname)
+        i.putExtra("group09.lab1.NICKNAME", nickname)
+        i.putExtra("group09.lab1.EMAIL", email)
+        i.putExtra("group09.lab1.LOCATION", location)
+        setResult(Activity.RESULT_OK, i)
+        super.onBackPressed() // to call at the end, because it calls internally the finish() method
     }
+
+
+    override fun onCreateContextMenu(menu: ContextMenu, v: View,
+                                     menuInfo: ContextMenu.ContextMenuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.image_menu, menu)
+    }
+
 }

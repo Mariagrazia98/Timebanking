@@ -13,10 +13,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 
 class MainActivity : AppCompatActivity() {
-    var fullname = "Full name"
-    var nickname = "Nickname"
-    var email = "email@address"
-    var location = "Location"
+    var fullname = "Mario Rossi"
+    var nickname = "Mario98"
+    var email = "mario.rossi@gmail.com"
+    var location = "Torino"
     lateinit var fullnameView: TextView
     lateinit var nicknameView: TextView
     lateinit var emailView: TextView
@@ -97,10 +97,10 @@ class MainActivity : AppCompatActivity() {
     //to fetch the data of the previous instance
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        fullname = savedInstanceState.getString("fullname", "Full Name")
-        nickname = savedInstanceState.getString("nickname", "Nickname")
-        email = savedInstanceState.getString("email", "email@address")
-        location = savedInstanceState.getString("location", "Location")
+        fullname = savedInstanceState.getString("fullname", "Mario Rossi")
+        nickname = savedInstanceState.getString("nickname", "Mario98")
+        email = savedInstanceState.getString("email", "mario.rossi@gmail.com")
+        location = savedInstanceState.getString("location", "Torino")
         fullnameView.text = fullname
         nicknameView.text = nickname
         emailView.text = email

@@ -13,7 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 
 class MainActivity : AppCompatActivity() {
-    var fullname = "Full Name"
+    var fullname = "Full name"
     var nickname = "Nickname"
     var email = "email@address"
     var location = "Location"

@@ -14,6 +14,7 @@
         android:backgroundTint="@color/teal_700"
         app:icon="@drawable/camera"
         app:iconSize="30dp"
+        android:contentDescription="@string/camera_button"
         app:layout_constraintBottom_toBottomOf="@+id/Edit_imageView"
         app:layout_constraintEnd_toEndOf="@+id/Edit_imageView"
         app:layout_constraintHorizontal_bias="1.0"
@@ -31,7 +32,8 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_person" />
+        app:srcCompat="@drawable/ic_person"
+        android:contentDescription="@string/profile_picture" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -51,17 +53,21 @@
             android:id="@+id/Edit_FullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
             android:text="@string/fullname"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:autofillHints="name" />
 
         <EditText
             android:id="@+id/Edit_Nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nickname"
+            android:inputType="text"
+            android:text="@string/nickname"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:autofillHints="name" />
 
         <EditText
             android:id="@+id/Edit_Email"
@@ -69,17 +75,20 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:text="email@address"
+            android:text="@string/email_address"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:autofillHints="emailAddress" />
 
         <EditText
             android:id="@+id/Edit_Location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Location"
+            android:inputType="textPostalAddress"
+            android:text="@string/location"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:autofillHints="postalAddress"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

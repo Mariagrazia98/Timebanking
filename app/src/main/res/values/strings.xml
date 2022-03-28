@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">ShowProfileActivity</string>
-    <string name="fullname">FullName</string>
+    <string name="fullname">Full Name</string>
+    <string name="nickname">Nickname</string>
+    <string name="email_address">email@address</string>
+    <string name="location">Location</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="camera_button">Camera</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="select_from_gallery">Select from gallery</string>
 </resources>

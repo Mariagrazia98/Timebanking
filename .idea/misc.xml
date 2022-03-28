@@ -12,8 +12,9 @@
         <entry key="app/src/main/res/layout-land/activity_edit_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.2739656912209889" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.42391304347826086" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2727043390514632" />
         <entry key="app/src/main/res/menu/edit_button.xml" value="0.5911458333333334" />
+        <entry key="app/src/main/res/menu/image_menu.xml" value="0.4425925925925926" />
       </map>
     </option>
   </component>

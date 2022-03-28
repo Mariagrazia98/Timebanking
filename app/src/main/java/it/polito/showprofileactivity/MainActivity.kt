@@ -13,12 +13,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 
 class MainActivity : AppCompatActivity() {
-    var fullname = "FullName"
+    var fullname = "Full Name"
     var nickname = "Nickname"
     var email = "email@address"
-    var location = "location"
-    lateinit var fullnameView:TextView
-    lateinit var nicknameView:TextView
+    var location = "Location"
+    lateinit var fullnameView: TextView
+    lateinit var nicknameView: TextView
     lateinit var emailView: TextView
     lateinit var locationView: TextView
 
@@ -26,9 +26,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         fullnameView = findViewById<TextView>(R.id.fullName)
-        nicknameView = findViewById<TextView>(R.id.Nickname)
-        emailView = findViewById<TextView>(R.id.Email)
-        locationView = findViewById<TextView>(R.id.Location)
+        nicknameView = findViewById<TextView>(R.id.nickname)
+        emailView = findViewById<TextView>(R.id.email)
+        locationView = findViewById<TextView>(R.id.location)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -55,13 +55,13 @@ class MainActivity : AppCompatActivity() {
                 val fullnameView = findViewById<TextView>(R.id.fullName)
                 fullnameView.text = result.data?.getStringExtra("group09.lab1.FULL_NAME")
 
-                val nicknameView = findViewById<TextView>(R.id.Nickname)
+                val nicknameView = findViewById<TextView>(R.id.nickname)
                 nicknameView.text = result.data?.getStringExtra("group09.lab1.NICKNAME")
 
-                val emailView =  findViewById<TextView>(R.id.Email)
+                val emailView =  findViewById<TextView>(R.id.email)
                 emailView.text = result.data?.getStringExtra("group09.lab1.EMAIL")
 
-                val locationView = findViewById<TextView>(R.id.Location)
+                val locationView = findViewById<TextView>(R.id.location)
                 locationView.text = result.data?.getStringExtra("group09.lab1.LOCATION")
 
                 fullname = result.data?.getStringExtra("group09.lab1.FULL_NAME").toString()
@@ -75,9 +75,9 @@ class MainActivity : AppCompatActivity() {
         //call edit activity
         val intent = Intent(this, EditProfileActivity::class.java)
         val fullnameView = findViewById<TextView>(R.id.fullName)
-        val nicknameView = findViewById<TextView>(R.id.Nickname)
-        val emailView =  findViewById<TextView>(R.id.Email)
-        val locationView = findViewById<TextView>(R.id.Location)
+        val nicknameView = findViewById<TextView>(R.id.nickname)
+        val emailView =  findViewById<TextView>(R.id.email)
+        val locationView = findViewById<TextView>(R.id.location)
 
         intent.putExtra("group09.lab1.FULL_NAME", fullnameView.text)
         intent.putExtra("group09.lab1.NICKNAME", nicknameView.text)
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
     //to fetch the data of the previous instance
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        fullname = savedInstanceState.getString("fullname", "FullNaiiiime")
+        fullname = savedInstanceState.getString("fullname", "Full Name")
         nickname = savedInstanceState.getString("nickname", "Nickname")
         email = savedInstanceState.getString("email", "email@address")
         location = savedInstanceState.getString("location", "Location")

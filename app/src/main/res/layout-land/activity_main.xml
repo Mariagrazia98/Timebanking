@@ -37,12 +37,12 @@
             android:id="@+id/fullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/fullname"
+            android:text="Full Name"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/Nickname"
+            android:id="@+id/nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nickname"
@@ -50,7 +50,7 @@
             android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/Email"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -59,7 +59,7 @@
             android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/Location"
+            android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Location"

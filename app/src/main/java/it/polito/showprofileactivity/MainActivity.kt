@@ -2,9 +2,11 @@ package it.polito.showprofileactivity
 
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +17,8 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import org.json.JSONObject
+import java.io.*
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var fullname: String
@@ -35,16 +39,13 @@ class MainActivity : AppCompatActivity() {
         sharedPref = this?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
 
         var jsonDefault = JSONObject()
-
         jsonDefault.put("fullname", "Mario Rossi");
         jsonDefault.put("nickname", "Mario98");
         jsonDefault.put("email", "mario.rossi@gmail.com");
         jsonDefault.put("location", "Torino");
 
         var profileString = sharedPref.getString("profile", jsonDefault.toString())
-
         var json = JSONObject(profileString)
-
         fullname = json.getString("fullname")
         nickname = json.getString("nickname")
         email = json.getString("email")
@@ -55,7 +56,13 @@ class MainActivity : AppCompatActivity() {
         emailView.text = email
         locationView.text = location
 
-        val iv = findViewById<ImageView>(R.id.Edit_imageView)
+        //get image from filesystem
+        val wrapper = ContextWrapper(applicationContext)
+        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+        file = File(file, "profileImage.jpg")
+        bitmap = BitmapFactory.decodeFile(file.absolutePath)
+
+        val iv = findViewById<ImageView>(R.id.imageView)
         if(bitmap!=null)
             iv.setImageBitmap(bitmap)
     }
@@ -103,9 +110,7 @@ class MainActivity : AppCompatActivity() {
                 if(bitmap!=null)
                     iv.setImageBitmap(bitmap)
 
-
                 var jsonProfile = JSONObject()
-
                 jsonProfile.put("fullname", fullname);
                 jsonProfile.put("nickname", nickname);
                 jsonProfile.put("email", email);
@@ -114,6 +119,18 @@ class MainActivity : AppCompatActivity() {
                 val editor = sharedPref.edit()
                 editor.putString("profile", jsonProfile.toString())
                 editor.apply()
+
+                val wrapper = ContextWrapper(applicationContext)
+                var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+                file = File(file, "profileImage.jpg")
+                try {
+                    val stream: OutputStream = FileOutputStream(file)
+                    bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                    stream.flush()
+                    stream.close()
+                } catch (e: IOException){
+                    e.printStackTrace()
+                }
             }
         }
 
@@ -129,6 +146,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("group09.lab1.NICKNAME", nicknameView.text)
         intent.putExtra("group09.lab1.EMAIL", emailView.text)
         intent.putExtra("group09.lab1.LOCATION", locationView.text)
+        intent.putExtra("group09.lab1.PROFILE_IMAGE", bitmap)
         resultLauncher.launch(intent)
     }
 

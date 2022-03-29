@@ -9,4 +9,5 @@
     <string name="camera_button">Camera</string>
     <string name="take_a_photo">Take a photo</string>
     <string name="select_from_gallery">Select from gallery</string>
+    <string name="preference_file_key">preference_file</string>
 </resources>

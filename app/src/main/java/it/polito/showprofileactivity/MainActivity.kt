@@ -1,7 +1,9 @@
 package it.polito.showprofileactivity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -13,22 +15,30 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 
 class MainActivity : AppCompatActivity() {
-    var fullname = "Mario Rossi"
-    var nickname = "Mario98"
-    var email = "mario.rossi@gmail.com"
-    var location = "Torino"
-    lateinit var fullnameView: TextView
-    lateinit var nicknameView: TextView
-    lateinit var emailView: TextView
-    lateinit var locationView: TextView
+    lateinit var fullname: String
+    lateinit var nickname: String
+    lateinit var email: String
+    lateinit var location: String
+    
+    lateinit var sharedPref : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        fullnameView = findViewById<TextView>(R.id.fullName)
-        nicknameView = findViewById<TextView>(R.id.nickname)
-        emailView = findViewById<TextView>(R.id.email)
-        locationView = findViewById<TextView>(R.id.location)
+        var fullnameView = findViewById<TextView>(R.id.fullName)
+        var nicknameView = findViewById<TextView>(R.id.nickname)
+        var emailView = findViewById<TextView>(R.id.email)
+        var locationView = findViewById<TextView>(R.id.location)
+
+        sharedPref = this?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+        fullname = sharedPref.getString("fullname", "Mario Rossi").toString()
+        nickname = sharedPref.getString("nickname", "Mario98").toString()
+        email = sharedPref.getString("email", "mario.rossi@gmail.com").toString()
+        location = sharedPref.getString("location", "Torino").toString()
+        fullnameView.text = fullname
+        nicknameView.text = nickname
+        emailView.text = email
+        locationView.text = location
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -68,6 +78,12 @@ class MainActivity : AppCompatActivity() {
                 nickname = result.data?.getStringExtra("group09.lab1.NICKNAME").toString()
                 email = result.data?.getStringExtra("group09.lab1.EMAIL").toString()
                 location = result.data?.getStringExtra("group09.lab1.LOCATION").toString()
+
+                println("resultLauncher: ")
+                println(sharedPref)
+                val editor = sharedPref.edit()
+                editor.putString("fullname", fullname).putString("nickname", nickname).putString("email", email).putString("location", location)
+                editor.apply()
             }
         }
 
@@ -85,26 +101,5 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("group09.lab1.LOCATION", locationView.text)
         resultLauncher.launch(intent)
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("fullname", fullname)
-        outState.putString("nickname", nickname)
-        outState.putString("email", email)
-        outState.putString("location", location)
-    }
-
-    //to fetch the data of the previous instance
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        fullname = savedInstanceState.getString("fullname", "Mario Rossi")
-        nickname = savedInstanceState.getString("nickname", "Mario98")
-        email = savedInstanceState.getString("email", "mario.rossi@gmail.com")
-        location = savedInstanceState.getString("location", "Torino")
-        fullnameView.text = fullname
-        nicknameView.text = nickname
-        emailView.text = email
-        locationView.text = location
-   }
 
 }

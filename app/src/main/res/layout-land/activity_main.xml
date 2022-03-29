@@ -17,7 +17,8 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_person" />
+        app:srcCompat="@drawable/ic_person"
+        android:contentDescription="@string/profile_picture" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -37,7 +38,7 @@
             android:id="@+id/fullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Full Name"
+            android:text="@string/fullname"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textStyle="bold" />
 
@@ -45,8 +46,8 @@
             android:id="@+id/nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nickname"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:text="@string/nickname"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
 
         <TextView
@@ -54,16 +55,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="email@address"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:text="@string/email_address"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
 
         <TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Location"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:text="@string/location"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
     </LinearLayout>
 

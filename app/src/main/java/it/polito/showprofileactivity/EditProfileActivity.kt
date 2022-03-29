@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.content.Intent
 import android.graphics.Bitmap
@@ -13,6 +14,9 @@ import android.view.MenuItem
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.AdapterView
+import android.widget.Button
+import android.widget.EditText
 
 class EditProfileActivity : AppCompatActivity() {
     private lateinit var iv: ImageView
@@ -67,10 +71,13 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
         return when (item.itemId) {
-            R.id.camera_item -> {
+            R.id.camera -> {
                 openCamera()
+                true
+            }
+            R.id.gallery -> {
+                //open gallery
                 true
             }
             else -> super.onContextItemSelected(item)

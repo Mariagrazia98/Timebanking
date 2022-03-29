@@ -16,6 +16,7 @@
         android:backgroundTint="@color/teal_700"
         app:icon="@drawable/camera"
         app:iconSize="30dp"
+        android:contentDescription="@string/camera_button"
         app:layout_constraintBottom_toBottomOf="@+id/Edit_imageView"
         app:layout_constraintEnd_toEndOf="@+id/Edit_imageView"
         app:layout_constraintHorizontal_bias="0.0"
@@ -33,16 +34,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1"
-        app:srcCompat="@drawable/ic_person" />
+        app:srcCompat="@drawable/ic_person"
+        android:contentDescription="@string/profile_picture" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1.0"
+
         android:orientation="vertical"
         android:padding="16dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +55,9 @@
             android:id="@+id/Edit_FullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="name"
             android:inputType="textPersonName"
+            android:text="@string/fullname"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textStyle="bold" />
 
@@ -61,25 +65,31 @@
             android:id="@+id/Edit_Nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="name"
             android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:text="@string/nickname"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
 
         <EditText
             android:id="@+id/Edit_Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="emailAddress"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:text="@string/email_address"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
 
         <EditText
             android:id="@+id/Edit_Location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:autofillHints="postalAddress"
+            android:inputType="textPostalAddress"
+            android:text="@string/location"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
     </LinearLayout>
 

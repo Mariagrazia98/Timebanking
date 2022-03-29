@@ -12,14 +12,14 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
     lateinit var fullname: String
     lateinit var nickname: String
     lateinit var email: String
     lateinit var location: String
-    
+
     lateinit var sharedPref : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,10 +31,23 @@ class MainActivity : AppCompatActivity() {
         var locationView = findViewById<TextView>(R.id.location)
 
         sharedPref = this?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-        fullname = sharedPref.getString("fullname", "Mario Rossi").toString()
-        nickname = sharedPref.getString("nickname", "Mario98").toString()
-        email = sharedPref.getString("email", "mario.rossi@gmail.com").toString()
-        location = sharedPref.getString("location", "Torino").toString()
+
+        var jsonDefault = JSONObject()
+
+        jsonDefault.put("fullname", "Mario Rossi");
+        jsonDefault.put("nickname", "Mario98");
+        jsonDefault.put("email", "mario.rossi@gmail.com");
+        jsonDefault.put("location", "Torino");
+
+        var profileString = sharedPref.getString("profile", jsonDefault.toString())
+
+        var json = JSONObject(profileString)
+
+        fullname = json.getString("fullname")
+        nickname = json.getString("nickname")
+        email = json.getString("email")
+        location = json.getString("location")
+
         fullnameView.text = fullname
         nicknameView.text = nickname
         emailView.text = email
@@ -79,10 +92,16 @@ class MainActivity : AppCompatActivity() {
                 email = result.data?.getStringExtra("group09.lab1.EMAIL").toString()
                 location = result.data?.getStringExtra("group09.lab1.LOCATION").toString()
 
-                println("resultLauncher: ")
-                println(sharedPref)
+
+                var jsonProfile = JSONObject()
+
+                jsonProfile.put("fullname", fullname);
+                jsonProfile.put("nickname", nickname);
+                jsonProfile.put("email", email);
+                jsonProfile.put("location", location);
+
                 val editor = sharedPref.edit()
-                editor.putString("fullname", fullname).putString("nickname", nickname).putString("email", email).putString("location", location)
+                editor.putString("profile", jsonProfile.toString())
                 editor.apply()
             }
         }

@@ -10,11 +10,9 @@ import android.view.View
 import android.content.Intent
 import android.graphics.Bitmap
 import android.provider.MediaStore
-import android.view.MenuItem
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 

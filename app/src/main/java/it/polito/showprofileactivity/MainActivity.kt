@@ -15,6 +15,9 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
+import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var fullname: String
@@ -35,16 +38,13 @@ class MainActivity : AppCompatActivity() {
         sharedPref = this?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
 
         var jsonDefault = JSONObject()
-
         jsonDefault.put("fullname", "Mario Rossi");
         jsonDefault.put("nickname", "Mario98");
         jsonDefault.put("email", "mario.rossi@gmail.com");
         jsonDefault.put("location", "Torino");
 
         var profileString = sharedPref.getString("profile", jsonDefault.toString())
-
         var json = JSONObject(profileString)
-
         fullname = json.getString("fullname")
         nickname = json.getString("nickname")
         email = json.getString("email")
@@ -103,9 +103,7 @@ class MainActivity : AppCompatActivity() {
                 if(bitmap!=null)
                     iv.setImageBitmap(bitmap)
 
-
                 var jsonProfile = JSONObject()
-
                 jsonProfile.put("fullname", fullname);
                 jsonProfile.put("nickname", nickname);
                 jsonProfile.put("email", email);
@@ -114,6 +112,37 @@ class MainActivity : AppCompatActivity() {
                 val editor = sharedPref.edit()
                 editor.putString("profile", jsonProfile.toString())
                 editor.apply()
+
+                //Scrittura bitmap
+                val filename = "profileImage"
+                val context = applicationContext
+
+                val stream = ByteArrayOutputStream()
+                bitmap?.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                val byteArray: ByteArray = stream.toByteArray()
+
+                context.openFileOutput(filename, Context.MODE_PRIVATE).use {
+                    it.write(byteArray)
+                }
+                //Lettura bitmap ??
+                
+
+                /* //Esempio con testo
+                //Scrittura
+                val filename = "myfile"
+                val fileContents = "Hello world!"
+                val context = applicationContext
+                context.openFileOutput(filename, Context.MODE_PRIVATE).use {
+                    it.write(fileContents.toByteArray())
+                }
+                //Lettura
+                val lines = context.openFileInput(filename).bufferedReader().useLines { lines ->
+                    lines.fold("") { some, text ->
+                        "$some\n$text"
+                    }
+                }
+                println(lines)
+                */
             }
         }
 

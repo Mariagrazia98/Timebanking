@@ -6,10 +6,17 @@ import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
+import android.content.Intent
+import android.graphics.Bitmap
+import android.provider.MediaStore
+import android.view.MenuItem
+import android.widget.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 
 class EditProfileActivity : AppCompatActivity() {
+    private lateinit var iv: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -32,6 +39,8 @@ class EditProfileActivity : AppCompatActivity() {
 
         val imgButton = findViewById<Button>(R.id.imageButton)
         registerForContextMenu(imgButton)
+
+        iv = findViewById(R.id.Edit_imageView)
     }
 
     override fun onBackPressed() {
@@ -49,7 +58,7 @@ class EditProfileActivity : AppCompatActivity() {
         super.onBackPressed() // to call at the end, because it calls internally the finish() method
     }
 
-
+    //create the floating menu after pressing on the camera img
     override fun onCreateContextMenu(menu: ContextMenu, v: View,
                                      menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
@@ -57,4 +66,35 @@ class EditProfileActivity : AppCompatActivity() {
         inflater.inflate(R.menu.image_menu, menu)
     }
 
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.camera_item -> {
+                openCamera()
+                true
+            }
+            else -> super.onContextItemSelected(item)
+        }
+    }
+
+    //result of opening camera
+    val resultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    handleCameraImage(result.data)
+                }
+            }
+
+    private fun openCamera(){
+        //intent to open camera app
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        resultLauncher.launch(cameraIntent)
+    }
+
+    private fun handleCameraImage(intent: Intent?) {
+        val bitmap = intent?.extras?.get("data") as Bitmap
+        iv.setImageBitmap(bitmap)
+
+    }
 }

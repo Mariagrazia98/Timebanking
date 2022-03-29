@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.PersistableBundle
 import android.provider.MediaStore
 import android.widget.*
 import androidx.activity.result.ActivityResult
@@ -17,7 +18,7 @@ import android.widget.Button
 import android.widget.EditText
 
 class EditProfileActivity : AppCompatActivity() {
-    private lateinit var iv: ImageView
+    private var bitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +42,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         val imgButton = findViewById<Button>(R.id.imageButton)
         registerForContextMenu(imgButton)
-
-        iv = findViewById(R.id.Edit_imageView)
-    }
+     }
 
     override fun onBackPressed() {
         val i = intent
@@ -56,6 +55,8 @@ class EditProfileActivity : AppCompatActivity() {
         i.putExtra("group09.lab1.NICKNAME", nickname)
         i.putExtra("group09.lab1.EMAIL", email)
         i.putExtra("group09.lab1.LOCATION", location)
+        i.putExtra("group09.lab1.IMAGE", bitmap)
+
         setResult(Activity.RESULT_OK, i)
         super.onBackPressed() // to call at the end, because it calls internally the finish() method
     }
@@ -98,8 +99,22 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun handleCameraImage(intent: Intent?) {
-        val bitmap = intent?.extras?.get("data") as Bitmap
+        bitmap = intent?.extras?.get("data") as Bitmap
+        val iv = findViewById<ImageView>(R.id.Edit_imageView)
         iv.setImageBitmap(bitmap)
-
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("bitmap",bitmap)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        bitmap = savedInstanceState.getParcelable("bitmap")
+        val iv = findViewById<ImageView>(R.id.Edit_imageView)
+        if(bitmap!=null)
+            iv.setImageBitmap(bitmap)
+    }
+
 }

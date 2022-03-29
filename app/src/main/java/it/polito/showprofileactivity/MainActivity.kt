@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var nickname: String
     lateinit var email: String
     lateinit var location: String
-    
+    private var bitmap: Bitmap? = null
     lateinit var sharedPref : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         var emailView = findViewById<TextView>(R.id.email)
         var locationView = findViewById<TextView>(R.id.location)
 
-        sharedPref = this?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+        sharedPref = this?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)!!
         fullname = sharedPref.getString("fullname", "Mario Rossi").toString()
         nickname = sharedPref.getString("nickname", "Mario98").toString()
         email = sharedPref.getString("email", "mario.rossi@gmail.com").toString()
@@ -39,6 +41,10 @@ class MainActivity : AppCompatActivity() {
         nicknameView.text = nickname
         emailView.text = email
         locationView.text = location
+
+        val iv = findViewById<ImageView>(R.id.Edit_imageView)
+        if(bitmap!=null)
+            iv.setImageBitmap(bitmap)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -78,6 +84,11 @@ class MainActivity : AppCompatActivity() {
                 nickname = result.data?.getStringExtra("group09.lab1.NICKNAME").toString()
                 email = result.data?.getStringExtra("group09.lab1.EMAIL").toString()
                 location = result.data?.getStringExtra("group09.lab1.LOCATION").toString()
+                bitmap = result.data?.getParcelableExtra("group09.lab1.IMAGE")
+
+                val iv = findViewById<ImageView>(R.id.imageView)
+                if(bitmap!=null)
+                    iv.setImageBitmap(bitmap)
 
                 println("resultLauncher: ")
                 println(sharedPref)
@@ -100,6 +111,19 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("group09.lab1.EMAIL", emailView.text)
         intent.putExtra("group09.lab1.LOCATION", locationView.text)
         resultLauncher.launch(intent)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("bitmap",bitmap)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        bitmap = savedInstanceState.getParcelable("bitmap")
+        val iv = findViewById<ImageView>(R.id.imageView)
+        if(bitmap!=null)
+            iv.setImageBitmap(bitmap)
     }
 
 }

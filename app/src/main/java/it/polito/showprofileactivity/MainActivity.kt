@@ -2,9 +2,11 @@ package it.polito.showprofileactivity
 
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,8 +17,7 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import org.json.JSONObject
-import java.io.ByteArrayOutputStream
-import java.io.File
+import java.io.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,7 +56,13 @@ class MainActivity : AppCompatActivity() {
         emailView.text = email
         locationView.text = location
 
-        val iv = findViewById<ImageView>(R.id.Edit_imageView)
+        //get image from filesystem
+        val wrapper = ContextWrapper(applicationContext)
+        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+        file = File(file, "profileImage.jpg")
+        bitmap = BitmapFactory.decodeFile(file.absolutePath)
+
+        val iv = findViewById<ImageView>(R.id.imageView)
         if(bitmap!=null)
             iv.setImageBitmap(bitmap)
     }
@@ -113,36 +120,17 @@ class MainActivity : AppCompatActivity() {
                 editor.putString("profile", jsonProfile.toString())
                 editor.apply()
 
-                //Scrittura bitmap
-                val filename = "profileImage"
-                val context = applicationContext
-
-                val stream = ByteArrayOutputStream()
-                bitmap?.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                val byteArray: ByteArray = stream.toByteArray()
-
-                context.openFileOutput(filename, Context.MODE_PRIVATE).use {
-                    it.write(byteArray)
+                val wrapper = ContextWrapper(applicationContext)
+                var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+                file = File(file, "profileImage.jpg")
+                try {
+                    val stream: OutputStream = FileOutputStream(file)
+                    bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                    stream.flush()
+                    stream.close()
+                } catch (e: IOException){
+                    e.printStackTrace()
                 }
-                //Lettura bitmap ??
-                
-
-                /* //Esempio con testo
-                //Scrittura
-                val filename = "myfile"
-                val fileContents = "Hello world!"
-                val context = applicationContext
-                context.openFileOutput(filename, Context.MODE_PRIVATE).use {
-                    it.write(fileContents.toByteArray())
-                }
-                //Lettura
-                val lines = context.openFileInput(filename).bufferedReader().useLines { lines ->
-                    lines.fold("") { some, text ->
-                        "$some\n$text"
-                    }
-                }
-                println(lines)
-                */
             }
         }
 
@@ -158,6 +146,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("group09.lab1.NICKNAME", nicknameView.text)
         intent.putExtra("group09.lab1.EMAIL", emailView.text)
         intent.putExtra("group09.lab1.LOCATION", locationView.text)
+        intent.putExtra("group09.lab1.PROFILE_IMAGE", bitmap)
         resultLauncher.launch(intent)
     }
 

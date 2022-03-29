@@ -30,6 +30,7 @@ class EditProfileActivity : AppCompatActivity() {
         val nickname = i.getStringExtra("group09.lab1.NICKNAME")
         val email = i.getStringExtra("group09.lab1.EMAIL")
         val location = i.getStringExtra("group09.lab1.LOCATION")
+        bitmap = i.getParcelableExtra("group09.lab1.PROFILE_IMAGE")
 
         val fullnameView = findViewById<EditText>(R.id.Edit_FullName)
         fullnameView.setText(fullname)
@@ -39,6 +40,10 @@ class EditProfileActivity : AppCompatActivity() {
         emailView.setText(email)
         val locationView = findViewById<EditText>(R.id.Edit_Location)
         locationView.setText(location)
+
+        val iv = findViewById<ImageView>(R.id.Edit_imageView)
+        if(bitmap!=null)
+            iv.setImageBitmap(bitmap)
 
         val imgButton = findViewById<Button>(R.id.imageButton)
         registerForContextMenu(imgButton)

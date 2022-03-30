@@ -31,21 +31,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var fullnameView = findViewById<TextView>(R.id.fullName)
-        var nicknameView = findViewById<TextView>(R.id.nickname)
-        var emailView = findViewById<TextView>(R.id.email)
-        var locationView = findViewById<TextView>(R.id.location)
+        val fullnameView = findViewById<TextView>(R.id.fullName)
+        val nicknameView = findViewById<TextView>(R.id.nickname)
+        val emailView = findViewById<TextView>(R.id.email)
+        val locationView = findViewById<TextView>(R.id.location)
 
-        sharedPref = this?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+        //Get data from SharedPreferences
+        sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+        //Create a json with default data to be used if sharedPref doesn't contain anything
+        val jsonDefault = JSONObject()
+        jsonDefault.put("fullname", "Mario Rossi")
+        jsonDefault.put("nickname", "Mario98")
+        jsonDefault.put("email", "mario.rossi@gmail.com")
+        jsonDefault.put("location", "Torino")
 
-        var jsonDefault = JSONObject()
-        jsonDefault.put("fullname", "Mario Rossi");
-        jsonDefault.put("nickname", "Mario98");
-        jsonDefault.put("email", "mario.rossi@gmail.com");
-        jsonDefault.put("location", "Torino");
-
-        var profileString = sharedPref.getString("profile", jsonDefault.toString())
-        var json = JSONObject(profileString)
+        val profileString = sharedPref.getString("profile", jsonDefault.toString()) //retrieve the string containing data in json format with the key "profile"
+        val json = JSONObject(profileString)  //transform the obtained string into a json to easily access all the fields
         fullname = json.getString("fullname")
         nickname = json.getString("nickname")
         email = json.getString("email")
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         emailView.text = email
         locationView.text = location
 
-        //get image from filesystem
+        //Get profile image from internal storage (local filesystem)
         val wrapper = ContextWrapper(applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         file = File(file, "profileImage.jpg")
@@ -110,16 +111,18 @@ class MainActivity : AppCompatActivity() {
                 if(bitmap!=null)
                     iv.setImageBitmap(bitmap)
 
-                var jsonProfile = JSONObject()
-                jsonProfile.put("fullname", fullname);
-                jsonProfile.put("nickname", nickname);
-                jsonProfile.put("email", email);
-                jsonProfile.put("location", location);
+                //Save data to SharedPreferences in a JSON object
+                val jsonProfile = JSONObject()
+                jsonProfile.put("fullname", fullname)
+                jsonProfile.put("nickname", nickname)
+                jsonProfile.put("email", email)
+                jsonProfile.put("location", location)
 
                 val editor = sharedPref.edit()
-                editor.putString("profile", jsonProfile.toString())
+                editor.putString("profile", jsonProfile.toString()) //sharedPref saves (key,value) pair and this method wants a string as value
                 editor.apply()
 
+                //Save profile image into internal storage
                 val wrapper = ContextWrapper(applicationContext)
                 var file = wrapper.getDir("images", Context.MODE_PRIVATE)
                 file = File(file, "profileImage.jpg")

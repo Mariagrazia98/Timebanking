@@ -63,6 +63,16 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/edit_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:text="@string/age"
+            android:importantForAutofill="no"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="italic"/>
+
+        <EditText
             android:id="@+id/Edit_Nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

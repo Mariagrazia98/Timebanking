@@ -23,6 +23,7 @@ import java.io.*
 class MainActivity : AppCompatActivity() {
     lateinit var fullname: String
     lateinit var nickname: String
+    var age = 24
     lateinit var email: String
     lateinit var location: String
     private var bitmap: Bitmap? = null
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val fullnameView = findViewById<TextView>(R.id.fullName)
+        val ageView = findViewById<TextView>(R.id.age)
         val nicknameView = findViewById<TextView>(R.id.nickname)
         val emailView = findViewById<TextView>(R.id.email)
         val locationView = findViewById<TextView>(R.id.location)
@@ -41,18 +43,21 @@ class MainActivity : AppCompatActivity() {
         //Create a json with default data to be used if sharedPref doesn't contain anything
         val jsonDefault = JSONObject()
         jsonDefault.put("fullname", "Mario Rossi")
+        jsonDefault.put("age", 24)
         jsonDefault.put("nickname", "Mario98")
         jsonDefault.put("email", "mario.rossi@gmail.com")
         jsonDefault.put("location", "Torino")
 
         val profileString = sharedPref.getString("profile", jsonDefault.toString()) //retrieve the string containing data in json format with the key "profile"
-        val json = JSONObject(profileString)  //transform the obtained string into a json to easily access all the fields
+        val json = JSONObject(profileString.toString())  //transform the obtained string into a json to easily access all the fields
         fullname = json.getString("fullname")
+        age = json.getInt("age")
         nickname = json.getString("nickname")
         email = json.getString("email")
         location = json.getString("location")
 
         fullnameView.text = fullname
+        ageView.text = age.toString()
         nicknameView.text = nickname
         emailView.text = email
         locationView.text = location
@@ -92,6 +97,9 @@ class MainActivity : AppCompatActivity() {
                 val fullnameView = findViewById<TextView>(R.id.fullName)
                 fullnameView.text = result.data?.getStringExtra("group09.lab1.FULL_NAME")
 
+                val ageView = findViewById<TextView>(R.id.age)
+                ageView.text = result.data?.getStringExtra("group09.lab1.AGE")
+
                 val nicknameView = findViewById<TextView>(R.id.nickname)
                 nicknameView.text = result.data?.getStringExtra("group09.lab1.NICKNAME")
 
@@ -102,6 +110,7 @@ class MainActivity : AppCompatActivity() {
                 locationView.text = result.data?.getStringExtra("group09.lab1.LOCATION")
 
                 fullname = result.data?.getStringExtra("group09.lab1.FULL_NAME").toString()
+                age = result.data?.getStringExtra("group09.lab1.AGE").toString().toInt()
                 nickname = result.data?.getStringExtra("group09.lab1.NICKNAME").toString()
                 email = result.data?.getStringExtra("group09.lab1.EMAIL").toString()
                 location = result.data?.getStringExtra("group09.lab1.LOCATION").toString()
@@ -114,6 +123,7 @@ class MainActivity : AppCompatActivity() {
                 //Save data to SharedPreferences in a JSON object
                 val jsonProfile = JSONObject()
                 jsonProfile.put("fullname", fullname)
+                jsonProfile.put("age", age)
                 jsonProfile.put("nickname", nickname)
                 jsonProfile.put("email", email)
                 jsonProfile.put("location", location)
@@ -141,11 +151,13 @@ class MainActivity : AppCompatActivity() {
         //call edit activity
         val intent = Intent(this, EditProfileActivity::class.java)
         val fullnameView = findViewById<TextView>(R.id.fullName)
+        val ageView = findViewById<TextView>(R.id.age)
         val nicknameView = findViewById<TextView>(R.id.nickname)
         val emailView =  findViewById<TextView>(R.id.email)
         val locationView = findViewById<TextView>(R.id.location)
 
         intent.putExtra("group09.lab1.FULL_NAME", fullnameView.text)
+        intent.putExtra("group09.lab1.AGE", ageView.text)
         intent.putExtra("group09.lab1.NICKNAME", nicknameView.text)
         intent.putExtra("group09.lab1.EMAIL", emailView.text)
         intent.putExtra("group09.lab1.LOCATION", locationView.text)

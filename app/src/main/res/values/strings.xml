@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Timebanking</string>
     <string name="fullname">Mario Rossi</string>
+    <string name="age">24</string>
+    <string name="yo">y.o.</string>
     <string name="nickname">Mario98</string>
     <string name="email_address">mario.rossi@gmail.com</string>
     <string name="location">Torino</string>

@@ -30,6 +30,7 @@ class EditProfileActivity : AppCompatActivity() {
         val nickname = i.getStringExtra("group09.lab1.NICKNAME")
         val email = i.getStringExtra("group09.lab1.EMAIL")
         val location = i.getStringExtra("group09.lab1.LOCATION")
+        val skills = i.getStringExtra("group09.lab1.SKILLS")
         val description = i.getStringExtra("group09.lab1.DESCRIPTION")
         bitmap = i.getParcelableExtra("group09.lab1.PROFILE_IMAGE")
 
@@ -43,6 +44,8 @@ class EditProfileActivity : AppCompatActivity() {
         emailView.setText(email)
         val locationView = findViewById<EditText>(R.id.Edit_Location)
         locationView.setText(location)
+        val skillsView = findViewById<EditText>(R.id.edit_skills)
+        skillsView.setText(skills)
         val descriptionView = findViewById<EditText>(R.id.edit_description)
          descriptionView.setText(description)
 
@@ -61,6 +64,7 @@ class EditProfileActivity : AppCompatActivity() {
         val nickname = findViewById<EditText>(R.id.Edit_Nickname).text.toString()
         val email =  findViewById<EditText>(R.id.Edit_Email).text.toString()
         val location = findViewById<EditText>(R.id.Edit_Location).text.toString()
+        val skills = findViewById<EditText>(R.id.edit_skills).text.toString()
         val description = findViewById<EditText>(R.id.edit_description).text.toString()
 
         i.putExtra("group09.lab1.FULL_NAME", fullname)
@@ -68,6 +72,7 @@ class EditProfileActivity : AppCompatActivity() {
         i.putExtra("group09.lab1.NICKNAME", nickname)
         i.putExtra("group09.lab1.EMAIL", email)
         i.putExtra("group09.lab1.LOCATION", location)
+        i.putExtra("group09.lab1.SKILLS", skills)
         i.putExtra("group09.lab1.DESCRIPTION", description)
         i.putExtra("group09.lab1.IMAGE", bitmap)
 

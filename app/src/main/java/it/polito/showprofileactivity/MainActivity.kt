@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     var age = 24
     lateinit var email: String
     lateinit var location: String
+    lateinit var skills: String
     lateinit var description: String
     private var bitmap: Bitmap? = null
     lateinit var sharedPref : SharedPreferences
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         val nicknameView = findViewById<TextView>(R.id.nickname)
         val emailView = findViewById<TextView>(R.id.email)
         val locationView = findViewById<TextView>(R.id.location)
+        val skillsView = findViewById<TextView>(R.id.skills)
         val descriptionView = findViewById<TextView>(R.id.description)
 
         //Get data from SharedPreferences
@@ -49,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         jsonDefault.put("nickname", "Mario98")
         jsonDefault.put("email", "mario.rossi@gmail.com")
         jsonDefault.put("location", "Torino")
+        jsonDefault.put("skills", "Android developer, Electrician")
         jsonDefault.put("description", "Frequento il Politecnico di Torino")
 
         val profileString = sharedPref.getString("profile", jsonDefault.toString()) //retrieve the string containing data in json format with the key "profile"
@@ -57,14 +60,28 @@ class MainActivity : AppCompatActivity() {
 
         if(json.has("fullname"))
             fullname = json.getString("fullname")
+        else
+            fullname = jsonDefault.getString("fullname")
         if(json.has("age"))
             age = json.getInt("age")
+        else
+            age = jsonDefault.getInt("age")
         if(json.has("nickname"))
             nickname = json.getString("nickname")
+        else
+            nickname = jsonDefault.getString("nickname")
         if(json.has("email"))
             email = json.getString("email")
+        else
+            email = jsonDefault.getString("email")
         if(json.has("location"))
             location = json.getString("location")
+        else
+            location = jsonDefault.getString("location")
+        if(json.has("skills"))
+            skills = json.getString("skills")
+        else
+            skills = jsonDefault.getString("skills")
         if(json.has("description"))
             description = json.getString("description")
         else{
@@ -76,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         nicknameView.text = nickname
         emailView.text = email
         locationView.text = location
+        skillsView.text = skills
         descriptionView.text=description
 
         //Get profile image from internal storage (local filesystem)
@@ -125,6 +143,9 @@ class MainActivity : AppCompatActivity() {
                 val locationView = findViewById<TextView>(R.id.location)
                 locationView.text = result.data?.getStringExtra("group09.lab1.LOCATION")
 
+                val skillsView = findViewById<TextView>(R.id.skills)
+                skillsView.text = result.data?.getStringExtra("group09.lab1.SKILLS")
+
                 val descriptionView = findViewById<TextView>(R.id.description)
                 descriptionView.text = result.data?.getStringExtra("group09.lab1.DESCRIPTION")
 
@@ -134,6 +155,7 @@ class MainActivity : AppCompatActivity() {
                 nickname = result.data?.getStringExtra("group09.lab1.NICKNAME").toString()
                 email = result.data?.getStringExtra("group09.lab1.EMAIL").toString()
                 location = result.data?.getStringExtra("group09.lab1.LOCATION").toString()
+                skills = result.data?.getStringExtra("group09.lab1.SKILLS").toString()
                 description=result.data?.getStringExtra("group09.lab1.DESCRIPTION").toString()
                 bitmap = result.data?.getParcelableExtra("group09.lab1.IMAGE")
 
@@ -149,6 +171,7 @@ class MainActivity : AppCompatActivity() {
                 jsonProfile.put("nickname", nickname)
                 jsonProfile.put("email", email)
                 jsonProfile.put("location", location)
+                jsonProfile.put("skills", skills)
                 jsonProfile.put("description", description)
 
                 val editor = sharedPref.edit()
@@ -178,6 +201,7 @@ class MainActivity : AppCompatActivity() {
         val nicknameView = findViewById<TextView>(R.id.nickname)
         val emailView =  findViewById<TextView>(R.id.email)
         val locationView = findViewById<TextView>(R.id.location)
+        val skillsView = findViewById<TextView>(R.id.skills)
         val descriptionView = findViewById<TextView>(R.id.description)
 
         intent.putExtra("group09.lab1.FULL_NAME", fullnameView.text)
@@ -185,6 +209,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("group09.lab1.NICKNAME", nicknameView.text)
         intent.putExtra("group09.lab1.EMAIL", emailView.text)
         intent.putExtra("group09.lab1.LOCATION", locationView.text)
+        intent.putExtra("group09.lab1.SKILLS", skillsView.text)
         intent.putExtra("group09.lab1.DESCRIPTION", descriptionView.text)
         intent.putExtra("group09.lab1.PROFILE_IMAGE", bitmap)
         resultLauncher.launch(intent)

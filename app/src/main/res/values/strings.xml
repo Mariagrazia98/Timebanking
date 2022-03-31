@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Timebanking</string>
+    <string name="app_name">TimeBanking</string>
     <string name="fullname">Mario Rossi</string>
     <string name="age">24</string>
     <string name="yo">y.o.</string>

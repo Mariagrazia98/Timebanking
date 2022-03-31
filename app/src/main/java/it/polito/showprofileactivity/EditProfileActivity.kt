@@ -44,7 +44,7 @@ class EditProfileActivity : AppCompatActivity() {
         val locationView = findViewById<EditText>(R.id.Edit_Location)
         locationView.setText(location)
         val descriptionView = findViewById<EditText>(R.id.edit_description)
-        descriptionView.setText(description)
+         descriptionView.setText(description)
 
         val iv = findViewById<ImageView>(R.id.Edit_imageView)
         if(bitmap!=null)

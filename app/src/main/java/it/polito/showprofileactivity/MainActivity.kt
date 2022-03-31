@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         val profileString = sharedPref.getString("profile", jsonDefault.toString()) //retrieve the string containing data in json format with the key "profile"
         val json = JSONObject(profileString.toString())  //transform the obtained string into a json to easily access all the fields
        
-        
+
         if(json.has("fullname"))
             fullname = json.getString("fullname")
         if(json.has("age"))
@@ -66,7 +66,10 @@ class MainActivity : AppCompatActivity() {
         if(json.has("location"))
             location = json.getString("location")
         if(json.has("description"))
-         description = json.getString("description")
+            description = json.getString("description")
+        else{
+            description = jsonDefault.getString("description")
+        }
 
         fullnameView.text = fullname
         ageView.text = age.toString()
@@ -122,8 +125,9 @@ class MainActivity : AppCompatActivity() {
                 val locationView = findViewById<TextView>(R.id.location)
                 locationView.text = result.data?.getStringExtra("group09.lab1.LOCATION")
 
-                val descriptionView = findViewById<TextView>(R.id.location)
+                val descriptionView = findViewById<TextView>(R.id.description)
                 descriptionView.text = result.data?.getStringExtra("group09.lab1.DESCRIPTION")
+
 
                 fullname = result.data?.getStringExtra("group09.lab1.FULL_NAME").toString()
                 age = result.data?.getStringExtra("group09.lab1.AGE").toString().toInt()
@@ -132,6 +136,7 @@ class MainActivity : AppCompatActivity() {
                 location = result.data?.getStringExtra("group09.lab1.LOCATION").toString()
                 description=result.data?.getStringExtra("group09.lab1.DESCRIPTION").toString()
                 bitmap = result.data?.getParcelableExtra("group09.lab1.IMAGE")
+
 
                 val iv = findViewById<ImageView>(R.id.imageView)
                 if(bitmap!=null)

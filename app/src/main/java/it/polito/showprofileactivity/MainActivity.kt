@@ -53,12 +53,20 @@ class MainActivity : AppCompatActivity() {
 
         val profileString = sharedPref.getString("profile", jsonDefault.toString()) //retrieve the string containing data in json format with the key "profile"
         val json = JSONObject(profileString.toString())  //transform the obtained string into a json to easily access all the fields
-        fullname = json.getString("fullname")
-        age = json.getInt("age")
-        nickname = json.getString("nickname")
-        email = json.getString("email")
-        location = json.getString("location")
-        description=json.getString("description")
+       
+        
+        if(json.has("fullname"))
+            fullname = json.getString("fullname")
+        if(json.has("age"))
+            age = json.getInt("age")
+        if(json.has("nickname"))
+            nickname = json.getString("nickname")
+        if(json.has("email"))
+            email = json.getString("email")
+        if(json.has("location"))
+            location = json.getString("location")
+        if(json.has("description"))
+         description = json.getString("description")
 
         fullnameView.text = fullname
         ageView.text = age.toString()

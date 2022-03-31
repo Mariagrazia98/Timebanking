@@ -17,7 +17,24 @@ import android.widget.Button
 import android.widget.EditText
 
 class EditProfileActivity : AppCompatActivity() {
+    lateinit var fullname: String
+    lateinit var nickname: String
+    var age = 24
+    lateinit var email: String
+    lateinit var location: String
+    lateinit var skills: String
+    lateinit var description: String
     private var bitmap: Bitmap? = null
+
+
+    lateinit var fullnameView: EditText
+    lateinit var ageView: EditText
+    lateinit var nicknameView: EditText
+    lateinit var emailView: EditText
+    lateinit var locationView: EditText
+    lateinit var skillsView: EditText
+    lateinit var descriptionView: EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,29 +42,29 @@ class EditProfileActivity : AppCompatActivity() {
 
         ///get extras
         val i = intent
-        val fullname = i.getStringExtra("group09.lab1.FULL_NAME")
-        val age = i.getStringExtra("group09.lab1.AGE")
-        val nickname = i.getStringExtra("group09.lab1.NICKNAME")
-        val email = i.getStringExtra("group09.lab1.EMAIL")
-        val location = i.getStringExtra("group09.lab1.LOCATION")
-        val skills = i.getStringExtra("group09.lab1.SKILLS")
-        val description = i.getStringExtra("group09.lab1.DESCRIPTION")
+        fullname = i.getStringExtra("group09.lab1.FULL_NAME").toString()
+        age = i.getStringExtra("group09.lab1.AGE").toString().toInt()
+        nickname = i.getStringExtra("group09.lab1.NICKNAME").toString()
+        email = i.getStringExtra("group09.lab1.EMAIL").toString()
+        location = i.getStringExtra("group09.lab1.LOCATION").toString()
+        skills = i.getStringExtra("group09.lab1.SKILLS").toString()
+        description = i.getStringExtra("group09.lab1.DESCRIPTION").toString()
         bitmap = i.getParcelableExtra("group09.lab1.PROFILE_IMAGE")
 
-        val fullnameView = findViewById<EditText>(R.id.Edit_FullName)
+        fullnameView = findViewById(R.id.Edit_FullName)
         fullnameView.setText(fullname)
-        val ageView = findViewById<EditText>(R.id.edit_age)
-        ageView.setText(age)
-        val nicknameView = findViewById<EditText>(R.id.Edit_Nickname)
+        ageView = findViewById(R.id.edit_age)
+        ageView.setText(age.toString())
+        nicknameView = findViewById(R.id.Edit_Nickname)
         nicknameView.setText(nickname)
-        val emailView =  findViewById<EditText>(R.id.Edit_Email)
+        emailView =  findViewById(R.id.Edit_Email)
         emailView.setText(email)
-        val locationView = findViewById<EditText>(R.id.Edit_Location)
+        locationView = findViewById(R.id.Edit_Location)
         locationView.setText(location)
-        val skillsView = findViewById<EditText>(R.id.edit_skills)
+        skillsView = findViewById(R.id.edit_skills)
         skillsView.setText(skills)
-        val descriptionView = findViewById<EditText>(R.id.edit_description)
-         descriptionView.setText(description)
+        descriptionView = findViewById(R.id.edit_description)
+        descriptionView.setText(description)
 
         val iv = findViewById<ImageView>(R.id.Edit_imageView)
         if(bitmap!=null)
@@ -59,16 +76,16 @@ class EditProfileActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val i = intent
-        val fullname = findViewById<EditText>(R.id.Edit_FullName).text.toString()
-        val age = findViewById<EditText>(R.id.edit_age).text.toString()
-        val nickname = findViewById<EditText>(R.id.Edit_Nickname).text.toString()
-        val email =  findViewById<EditText>(R.id.Edit_Email).text.toString()
-        val location = findViewById<EditText>(R.id.Edit_Location).text.toString()
-        val skills = findViewById<EditText>(R.id.edit_skills).text.toString()
-        val description = findViewById<EditText>(R.id.edit_description).text.toString()
+        fullname = findViewById<EditText>(R.id.Edit_FullName).text.toString()
+        age = findViewById<EditText>(R.id.edit_age).text.toString().toInt()
+        nickname = findViewById<EditText>(R.id.Edit_Nickname).text.toString()
+        email =  findViewById<EditText>(R.id.Edit_Email).text.toString()
+        location = findViewById<EditText>(R.id.Edit_Location).text.toString()
+        skills = findViewById<EditText>(R.id.edit_skills).text.toString()
+        description = findViewById<EditText>(R.id.edit_description).text.toString()
 
         i.putExtra("group09.lab1.FULL_NAME", fullname)
-        i.putExtra("group09.lab1.AGE", age)
+        i.putExtra("group09.lab1.AGE", age.toString())
         i.putExtra("group09.lab1.NICKNAME", nickname)
         i.putExtra("group09.lab1.EMAIL", email)
         i.putExtra("group09.lab1.LOCATION", location)

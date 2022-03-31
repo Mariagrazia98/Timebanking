@@ -158,15 +158,6 @@
             android:text="@string/description_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/purple_200" />
-           
-        <TextView android:id="@+id/skills"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/skills"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/description"
@@ -180,6 +171,16 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic"
             tools:text="@string/description" />
+
+        <TextView
+            android:id="@+id/skills"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/skills"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="italic" />
 
     </LinearLayout>
 

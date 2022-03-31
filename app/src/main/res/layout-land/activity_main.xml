@@ -97,6 +97,17 @@
             android:text="@string/location"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/description"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="italic" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

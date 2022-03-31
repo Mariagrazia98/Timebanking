@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     var age = 24
     lateinit var email: String
     lateinit var location: String
+    lateinit var description: String
     private var bitmap: Bitmap? = null
     lateinit var sharedPref : SharedPreferences
 
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         val nicknameView = findViewById<TextView>(R.id.nickname)
         val emailView = findViewById<TextView>(R.id.email)
         val locationView = findViewById<TextView>(R.id.location)
+        val descriptionView = findViewById<TextView>(R.id.description)
 
         //Get data from SharedPreferences
         sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         jsonDefault.put("nickname", "Mario98")
         jsonDefault.put("email", "mario.rossi@gmail.com")
         jsonDefault.put("location", "Torino")
+        jsonDefault.put("description", "Frequento il Politecnico di Torino")
 
         val profileString = sharedPref.getString("profile", jsonDefault.toString()) //retrieve the string containing data in json format with the key "profile"
         val json = JSONObject(profileString.toString())  //transform the obtained string into a json to easily access all the fields
@@ -55,12 +58,14 @@ class MainActivity : AppCompatActivity() {
         nickname = json.getString("nickname")
         email = json.getString("email")
         location = json.getString("location")
+        description=json.getString("description")
 
         fullnameView.text = fullname
         ageView.text = age.toString()
         nicknameView.text = nickname
         emailView.text = email
         locationView.text = location
+        descriptionView.text=description
 
         //Get profile image from internal storage (local filesystem)
         val wrapper = ContextWrapper(applicationContext)
@@ -109,11 +114,15 @@ class MainActivity : AppCompatActivity() {
                 val locationView = findViewById<TextView>(R.id.location)
                 locationView.text = result.data?.getStringExtra("group09.lab1.LOCATION")
 
+                val descriptionView = findViewById<TextView>(R.id.location)
+                descriptionView.text = result.data?.getStringExtra("group09.lab1.DESCRIPTION")
+
                 fullname = result.data?.getStringExtra("group09.lab1.FULL_NAME").toString()
                 age = result.data?.getStringExtra("group09.lab1.AGE").toString().toInt()
                 nickname = result.data?.getStringExtra("group09.lab1.NICKNAME").toString()
                 email = result.data?.getStringExtra("group09.lab1.EMAIL").toString()
                 location = result.data?.getStringExtra("group09.lab1.LOCATION").toString()
+                description=result.data?.getStringExtra("group09.lab1.DESCRIPTION").toString()
                 bitmap = result.data?.getParcelableExtra("group09.lab1.IMAGE")
 
                 val iv = findViewById<ImageView>(R.id.imageView)
@@ -127,6 +136,7 @@ class MainActivity : AppCompatActivity() {
                 jsonProfile.put("nickname", nickname)
                 jsonProfile.put("email", email)
                 jsonProfile.put("location", location)
+                jsonProfile.put("description", description)
 
                 val editor = sharedPref.edit()
                 editor.putString("profile", jsonProfile.toString()) //sharedPref saves (key,value) pair and this method wants a string as value
@@ -155,12 +165,14 @@ class MainActivity : AppCompatActivity() {
         val nicknameView = findViewById<TextView>(R.id.nickname)
         val emailView =  findViewById<TextView>(R.id.email)
         val locationView = findViewById<TextView>(R.id.location)
+        val descriptionView = findViewById<TextView>(R.id.description)
 
         intent.putExtra("group09.lab1.FULL_NAME", fullnameView.text)
         intent.putExtra("group09.lab1.AGE", ageView.text)
         intent.putExtra("group09.lab1.NICKNAME", nicknameView.text)
         intent.putExtra("group09.lab1.EMAIL", emailView.text)
         intent.putExtra("group09.lab1.LOCATION", locationView.text)
+        intent.putExtra("group09.lab1.DESCRIPTION", descriptionView.text)
         intent.putExtra("group09.lab1.PROFILE_IMAGE", bitmap)
         resultLauncher.launch(intent)
     }

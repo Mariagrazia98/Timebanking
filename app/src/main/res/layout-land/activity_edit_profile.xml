@@ -61,15 +61,36 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/ageText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:text="@string/age_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/purple_200" />
+
         <EditText
             android:id="@+id/edit_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:text="@string/age"
-            android:importantForAutofill="no"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="italic"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/nicknameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="0dp"
+            android:paddingTop="5dp"
+            android:paddingRight="0dp"
+            android:text="@string/nickname_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/purple_200" />
 
         <EditText
             android:id="@+id/Edit_Nickname"
@@ -78,8 +99,19 @@
             android:autofillHints="name"
             android:inputType="text"
             android:text="@string/nickname"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/emailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="0dp"
+            android:paddingTop="5dp"
+            android:paddingRight="0dp"
+            android:text="@string/email_address_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/purple_200" />
 
         <EditText
             android:id="@+id/Edit_Email"
@@ -89,8 +121,19 @@
             android:ems="10"
             android:inputType="textEmailAddress"
             android:text="@string/email_address"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/locationText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="0dp"
+            android:paddingTop="5dp"
+            android:paddingRight="0dp"
+            android:text="@string/location_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/purple_200" />
 
         <EditText
             android:id="@+id/Edit_Location"
@@ -99,8 +142,19 @@
             android:autofillHints="postalAddress"
             android:inputType="textPostalAddress"
             android:text="@string/location"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/descriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="0dp"
+            android:paddingTop="5dp"
+            android:paddingRight="0dp"
+            android:text="@string/description_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/purple_200" />
 
         <EditText
             android:id="@+id/edit_description"

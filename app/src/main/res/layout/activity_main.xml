@@ -48,6 +48,17 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/ageText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:text="@string/age_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/purple_200" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +81,19 @@
                 android:layout_weight="1"
                 android:text="@string/yo"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/nicknameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:text="@string/nickname_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/purple_200" />
 
         <TextView
             android:id="@+id/nickname"
@@ -81,6 +104,17 @@
             android:text="@string/nickname"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/emailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:text="@string/email_address_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/purple_200" />
 
         <TextView
             android:id="@+id/email"
@@ -94,6 +128,17 @@
             android:textStyle="italic" />
 
         <TextView
+            android:id="@+id/locationText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:text="@string/location_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/purple_200" />
+
+        <TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,6 +147,17 @@
             android:text="@string/location"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/descriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:text="@string/description_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/purple_200" />
 
         <TextView
             android:id="@+id/description"

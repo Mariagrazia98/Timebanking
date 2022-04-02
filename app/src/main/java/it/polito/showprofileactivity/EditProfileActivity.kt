@@ -1,20 +1,18 @@
 package it.polito.showprofileactivity
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.ContextMenu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.content.Intent
-import android.graphics.Bitmap
-import android.provider.MediaStore
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import android.widget.Button
-import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 
 class EditProfileActivity : AppCompatActivity() {
     lateinit var fullname: String
@@ -71,8 +69,13 @@ class EditProfileActivity : AppCompatActivity() {
             iv.setImageBitmap(bitmap)
 
         val imgButton = findViewById<Button>(R.id.imageButton)
-        registerForContextMenu(imgButton)
-     }
+
+        imgButton.setOnClickListener(View.OnClickListener { //To register the button with context menu.
+            registerForContextMenu(imgButton)
+            openContextMenu(imgButton)
+        })
+
+    }
 
     override fun onBackPressed() {
         val i = intent

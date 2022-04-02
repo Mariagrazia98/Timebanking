@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -68,11 +69,12 @@ class MainActivity : AppCompatActivity() {
         descriptionView = findViewById(R.id.description)
         imageView = findViewById<ImageView>(R.id.imageView)
 
-
-        ///trick per altezza immagine 1/3
-        val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-        val display = windowManager.defaultDisplay
-        imageView.layoutParams = LinearLayout.LayoutParams(display.width,display.height/3)
+        if (resources.configuration.orientation === Configuration.ORIENTATION_PORTRAIT) {
+            ///trick per altezza immagine 1/3
+            val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+            val display = windowManager.defaultDisplay
+            imageView.layoutParams = LinearLayout.LayoutParams(display.width, display.height / 3)
+        }
 
         getInfoSP()
         getProfileImageLFS()
@@ -85,6 +87,22 @@ override fun onCreateOptionsMenu(menu: Menu): Boolean {
 val inflater: MenuInflater = menuInflater
 inflater.inflate(R.menu.edit_button, menu)
 return true
+}
+
+override fun onConfigurationChanged(newConfig: Configuration) {
+    super.onConfigurationChanged(newConfig)
+    val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+    val display = windowManager.defaultDisplay
+    if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
+        Log.d("TEST", "Portrait orientation")
+        ///trick per altezza immagine 1/3
+        imageView.layoutParams = LinearLayout.LayoutParams(display.width,display.height/3)
+    }
+    if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
+        Log.d("TEST", "Landscape orientation")
+        ///trick per larghezza immagine 1/3
+        imageView.layoutParams = LinearLayout.LayoutParams(display.width/3,display.height)
+    }
 }
 
 override fun onOptionsItemSelected(item: MenuItem): Boolean {

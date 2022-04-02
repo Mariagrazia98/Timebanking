@@ -159,27 +159,6 @@
                     android:textStyle="italic" />
 
                 <TextView
-                    android:id="@+id/descriptionText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/description_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/purple_200" />
-
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/description"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic" />
-
-                <TextView
                     android:id="@+id/skillsText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -197,6 +176,27 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="@string/skills"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/descriptionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/description_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/purple_200" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/description"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />
 

@@ -156,6 +156,27 @@
                     android:textStyle="italic" />
 
                 <TextView
+                    android:id="@+id/skillsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/skills_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/purple_200" />
+
+                <EditText
+                    android:id="@+id/edit_skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="textPostalAddress"
+                    android:text="@string/skills"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textStyle="italic" />
+
+                <TextView
                     android:id="@+id/descriptionText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -177,27 +198,6 @@
                     android:lines="5"
                     android:maxLines="10"
                     android:text="@string/description"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/skillsText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/skills_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/purple_200" />
-
-                <EditText
-                    android:id="@+id/edit_skills"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:importantForAutofill="no"
-                    android:inputType="textPostalAddress"
-                    android:text="@string/skills"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />
 

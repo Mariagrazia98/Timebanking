@@ -9,7 +9,6 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
@@ -41,24 +40,28 @@ class MainActivity : AppCompatActivity() {
     lateinit var skillsView: TextView
     lateinit var descriptionView: TextView
     lateinit var imageView : ImageView
-    //var h: Int = 0
+    lateinit var frameLayout : FrameLayout
+    var h: Int = 0
+    var w: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        ///trick per altezza immagine 1/3
-        /*val sv = findViewById<ScrollView>(R.id.scrollView)
-        sv.viewTreeObserver.addOnGlobalLayoutListener { object:
-            ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    h = sv.height
-                    imageView.layoutParams = LinearLayout.LayoutParams(imageView.width,h)
-                    Log.d("Layout", "ciao $h")
-                    sv.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            }
-        }*/
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            val sv = findViewById<ScrollView>(R.id.scrollView)
+            frameLayout = findViewById(R.id.frameLayout)
+
+            sv.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        h = sv.height
+                        w = sv.width
+                        frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w, h/3)}
+
+                        sv.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
+            })
+        }
 
         fullnameView = findViewById(R.id.fullName)
         ageView = findViewById(R.id.age)
@@ -67,16 +70,8 @@ class MainActivity : AppCompatActivity() {
         locationView = findViewById(R.id.location)
         skillsView = findViewById(R.id.skills)
         descriptionView = findViewById(R.id.description)
-        imageView = findViewById<ImageView>(R.id.imageView)
+        imageView = findViewById(R.id.imageView)
 
-        /*
-        if (resources.configuration.orientation === Configuration.ORIENTATION_PORTRAIT) {
-            ///trick per altezza immagine 1/3
-            val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-            val display = windowManager.defaultDisplay
-            imageView.layoutParams = LinearLayout.LayoutParams(display.width, display.height / 3)
-        }
-        */
         getInfoSP()
         getProfileImageLFS()
 
@@ -89,23 +84,18 @@ class MainActivity : AppCompatActivity() {
         inflater.inflate(R.menu.edit_button, menu)
         return true
     }
-    /*
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-        val display = windowManager.defaultDisplay
-        if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
-            Log.d("TEST", "Portrait orientation")
-            ///trick per altezza immagine 1/3
-            imageView.layoutParams = LinearLayout.LayoutParams(display.width,display.height/3)
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w, h/3)}
         }
-        if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
-            Log.d("TEST", "Landscape orientation")
-            ///trick per larghezza immagine 1/3
-            imageView.layoutParams = LinearLayout.LayoutParams(display.width/3,display.height)
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w/3, h)}
         }
     }
-    */
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {

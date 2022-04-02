@@ -2,13 +2,11 @@ package it.polito.showprofileactivity
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.ContextMenu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,11 +30,29 @@ class EditProfileActivity : AppCompatActivity() {
     lateinit var locationView: EditText
     lateinit var skillsView: EditText
     lateinit var descriptionView: EditText
+    lateinit var frameLayout: FrameLayout
 
+    var h: Int = 0
+    var w: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            val sv = findViewById<ScrollView>(R.id.scrollView)
+            frameLayout = findViewById(R.id.frameLayout)
+
+            sv.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    h = sv.height
+                    w = sv.width
+                    frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w, h/3)}
+
+                    sv.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            })
+        }
 
         ///get extras
         val i = intent
@@ -100,10 +116,19 @@ class EditProfileActivity : AppCompatActivity() {
         super.onBackPressed() // to call at the end, because it calls internally the finish() method
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w, h/3)}
+        }
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w/3, h)}
+        }
+    }
 
     //create the floating menu after pressing on the camera img
-    override fun onCreateContextMenu(menu: ContextMenu, v: View,
-                                     menuInfo: ContextMenu.ContextMenuInfo?) {
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.image_menu, menu)

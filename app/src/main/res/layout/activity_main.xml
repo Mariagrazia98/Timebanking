@@ -11,32 +11,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:weightSum="3">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
-            <ImageView
-                android:id="@+id/imageView"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_weight="1"
-                android:contentDescription="@string/profile_picture"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintVertical_weight="1"
-                app:srcCompat="@drawable/ic_person" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:contentDescription="@string/profile_picture"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp"
+                    app:srcCompat="@drawable/ic_person" />
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:orientation="vertical"
-                android:padding="16dp"
-                app:layout_constraintVertical_weight="2">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/fullName"
@@ -172,6 +181,17 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic"
                     tools:text="@string/description" />
+
+                <TextView
+                    android:id="@+id/skillsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/skills_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/purple_200" />
 
                 <TextView
                     android:id="@+id/skills"

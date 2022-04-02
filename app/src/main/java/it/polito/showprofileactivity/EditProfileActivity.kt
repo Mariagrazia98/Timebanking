@@ -70,10 +70,10 @@ class EditProfileActivity : AppCompatActivity() {
 
         val imgButton = findViewById<Button>(R.id.imageButton)
 
-        imgButton.setOnClickListener(View.OnClickListener { //To register the button with context menu.
+        imgButton.setOnClickListener { //To register the button with context menu.
             registerForContextMenu(imgButton)
             openContextMenu(imgButton)
-        })
+        }
 
     }
 

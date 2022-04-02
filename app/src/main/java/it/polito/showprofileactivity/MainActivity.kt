@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var skillsView: TextView
     lateinit var descriptionView: TextView
     lateinit var imageView : ImageView
-    lateinit var frameLayout: FrameLayout
     var h: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,17 +47,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         ///trick per altezza immagine 1/3
-        val sv = findViewById<ScrollView>(R.id.scrollView)
+        /*val sv = findViewById<ScrollView>(R.id.scrollView)
         sv.viewTreeObserver.addOnGlobalLayoutListener { object:
             ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     h = sv.height
-                    frameLayout.layoutParams = LinearLayout.LayoutParams(frameLayout.width,h)
+                    imageView.layoutParams = LinearLayout.LayoutParams(imageView.width,h)
                     Log.d("Layout", "ciao $h")
                     sv.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             }
-        }
+        }*/
 
         fullnameView = findViewById(R.id.fullName)
         ageView = findViewById(R.id.age)
@@ -68,17 +67,18 @@ class MainActivity : AppCompatActivity() {
         skillsView = findViewById(R.id.skills)
         descriptionView = findViewById(R.id.description)
         imageView = findViewById<ImageView>(R.id.imageView)
-        frameLayout = findViewById(R.id.frameLayout)
+
+
+        ///trick per altezza immagine 1/3
+        val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+        val display = windowManager.defaultDisplay
+        imageView.layoutParams = LinearLayout.LayoutParams(display.width,display.height/3)
+
         getInfoSP()
         getProfileImageLFS()
 
         if(bitmap!=null)
             imageView.setImageBitmap(bitmap)
-
-
-        /*val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-        val display = windowManager.defaultDisplay
-        frameLayout.layoutParams = LinearLayout.LayoutParams(display.width/2,display.height/3)*/
 }
 
 override fun onCreateOptionsMenu(menu: Menu): Boolean {

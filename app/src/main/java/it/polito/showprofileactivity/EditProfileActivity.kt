@@ -97,6 +97,7 @@ class EditProfileActivity : AppCompatActivity() {
         super.onBackPressed() // to call at the end, because it calls internally the finish() method
     }
 
+
     //create the floating menu after pressing on the camera img
     override fun onCreateContextMenu(menu: ContextMenu, v: View,
                                      menuInfo: ContextMenu.ContextMenuInfo?) {

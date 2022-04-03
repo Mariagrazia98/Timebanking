@@ -111,13 +111,13 @@ class MainActivity : AppCompatActivity() {
     registerForActivityResult(
        ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
        if (result.resultCode == Activity.RESULT_OK) {
-           fullnameView.text = result.data?.getStringExtra("group09.lab1.FULL_NAME")
+          /* fullnameView.text = result.data?.getStringExtra("group09.lab1.FULL_NAME")
            ageView.text = result.data?.getStringExtra("group09.lab1.AGE")
            nicknameView.text = result.data?.getStringExtra("group09.lab1.NICKNAME")
            emailView.text = result.data?.getStringExtra("group09.lab1.EMAIL")
            locationView.text = result.data?.getStringExtra("group09.lab1.LOCATION")
            skillsView.text = result.data?.getStringExtra("group09.lab1.SKILLS")
-           descriptionView.text = result.data?.getStringExtra("group09.lab1.DESCRIPTION")
+           descriptionView.text = result.data?.getStringExtra("group09.lab1.DESCRIPTION")*/
 
 
            fullname = result.data?.getStringExtra("group09.lab1.FULL_NAME").toString()
@@ -128,6 +128,15 @@ class MainActivity : AppCompatActivity() {
            skills = result.data?.getStringExtra("group09.lab1.SKILLS").toString()
            description=result.data?.getStringExtra("group09.lab1.DESCRIPTION").toString()
            bitmap = result.data?.getParcelableExtra("group09.lab1.IMAGE")
+
+           /*TODO:Mariagrazia: per me cosi è meglio*/
+           fullnameView.text = fullname
+           ageView.text = age.toString()
+           nicknameView.text = nickname
+           emailView.text = email
+           locationView.text = location
+           skillsView.text = skillsView.toString()
+           descriptionView.text = description
 
            val iv = findViewById<ImageView>(R.id.imageView)
            if(bitmap!=null)
@@ -187,6 +196,10 @@ class MainActivity : AppCompatActivity() {
         val json = JSONObject(profileString.toString())  //transform the obtained string into a json to easily access all the fields
 
         if(json.has("fullname"))
+        /** TODO: in alternativa non si potrebbe fare così
+         *  fullname = json.getString("fullname")?: jsonDefault.getString("fullname")
+         *  in modo da rimuovere l'if-else?
+         */
            fullname = json.getString("fullname")
         else
            fullname = jsonDefault.getString("fullname")

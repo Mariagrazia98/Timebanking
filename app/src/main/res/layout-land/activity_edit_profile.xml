@@ -69,46 +69,64 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/ageText"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="0dp"
-                    android:text="@string/age_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/purple_200" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/edit_age"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:importantForAutofill="no"
-                    android:inputType="numberDecimal"
-                    android:text="@string/age"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textStyle="italic" />
+                    <TextView
+                        android:id="@+id/nicknameText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="0dp"
+                        android:text="@string/nickname_text"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/purple_200" />
 
-                <TextView
-                    android:id="@+id/nicknameText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="0dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="0dp"
-                    android:text="@string/nickname_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/purple_200" />
+                    <TextView
+                        android:id="@+id/ageText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="0dp"
+                        android:text="@string/age_text"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/purple_200" />
 
-                <EditText
-                    android:id="@+id/Edit_Nickname"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="name"
-                    android:inputType="text"
-                    android:text="@string/nickname"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textStyle="italic" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/Edit_Nickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:autofillHints="name"
+                        android:inputType="text"
+                        android:text="@string/nickname"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textStyle="italic" />
+
+                    <EditText
+                        android:id="@+id/edit_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:importantForAutofill="no"
+                        android:inputType="numberDecimal"
+                        android:text="@string/age"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textStyle="italic" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/emailText"
@@ -157,9 +175,9 @@
                     android:id="@+id/skillsText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="0dp"
                     android:paddingTop="5dp"
-                    android:paddingRight="10dp"
+                    android:paddingRight="0dp"
                     android:text="@string/skills_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/purple_200" />

@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
            nicknameView.text = nickname
            emailView.text = email
            locationView.text = location
-           skillsView.text = skillsView.toString()
+           skillsView.text = skills
            descriptionView.text = description
 
            val iv = findViewById<ImageView>(R.id.imageView)

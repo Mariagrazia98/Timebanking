@@ -181,7 +181,7 @@ class EditProfileActivity : AppCompatActivity() {
                 true
             }
             R.id.gallery -> {
-                openGallery()
+
                 true
             }
             else -> super.onContextItemSelected(item)
@@ -202,29 +202,9 @@ class EditProfileActivity : AppCompatActivity() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         resultLauncher.launch(cameraIntent)
     }
-    private fun openGallery(){
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        resultLauncherGalleryImage.launch("image/*")
-    }
 
-    private val resultLauncherGalleryImage =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            val iv = findViewById<ImageView>(R.id.Edit_imageView)
-            iv.setImageURI(uri) }
-    }
-    /* private val resultLauncherGalleryImage =
-   /*     registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            val imageUri: Uri = intent.data;
-            val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(c.getContentResolver(), Uri.parse(imageUri))
-            val my_img_view = findViewById(R.id.my_img_view) as Imageview
-            my_img_view.setImageBitmap(bitmap)
 
-            val iv = findViewById<ImageView>(R.id.Edit_imageView)
-            iv.setImageURI(uri) }*/
-    }*/
+
   
     private fun handleCameraImage(intent: Intent?) {
         bitmap = intent?.extras?.get("data") as Bitmap

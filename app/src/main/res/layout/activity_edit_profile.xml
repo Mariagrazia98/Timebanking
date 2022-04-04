@@ -168,15 +168,30 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/purple_200" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edit_skills"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
-                    android:inputType="textPostalAddress"
                     android:text="@string/skills"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />
+
+                <EditText
+                    android:id="@+id/add_skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textStyle="italic" />
+
+                <Button
+                    android:id="@+id/skillsButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_skills"
+                    android:enabled="false"/>
 
                 <TextView
                     android:id="@+id/descriptionText"

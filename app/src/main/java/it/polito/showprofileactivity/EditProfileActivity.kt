@@ -6,6 +6,8 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
@@ -19,6 +21,7 @@ class EditProfileActivity : AppCompatActivity() {
     lateinit var email: String
     lateinit var location: String
     lateinit var skills: String
+    val skillsList: MutableList<String> = mutableListOf()
     lateinit var description: String
     private var bitmap: Bitmap? = null
 
@@ -28,7 +31,7 @@ class EditProfileActivity : AppCompatActivity() {
     lateinit var nicknameView: EditText
     lateinit var emailView: EditText
     lateinit var locationView: EditText
-    lateinit var skillsView: EditText
+    lateinit var skillsView: TextView
     lateinit var descriptionView: EditText
     lateinit var frameLayout: FrameLayout
 
@@ -43,11 +46,14 @@ class EditProfileActivity : AppCompatActivity() {
             val sv = findViewById<ScrollView>(R.id.scrollView)
             frameLayout = findViewById(R.id.frameLayout)
 
-            sv.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+            sv.viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     h = sv.height
                     w = sv.width
-                    frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w, h/3)}
+                    frameLayout.post {
+                        frameLayout.layoutParams = LinearLayout.LayoutParams(w, h / 3)
+                    }
 
                     sv.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
@@ -62,6 +68,10 @@ class EditProfileActivity : AppCompatActivity() {
         email = i.getStringExtra("group09.lab1.EMAIL").toString()
         location = i.getStringExtra("group09.lab1.LOCATION").toString()
         skills = i.getStringExtra("group09.lab1.SKILLS").toString()
+
+        skills.split(",").map { skillsList.add(it) }
+        print(skillsList)
+
         description = i.getStringExtra("group09.lab1.DESCRIPTION").toString()
         bitmap = i.getParcelableExtra("group09.lab1.PROFILE_IMAGE")
 
@@ -71,7 +81,7 @@ class EditProfileActivity : AppCompatActivity() {
         ageView.setText(age.toString())
         nicknameView = findViewById(R.id.Edit_Nickname)
         nicknameView.setText(nickname)
-        emailView =  findViewById(R.id.Edit_Email)
+        emailView = findViewById(R.id.Edit_Email)
         emailView.setText(email)
         locationView = findViewById(R.id.Edit_Location)
         locationView.setText(location)
@@ -81,7 +91,7 @@ class EditProfileActivity : AppCompatActivity() {
         descriptionView.setText(description)
 
         val iv = findViewById<ImageView>(R.id.Edit_imageView)
-        if(bitmap!=null)
+        if (bitmap != null)
             iv.setImageBitmap(bitmap)
 
         val imgButton = findViewById<Button>(R.id.imageButton)
@@ -90,6 +100,27 @@ class EditProfileActivity : AppCompatActivity() {
             registerForContextMenu(imgButton)
             openContextMenu(imgButton)
         }
+
+        val skillsButton = findViewById<Button>(R.id.skillsButton)
+        val addSkillView = findViewById<EditText>(R.id.add_skills)
+
+        skillsButton.setOnClickListener {
+            skillsList.add(addSkillView.text.toString())
+            addSkillView.setText("")
+            skillsView.setText(skillsList.joinToString())
+        }
+
+        addSkillView.addTextChangedListener(object: TextWatcher {
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                skillsButton.isEnabled = s.toString().trim().isNotEmpty()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+        })
 
     }
 
@@ -100,7 +131,7 @@ class EditProfileActivity : AppCompatActivity() {
         nickname = findViewById<EditText>(R.id.Edit_Nickname).text.toString()
         email =  findViewById<EditText>(R.id.Edit_Email).text.toString()
         location = findViewById<EditText>(R.id.Edit_Location).text.toString()
-        skills = findViewById<EditText>(R.id.edit_skills).text.toString()
+        skills = findViewById<TextView>(R.id.edit_skills).text.toString()
         description = findViewById<EditText>(R.id.edit_description).text.toString()
 
         i.putExtra("group09.lab1.FULL_NAME", fullname)

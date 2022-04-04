@@ -213,6 +213,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
+                    android:backgroundTint="#df4759"
                     android:text="@string/button_delete_skills" />
 
                 <TextView

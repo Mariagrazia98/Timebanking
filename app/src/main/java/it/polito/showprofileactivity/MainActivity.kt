@@ -186,10 +186,6 @@ class MainActivity : AppCompatActivity() {
         val json = JSONObject(profileString.toString())  //transform the obtained string into a json to easily access all the fields
 
         if(json.has("fullname"))
-        /** TODO: in alternativa non si potrebbe fare così
-         *  fullname = json.getString("fullname")?: jsonDefault.getString("fullname")
-         *  in modo da rimuovere l'if-else?
-         */
            fullname = json.getString("fullname")
         else
            fullname = jsonDefault.getString("fullname")

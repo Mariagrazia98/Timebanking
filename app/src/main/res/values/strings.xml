@@ -20,5 +20,6 @@
     <string name="select_from_gallery">Select from gallery</string>
     <string name="preference_file_key">preference_file</string>
     <string name="skills">Android developer, Electrician</string>
-    <string name="button_skills">Add skill</string>
+    <string name="button_add_skills">Add skill</string>
+    <string name="button_delete_skills">Delete skills</string>
 </resources>

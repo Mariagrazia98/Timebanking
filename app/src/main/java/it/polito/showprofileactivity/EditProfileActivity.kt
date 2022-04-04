@@ -214,6 +214,7 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable("bitmap",bitmap)
+        outState.putString("skillsList",  skillsList.joinToString())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -222,6 +223,8 @@ class EditProfileActivity : AppCompatActivity() {
         val iv = findViewById<ImageView>(R.id.Edit_imageView)
         if(bitmap!=null)
             iv.setImageBitmap(bitmap)
+        val skillsList = savedInstanceState.getString("skillsList")
+        skillsView.text =  skillsList
     }
 
 }

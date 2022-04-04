@@ -101,18 +101,25 @@ class EditProfileActivity : AppCompatActivity() {
             openContextMenu(imgButton)
         }
 
-        val skillsButton = findViewById<Button>(R.id.skillsButton)
+        val skillsAddButton = findViewById<Button>(R.id.skillsAddButton)
+        val skillsDeleteButton = findViewById<Button>(R.id.skillsDeleteButton)
         val addSkillView = findViewById<EditText>(R.id.add_skills)
 
-        skillsButton.setOnClickListener {
+        skillsAddButton.setOnClickListener {
             skillsList.add(addSkillView.text.toString())
             addSkillView.setText("")
             skillsView.text = skillsList.joinToString()
         }
 
+        skillsDeleteButton.setOnClickListener {
+            skillsList.clear()
+            addSkillView.setText("")
+            skillsView.text = ""
+        }
+
         addSkillView.addTextChangedListener(object: TextWatcher {
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                skillsButton.isEnabled = s.toString().trim().isNotEmpty()
+                skillsAddButton.isEnabled = s.toString().trim().isNotEmpty()
             }
 
             override fun afterTextChanged(s: Editable?) {

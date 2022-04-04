@@ -202,11 +202,18 @@
                     android:textStyle="italic" />
 
                 <Button
-                    android:id="@+id/skillsButton"
+                    android:id="@+id/skillsAddButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:text="@string/button_skills" />
+                    android:text="@string/button_add_skills" />
+
+                <Button
+                    android:id="@+id/skillsDeleteButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:text="@string/button_delete_skills" />
 
                 <TextView
                     android:id="@+id/descriptionText"

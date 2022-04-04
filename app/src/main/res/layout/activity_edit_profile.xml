@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:weightSum="3.0"
     tools:context=".EditProfileActivity">
 
@@ -190,8 +189,8 @@
                     android:id="@+id/skillsButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_skills"
-                    android:enabled="false"/>
+                    android:enabled="false"
+                    android:text="@string/button_skills" />
 
                 <TextView
                     android:id="@+id/descriptionText"

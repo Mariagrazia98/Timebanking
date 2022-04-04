@@ -86,7 +86,7 @@ class EditProfileActivity : AppCompatActivity() {
         locationView = findViewById(R.id.Edit_Location)
         locationView.setText(location)
         skillsView = findViewById(R.id.edit_skills)
-        skillsView.setText(skills)
+        skillsView.text = skills
         descriptionView = findViewById(R.id.edit_description)
         descriptionView.setText(description)
 
@@ -107,7 +107,7 @@ class EditProfileActivity : AppCompatActivity() {
         skillsButton.setOnClickListener {
             skillsList.add(addSkillView.text.toString())
             addSkillView.setText("")
-            skillsView.setText(skillsList.joinToString())
+            skillsView.text = skillsList.joinToString()
         }
 
         addSkillView.addTextChangedListener(object: TextWatcher {

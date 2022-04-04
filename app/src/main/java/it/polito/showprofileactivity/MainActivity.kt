@@ -111,15 +111,6 @@ class MainActivity : AppCompatActivity() {
     registerForActivityResult(
        ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
        if (result.resultCode == Activity.RESULT_OK) {
-          /* fullnameView.text = result.data?.getStringExtra("group09.lab1.FULL_NAME")
-           ageView.text = result.data?.getStringExtra("group09.lab1.AGE")
-           nicknameView.text = result.data?.getStringExtra("group09.lab1.NICKNAME")
-           emailView.text = result.data?.getStringExtra("group09.lab1.EMAIL")
-           locationView.text = result.data?.getStringExtra("group09.lab1.LOCATION")
-           skillsView.text = result.data?.getStringExtra("group09.lab1.SKILLS")
-           descriptionView.text = result.data?.getStringExtra("group09.lab1.DESCRIPTION")*/
-
-
            fullname = result.data?.getStringExtra("group09.lab1.FULL_NAME").toString()
            age = result.data?.getStringExtra("group09.lab1.AGE").toString().toInt()
            nickname = result.data?.getStringExtra("group09.lab1.NICKNAME").toString()
@@ -129,7 +120,6 @@ class MainActivity : AppCompatActivity() {
            description=result.data?.getStringExtra("group09.lab1.DESCRIPTION").toString()
            bitmap = result.data?.getParcelableExtra("group09.lab1.IMAGE")
 
-           /*TODO:Mariagrazia: per me cosi è meglio*/
            fullnameView.text = fullname
            ageView.text = age.toString()
            nicknameView.text = nickname

@@ -75,7 +75,10 @@ class MainActivity : AppCompatActivity() {
         getInfoSP()
         getProfileImageLFS()
 
+        println("Main- create")
+
         if(bitmap!=null)
+            println(bitmap)
             imageView.setImageBitmap(bitmap)
     }
 
@@ -118,7 +121,7 @@ class MainActivity : AppCompatActivity() {
            location = result.data?.getStringExtra("group09.lab1.LOCATION").toString()
            skills = result.data?.getStringExtra("group09.lab1.SKILLS").toString()
            description=result.data?.getStringExtra("group09.lab1.DESCRIPTION").toString()
-           bitmap = result.data?.getParcelableExtra("group09.lab1.IMAGE")
+
 
            fullnameView.text = fullname
            ageView.text = age.toString()
@@ -128,12 +131,24 @@ class MainActivity : AppCompatActivity() {
            skillsView.text = skills
            descriptionView.text = description
 
-           val iv = findViewById<ImageView>(R.id.imageView)
-           if(bitmap!=null)
-               iv.setImageBitmap(bitmap)
+
+
+           println("Main- result before get lancher ")
+           if(bitmap!=null){
+               println(bitmap)
+           }
+
 
            storeInfoSP()
-           saveProfileImageLFS()
+           getProfileImageLFS()
+
+           val iv = findViewById<ImageView>(R.id.imageView)
+           if(bitmap!=null){
+               iv.setImageBitmap(bitmap)
+               println("Main- result after get lancher ")
+               println(bitmap)
+           }
+
        }
     }
 
@@ -148,7 +163,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("group09.lab1.LOCATION", locationView.text)
         intent.putExtra("group09.lab1.SKILLS", skillsView.text)
         intent.putExtra("group09.lab1.DESCRIPTION", descriptionView.text)
-        intent.putExtra("group09.lab1.PROFILE_IMAGE", bitmap)
+
         resultLauncher.launch(intent)
     }
 
@@ -171,6 +186,7 @@ class MainActivity : AppCompatActivity() {
 
     fun getInfoSP(){
         //Get data from SharedPreferences
+        println("Main-getInfoSP")
         sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
         //Create a json with default data to be used if sharedPref doesn't contain anything
         val jsonDefault = JSONObject()
@@ -221,6 +237,8 @@ class MainActivity : AppCompatActivity() {
         locationView.text = location
         skillsView.text = skills
         descriptionView.text=description
+
+        getProfileImageLFS()
     }
 
 
@@ -245,9 +263,11 @@ class MainActivity : AppCompatActivity() {
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         file = File(file, "profileImage.jpg")
         bitmap = BitmapFactory.decodeFile(file.absolutePath)
+
+
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
+/*    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable("bitmap",bitmap)
     }
@@ -258,6 +278,6 @@ class MainActivity : AppCompatActivity() {
         val iv = findViewById<ImageView>(R.id.imageView)
         if(bitmap!=null)
            iv.setImageBitmap(bitmap)
-    }
+    }*/
 
 }

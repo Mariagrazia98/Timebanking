@@ -1,9 +1,13 @@
 package it.polito.showprofileactivity
 
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -13,6 +17,10 @@ import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
 
 
 class EditProfileActivity : AppCompatActivity() {
@@ -74,7 +82,7 @@ class EditProfileActivity : AppCompatActivity() {
         print(skillsList)
 
         description = i.getStringExtra("group09.lab1.DESCRIPTION").toString()
-        bitmap = i.getParcelableExtra("group09.lab1.PROFILE_IMAGE")
+        getProfileImageLFS()
 
         fullnameView = findViewById(R.id.Edit_FullName)
         fullnameView.setText(fullname)
@@ -149,7 +157,7 @@ class EditProfileActivity : AppCompatActivity() {
         i.putExtra("group09.lab1.LOCATION", location)
         i.putExtra("group09.lab1.SKILLS", skills)
         i.putExtra("group09.lab1.DESCRIPTION", description)
-        i.putExtra("group09.lab1.IMAGE", bitmap)
+
 
         setResult(Activity.RESULT_OK, i)
         super.onBackPressed() // to call at the end, because it calls internally the finish() method
@@ -180,12 +188,14 @@ class EditProfileActivity : AppCompatActivity() {
                 true
             }
             R.id.gallery -> {
-
+                openGallery()
                 true
             }
             else -> super.onContextItemSelected(item)
         }
     }
+
+
 
     //result of opening camera
     val resultLauncher =
@@ -195,11 +205,25 @@ class EditProfileActivity : AppCompatActivity() {
                     handleCameraImage(result.data)
                 }
             }
+    private val resultLauncherGalleryImage =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                val iv = findViewById<ImageView>(R.id.Edit_imageView)
+                iv.setImageURI(uri)
+                bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+                saveProfileImageLFS()
 
+            }
+        }
     private fun openCamera(){
         //intent to open camera app
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         resultLauncher.launch(cameraIntent)
+    }
+    private fun openGallery(){
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        resultLauncherGalleryImage.launch("image/*")
     }
 
 
@@ -209,22 +233,53 @@ class EditProfileActivity : AppCompatActivity() {
         bitmap = intent?.extras?.get("data") as Bitmap
         val iv = findViewById<ImageView>(R.id.Edit_imageView)
         iv.setImageBitmap(bitmap)
+        saveProfileImageLFS()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable("bitmap",bitmap)
+        //outState.putParcelable("bitmap",bitmap)
+
         outState.putString("skillsList",  skillsList.joinToString())
+        //TODO: ELIMINATE saveProfileImageLFS()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        bitmap = savedInstanceState.getParcelable("bitmap")
+       /* bitmap = savedInstanceState.getParcelable("bitmap")
         val iv = findViewById<ImageView>(R.id.Edit_imageView)
         if(bitmap!=null)
-            iv.setImageBitmap(bitmap)
+            iv.setImageBitmap(bitmap)*/
+        //todo: eliminate getProfileImageLFS()
+       /* val iv = findViewById<ImageView>(R.id.Edit_imageView)
+        iv.setImageBitmap(bitmap)*/
         val skillsList = savedInstanceState.getString("skillsList")
         skillsView.text =  skillsList
+
+    }
+    fun saveProfileImageLFS(){
+        //Save profile image into internal storage
+        val wrapper = ContextWrapper(applicationContext)
+        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+        file = File(file, "profileImage.jpg")
+        try {
+            val stream: OutputStream = FileOutputStream(file)
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            stream.flush()
+            stream.close()
+        } catch (e: IOException){
+            e.printStackTrace()
+        }
     }
 
+    fun getProfileImageLFS(){
+        //Get profile image from internal storage (local filesystem)
+        val wrapper = ContextWrapper(applicationContext)
+        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+        file = File(file, "profileImage.jpg")
+        bitmap = BitmapFactory.decodeFile(file.absolutePath)
+       /* TODO: ELIMINATE
+           val iv = findViewById<ImageView>(R.id.Edit_imageView)
+        iv.setImageBitmap(bitmap)*/
+    }
 }

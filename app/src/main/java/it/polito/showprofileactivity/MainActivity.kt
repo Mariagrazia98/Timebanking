@@ -9,16 +9,16 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.ViewTreeObserver
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
 
 
 class MainActivity : AppCompatActivity() {
@@ -75,10 +75,8 @@ class MainActivity : AppCompatActivity() {
         getInfoSP()
         getProfileImageLFS()
 
-        println("Main- create")
 
         if(bitmap!=null)
-            println(bitmap)
             imageView.setImageBitmap(bitmap)
     }
 
@@ -122,7 +120,6 @@ class MainActivity : AppCompatActivity() {
            skills = result.data?.getStringExtra("group09.lab1.SKILLS").toString()
            description=result.data?.getStringExtra("group09.lab1.DESCRIPTION").toString()
 
-
            fullnameView.text = fullname
            ageView.text = age.toString()
            nicknameView.text = nickname
@@ -132,21 +129,13 @@ class MainActivity : AppCompatActivity() {
            descriptionView.text = description
 
 
-
-           println("Main- result before get lancher ")
-           if(bitmap!=null){
-               println(bitmap)
-           }
-
-
            storeInfoSP()
            getProfileImageLFS()
 
            val iv = findViewById<ImageView>(R.id.imageView)
            if(bitmap!=null){
                iv.setImageBitmap(bitmap)
-               println("Main- result after get lancher ")
-               println(bitmap)
+
            }
 
        }
@@ -167,7 +156,6 @@ class MainActivity : AppCompatActivity() {
         resultLauncher.launch(intent)
     }
 
-
     fun storeInfoSP(){
         //Save data to SharedPreferences in a JSON object
         val jsonProfile = JSONObject()
@@ -186,7 +174,7 @@ class MainActivity : AppCompatActivity() {
 
     fun getInfoSP(){
         //Get data from SharedPreferences
-        println("Main-getInfoSP")
+
         sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
         //Create a json with default data to be used if sharedPref doesn't contain anything
         val jsonDefault = JSONObject()
@@ -241,43 +229,12 @@ class MainActivity : AppCompatActivity() {
         getProfileImageLFS()
     }
 
-
-    fun saveProfileImageLFS(){
-        //Save profile image into internal storage
-        val wrapper = ContextWrapper(applicationContext)
-        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        file = File(file, "profileImage.jpg")
-        try {
-           val stream: OutputStream = FileOutputStream(file)
-           bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-           stream.flush()
-           stream.close()
-        } catch (e: IOException){
-           e.printStackTrace()
-        }
-    }
-
     fun getProfileImageLFS(){
         //Get profile image from internal storage (local filesystem)
         val wrapper = ContextWrapper(applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         file = File(file, "profileImage.jpg")
         bitmap = BitmapFactory.decodeFile(file.absolutePath)
-
-
     }
-
-/*    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable("bitmap",bitmap)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        bitmap = savedInstanceState.getParcelable("bitmap")
-        val iv = findViewById<ImageView>(R.id.imageView)
-        if(bitmap!=null)
-           iv.setImageBitmap(bitmap)
-    }*/
 
 }

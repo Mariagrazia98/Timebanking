@@ -79,7 +79,6 @@ class EditProfileActivity : AppCompatActivity() {
         skills = i.getStringExtra("group09.lab1.SKILLS").toString()
 
         skills.split(",").map { skillsList.add(it) }
-        print(skillsList)
 
         description = i.getStringExtra("group09.lab1.DESCRIPTION").toString()
         getProfileImageLFS()
@@ -158,7 +157,6 @@ class EditProfileActivity : AppCompatActivity() {
         i.putExtra("group09.lab1.SKILLS", skills)
         i.putExtra("group09.lab1.DESCRIPTION", description)
 
-
         setResult(Activity.RESULT_OK, i)
         super.onBackPressed() // to call at the end, because it calls internally the finish() method
     }
@@ -195,8 +193,6 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-
-
     //result of opening camera
     val resultLauncher =
         registerForActivityResult(
@@ -225,9 +221,6 @@ class EditProfileActivity : AppCompatActivity() {
         intent.type = "image/*"
         resultLauncherGalleryImage.launch("image/*")
     }
-
-
-
   
     private fun handleCameraImage(intent: Intent?) {
         bitmap = intent?.extras?.get("data") as Bitmap
@@ -238,21 +231,13 @@ class EditProfileActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        //outState.putParcelable("bitmap",bitmap)
 
         outState.putString("skillsList",  skillsList.joinToString())
-        //TODO: ELIMINATE saveProfileImageLFS()
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-       /* bitmap = savedInstanceState.getParcelable("bitmap")
-        val iv = findViewById<ImageView>(R.id.Edit_imageView)
-        if(bitmap!=null)
-            iv.setImageBitmap(bitmap)*/
-        //todo: eliminate getProfileImageLFS()
-       /* val iv = findViewById<ImageView>(R.id.Edit_imageView)
-        iv.setImageBitmap(bitmap)*/
         val skillsList = savedInstanceState.getString("skillsList")
         skillsView.text =  skillsList
 
@@ -278,8 +263,6 @@ class EditProfileActivity : AppCompatActivity() {
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         file = File(file, "profileImage.jpg")
         bitmap = BitmapFactory.decodeFile(file.absolutePath)
-       /* TODO: ELIMINATE
-           val iv = findViewById<ImageView>(R.id.Edit_imageView)
-        iv.setImageBitmap(bitmap)*/
+
     }
 }

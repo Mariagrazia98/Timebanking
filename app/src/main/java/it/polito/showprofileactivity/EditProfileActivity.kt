@@ -79,6 +79,7 @@ class EditProfileActivity : AppCompatActivity() {
         skills = i.getStringExtra("group09.lab1.SKILLS").toString()
 
         skills.split(",").map { skillsList.add(it) }
+        skillsList.remove("")
 
         description = i.getStringExtra("group09.lab1.DESCRIPTION").toString()
         getProfileImageLFS()
@@ -116,7 +117,7 @@ class EditProfileActivity : AppCompatActivity() {
         skillsAddButton.setOnClickListener {
             skillsList.add(addSkillView.text.toString())
             addSkillView.setText("")
-            skillsView.text = skillsList.joinToString()
+            skillsView.text = skillsList.joinToString(separator = " • ")
         }
 
         skillsDeleteButton.setOnClickListener {

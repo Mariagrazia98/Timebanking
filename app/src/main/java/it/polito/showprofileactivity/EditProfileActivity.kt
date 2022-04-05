@@ -1,6 +1,7 @@
 package it.polito.showprofileactivity
 
 import android.app.Activity
+import android.app.Notification
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -158,6 +159,7 @@ class EditProfileActivity : AppCompatActivity() {
         i.putExtra("group09.lab1.DESCRIPTION", description)
 
         setResult(Activity.RESULT_OK, i)
+        Toast.makeText(applicationContext,"Updated profile successfully!", Toast.LENGTH_SHORT).show()
         super.onBackPressed() // to call at the end, because it calls internally the finish() method
     }
 
@@ -194,27 +196,24 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     //result of opening camera
-    val resultLauncher =
+   private val resultLauncherCameraImage =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     handleCameraImage(result.data)
                 }
             }
+    //result of opening gallery
     private val resultLauncherGalleryImage =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
-                val iv = findViewById<ImageView>(R.id.Edit_imageView)
-                iv.setImageURI(uri)
-                bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-                saveProfileImageLFS()
-
+                handleGalleryImage(uri)
             }
         }
     private fun openCamera(){
         //intent to open camera app
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        resultLauncher.launch(cameraIntent)
+        resultLauncherCameraImage.launch(cameraIntent)
     }
     private fun openGallery(){
         val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -228,10 +227,15 @@ class EditProfileActivity : AppCompatActivity() {
         iv.setImageBitmap(bitmap)
         saveProfileImageLFS()
     }
+    private fun handleGalleryImage(uri: Uri?){
+        val iv = findViewById<ImageView>(R.id.Edit_imageView)
+        iv.setImageURI(uri)
+        bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+        saveProfileImageLFS()
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
         outState.putString("skillsList",  skillsList.joinToString())
 
     }
@@ -240,8 +244,8 @@ class EditProfileActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         val skillsList = savedInstanceState.getString("skillsList")
         skillsView.text =  skillsList
-
     }
+
     fun saveProfileImageLFS(){
         //Save profile image into internal storage
         val wrapper = ContextWrapper(applicationContext)
@@ -252,6 +256,7 @@ class EditProfileActivity : AppCompatActivity() {
             bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             stream.flush()
             stream.close()
+            Toast.makeText(applicationContext,"Upload photo successfully!", Toast.LENGTH_SHORT).show()
         } catch (e: IOException){
             e.printStackTrace()
         }

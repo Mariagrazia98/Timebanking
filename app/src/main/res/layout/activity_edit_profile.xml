@@ -89,6 +89,8 @@
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="0dp"
                     android:text="@string/age"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />
@@ -110,6 +112,8 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="name"
                     android:inputType="text"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="@string/nickname"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />
@@ -132,6 +136,8 @@
                     android:autofillHints="emailAddress"
                     android:ems="10"
                     android:inputType="textEmailAddress"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="@string/email_address"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />
@@ -153,6 +159,8 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="postalAddress"
                     android:inputType="textPostalAddress"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="@string/location"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />
@@ -173,8 +181,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="@string/skills"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />
@@ -224,6 +232,7 @@
                     android:inputType="textMultiLine"
                     android:lines="5"
                     android:maxLines="10"
+                    android:paddingLeft="10dp"
                     android:text="@string/description"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />

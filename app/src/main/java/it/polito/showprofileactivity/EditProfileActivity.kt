@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.DisplayMetrics
 import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
@@ -62,7 +63,7 @@ class EditProfileActivity : AppCompatActivity() {
                     h = sv.height
                     w = sv.width
                     frameLayout.post {
-                        frameLayout.layoutParams = LinearLayout.LayoutParams(w, h / 3)
+                        frameLayout.layoutParams = LinearLayout.LayoutParams(w - 2*convertDpToPixel(16).toInt(), h / 3)
                     }
 
                     sv.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -139,6 +140,9 @@ class EditProfileActivity : AppCompatActivity() {
         })
 
     }
+    fun convertDpToPixel(dp: Int): Float {
+        return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
 
     override fun onBackPressed() {
         val i = intent
@@ -167,7 +171,7 @@ class EditProfileActivity : AppCompatActivity() {
         super.onConfigurationChanged(newConfig)
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w, h/3)}
+            frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w - 2*convertDpToPixel(16).toInt(), h/3)}
         }
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w/3, h)}

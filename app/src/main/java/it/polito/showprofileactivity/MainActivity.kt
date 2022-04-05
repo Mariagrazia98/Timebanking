@@ -9,6 +9,7 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -44,6 +45,9 @@ class MainActivity : AppCompatActivity() {
     var h: Int = 0
     var w: Int = 0
 
+    fun convertDpToPixel(dp: Int): Float {
+        return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -56,8 +60,8 @@ class MainActivity : AppCompatActivity() {
                     override fun onGlobalLayout() {
                         h = sv.height
                         w = sv.width
-                        frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w, h/3)}
 
+                        frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w-2*convertDpToPixel(16).toInt(), h/3)}
                         sv.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     }
             })
@@ -90,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         super.onConfigurationChanged(newConfig)
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w, h/3)}
+            frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w - 2*convertDpToPixel(16).toInt(), h/3)}
         }
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w/3, h)}

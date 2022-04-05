@@ -226,7 +226,6 @@ class MainActivity : AppCompatActivity() {
         skillsView.text = skills
         descriptionView.text=description
 
-        getProfileImageLFS()
     }
 
     fun getProfileImageLFS(){

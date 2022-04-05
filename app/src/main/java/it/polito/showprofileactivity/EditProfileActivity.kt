@@ -71,7 +71,7 @@ class EditProfileActivity : AppCompatActivity() {
             })
         }
 
-        ///get extras
+        //get extras
         val i = intent
         fullname = i.getStringExtra("group09.lab1.FULL_NAME").toString()
         age = i.getStringExtra("group09.lab1.AGE").toString().toInt()
@@ -132,15 +132,12 @@ class EditProfileActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 skillsAddButton.isEnabled = s.toString().trim().isNotEmpty()
             }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         })
 
     }
+
     fun convertDpToPixel(dp: Int): Float {
         return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
@@ -200,7 +197,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    //result of opening camera
+   //result of opening camera
    private val resultLauncherCameraImage =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -208,23 +205,26 @@ class EditProfileActivity : AppCompatActivity() {
                     handleCameraImage(result.data)
                 }
             }
-    //result of opening gallery
-    private val resultLauncherGalleryImage =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                handleGalleryImage(uri)
-            }
-        }
-    private fun openCamera(){
-        //intent to open camera app
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        resultLauncherCameraImage.launch(cameraIntent)
-    }
-    private fun openGallery(){
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        resultLauncherGalleryImage.launch("image/*")
-    }
+
+   //result of opening gallery
+   private val resultLauncherGalleryImage =
+       registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+           uri?.let {
+               handleGalleryImage(uri)
+           }
+       }
+
+   private fun openCamera(){
+       //intent to open camera app
+       val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+       resultLauncherCameraImage.launch(cameraIntent)
+   }
+
+   private fun openGallery(){
+       val intent = Intent(Intent.ACTION_GET_CONTENT)
+       intent.type = "image/*"
+       resultLauncherGalleryImage.launch("image/*")
+   }
   
     private fun handleCameraImage(intent: Intent?) {
         bitmap = intent?.extras?.get("data") as Bitmap
@@ -232,6 +232,7 @@ class EditProfileActivity : AppCompatActivity() {
         iv.setImageBitmap(bitmap)
         saveProfileImageLFS()
     }
+
     private fun handleGalleryImage(uri: Uri?){
         val iv = findViewById<ImageView>(R.id.Edit_imageView)
         iv.setImageURI(uri)

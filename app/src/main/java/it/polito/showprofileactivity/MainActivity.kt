@@ -45,9 +45,6 @@ class MainActivity : AppCompatActivity() {
     var h: Int = 0
     var w: Int = 0
 
-    fun convertDpToPixel(dp: Int): Float {
-        return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -79,7 +76,6 @@ class MainActivity : AppCompatActivity() {
         getInfoSP()
         getProfileImageLFS()
 
-
         if(bitmap!=null)
             imageView.setImageBitmap(bitmap)
     }
@@ -88,6 +84,10 @@ class MainActivity : AppCompatActivity() {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.edit_button, menu)
         return true
+    }
+
+    fun convertDpToPixel(dp: Int): Float {
+        return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -137,11 +137,8 @@ class MainActivity : AppCompatActivity() {
            getProfileImageLFS()
 
            val iv = findViewById<ImageView>(R.id.imageView)
-           if(bitmap!=null){
+           if(bitmap!=null)
                iv.setImageBitmap(bitmap)
-
-           }
-
        }
     }
 
@@ -178,8 +175,8 @@ class MainActivity : AppCompatActivity() {
 
     fun getInfoSP(){
         //Get data from SharedPreferences
-
         sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+
         //Create a json with default data to be used if sharedPref doesn't contain anything
         val jsonDefault = JSONObject()
         jsonDefault.put("fullname", "Mario Rossi")
@@ -193,34 +190,13 @@ class MainActivity : AppCompatActivity() {
         val profileString = sharedPref.getString("profile", jsonDefault.toString()) //retrieve the string containing data in json format with the key "profile"
         val json = JSONObject(profileString.toString())  //transform the obtained string into a json to easily access all the fields
 
-        if(json.has("fullname"))
-           fullname = json.getString("fullname")
-        else
-           fullname = jsonDefault.getString("fullname")
-        if(json.has("age"))
-           age = json.getInt("age")
-        else
-           age = jsonDefault.getInt("age")
-        if(json.has("nickname"))
-           nickname = json.getString("nickname")
-        else
-           nickname = jsonDefault.getString("nickname")
-        if(json.has("email"))
-           email = json.getString("email")
-        else
-           email = jsonDefault.getString("email")
-        if(json.has("location"))
-           location = json.getString("location")
-        else
-           location = jsonDefault.getString("location")
-        if(json.has("skills"))
-           skills = json.getString("skills")
-        else
-           skills = jsonDefault.getString("skills")
-        if(json.has("description"))
-           description = json.getString("description")
-        else
-           description = jsonDefault.getString("description")
+        fullname = if(json.has("fullname")) json.getString("fullname") else jsonDefault.getString("fullname")
+        age = if(json.has("age")) json.getInt("age") else jsonDefault.getInt("age")
+        nickname = if(json.has("nickname")) json.getString("nickname") else jsonDefault.getString("nickname")
+        email = if(json.has("email")) json.getString("email") else jsonDefault.getString("email")
+        location = if(json.has("location")) json.getString("location") else jsonDefault.getString("location")
+        skills = if(json.has("skills")) json.getString("skills") else jsonDefault.getString("skills")
+        description = if(json.has("description")) json.getString("description") else jsonDefault.getString("description")
 
         fullnameView.text = fullname
         ageView.text = age.toString()
@@ -229,7 +205,6 @@ class MainActivity : AppCompatActivity() {
         locationView.text = location
         skillsView.text = skills
         descriptionView.text=description
-
     }
 
     fun getProfileImageLFS(){

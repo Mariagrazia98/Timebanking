@@ -34,7 +34,7 @@
             android:textColor="@color/purple_200" />
 
         <TextView
-            android:id="@+id/descriptionAdvertisement2"
+            android:id="@+id/descriptionAdvertisement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="3"
@@ -67,7 +67,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:editable="false"
                 android:ems="10"
                 android:enabled="false"
                 android:inputType="date" />

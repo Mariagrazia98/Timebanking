@@ -1,7 +1,6 @@
-package it.polito.showprofileactivity
+package it.polito.timebanking
 
 import android.app.Activity
-import android.app.Notification
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -19,6 +18,7 @@ import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import it.polito.timebanking.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

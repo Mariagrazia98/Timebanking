@@ -6,7 +6,7 @@
     app:startDestination="@id/timeSlotDetailsFragment">
     <fragment
         android:id="@+id/timeSlotDetailsFragment"
-        android:name="it.polito.showprofileactivity.TimeSlotDetailsFragment"
+        android:name="it.polito.timebanking.TimeSlotDetailsFragment"
         android:label="fragment_time_slot_details"
         tools:layout="@layout/fragment_time_slot_details" >
         <action
@@ -15,12 +15,12 @@
     </fragment>
     <fragment
         android:id="@+id/timeSlotEditFragment"
-        android:name="it.polito.showprofileactivity.TimeSlotEditFragment"
+        android:name="it.polito.timebanking.TimeSlotEditFragment"
         android:label="fragment_time_slot_edit"
         tools:layout="@layout/fragment_time_slot_edit" />
     <fragment
         android:id="@+id/timeSlotListFragment"
-        android:name="it.polito.showprofileactivity.TimeSlotListFragment"
+        android:name="it.polito.timebanking.TimeSlotListFragment"
         android:label="fragment_time_slot_list_list"
         tools:layout="@layout/fragment_time_slot_list_list" >
         <action

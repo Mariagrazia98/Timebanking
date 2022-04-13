@@ -1,4 +1,4 @@
-package it.polito.showprofileactivity
+package it.polito.timebanking
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("it.polito.showprofileactivity", appContext.packageName)
+        assertEquals("it.polito.timebanking", appContext.packageName)
     }
 }

@@ -1,4 +1,4 @@
-package it.polito.showprofileactivity.placeholder
+package it.polito.timebanking.placeholder
 
 import java.util.ArrayList
 import java.util.HashMap

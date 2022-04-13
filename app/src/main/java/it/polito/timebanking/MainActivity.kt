@@ -1,4 +1,4 @@
-package it.polito.showprofileactivity
+package it.polito.timebanking
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -18,4 +18,13 @@
         android:name="it.polito.showprofileactivity.TimeSlotEditFragment"
         android:label="fragment_time_slot_edit"
         tools:layout="@layout/fragment_time_slot_edit" />
+    <fragment
+        android:id="@+id/timeSlotListFragment"
+        android:name="it.polito.showprofileactivity.TimeSlotListFragment"
+        android:label="fragment_time_slot_list_list"
+        tools:layout="@layout/fragment_time_slot_list_list" >
+        <action
+            android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
+            app:destination="@id/timeSlotDetailsFragment" />
+    </fragment>
 </navigation>

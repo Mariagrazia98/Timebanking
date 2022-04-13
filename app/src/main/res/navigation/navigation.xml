@@ -8,7 +8,11 @@
         android:id="@+id/timeSlotDetailsFragment"
         android:name="it.polito.showprofileactivity.TimeSlotDetailsFragment"
         android:label="fragment_time_slot_details"
-        tools:layout="@layout/fragment_time_slot_details" />
+        tools:layout="@layout/fragment_time_slot_details" >
+        <action
+            android:id="@+id/action_timeSlotDetailsFragment_to_timeSlotEditFragment"
+            app:destination="@id/timeSlotEditFragment" />
+    </fragment>
     <fragment
         android:id="@+id/timeSlotEditFragment"
         android:name="it.polito.showprofileactivity.TimeSlotEditFragment"

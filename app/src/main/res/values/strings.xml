@@ -23,5 +23,13 @@
     <string name="button_add_skills">Add skill</string>
     <string name="button_delete_skills">Delete skills</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_advertisement_text">Title advertisement:</string>
+    <string name="title_advertisement">Offer lectures</string>
+    <string name="description_advertisement_text">Description of offered service:</string>
+    <string name="description_advertisement">Offer lectures in scientific subjects</string>
+    <string name="date_time_advertisement_text">Date and time of the advertisement:</string>
+    <string name="duration_advertisement_text">Duration of the offered time slot:</string>
+    <string name="duration_advertisement">3</string>
+    <string name="location_advertisement_text">Location advertisment:</string>
+    <string name="location_advertisement">My Home</string>
 </resources>

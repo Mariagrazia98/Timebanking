@@ -8,10 +8,23 @@
         android:id="@+id/timeSlotDetailsFragment"
         android:name="it.polito.showprofileactivity.TimeSlotDetailsFragment"
         android:label="fragment_time_slot_details"
-        tools:layout="@layout/fragment_time_slot_details" />
+        tools:layout="@layout/fragment_time_slot_details" >
+        <action
+            android:id="@+id/action_timeSlotDetailsFragment_to_timeSlotEditFragment"
+            app:destination="@id/timeSlotEditFragment" />
+    </fragment>
     <fragment
         android:id="@+id/timeSlotEditFragment"
         android:name="it.polito.showprofileactivity.TimeSlotEditFragment"
         android:label="fragment_time_slot_edit"
         tools:layout="@layout/fragment_time_slot_edit" />
+    <fragment
+        android:id="@+id/timeSlotListFragment"
+        android:name="it.polito.showprofileactivity.TimeSlotListFragment"
+        android:label="fragment_time_slot_list_list"
+        tools:layout="@layout/fragment_time_slot_list_list" >
+        <action
+            android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
+            app:destination="@id/timeSlotDetailsFragment" />
+    </fragment>
 </navigation>

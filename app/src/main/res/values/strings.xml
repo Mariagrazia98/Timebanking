@@ -22,4 +22,6 @@
     <string name="skills">Android developer, Electrician</string>
     <string name="button_add_skills">Add skill</string>
     <string name="button_delete_skills">Delete skills</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

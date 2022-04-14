@@ -13,9 +13,17 @@
         <entry key="..\:/Users/mary_/Desktop/POLITO/Timebanking/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="app/src/main/res/layout-land/activity_edit_profile.xml" value="0.42916666666666664" />
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.473292469352014" />
+        <entry key="app/src/main/res/layout-land/activity_profile.xml" value="0.473292469352014" />
+        <entry key="app/src/main/res/layout-land/fragment_time_slot_details.xml" value="0.4270833333333333" />
+        <entry key="app/src/main/res/layout-land/fragment_time_slot_edit.xml" value="0.4270833333333333" />
         <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.38813405797101447" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33967391304347827" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.5630208333333333" />
         <entry key="app/src/main/res/layout/ciao.xml" value="0.3663949275362319" />
+        <entry key="app/src/main/res/layout/fragment_time_slot_details.xml" value="0.3713768115942029" />
+        <entry key="app/src/main/res/layout/fragment_time_slot_edit.xml" value="0.3170289855072464" />
+        <entry key="app/src/main/res/layout/fragment_time_slot_list.xml" value="0.5630208333333333" />
+        <entry key="app/src/main/res/layout/fragment_time_slot_list_list.xml" value="0.5630208333333333" />
         <entry key="app/src/main/res/layout/prova.xml" value="0.3813405797101449" />
         <entry key="app/src/main/res/layout/prova2.xml" value="0.5630208333333333" />
         <entry key="app/src/main/res/menu/camera.xml" value="0.5630208333333333" />

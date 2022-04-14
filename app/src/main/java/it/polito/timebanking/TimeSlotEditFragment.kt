@@ -54,7 +54,7 @@ class TimeSlotEditFragment : Fragment() {
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
             val myFormat = "dd/MM/yyyy" // mention the format you need
-            val sdf = SimpleDateFormat(myFormat, Locale.US)
+            val sdf = SimpleDateFormat(myFormat, Locale.ITALY)
             dateButton.text = sdf.format(cal.time)
         }
 

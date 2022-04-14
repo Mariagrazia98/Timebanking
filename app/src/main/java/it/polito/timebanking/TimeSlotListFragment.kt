@@ -6,42 +6,34 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import it.polito.timebanking.R
-import it.polito.timebanking.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
  */
 class TimeSlotListFragment : Fragment() {
 
-    private var columnCount = 1
+    private fun createItems(n: Int): MutableList<ItemSlot> {
+        val l = mutableListOf<ItemSlot>()
+        for (i in 1..n) {
+            val i = ItemSlot(i,"Lectures$i", "15/05/22", "19:30", 120)
+            l.add(i)
+        }
+        return l
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_time_slot_list_list, container, false)
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyTimeSlotRecyclerViewAdapter(PlaceholderContent.ITEMS)
-            }
-        }
+        val rv = view.findViewById<RecyclerView>(R.id.rv)
+        rv.layoutManager = LinearLayoutManager(context)
+        val adapter = MyTimeSlotRecyclerViewAdapter(createItems(20))
+        rv.adapter = adapter
+
         return view
     }
 

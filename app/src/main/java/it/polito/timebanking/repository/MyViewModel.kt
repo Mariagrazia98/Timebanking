@@ -12,10 +12,12 @@ class MyViewModel(application: Application): AndroidViewModel(application) {
     val slots: LiveData<List<Slot>>? = repo.getAllSlots()
 
     //users
-    fun addUser(fullname:String,nickname:String,email:String,location:String){
+    fun addUser(fullname:String,nickname:String,email:String,location:String):Long? {
+        var id:Long? = 0
         thread {
-            repo.addUser(fullname,nickname,email,location)
+            id = repo.addUser(fullname,nickname,email,location)
         }
+        return id
     }
 
     fun getUserById(id:String) = repo.getUserById(id)
@@ -32,10 +34,12 @@ class MyViewModel(application: Application): AndroidViewModel(application) {
         }
     }
     //slots
-    fun addSlot(title:String,description:String,date:String,time:String,duration: Int, location: String){
+    fun addSlot(title:String,description:String,date:String,time:String,duration: Int, location: String):Long?{
+        var id:Long? = 0
         thread {
-            repo.addSlot(title,description,date,time,duration,location)
+            id = repo.addSlot(title, description, date, time, duration, location)
         }
+        return id
     }
 
     fun getSlotById(id:String) = repo.getSlotById(id)

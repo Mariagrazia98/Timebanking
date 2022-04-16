@@ -9,9 +9,10 @@ class Repository(application: Application) {
     private val slotDao = SlotDatabase.getDatabase(application)?.slotDao()
 
     //users
-    fun addUser(fullname:String,nickname:String,email:String,location:String){
+    fun addUser(fullname:String,nickname:String,email:String,location:String): Long? {
         val u = User().also{ it.fullname=fullname; it.email=email; it.location=location; it.nickname=nickname}
-        userDao?.addUser(u)
+        val id_returned: Long? = userDao?.addUser(u)
+        return id_returned
     }
 
     fun clearAllUSers(){
@@ -27,9 +28,10 @@ class Repository(application: Application) {
     fun getUserById(id:String): LiveData<User>? = userDao?.searchUserByID(id)
 
     //slots
-    fun addSlot(title:String,description:String,date:String,time:String,duration: Int, location: String){
+    fun addSlot(title:String,description:String,date:String,time:String,duration: Int, location: String):Long?{
         val s = Slot().also{ it.title=title; it.description=description; it.date=date; it.time=time; it.duration=duration; it.location=location}
-        slotDao?.addSlot(s)
+        val id_returned:Long? = slotDao?.addSlot(s)
+        return id_returned
     }
 
     fun clearAllSlots(){

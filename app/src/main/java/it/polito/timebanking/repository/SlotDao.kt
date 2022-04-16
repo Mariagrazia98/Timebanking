@@ -13,7 +13,7 @@ interface SlotDao {
     fun searchSlotByID(id:String): LiveData<Slot>
 
     @Insert
-    fun addSlot(slot: Slot)
+    fun addSlot(slot: Slot): Long
 
     @Query("DELETE FROM slots WHERE id = :id")
     fun removeSlotById(id:String)

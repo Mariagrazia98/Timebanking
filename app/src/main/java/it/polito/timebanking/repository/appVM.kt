@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import kotlin.concurrent.thread
 
-class MyViewModel(application: Application): AndroidViewModel(application) {
+class appVM(application: Application): AndroidViewModel(application) {
     val repo = Repository(application)
     val users: LiveData<List<User>>? = repo.getAllUsers()
     val slots: LiveData<List<Slot>>? = repo.getAllSlots()

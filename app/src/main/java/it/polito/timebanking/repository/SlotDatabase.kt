@@ -20,7 +20,7 @@ abstract class SlotDatabase: RoomDatabase() {
                         val i = INSTANCE ?: Room.databaseBuilder(
                             context.applicationContext,
                             SlotDatabase::class.java,
-                            "users"
+                            "slots"
                         ).build()
                         INSTANCE = i
                         INSTANCE

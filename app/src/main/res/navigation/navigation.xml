@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    app:startDestination="@id/timeSlotDetailsFragment">
+    app:startDestination="@id/timeSlotListFragment">
     <fragment
         android:id="@+id/timeSlotDetailsFragment"
         android:name="it.polito.timebanking.TimeSlotDetailsFragment"
@@ -27,5 +27,8 @@
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
             app:destination="@id/timeSlotDetailsFragment" />
+        <action
+            android:id="@+id/action_timeSlotListFragment_to_timeSlotEditFragment2"
+            app:destination="@id/timeSlotEditFragment" />
     </fragment>
 </navigation>

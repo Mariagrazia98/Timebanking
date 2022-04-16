@@ -5,26 +5,26 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [User::class, Slot::class],version = 1)
-abstract class UserDatabase: RoomDatabase() {
-    abstract fun userDao(): UserDao
+@Database(entities = [Slot::class],version = 1)
+abstract class SlotDatabase: RoomDatabase() {
+    abstract fun slotDao(): SlotDao
 
     companion object{
         @Volatile
-        private var INSTANCE: UserDatabase? = null
+        private var INSTANCE: SlotDatabase? = null
 
-        fun getDatabase(context: Context): UserDatabase? =
+        fun getDatabase(context: Context): SlotDatabase? =
             (
                     INSTANCE?:
                     synchronized(this) {
                         val i = INSTANCE ?: Room.databaseBuilder(
                             context.applicationContext,
-                            UserDatabase::class.java,
+                            SlotDatabase::class.java,
                             "users"
                         ).build()
                         INSTANCE = i
                         INSTANCE
                     }
-            )
+                    )
     }
 }

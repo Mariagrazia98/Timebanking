@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "users", indices = [Index("name")])
+@Entity(tableName = "users", indices = [Index("fullname","nickname","email","location")])
 class User {
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0
@@ -14,4 +14,5 @@ class User {
     var email:String = ""
     var location:String = ""
     //Lab3
+    //var slots:List<Int>???
 }

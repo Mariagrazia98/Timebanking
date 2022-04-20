@@ -32,7 +32,7 @@ class MyTimeSlotRecyclerViewAdapter(val data: MutableList<ItemSlot>) : RecyclerV
         private val duration: TextView = v.findViewById(R.id.slot_duration)
         //private val editButton: Button = v.findViewById(R.id.edit_slot_button)
         val cv: CardView = v.findViewById(R.id.cv)
-        val button: Button = v.findViewById(R.id.button)
+        //val button: Button = v.findViewById(R.id.button)
 
         fun bind(item: ItemSlot, action: (v: View)->Unit){
             title.text = item.title
@@ -43,18 +43,18 @@ class MyTimeSlotRecyclerViewAdapter(val data: MutableList<ItemSlot>) : RecyclerV
             cv.setOnClickListener{
                 findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment)
             }
-
+/*
             button.setOnClickListener{
                 findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2)
             }
-
+*/
         }
 
         fun unbind(){}
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemSlotViewHolder {
-        val vg = LayoutInflater.from(parent.context).inflate(R.layout.fragment_time_slot_list, parent, false)
+        val vg = LayoutInflater.from(parent.context).inflate(R.layout.fragment_time_slot, parent, false)
         return ItemSlotViewHolder(vg)
     }
 

@@ -33,7 +33,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/text_margin"
                     android:layout_weight="4"
-                    android:text="Lectures"
+                    android:text="@string/lectures"
                     android:textAppearance="?attr/textAppearanceListItem" />
 
                 <ImageButton
@@ -43,6 +43,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/purple_500"
+                    android:contentDescription="@string/edit_slot"
                     app:srcCompat="@drawable/ic_editpencil" />
 
             </LinearLayout>
@@ -65,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:enabled="false"
-                        android:text="Date:"
+                        android:text="@string/date"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/purple_200" />
 
@@ -75,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/text_margin"
-                        android:text="15/05/22"
+                        android:text="@string/_15_05_22"
                         android:textAppearance="?attr/textAppearanceListItem" />
                 </LinearLayout>
 
@@ -91,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:enabled="false"
-                        android:text="Start:"
+                        android:text="@string/start"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/purple_200" />
 
@@ -101,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/text_margin"
-                        android:text="19:30"
+                        android:text="@string/_19_30"
                         android:textAppearance="?attr/textAppearanceListItem" />
                 </LinearLayout>
 
@@ -117,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:enabled="false"
-                        android:text="Duration (min):"
+                        android:text="@string/duration_min"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/purple_200" />
 
@@ -127,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/text_margin"
-                        android:text="120"
+                        android:text="@string/_120"
                         android:textAppearance="?attr/textAppearanceListItem" />
                 </LinearLayout>
 

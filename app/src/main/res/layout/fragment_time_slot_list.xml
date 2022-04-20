@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:contentDescription="add_slot"
+        android:contentDescription="@string/add_slot"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/purple_500"
         app:layout_constraintBottom_toBottomOf="parent"

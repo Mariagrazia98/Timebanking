@@ -38,4 +38,13 @@
     <string name="advertisement">Advertisement</string>
     <string name="titleAdvertisement">Title advertisement:</string>
     <string name="editAdvertisement">Edit Advertisement</string>
+    <string name="add_slot">add_slot</string>
+    <string name="lectures">Lectures</string>
+    <string name="date">Date:</string>
+    <string name="_15_05_22">15/05/22</string>
+    <string name="start">Start:</string>
+    <string name="_19_30">19:30</string>
+    <string name="duration_min">Duration (min):</string>
+    <string name="_120">120</string>
+    <string name="edit_slot">edit slot</string>
 </resources>

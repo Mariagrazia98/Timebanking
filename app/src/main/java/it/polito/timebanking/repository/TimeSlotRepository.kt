@@ -24,5 +24,5 @@ class TimeSlotRepository(application: Application) {
 
     fun getAllSlots(): LiveData<List<Slot>>? = slotDao?.findAll()
 
-    fun getSlotById(id:String): LiveData<Slot>? = slotDao?.searchSlotByID(id)
+    fun getSlotById(id: Long?): LiveData<Slot>? = slotDao?.searchSlotByID(id)
 }

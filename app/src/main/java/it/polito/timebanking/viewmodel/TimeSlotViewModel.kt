@@ -5,8 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.repository.TimeSlotRepository
-import it.polito.timebanking.repository.User
-import it.polito.timebanking.repository.UserRepository
 import kotlin.concurrent.thread
 
 class TimeSlotViewModel(application: Application): AndroidViewModel(application) {
@@ -24,7 +22,7 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return id
     }
 
-    fun getSlotById(id:String) = repo.getSlotById(id)
+    fun getSlotById(id: Long?) = repo.getSlotById(id)
 
     fun getAllSlot() = repo.getAllSlots()
 

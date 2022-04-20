@@ -1,6 +1,7 @@
 package it.polito.timebanking
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -19,7 +20,6 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
  */
 class TimeSlotListFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
-    lateinit var list: List<Slot>
     /*private fun createItems(n: Int): MutableList<Slot> {
         val l = mutableListOf<Slot>()
         for (i in 1..n) {
@@ -35,16 +35,14 @@ class TimeSlotListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
-
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
         timeSlotVM.slots?.observe(viewLifecycleOwner) {
-            list = it
+            Log.d("bug","c'è stato un cambiamento")
+            val rv = view.findViewById<RecyclerView>(R.id.rv)
+            rv.layoutManager = LinearLayoutManager(context)
+            val adapter = MyTimeSlotRecyclerViewAdapter(it)
+            rv.adapter = adapter
         }
-        val rv = view.findViewById<RecyclerView>(R.id.rv)
-        rv.layoutManager = LinearLayoutManager(context)
-        val adapter = MyTimeSlotRecyclerViewAdapter(list)
-
-        rv.adapter = adapter
 
         val fab: View = view.findViewById(R.id.fab)
         fab.setOnClickListener{
@@ -53,20 +51,5 @@ class TimeSlotListFragment : Fragment() {
 
 
         return view
-    }
-
-    companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            TimeSlotListFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
     }
 }

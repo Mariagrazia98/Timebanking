@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "slots", indices = [Index("title","description","date","time","duration","location")])
 class Slot {
     @PrimaryKey(autoGenerate = true)
-    var id:Int = 0
+    var id:Long = 0
     //Lab3
     var title:String = ""
     var description:String? = ""

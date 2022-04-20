@@ -1,5 +1,6 @@
 package it.polito.timebanking
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
@@ -20,7 +22,8 @@ import it.polito.timebanking.repository.Slot
 
 //data class Slot(val id: Int, val title: String, val date: String, val time: String, val duration: Int)
 
-class MyTimeSlotRecyclerViewAdapter(val data: List<Slot>) : RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>() {
+class MyTimeSlotRecyclerViewAdapter(val data: List<Slot>): RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>() {
+    var list = data.toMutableList()
 
     class ItemSlotViewHolder(v: View): RecyclerView.ViewHolder(v){
         private val title: TextView = v.findViewById(R.id.slot_title)
@@ -36,12 +39,15 @@ class MyTimeSlotRecyclerViewAdapter(val data: List<Slot>) : RecyclerView.Adapter
             time.text = item.time
             duration.text = item.duration.toString()
 
+            var bundle = bundleOf("id" to item.id)
+            Log.d("bug","passo l'id ${item.id}")
+
             cv.setOnClickListener{
-                findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment)
+                findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment, bundle)
             }
 
             button.setOnClickListener{
-                findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2)
+                findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2, bundle)
             }
 
         }
@@ -55,21 +61,21 @@ class MyTimeSlotRecyclerViewAdapter(val data: List<Slot>) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: ItemSlotViewHolder, position: Int) {
-        val item = data[position]
+        val item = list[position]
 
-        /*holder.bind(item) {
-            val pos = data.indexOf(item)
+        holder.bind(item) {
+            val pos = list.indexOf(item)
             if (pos!=-1) {
-                data.removeAt(pos)
-                val pos1 = displayData.indexOf(item)
+                list.removeAt(pos)
+                val pos1 = list.indexOf(item)
                 if (pos1!= -1) {
-                    displayData.removeAt(pos1)
+                    list.removeAt(pos1)
                     notifyItemRemoved(pos1)
                 }
             }
-        }*/
+        }
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = list.size
 
 }

@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
@@ -19,19 +21,25 @@ import java.util.*
 
 
 
-class TimeSlotEditFragment : Fragment() {
+class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var slot: Slot
     lateinit var dateButton: Button
     lateinit var timeButton: Button
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_time_slot_edit, container, false)
-    }
+    lateinit var titleView: EditText
+    lateinit var descriptionView: EditText
+    lateinit var locationView:EditText
+    lateinit var durationView:EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //findIds
+        titleView = view.findViewById(R.id.edit_titleAdvertisement)
+        locationView = view.findViewById(R.id.edit_locationAdvertisement)
+        descriptionView = view.findViewById(R.id.edit_descriptionAdvertisement)
+        durationView = view.findViewById(R.id.editTextNumber)
+
+
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
 
         val cal = Calendar.getInstance()
@@ -87,10 +95,10 @@ class TimeSlotEditFragment : Fragment() {
         slot= Slot()
         slot.date = dateButton.text.toString()
         slot.time = dateButton.text.toString()
-        slot.title = "title"
-        slot.description = "ciao"
-        slot.duration = 5
-        slot.location = "location"
+        slot.title = titleView.text.toString()
+        slot.description = descriptionView.text.toString()
+        slot.duration = durationView.text.toString().toInt()
+        slot.location = locationView.text.toString()
         timeSlotVM.addSlot(slot)
         super.onPause()
     }

@@ -10,7 +10,7 @@ interface SlotDao {
     fun findAll(): LiveData<List<Slot>>
 
     @Query("SELECT * from slots WHERE id= :id")
-    fun searchSlotByID(id:String): LiveData<Slot>
+    fun searchSlotByID(id: Long?): LiveData<Slot>
 
     @Insert
     fun addSlot(slot: Slot): Long

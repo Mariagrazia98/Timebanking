@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 
 /**
@@ -33,6 +35,12 @@ class TimeSlotListFragment : Fragment() {
         rv.layoutManager = LinearLayoutManager(context)
         val adapter = MyTimeSlotRecyclerViewAdapter(createItems(20))
         rv.adapter = adapter
+
+        val fab: View = view.findViewById(R.id.fab)
+        fab.setOnClickListener{
+            NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2)
+        }
+
 
         return view
     }

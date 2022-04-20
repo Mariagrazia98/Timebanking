@@ -13,15 +13,20 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
     val repo = TimeSlotRepository(application)
     val slots: LiveData<List<Slot>>? = repo.getAllSlots()
     //slots
-    fun addSlot(title:String,description:String,date:String,time:String,duration: Int, location: String):Long?{
+    fun addSlot(slot: Slot):Long?{
         var id:Long? = 0
         thread {
-            id = repo.addSlot(title, description, date, time, duration, location)
+            id = slot.description?.let {
+                repo.addSlot(slot.title,
+                    it, slot.date, slot.time, slot.duration, slot.location)
+            }
         }
         return id
     }
 
     fun getSlotById(id:String) = repo.getSlotById(id)
+
+    fun getAllSlot() = repo.getAllSlots()
 
     fun removeSlot(id:String){
         thread {

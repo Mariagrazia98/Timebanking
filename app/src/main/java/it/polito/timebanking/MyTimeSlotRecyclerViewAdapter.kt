@@ -8,19 +8,19 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import it.polito.timebanking.placeholder.PlaceholderContent.PlaceholderItem
+import it.polito.timebanking.repository.Slot
 
 /**
  * [RecyclerView.Adapter] that can display a [PlaceholderItem].
  * TODO: Replace the implementation with code for your data type.
  */
 
-data class ItemSlot(val id: Int, val title: String, val date: String, val time: String, val duration: Int)
+//data class Slot(val id: Int, val title: String, val date: String, val time: String, val duration: Int)
 
-class MyTimeSlotRecyclerViewAdapter(val data: MutableList<ItemSlot>) : RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>() {
-
-    var displayData = data.toMutableList()
+class MyTimeSlotRecyclerViewAdapter(val data: List<Slot>) : RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>() {
 
     class ItemSlotViewHolder(v: View): RecyclerView.ViewHolder(v){
         private val title: TextView = v.findViewById(R.id.slot_title)
@@ -30,7 +30,7 @@ class MyTimeSlotRecyclerViewAdapter(val data: MutableList<ItemSlot>) : RecyclerV
         val cv: CardView = v.findViewById(R.id.cv)
         val button: ImageButton = v.findViewById(R.id.button)
 
-        fun bind(item: ItemSlot, action: (v: View)->Unit){
+        fun bind(item: Slot, action: (v: View)->Unit){
             title.text = item.title
             date.text = item.date
             time.text = item.time
@@ -55,9 +55,9 @@ class MyTimeSlotRecyclerViewAdapter(val data: MutableList<ItemSlot>) : RecyclerV
     }
 
     override fun onBindViewHolder(holder: ItemSlotViewHolder, position: Int) {
-        val item = displayData[position]
+        val item = data[position]
 
-        holder.bind(item) {
+        /*holder.bind(item) {
             val pos = data.indexOf(item)
             if (pos!=-1) {
                 data.removeAt(pos)
@@ -67,9 +67,9 @@ class MyTimeSlotRecyclerViewAdapter(val data: MutableList<ItemSlot>) : RecyclerV
                     notifyItemRemoved(pos1)
                 }
             }
-        }
+        }*/
     }
 
-    override fun getItemCount(): Int = displayData.size
+    override fun getItemCount(): Int = data.size
 
 }

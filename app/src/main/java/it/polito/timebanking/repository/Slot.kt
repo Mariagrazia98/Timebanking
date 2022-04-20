@@ -10,9 +10,9 @@ class Slot {
     var id:Int = 0
     //Lab3
     var title:String = ""
-    var description:String = ""
-    var date:String = "" //?
-    var time:String = "" //?
-    var duration:Int = 0 //?
-    var location:String = "" //?
+    var description:String? = ""
+    var date:String = ""
+    var time:String = ""
+    var duration:Int = 0
+    var location:String = ""
 }

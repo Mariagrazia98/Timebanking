@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentManager
@@ -30,9 +31,8 @@ class MyTimeSlotRecyclerViewAdapter(val data: MutableList<ItemSlot>) : RecyclerV
         private val date: TextView = v.findViewById(R.id.slot_date)
         private val time: TextView = v.findViewById(R.id.slot_time)
         private val duration: TextView = v.findViewById(R.id.slot_duration)
-        //private val editButton: Button = v.findViewById(R.id.edit_slot_button)
         val cv: CardView = v.findViewById(R.id.cv)
-        //val button: Button = v.findViewById(R.id.button)
+        val button: ImageButton = v.findViewById(R.id.button)
 
         fun bind(item: ItemSlot, action: (v: View)->Unit){
             title.text = item.title
@@ -43,11 +43,11 @@ class MyTimeSlotRecyclerViewAdapter(val data: MutableList<ItemSlot>) : RecyclerV
             cv.setOnClickListener{
                 findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment)
             }
-/*
+
             button.setOnClickListener{
                 findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2)
             }
-*/
+
         }
 
         fun unbind(){}

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -24,15 +25,24 @@ class TimeSlotListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
-        timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
+        timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
 
         //timeSlotVM.clearSlots() //to clear the repo uncomment this and run the app
 
+        val ev: TextView = view.findViewById(R.id.empty_view)
+        val rv = view.findViewById<RecyclerView>(R.id.rv)
         timeSlotVM.slots?.observe(viewLifecycleOwner) {
-            val rv = view.findViewById<RecyclerView>(R.id.rv)
             rv.layoutManager = LinearLayoutManager(context)
             val adapter = MyTimeSlotRecyclerViewAdapter(it)
             rv.adapter = adapter
+
+            if(it.size<1){
+                rv.visibility = View.GONE
+                ev.visibility = View.VISIBLE
+            }else {
+                rv.visibility = View.VISIBLE;
+                ev.visibility = View.GONE;
+            }
         }
 
         val fab: View = view.findViewById(R.id.fab)

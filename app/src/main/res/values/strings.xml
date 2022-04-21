@@ -47,4 +47,5 @@
     <string name="duration_min">Duration (min):</string>
     <string name="_120">120</string>
     <string name="edit_slot">edit slot</string>
+    <string name="no_data_available">No slots available</string>
 </resources>

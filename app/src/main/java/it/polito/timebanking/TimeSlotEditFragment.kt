@@ -3,23 +3,17 @@ package it.polito.timebanking
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var timeSlotVM: TimeSlotViewModel
@@ -88,18 +82,29 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         }
 
+
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // Do custom work here
+                    slot= Slot()
+                    slot.date = dateButton.text.toString()
+                    slot.time = timeButton.text.toString()
+                    slot.title = titleView.text.toString()
+                    slot.description = descriptionView.text.toString()
+                    slot.duration = durationView.text.toString().toInt()
+                    slot.location = locationView.text.toString()
+                    timeSlotVM.addSlot(slot)
+                    // if you want onBackPressed() to be called as normal afterwards
+                    if (isEnabled) {
+                        isEnabled = false
+                        requireActivity().onBackPressed()
+                    }
+                }
+            }
+        )
+
     }
 
-
-    override fun onPause() {
-        slot= Slot()
-        slot.date = dateButton.text.toString()
-        slot.time = dateButton.text.toString()
-        slot.title = titleView.text.toString()
-        slot.description = descriptionView.text.toString()
-        slot.duration = durationView.text.toString().toInt()
-        slot.location = locationView.text.toString()
-        timeSlotVM.addSlot(slot)
-        super.onPause()
-    }
 }

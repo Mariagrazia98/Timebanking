@@ -1,18 +1,15 @@
 package it.polito.timebanking
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 /**
@@ -20,14 +17,6 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
  */
 class TimeSlotListFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
-    /*private fun createItems(n: Int): MutableList<Slot> {
-        val l = mutableListOf<Slot>()
-        for (i in 1..n) {
-            //val i = Slot(i,"Lectures$i", "15/05/22", "19:30", 120)
-            l.add(i)
-        }
-        return l
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +25,10 @@ class TimeSlotListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
+
+        //timeSlotVM.clearSlots() //to clear the repo uncomment this and run the app
+
         timeSlotVM.slots?.observe(viewLifecycleOwner) {
-            Log.d("bug","c'è stato un cambiamento")
             val rv = view.findViewById<RecyclerView>(R.id.rv)
             rv.layoutManager = LinearLayoutManager(context)
             val adapter = MyTimeSlotRecyclerViewAdapter(it)
@@ -49,7 +40,7 @@ class TimeSlotListFragment : Fragment() {
             NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2)
         }
 
-
         return view
     }
+
 }

@@ -43,6 +43,7 @@
             android:text="@string/title_advertisement"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView
@@ -63,23 +64,23 @@
 
             <TextView
                 android:id="@+id/dateAdvertisement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:enabled="false"
                 android:paddingStart="10dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="10dp" />
+                android:paddingEnd="10dp"
+                android:text="@string/_15_05_22"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/timeAdvertisement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:enabled="false"
-                />
+                android:text="@string/_19_30"
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
@@ -100,7 +101,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:enabled="false" />
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/_120"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/locationAdvertisementText"

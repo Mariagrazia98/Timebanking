@@ -116,7 +116,6 @@
             android:id="@+id/durationAdvertisementText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:enabled="false"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
@@ -131,6 +130,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:text="@string/sampleDuration"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:inputType="number" />
 
         <TextView
@@ -146,7 +147,7 @@
             android:textColor="@color/purple_200" />
 
         <EditText
-            android:id="@+id/locationAdvertisement"
+            android:id="@+id/edit_locationAdvertisement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="10dp"

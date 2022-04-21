@@ -1,7 +1,6 @@
 package it.polito.timebanking
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -31,7 +30,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         super.onViewCreated(view, savedInstanceState)
         slotId = arguments?.getLong("id")!!
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
-        Log.d("bug","lo slot id è $slotId")
+
         dateView = view.findViewById(R.id.dateAdvertisement)
         timeView = view.findViewById(R.id.timeAdvertisement)
         titleView = view.findViewById(R.id.titleAdvertisement)

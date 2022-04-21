@@ -33,12 +33,11 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         descriptionView = view.findViewById(R.id.edit_descriptionAdvertisement)
         durationView = view.findViewById(R.id.editTextNumber)
 
-
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
 
-        val cal = Calendar.getInstance()
 
         //DATE
+        val cal = Calendar.getInstance()
         dateButton = view.findViewById(R.id.edit_dateAdvertisement)
         dateButton.text = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis())
 

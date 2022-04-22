@@ -1,164 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".TimeSlotEditFragment">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/screenEditAdvertisement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:text="@string/editAdvertisement"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textColor="@color/purple_200"
-            android:textStyle="bold|italic" />
-
-        <TextView
-            android:id="@+id/titleTextAdvertisement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:text="@string/title_advertisement_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/purple_200" />
-
-        <EditText
-            android:id="@+id/edit_titleAdvertisement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:text="@string/title_advertisement"
-            android:inputType="text"
-            android:textAlignment="textStart"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/descriptionAdvertisementText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:text="@string/description_advertisement_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/purple_200" />
-
-        <EditText
-            android:id="@+id/edit_descriptionAdvertisement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="3"
-            android:maxLines="8"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/description_advertisement"
-            android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="italic"
-            tools:text="@string/description_advertisement" />
-
-        <TextView
-            android:id="@+id/dateTimeAdvertisementText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:text="@string/date_time_advertisement_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/purple_200" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/edit_dateAdvertisement"
+            <TextView
+                android:id="@+id/screenEditAdvertisement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/editAdvertisement"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textColor="@color/purple_200"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:id="@+id/titleTextAdvertisement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:text="@string/title_advertisement_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/purple_200" />
+
+            <EditText
+                android:id="@+id/edit_titleAdvertisement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/title_advertisement"
+                android:inputType="text"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/descriptionAdvertisementText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:text="@string/description_advertisement_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/purple_200" />
+
+            <EditText
+                android:id="@+id/edit_descriptionAdvertisement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="3"
+                android:maxLines="8"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/description_advertisement"
+                android:inputType="text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="italic"
+                tools:text="@string/description_advertisement" />
+
+            <TextView
+                android:id="@+id/dateTimeAdvertisementText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:text="@string/date_time_advertisement_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/purple_200" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/edit_dateAdvertisement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sampleDate"
+                    android:textColor="@color/black"
+                    style="?android:spinnerStyle"
+                    android:ems="10"
+                    android:enabled="true"
+                    android:inputType="date" />
+
+                <Button
+                    android:id="@+id/edit_timeAdvertisement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sampleTime"
+                    android:textColor="@color/black"
+                    style="?android:spinnerStyle"
+                    android:ems="10"
+                    android:enabled="true"
+                    android:inputType="time" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/durationAdvertisementText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:text="@string/duration_advertisement_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/purple_200" />
+
+            <EditText
+                android:id="@+id/editTextNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/sampleDate"
-                android:textColor="@color/black"
-                style="?android:spinnerStyle"
                 android:ems="10"
-                android:enabled="true"
-                android:inputType="date" />
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/sampleDuration"
+                android:inputType="number" />
 
-            <Button
-                android:id="@+id/edit_timeAdvertisement"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/locationAdvertisementText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/sampleTime"
-                android:textColor="@color/black"
-                style="?android:spinnerStyle"
-                android:ems="10"
-                android:enabled="true"
-                android:inputType="time" />
+                android:enabled="false"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:text="@string/location_advertisement_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/purple_200" />
+
+            <EditText
+                android:id="@+id/edit_locationAdvertisement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/location_advertisement"
+                android:inputType="text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="italic" />
 
         </LinearLayout>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/durationAdvertisementText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:text="@string/duration_advertisement_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/purple_200" />
-
-        <EditText
-            android:id="@+id/editTextNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/sampleDuration"
-            android:inputType="number" />
-
-        <TextView
-            android:id="@+id/locationAdvertisementText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:text="@string/location_advertisement_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/purple_200" />
-
-        <EditText
-            android:id="@+id/edit_locationAdvertisement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:text="@string/location_advertisement"
-            android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="italic" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

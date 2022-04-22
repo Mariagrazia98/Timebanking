@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/drawable-anydpi/side_nav_bar.xml" value="0.1" />
+        <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/layout/activity_main_drawer.xml" value="0.1" />
+        <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/layout/fragment_time_slot.xml" value="0.1" />
+        <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/layout/nav_header_main.xml" value="0.25" />
+        <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/menu/navdrawer_menu.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/Antonio/Documents/GitHub/ShowProfileActivity/app/src/main/res/layout-land/activity_edit_profile.xml" value="0.29717813051146386" />
         <entry key="..\:/Users/Antonio/Documents/GitHub/ShowProfileActivity/app/src/main/res/layout-land/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Antonio/Documents/GitHub/ShowProfileActivity/app/src/main/res/layout/activity_edit_profile.xml" value="0.25" />

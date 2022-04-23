@@ -9,8 +9,8 @@
     <fragment
         android:id="@+id/timeSlotDetailsFragment"
         android:name="it.polito.timebanking.TimeSlotDetailsFragment"
-        android:label="fragment_time_slot_details"
-        tools:layout="@layout/fragment_time_slot_details" >
+        android:label="@string/advertisement"
+        tools:layout="@layout/fragment_time_slot_details">
         <action
             android:id="@+id/action_timeSlotDetailsFragment_to_timeSlotEditFragment"
             app:destination="@id/timeSlotEditFragment" />
@@ -18,13 +18,13 @@
     <fragment
         android:id="@+id/timeSlotEditFragment"
         android:name="it.polito.timebanking.TimeSlotEditFragment"
-        android:label="fragment_time_slot_edit"
+        android:label="@string/editAdvertisement"
         tools:layout="@layout/fragment_time_slot_edit" />
     <fragment
         android:id="@+id/timeSlotListFragment"
         android:name="it.polito.timebanking.TimeSlotListFragment"
-        android:label="fragment_time_slot_list_list"
-        tools:layout="@layout/fragment_time_slot_list" >
+        android:label="@string/advertisementList"
+        tools:layout="@layout/fragment_time_slot_list">
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
             app:destination="@id/timeSlotDetailsFragment" />
@@ -35,8 +35,8 @@
     <fragment
         android:id="@+id/showProfileFragment"
         android:name="it.polito.timebanking.ShowProfileFragment"
-        android:label="fragment_show_profile"
-        tools:layout="@layout/fragment_show_profile" >
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_show_profile">
         <action
             android:id="@+id/action_showProfileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
@@ -44,6 +44,6 @@
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="it.polito.timebanking.EditProfileFragment"
-        android:label="fragment_edit_profile"
+        android:label="@string/edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
 </navigation>

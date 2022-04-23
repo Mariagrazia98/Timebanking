@@ -1,21 +1,29 @@
 package it.polito.timebanking
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
+    var slotId: Long = -1
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var slot: Slot
     lateinit var dateButton: Button
@@ -25,9 +33,15 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var locationView:EditText
     lateinit var durationView:EditText
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //findIds
+
+        slotId = arguments?.getLong("id")?:-1
+
+        timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
+
         titleView = view.findViewById(R.id.edit_titleAdvertisement)
         locationView = view.findViewById(R.id.edit_locationAdvertisement)
         descriptionView = view.findViewById(R.id.edit_descriptionAdvertisement)
@@ -39,7 +53,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         //DATE
         val cal = Calendar.getInstance()
         dateButton = view.findViewById(R.id.edit_dateAdvertisement)
-        dateButton.text = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis())
+
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
@@ -67,7 +81,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
             cal.set(Calendar.HOUR_OF_DAY, hour)
             cal.set(Calendar.MINUTE, minute)
-
             val sdf = SimpleDateFormat("HH:mm", Locale.ITALY)
             timeButton.text = sdf.format(cal.time)
         }
@@ -80,6 +93,23 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     cal.get(Calendar.MINUTE), true).show()
             }
         }
+        if(slotId!=-1L){ //edit
+            println(slotId)
+            timeSlotVM.getSlotById(slotId)?.observe(viewLifecycleOwner) {
+                titleView.setText(it.title)
+                descriptionView.setText(it.description)
+                locationView.setText(it.location)
+                durationView.setText(it.duration.toString())
+                dateButton.text = LocalDate.parse(it.date, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()
+                timeButton.text = LocalTime.parse(it.time, DateTimeFormatter.ofPattern("HH:mm")).toString()
+
+            }
+        }
+        else{ //create
+            dateButton.text = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis())
+             view.findViewById<TextView>(R.id.screenEditAdvertisement).setText("Create Advertisement")
+        }
+
 
 
         requireActivity()

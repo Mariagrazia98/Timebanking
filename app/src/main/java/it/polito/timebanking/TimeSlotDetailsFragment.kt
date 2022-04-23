@@ -49,7 +49,6 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController()) || super.onOptionsItemSelected(item)
     }

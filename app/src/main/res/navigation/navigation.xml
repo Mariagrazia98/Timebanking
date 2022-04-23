@@ -32,4 +32,18 @@
             android:id="@+id/action_timeSlotListFragment_to_timeSlotEditFragment2"
             app:destination="@id/timeSlotEditFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/showProfileFragment"
+        android:name="it.polito.timebanking.ShowProfileFragment"
+        android:label="fragment_show_profile"
+        tools:layout="@layout/fragment_show_profile" >
+        <action
+            android:id="@+id/action_showProfileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="it.polito.timebanking.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
 </navigation>

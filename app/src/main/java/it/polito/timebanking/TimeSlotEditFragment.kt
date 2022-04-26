@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
@@ -118,13 +119,23 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 override fun handleOnBackPressed() {
                     // Do custom work here
                     slot= Slot()
+                    slot.id=slotId
                     slot.date = dateButton.text.toString()
                     slot.time = timeButton.text.toString()
                     slot.title = titleView.text.toString()
                     slot.description = descriptionView.text.toString()
                     slot.duration = durationView.text.toString().toInt()
                     slot.location = locationView.text.toString()
-                    timeSlotVM.addSlot(slot)
+                    if(slotId!=-1L) { //edit
+                        timeSlotVM.updateSlot(slot)
+                        Snackbar.make(requireView(), "Time slot updated", Snackbar.LENGTH_SHORT).show()
+                    }
+                    else{ //create
+                        timeSlotVM.addSlot(slot)
+                        Snackbar.make(requireView(), "Time slot created", Snackbar.LENGTH_SHORT).show()
+                    }
+
+
                     // if you want onBackPressed() to be called as normal afterwards
                     if (isEnabled) {
                         isEnabled = false

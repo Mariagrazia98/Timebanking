@@ -1,6 +1,7 @@
 package it.polito.timebanking.repository
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 
 class TimeSlotRepository(application: Application) {
@@ -12,6 +13,9 @@ class TimeSlotRepository(application: Application) {
         val s = Slot().also{ it.title=title; it.description=description; it.date=date; it.time=time; it.duration=duration; it.location=location}
         val id_returned:Long? = slotDao?.addSlot(s)
         return id_returned
+    }
+    fun updateSlot(slot:Slot){
+        slotDao?.updateSlot(slot)
     }
 
     fun clearAllSlots(){

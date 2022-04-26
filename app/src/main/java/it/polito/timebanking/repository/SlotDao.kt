@@ -3,6 +3,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface SlotDao {
@@ -11,6 +12,9 @@ interface SlotDao {
 
     @Query("SELECT * from slots WHERE id= :id")
     fun searchSlotByID(id: Long?): LiveData<Slot>
+
+    @Update
+    fun updateSlot(slot: Slot)
 
     @Insert
     fun addSlot(slot: Slot): Long

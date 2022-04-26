@@ -23,15 +23,16 @@ import org.json.JSONObject
 import java.io.File
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
-    lateinit var fullname: String
-    lateinit var nickname: String
+    var fullname: String="Mario Rossi"
+    var nickname: String="Mario 98"
     var age = 24
-    lateinit var email: String
-    lateinit var location: String
-    lateinit var skills: String
-    lateinit var description: String
+    var email: String = "mario.rossi@gmail.com"
+    var location: String = "Torino"
+    var skills: String = "Android developer"
+    var description: String = "Student"
     private var bitmap: Bitmap? = null
     lateinit var sharedPref : SharedPreferences
+
 
     lateinit var fullnameView: TextView
     lateinit var ageView: TextView
@@ -86,18 +87,31 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         descriptionView = view.findViewById(R.id.description)
         imageView = view.findViewById(R.id.imageView)
 
-        val id: Int = 0 //to be changed
-        profileVM.getUserById(id)?.observe(viewLifecycleOwner) {
+
+
+        val id: Long = 1 //to be changed
+        profileVM.getUserById(id)!!.observe(viewLifecycleOwner) {
             if(it != null) {
-                println("Modificaaa")
-                fullnameView.text = it.fullname
-                nicknameView.text = it.nickname
-                emailView.text = it.email
-                locationView.text = it.location
+                fullname = it.fullname
+                nickname = it.nickname
+                email= it.email
+                location= it.location
+                age=17
+                skills="Android developer"
+                description="Student"
             }
         }
 
-        getInfoSP()
+
+        fullnameView.text = fullname
+        ageView.text = age.toString()
+        nicknameView.text = nickname
+        emailView.text = email
+        locationView.text = location
+        skillsView.text = skills
+        descriptionView.text=description
+
+        //getInfoSP()
         getProfileImageLFS()
 
         if(bitmap!=null)

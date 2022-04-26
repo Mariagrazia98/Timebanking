@@ -32,14 +32,14 @@ import java.io.IOException
 import java.io.OutputStream
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
-    lateinit var fullname: String
-    lateinit var nickname: String
+    var fullname: String="Mario Rossi"
+    var nickname: String="Mario 98"
     var age = 24
-    lateinit var email: String
-    lateinit var location: String
-    lateinit var skills: String
+    var email: String = "mario.rossi@gmail.com"
+    var location: String = "Torino"
+    var skills: String = "Android developer"
+    var description: String = "Student"
     val skillsList: MutableList<String> = mutableListOf()
-    lateinit var description: String
     private var bitmap: Bitmap? = null
 
     lateinit var fullnameView: EditText
@@ -56,12 +56,12 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     lateinit var profileVM: ProfileViewModel
     lateinit var user: User
-    var profileId:Int = 0
+    var profileId:Long = 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        profileId = arguments?.getInt("id")!!
+        profileId = arguments?.getLong("id")!!
         profileVM =  ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -83,47 +83,26 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             })
         }
 
+
         profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {
             if(it != null) {
-                println("a caso")
                 fullnameView.setText(it.fullname)
                 nicknameView.setText(it.nickname)
                 emailView.setText(it.email)
                 locationView.setText(it.location)
+                age = 24
+                skills = "Android Developer, Electrician"
+
+                skills.split(",").map { skillsList.add(it) }
+                skillsList.remove("")
+
+                description = "Prova"
             }
         }
-
-        //get extras
-        /*
-        fullname = "Mario Rossi"
-
-        nickname = "mario98"
-        email = "mario.rossi@gmail.com"
-        location = "Torino"
-        */
-        age = 24
-        skills = "Android Developer, Electrician"
-
-        skills.split(",").map { skillsList.add(it) }
-        skillsList.remove("")
-
-        description = "Prova"
+        setVariables(view);
         getProfileImageLFS()
 
-        fullnameView = view.findViewById(R.id.Edit_FullName)
-        fullnameView.setText(fullname)
-        ageView = view.findViewById(R.id.edit_age)
-        ageView.setText(age.toString())
-        nicknameView = view.findViewById(R.id.Edit_Nickname)
-        nicknameView.setText(nickname)
-        emailView = view.findViewById(R.id.Edit_Email)
-        emailView.setText(email)
-        locationView = view.findViewById(R.id.Edit_Location)
-        locationView.setText(location)
-        skillsView = view.findViewById(R.id.edit_skills)
-        skillsView.text = skills
-        descriptionView = view.findViewById(R.id.edit_description)
-        descriptionView.setText(description)
+
 
         val iv = view.findViewById<ImageView>(R.id.Edit_imageView)
         if (bitmap != null)
@@ -193,6 +172,22 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
 
+    fun setVariables(view: View){
+        fullnameView = view.findViewById(R.id.Edit_FullName)
+        fullnameView.setText(fullname)
+        ageView = view.findViewById(R.id.edit_age)
+        ageView.setText(age.toString())
+        nicknameView = view.findViewById(R.id.Edit_Nickname)
+        nicknameView.setText(nickname)
+        emailView = view.findViewById(R.id.Edit_Email)
+        emailView.setText(email)
+        locationView = view.findViewById(R.id.Edit_Location)
+        locationView.setText(location)
+        skillsView = view.findViewById(R.id.edit_skills)
+        skillsView.text = skills
+        descriptionView = view.findViewById(R.id.edit_description)
+        descriptionView.setText(description)
+    }
     fun saveProfileImageLFS() {
         //Save profile image into internal storage
         val wrapper = ContextWrapper(requireActivity().applicationContext)

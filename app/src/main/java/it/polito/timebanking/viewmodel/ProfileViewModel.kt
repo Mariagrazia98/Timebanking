@@ -1,6 +1,7 @@
 package it.polito.timebanking.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -16,10 +17,8 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
     fun addUser(user: User):Long? {
         var id:Long? = 0
         thread {
-            id = repo.addUser(user.fullname,user.nickname,user.email,user.location)
+            id = repo.addUser(user)
         }
-        println("Created")
-        println(id)
         return id
     }
 
@@ -29,7 +28,7 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
         }
     }
 
-    fun getUserById(id:Int) = repo.getUserById(id)
+    fun getUserById(id:Long) = repo.getUserById(id)
 
     fun removeUser(id:String){
         thread {

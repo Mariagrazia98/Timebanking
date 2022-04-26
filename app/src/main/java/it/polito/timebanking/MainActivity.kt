@@ -2,6 +2,7 @@ package it.polito.timebanking
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -35,20 +36,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //drawer settings
         drawerLayout = findViewById(R.id.drawerLayout)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
         binding = ActivityMainBinding.inflate(layoutInflater)
         setupWithNavController(binding.navigationView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
 
+        Log.d("DEBUG","onc")
         user = User()
-        user.fullname = "Gio"
-        user.nickname = "Mario98"
-        user.email = "mario.rossi@gmail.com"
+        user.fullname = "Luca Neri"
+        user.nickname = "Luca98"
+        user.email = "luca.neri@gmail.com"
         user.location = "Torino"
+   
 
-        val id = profileViewModel.addUser(user)
-        println(id)
+       profileViewModel.addUser(user)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -91,7 +91,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 nickname = it.nickname
                 email= it.email
                 location= it.location
-                age=17
+                age=it.age
                 skills=it.skills
                 description=it.description
 
@@ -162,7 +162,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.location = locationView.text.toString()
                     user.skills = emailView.text.toString()
                     user.description = descriptionView.text.toString()
-
+                    user.age= Integer.parseInt(ageView.text.toString())
                     profileVM.updateUser(user)
                     //println(id)
                     // if you want onBackPressed() to be called as normal afterwards

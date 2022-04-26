@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         user.location = "Torino"
         user.description="Student"
         user.skills="Android developer"
-
+        user.age=18
 
        profileViewModel.addUser(user)
 

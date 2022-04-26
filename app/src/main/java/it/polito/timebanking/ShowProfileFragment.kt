@@ -88,7 +88,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 nickname = it.nickname
                 email= it.email
                 location= it.location
-                age=17
+                age=it.age
                 skills=it.skills
                 description=it.description
             }

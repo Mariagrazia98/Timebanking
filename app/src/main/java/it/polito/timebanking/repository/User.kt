@@ -15,6 +15,7 @@ class User {
     var location:String = ""
     var description:String=""
     var skills:String=" "
+    var age:Int=18;
     //Lab3
     //var slots:List<Int>???
 }

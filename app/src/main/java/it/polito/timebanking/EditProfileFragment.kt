@@ -83,23 +83,31 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             })
         }
 
-
+        setVariables(view);
         profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {
             if(it != null) {
-                fullnameView.setText(it.fullname)
-                nicknameView.setText(it.nickname)
-                emailView.setText(it.email)
-                locationView.setText(it.location)
-                age = 24
-                skills = "Android Developer, Electrician"
+                println("here")
+                fullname = it.fullname
+                nickname = it.nickname
+                email= it.email
+                location= it.location
+                age=17
+                skills=it.skills
+                description=it.description
 
                 skills.split(",").map { skillsList.add(it) }
                 skillsList.remove("")
-
-                description = "Prova"
             }
+            fullnameView.setText(fullname)
+            ageView.setText(age.toString())
+            nicknameView.setText(nickname)
+            emailView.setText(email)
+            locationView.setText(location)
+            skillsView.text = skills
+            descriptionView.setText(description)
         }
-        setVariables(view);
+
+
         getProfileImageLFS()
 
 
@@ -152,6 +160,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.nickname = nicknameView.text.toString()
                     user.email = emailView.text.toString()
                     user.location = locationView.text.toString()
+                    user.skills = emailView.text.toString()
+                    user.description = descriptionView.text.toString()
 
                     profileVM.updateUser(user)
                     //println(id)
@@ -174,19 +184,12 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     fun setVariables(view: View){
         fullnameView = view.findViewById(R.id.Edit_FullName)
-        fullnameView.setText(fullname)
         ageView = view.findViewById(R.id.edit_age)
-        ageView.setText(age.toString())
         nicknameView = view.findViewById(R.id.Edit_Nickname)
-        nicknameView.setText(nickname)
         emailView = view.findViewById(R.id.Edit_Email)
-        emailView.setText(email)
         locationView = view.findViewById(R.id.Edit_Location)
-        locationView.setText(location)
         skillsView = view.findViewById(R.id.edit_skills)
-        skillsView.text = skills
         descriptionView = view.findViewById(R.id.edit_description)
-        descriptionView.setText(description)
     }
     fun saveProfileImageLFS() {
         //Save profile image into internal storage

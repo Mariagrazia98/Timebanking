@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -78,38 +79,29 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             })
         }
 
-        fullnameView = view.findViewById(R.id.fullName)
-        ageView = view.findViewById(R.id.age)
-        nicknameView = view.findViewById(R.id.nickname)
-        emailView = view.findViewById(R.id.email)
-        locationView = view.findViewById(R.id.location)
-        skillsView = view.findViewById(R.id.skills)
-        descriptionView = view.findViewById(R.id.description)
-        imageView = view.findViewById(R.id.imageView)
-
-
-
+        setVariables(view)
         val id: Long = 1 //to be changed
         profileVM.getUserById(id)!!.observe(viewLifecycleOwner) {
             if(it != null) {
+                Log.d("DEBUG", "IT")
                 fullname = it.fullname
                 nickname = it.nickname
                 email= it.email
                 location= it.location
                 age=17
-                skills="Android developer"
-                description="Student"
+                skills=it.skills
+                description=it.description
             }
+            fullnameView.text = fullname
+            ageView.text = age.toString()
+            nicknameView.text = nickname
+            emailView.text = email
+            locationView.text = location
+            skillsView.text = skills
+            descriptionView.text=description
         }
 
 
-        fullnameView.text = fullname
-        ageView.text = age.toString()
-        nicknameView.text = nickname
-        emailView.text = email
-        locationView.text = location
-        skillsView.text = skills
-        descriptionView.text=description
 
         //getInfoSP()
         getProfileImageLFS()
@@ -124,11 +116,17 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
     }
 
+    private fun setVariables(view:View) {
+        fullnameView = view.findViewById(R.id.fullName)
+        ageView = view.findViewById(R.id.age)
+        nicknameView = view.findViewById(R.id.nickname)
+        emailView = view.findViewById(R.id.email)
+        locationView = view.findViewById(R.id.location)
+        skillsView = view.findViewById(R.id.skills)
+        descriptionView = view.findViewById(R.id.description)
+        imageView = view.findViewById(R.id.imageView)
 
-
-
-
-
+    }
 
 
     fun convertDpToPixel(dp: Int): Float {
@@ -146,7 +144,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
     }
 
-    fun storeInfoSP(){
+    /*fun storeInfoSP(){
         //Save data to SharedPreferences in a JSON object
         val jsonProfile = JSONObject()
         jsonProfile.put("fullname", fullname)
@@ -160,9 +158,9 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         val editor = sharedPref.edit()
         editor.putString("profile", jsonProfile.toString()) //sharedPref saves (key,value) pair and this method wants a string as value
         editor.apply()
-    }
+    }*/
 
-    fun getInfoSP(){
+    /*fun getInfoSP(){
         //Get data from SharedPreferences
         sharedPref = requireActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
 
@@ -194,7 +192,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         locationView.text = location
         skillsView.text = skills
         descriptionView.text=description
-    }
+    }*/
 
     fun getProfileImageLFS(){
         //Get profile image from internal storage (local filesystem)

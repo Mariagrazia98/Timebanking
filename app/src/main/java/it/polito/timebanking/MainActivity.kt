@@ -49,7 +49,9 @@ class MainActivity : AppCompatActivity() {
         user.nickname = "Luca98"
         user.email = "luca.neri@gmail.com"
         user.location = "Torino"
-   
+        user.description="Student"
+        user.skills="Android developer"
+
 
        profileViewModel.addUser(user)
 

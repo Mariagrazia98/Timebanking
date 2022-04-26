@@ -13,7 +13,8 @@ class User {
     var nickname:String = ""
     var email:String = ""
     var location:String = ""
-
+    var description:String=""
+    var skills:String=" "
     //Lab3
     //var slots:List<Int>???
 }

@@ -11,12 +11,18 @@ import android.util.DisplayMetrics
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import it.polito.timebanking.repository.User
+import it.polito.timebanking.viewmodel.ProfileViewModel
 import org.json.JSONObject
 import java.io.File
 
-class ShowProfileFragment : Fragment() {
+class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var fullname: String
     lateinit var nickname: String
     var age = 24
@@ -39,14 +45,8 @@ class ShowProfileFragment : Fragment() {
     var h: Int = 0
     var w: Int = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_show_profile, container, false)
-    }
+    lateinit var profileVM: ProfileViewModel
+    lateinit var user: User
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -59,6 +59,9 @@ class ShowProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        profileVM =  ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
+
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             val sv = view.findViewById<ScrollView>(R.id.scrollView)
             frameLayout = view.findViewById(R.id.frameLayout)
@@ -83,11 +86,28 @@ class ShowProfileFragment : Fragment() {
         descriptionView = view.findViewById(R.id.description)
         imageView = view.findViewById(R.id.imageView)
 
+        val id: Int = 0 //to be changed
+        profileVM.getUserById(id)?.observe(viewLifecycleOwner) {
+            if(it != null) {
+                println("Modificaaa")
+                fullnameView.text = it.fullname
+                nicknameView.text = it.nickname
+                emailView.text = it.email
+                locationView.text = it.location
+            }
+        }
+
         getInfoSP()
         getProfileImageLFS()
 
         if(bitmap!=null)
             imageView.setImageBitmap(bitmap)
+
+        //temporaneo
+        var bundle = bundleOf("id" to id)
+        imageView.setOnClickListener{
+            NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_showProfileFragment_to_editProfileFragment, bundle)
+        }
     }
 
 

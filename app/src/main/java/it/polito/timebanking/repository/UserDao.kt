@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface UserDao {
@@ -11,11 +12,14 @@ interface UserDao {
     fun findAll(): LiveData<List<User>>
 
     @Query("SELECT * from users WHERE id= :id")
-    fun searchUserByID(id:String): LiveData<User>
+    fun searchUserByID(id:Int): LiveData<User>
 
     //If you insert one entity at a time, you can get its ID back as a Long
     @Insert
     fun addUser(user: User): Long
+
+    @Update
+    fun updateUser(user: User)
 
     @Query("DELETE FROM users WHERE id = :id")
     fun removeUserById(id:String)

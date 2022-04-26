@@ -13,15 +13,23 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
     val users: LiveData<List<User>>? = repo.getAllUsers()
 
     //users
-    fun addUser(fullname:String,nickname:String,email:String,location:String):Long? {
+    fun addUser(user: User):Long? {
         var id:Long? = 0
         thread {
-            id = repo.addUser(fullname,nickname,email,location)
+            id = repo.addUser(user.fullname,user.nickname,user.email,user.location)
         }
+        println("Created")
+        println(id)
         return id
     }
 
-    fun getUserById(id:String) = repo.getUserById(id)
+    fun updateUser(user: User){
+        thread {
+            repo.updateUser(user)
+        }
+    }
+
+    fun getUserById(id:Int) = repo.getUserById(id)
 
     fun removeUser(id:String){
         thread {

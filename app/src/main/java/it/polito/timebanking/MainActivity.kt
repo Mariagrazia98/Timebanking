@@ -16,15 +16,19 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import it.polito.timebanking.databinding.ActivityMainBinding
+import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel:ProfileViewModel by viewModels()
     private val slotViewModel:TimeSlotViewModel by viewModels()
+
     lateinit private var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     private lateinit var binding: ActivityMainBinding
+
+    lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +39,16 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         binding = ActivityMainBinding.inflate(layoutInflater)
         setupWithNavController(binding.navigationView, navController)
-        NavigationUI.setupActionBarWithNavController(
-            this, navController, binding.drawerLayout)
+        NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
+
+        user = User()
+        user.fullname = "Gio"
+        user.nickname = "Mario98"
+        user.email = "mario.rossi@gmail.com"
+        user.location = "Torino"
+
+        val id = profileViewModel.addUser(user)
+        println(id)
     }
 
     override fun onSupportNavigateUp(): Boolean {

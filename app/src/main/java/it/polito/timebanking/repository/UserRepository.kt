@@ -13,6 +13,10 @@ class UserRepository(application: Application) {
         return id_returned
     }
 
+    fun updateUser(user: User) {
+        userDao?.updateUser(user)
+    }
+
     fun clearAllUsers(){
         userDao?.removeAll()
     }
@@ -23,5 +27,5 @@ class UserRepository(application: Application) {
 
     fun getAllUsers(): LiveData<List<User>>? = userDao?.findAll()
 
-    fun getUserById(id:String): LiveData<User>? = userDao?.searchUserByID(id)
+    fun getUserById(id:Int): LiveData<User>? = userDao?.searchUserByID(id)
 }

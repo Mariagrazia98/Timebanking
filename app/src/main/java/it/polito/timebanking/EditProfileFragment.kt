@@ -19,14 +19,19 @@ import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import it.polito.timebanking.repository.Slot
+import it.polito.timebanking.repository.User
+import it.polito.timebanking.viewmodel.ProfileViewModel
+import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 
-class EditProfileFragment : Fragment() {
+class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var fullname: String
     lateinit var nickname: String
     var age = 24
@@ -49,17 +54,15 @@ class EditProfileFragment : Fragment() {
     var h: Int = 0
     var w: Int = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_profile, container, false)
-    }
+    lateinit var profileVM: ProfileViewModel
+    lateinit var user: User
+    var profileId:Int = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        profileId = arguments?.getInt("id")!!
+        profileVM =  ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             val sv = view.findViewById<ScrollView>(R.id.scrollView)
@@ -80,13 +83,25 @@ class EditProfileFragment : Fragment() {
             })
         }
 
-        //get extras
+        profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {
+            if(it != null) {
+                println("a caso")
+                fullnameView.setText(it.fullname)
+                nicknameView.setText(it.nickname)
+                emailView.setText(it.email)
+                locationView.setText(it.location)
+            }
+        }
 
+        //get extras
+        /*
         fullname = "Mario Rossi"
-        age = 24
+
         nickname = "mario98"
         email = "mario.rossi@gmail.com"
         location = "Torino"
+        */
+        age = 24
         skills = "Android Developer, Electrician"
 
         skills.split(",").map { skillsList.add(it) }
@@ -145,6 +160,30 @@ class EditProfileFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         })
+
+
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // Do custom work here
+                    user = User()
+                    user.id = profileId
+                    user.fullname = fullnameView.text.toString()
+                    user.nickname = nicknameView.text.toString()
+                    user.email = emailView.text.toString()
+                    user.location = locationView.text.toString()
+
+                    profileVM.updateUser(user)
+                    //println(id)
+                    // if you want onBackPressed() to be called as normal afterwards
+                    if (isEnabled) {
+                        isEnabled = false
+                        requireActivity().onBackPressed()
+                    }
+                }
+            }
+            )
 
     }
 

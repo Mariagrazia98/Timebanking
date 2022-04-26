@@ -83,7 +83,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         val id: Long = 1 //to be changed
         profileVM.getUserById(id)!!.observe(viewLifecycleOwner) {
             if(it != null) {
-                Log.d("DEBUG", "IT")
+
                 fullname = it.fullname
                 nickname = it.nickname
                 email= it.email

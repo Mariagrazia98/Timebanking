@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         setupWithNavController(binding.navigationView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
 
-        Log.d("DEBUG","onc")
+
         user = User()
         user.fullname = "Luca Neri"
         user.nickname = "Luca98"

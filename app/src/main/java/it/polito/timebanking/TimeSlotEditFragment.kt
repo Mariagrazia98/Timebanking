@@ -95,7 +95,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         }
         if(slotId!=-1L){ //edit
-            println(slotId)
+
             timeSlotVM.getSlotById(slotId)?.observe(viewLifecycleOwner) {
                 titleView.setText(it.title)
                 descriptionView.setText(it.description)

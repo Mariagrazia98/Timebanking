@@ -86,7 +86,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         setVariables(view);
         profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {
             if(it != null) {
-                println("here")
+
                 fullname = it.fullname
                 nickname = it.nickname
                 email= it.email
@@ -164,7 +164,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.description = descriptionView.text.toString()
                     user.age= Integer.parseInt(ageView.text.toString())
                     profileVM.updateUser(user)
-                    //println(id)
+                    
                     // if you want onBackPressed() to be called as normal afterwards
                     if (isEnabled) {
                         isEnabled = false

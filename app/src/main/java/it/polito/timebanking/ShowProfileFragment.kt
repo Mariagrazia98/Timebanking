@@ -102,14 +102,15 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             nicknameView.text = nickname
             emailView.text = email
             locationView.text = location
-            //skillsView.text = skills
-            skills.split(",").map {
-                addChip(it.trim())
-            }
             descriptionView.text=description
+            //skillsView.text = skills
+            Log.d("skills", skills)
+            if(skills != ""){
+                skills.split(",").map {
+                    addChip(it.trim())
+                }
+            }
         }
-
-
 
         //getInfoSP()
         getProfileImageLFS()

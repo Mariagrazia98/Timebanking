@@ -15,6 +15,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -44,7 +45,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     var location: String = "Torino"
     //var skills: String = "Android developer"
     var description: String = "Student"
-    val skillsList: MutableList<String> = mutableListOf()
+    var skillsList: ArrayList<String> = arrayListOf()
     private var bitmap: Bitmap? = null
 
     lateinit var fullnameView: EditText
@@ -101,10 +102,18 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 location= it.location
                 age=it.age
                 description=it.description
-                it.skills.split(",").map {
-                    skillsList.add(it.trim())
-                    addChip(it.trim())
+                if(it.skills != "" && savedInstanceState==null){
+                    it.skills.split(",").map {
+                        skillsList.add(it.trim())
+                        addChip(it.trim())
                     }
+                }else{
+                    if (savedInstanceState != null) {
+                        skillsList = savedInstanceState.getStringArrayList("skillsList") as ArrayList<String>
+                        skillsList.map{ addChip(it.trim())}
+                    }
+                }
+
                 //TODO vedere
                 //skillsList.remove("")
             }
@@ -172,6 +181,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.email = emailView.text.toString()
                     user.location = locationView.text.toString()
                     user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
+                    Log.d("editskill", skillsList.toString().removePrefix("[").removeSuffix("]"))
                     user.description = descriptionView.text.toString()
                     user.age= Integer.parseInt(ageView.text.toString())
                     profileVM.updateUser(user)
@@ -310,6 +320,12 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         file = File(file, "profileImage.jpg")
         bitmap = BitmapFactory.decodeFile(file.absolutePath)
+    }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putStringArrayList("skillsList", skillsList)
     }
 
 }

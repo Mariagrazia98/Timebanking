@@ -22,14 +22,9 @@ class TimeSlotListFragment : Fragment() {
         setHasOptionsMenu(true);
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        //delete edit_button
-        menu.findItem(R.id.edit_button).isVisible = false;
-        super.onPrepareOptionsMenu(menu)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        //inflater.inflate(R.menu.options_menu, menu)
+        menu.findItem(R.id.edit_button).isVisible = false;
+        inflater.inflate(R.menu.options_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

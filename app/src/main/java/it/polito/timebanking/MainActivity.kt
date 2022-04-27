@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.google.android.material.navigation.NavigationView
 import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private val userId:Long=1 //assuming that there is at least one user.
     lateinit private var navController: NavController
     lateinit var drawerLayout: DrawerLayout
+    lateinit var navView: NavigationView
     private lateinit var binding: ActivityMainBinding
 
     lateinit var user: User
@@ -35,13 +38,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //drawer settings
-        drawerLayout = findViewById(R.id.drawerLayout)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
         binding = ActivityMainBinding.inflate(layoutInflater)
         setupWithNavController(binding.navigationView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
+
+        drawerLayout = findViewById(R.id.drawerLayout)
+        navView = findViewById(R.id.navigationView)
 
         profileViewModel.getUserById(userId)?.observe(this) {
             if(it == null) { //there is no user (first launch of the application)
@@ -56,6 +61,21 @@ class MainActivity : AppCompatActivity() {
                 user.age=18
                 profileViewModel.addUser(user)
             }
+        }
+
+        navView.setNavigationItemSelectedListener(){
+            item ->
+            if (item.itemId == R.id.profileMenuItem){
+                // your code
+                navController.navigate(R.id.showProfileFragment)
+            }
+            else if (item.itemId ==R.id.advMenuItem){
+                // your code
+                navController.navigate(R.id.timeSlotListFragment)
+            }
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true;
+
         }
     }
 

@@ -49,6 +49,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var descriptionView: EditText
     lateinit var frameLayout: FrameLayout
     lateinit var skillsGroup: ChipGroup
+    lateinit var skillsAddButton:Button
+    lateinit var addSkillView:EditText
+
 
     var h: Int = 0
     var w: Int = 0
@@ -87,7 +90,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         setVariables(view);
         profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {
             if(it != null) {
-
                 fullname = it.fullname
                 nickname = it.nickname
                 email= it.email
@@ -114,9 +116,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             descriptionView.setText(description)
         }
 
-
         getProfileImageLFS()
-
         val iv = view.findViewById<ImageView>(R.id.Edit_imageView)
         if (bitmap != null)
             iv.setImageBitmap(bitmap)
@@ -127,10 +127,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             registerForContextMenu(imgButton)
             requireActivity().openContextMenu(imgButton)
         }
-
-        val skillsAddButton = view.findViewById<Button>(R.id.skillsAddButton)
-        val addSkillView = view.findViewById<EditText>(R.id.add_skills)
-        skillsGroup = view.findViewById(R.id.skills)
 
        skillsAddButton.setOnClickListener {
             if(!addSkillView.text.toString().isEmpty() && !skillsList.contains(addSkillView.text.toString())){
@@ -144,7 +140,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 skillsAddButton.isEnabled = s.toString().trim().isNotEmpty()
             }
-
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         })
@@ -171,9 +166,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         requireActivity().onBackPressed()
                     }
                 }
-            }
-            )
-
+            })
     }
 
     private fun addChip(text: String){
@@ -197,6 +190,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         emailView = view.findViewById(R.id.Edit_Email)
         locationView = view.findViewById(R.id.Edit_Location)
         descriptionView = view.findViewById(R.id.edit_description)
+        skillsAddButton = view.findViewById(R.id.skillsAddButton)
+        addSkillView = view.findViewById(R.id.add_skills)
+        skillsGroup = view.findViewById(R.id.skills)
     }
 
 
@@ -266,8 +262,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
     }
 
-
-
     fun convertDpToPixel(dp: Int): Float {
         return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
@@ -300,10 +294,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         bitmap = BitmapFactory.decodeFile(file.absolutePath)
     }
 
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putStringArrayList("skillsList", skillsList)
     }
-
 }

@@ -174,17 +174,6 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/purple_200" />
 
-                <TextView
-                    android:id="@+id/edit_skills"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:importantForAutofill="no"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/skills"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic" />
-
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chip_group"
                     android:layout_width="match_parent"
@@ -206,14 +195,6 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:text="@string/button_add_skills" />
-
-                <Button
-                    android:id="@+id/skillsDeleteButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="true"
-                    android:backgroundTint="#df4759"
-                    android:text="@string/button_delete_skills" />
 
                 <TextView
                     android:id="@+id/descriptionText"

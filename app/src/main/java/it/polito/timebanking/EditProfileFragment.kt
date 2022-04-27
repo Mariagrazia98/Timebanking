@@ -57,12 +57,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var profileVM: ProfileViewModel
     lateinit var user: User
     var profileId:Long = 1
+    lateinit var fv: View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         profileId = arguments?.getLong("id")!!
         profileVM =  ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
+        fv = view
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             val sv = view.findViewById<ScrollView>(R.id.scrollView)
@@ -110,8 +112,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
         getProfileImageLFS()
 
-
-
         val iv = view.findViewById<ImageView>(R.id.Edit_imageView)
         if (bitmap != null)
             iv.setImageBitmap(bitmap)
@@ -148,7 +148,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         })
 
-
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -176,12 +175,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     }
 
-
-    fun convertDpToPixel(dp: Int): Float {
-        return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
-    }
-
-
     fun setVariables(view: View){
         fullnameView = view.findViewById(R.id.Edit_FullName)
         ageView = view.findViewById(R.id.edit_age)
@@ -191,6 +184,80 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         skillsView = view.findViewById(R.id.edit_skills)
         descriptionView = view.findViewById(R.id.edit_description)
     }
+
+
+    //CAMERA
+
+    fun handleCameraImage(intent: Intent?) {
+        bitmap = intent?.extras?.get("data") as Bitmap
+        val iv = fv.findViewById<ImageView>(R.id.Edit_imageView)
+        iv.setImageBitmap(bitmap)
+        saveProfileImageLFS()
+    }
+
+    fun handleGalleryImage(uri: Uri?){
+        val iv = fv.findViewById<ImageView>(R.id.Edit_imageView)
+        iv.setImageURI(uri)
+        bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
+        saveProfileImageLFS()
+    }
+
+    //result of opening camera
+    val resultLauncherCameraImage =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                handleCameraImage(result.data)
+            }
+        }
+
+    //result of opening gallery
+    val resultLauncherGalleryImage =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                handleGalleryImage(uri)
+            }
+        }
+
+    fun openCamera(){
+        //intent to open camera app
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        resultLauncherCameraImage.launch(cameraIntent)
+    }
+
+    fun openGallery(){
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        resultLauncherGalleryImage.launch("image/*")
+    }
+
+    //create the floating menu after pressing on the camera img
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater: MenuInflater = requireActivity().menuInflater
+        inflater.inflate(R.menu.image_menu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.camera -> {
+                openCamera()
+                true
+            }
+            R.id.gallery -> {
+                openGallery()
+                true
+            }
+            else -> super.onContextItemSelected(item)
+        }
+    }
+
+
+
+    fun convertDpToPixel(dp: Int): Float {
+        return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
+
     fun saveProfileImageLFS() {
         //Save profile image into internal storage
         val wrapper = ContextWrapper(requireActivity().applicationContext)

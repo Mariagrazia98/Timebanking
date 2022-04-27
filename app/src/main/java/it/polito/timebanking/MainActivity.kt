@@ -24,7 +24,7 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
 class MainActivity : AppCompatActivity() {
     private val profileViewModel:ProfileViewModel by viewModels()
     private val slotViewModel:TimeSlotViewModel by viewModels()
-
+    private val userId:Long=1 //assuming that there is at least one user.
     lateinit private var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     private lateinit var binding: ActivityMainBinding
@@ -43,18 +43,20 @@ class MainActivity : AppCompatActivity() {
         setupWithNavController(binding.navigationView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
 
-
-        user = User()
-        user.fullname = "Luca Neri"
-        user.nickname = "Luca98"
-        user.email = "luca.neri@gmail.com"
-        user.location = "Torino"
-        user.description="Student"
-        user.skills="Android developer"
-        user.age=18
-
-       profileViewModel.addUser(user)
-
+        profileViewModel.getUserById(userId)?.observe(this) {
+            if(it == null) { //there is no user (first launch of the application)
+                println("there is no user?")
+                user = User()
+                user.fullname = "Luca Neri"
+                user.nickname = "Luca98"
+                user.email = "luca.neri@gmail.com"
+                user.location = "Torino"
+                user.description="Student"
+                user.skills="Android developer"
+                user.age=18
+                profileViewModel.addUser(user)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

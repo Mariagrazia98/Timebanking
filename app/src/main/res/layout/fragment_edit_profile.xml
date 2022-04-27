@@ -87,8 +87,8 @@
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="0dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/age"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />
@@ -219,7 +219,8 @@
                     android:inputType="textMultiLine"
                     android:lines="5"
                     android:maxLines="10"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     android:text="@string/description"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />

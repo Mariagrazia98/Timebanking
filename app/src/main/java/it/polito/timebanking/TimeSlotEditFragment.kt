@@ -6,6 +6,7 @@ import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
@@ -34,7 +35,16 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var locationView:EditText
     lateinit var durationView:EditText
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true);
+    }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        //delete edit_button
+        menu.findItem(R.id.edit_button).isVisible = false;
+        super.onPrepareOptionsMenu(menu)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

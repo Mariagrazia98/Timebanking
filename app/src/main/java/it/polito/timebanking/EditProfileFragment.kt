@@ -20,7 +20,9 @@ import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -60,6 +62,18 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var user: User
     var profileId:Long = 1
     lateinit var fv: View
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true);
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        //delete edit_button
+        menu.findItem(R.id.edit_button).isVisible = false;
+        super.onPrepareOptionsMenu(menu)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

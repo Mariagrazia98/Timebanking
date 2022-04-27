@@ -3,6 +3,7 @@ package it.polito.timebanking
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -61,6 +62,10 @@ class MainActivity : AppCompatActivity() {
                 user.age=18
                 profileViewModel.addUser(user)
             }
+            else user = it
+            //set header info
+            findViewById<TextView>(R.id.titleHeader).text = user.nickname
+            findViewById<TextView>(R.id.subtitleHeader).text = user.email
         }
 
         navView.setNavigationItemSelectedListener(){

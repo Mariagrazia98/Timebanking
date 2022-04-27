@@ -8,14 +8,12 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -24,14 +22,10 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
-import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -43,7 +37,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     var age = 24
     var email: String = "mario.rossi@gmail.com"
     var location: String = "Torino"
-    //var skills: String = "Android developer"
     var description: String = "Student"
     var skillsList: ArrayList<String> = arrayListOf()
     private var bitmap: Bitmap? = null
@@ -53,7 +46,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var nicknameView: EditText
     lateinit var emailView: EditText
     lateinit var locationView: EditText
-    //lateinit var skillsView: TextView
     lateinit var descriptionView: EditText
     lateinit var frameLayout: FrameLayout
     lateinit var skillsGroup: ChipGroup
@@ -113,16 +105,12 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         skillsList.map{ addChip(it.trim())}
                     }
                 }
-
-                //TODO vedere
-                //skillsList.remove("")
             }
             fullnameView.setText(fullname)
             ageView.setText(age.toString())
             nicknameView.setText(nickname)
             emailView.setText(email)
             locationView.setText(location)
-            //skillsView.text = skills
             descriptionView.setText(description)
         }
 
@@ -141,7 +129,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
 
         val skillsAddButton = view.findViewById<Button>(R.id.skillsAddButton)
-        //val skillsDeleteButton = view.findViewById<Button>(R.id.skillsDeleteButton)
         val addSkillView = view.findViewById<EditText>(R.id.add_skills)
         skillsGroup = view.findViewById(R.id.skills)
 
@@ -151,14 +138,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 skillsList.add(addSkillView.text.toString())
             }
            addSkillView.setText("")
-            //skillsView.text = skillsList.joinToString(separator = " • ")
         }
-/*
-        skillsDeleteButton.setOnClickListener {
-            skillsList.remove(skillsView.text)
-            addSkillView.setText("")
-            skillsView.text = ""
-        }*/
 
         addSkillView.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -181,7 +161,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.email = emailView.text.toString()
                     user.location = locationView.text.toString()
                     user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
-                    Log.d("editskill", skillsList.toString().removePrefix("[").removeSuffix("]"))
                     user.description = descriptionView.text.toString()
                     user.age= Integer.parseInt(ageView.text.toString())
                     profileVM.updateUser(user)
@@ -217,7 +196,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         nicknameView = view.findViewById(R.id.Edit_Nickname)
         emailView = view.findViewById(R.id.Edit_Email)
         locationView = view.findViewById(R.id.Edit_Location)
-        //skillsView = view.findViewById(R.id.edit_skills)
         descriptionView = view.findViewById(R.id.edit_description)
     }
 

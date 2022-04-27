@@ -3,17 +3,14 @@ package it.polito.timebanking
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
@@ -24,7 +21,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
-import org.json.JSONObject
 import java.io.File
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
@@ -44,7 +40,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var nicknameView: TextView
     lateinit var emailView: TextView
     lateinit var locationView: TextView
-    //lateinit var skillsView: TextView
     lateinit var skillsGroup: ChipGroup
     lateinit var descriptionView: TextView
     lateinit var imageView : ImageView
@@ -103,8 +98,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             emailView.text = email
             locationView.text = location
             descriptionView.text=description
-            //skillsView.text = skills
-            Log.d("skills", skills)
             if(skills != ""){
                 skills.split(",").map {
                     addChip(it.trim())

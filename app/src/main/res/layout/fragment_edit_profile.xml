@@ -175,7 +175,7 @@
                     android:textColor="@color/purple_200" />
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chip_group"
+                    android:id="@+id/skills"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />

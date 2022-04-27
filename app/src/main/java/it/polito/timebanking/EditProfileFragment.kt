@@ -55,7 +55,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     //lateinit var skillsView: TextView
     lateinit var descriptionView: EditText
     lateinit var frameLayout: FrameLayout
-    lateinit var chipGroup: ChipGroup
+    lateinit var skillsGroup: ChipGroup
 
     var h: Int = 0
     var w: Int = 0
@@ -102,8 +102,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 age=it.age
                 description=it.description
                 it.skills.split(",").map {
-                    skillsList.add(it)
-                    addChip(it)
+                    skillsList.add(it.trim())
+                    addChip(it.trim())
                     }
                 //TODO vedere
                 //skillsList.remove("")
@@ -134,7 +134,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         val skillsAddButton = view.findViewById<Button>(R.id.skillsAddButton)
         //val skillsDeleteButton = view.findViewById<Button>(R.id.skillsDeleteButton)
         val addSkillView = view.findViewById<EditText>(R.id.add_skills)
-        chipGroup = view.findViewById(R.id.chip_group)
+        skillsGroup = view.findViewById(R.id.skills)
 
        skillsAddButton.setOnClickListener {
             if(!addSkillView.text.toString().isEmpty() && !skillsList.contains(addSkillView.text.toString())){
@@ -195,10 +195,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             this.context?.let { ContextCompat.getColor(it, R.color.teal_200) }?.let {
                 ColorStateList.valueOf(it) }
         chip.setOnCloseIconClickListener{
-            chipGroup.removeView(chip)
+            skillsGroup.removeView(chip)
             skillsList.remove(chip.text.toString())
         }
-        chipGroup.addView(chip)
+        skillsGroup.addView(chip)
     }
 
     fun setVariables(view: View){

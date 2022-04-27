@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -19,9 +21,12 @@ import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
@@ -50,6 +55,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var skillsView: TextView
     lateinit var descriptionView: EditText
     lateinit var frameLayout: FrameLayout
+    lateinit var chipGroup: ChipGroup
 
     var h: Int = 0
     var w: Int = 0
@@ -126,11 +132,15 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         val skillsAddButton = view.findViewById<Button>(R.id.skillsAddButton)
         val skillsDeleteButton = view.findViewById<Button>(R.id.skillsDeleteButton)
         val addSkillView = view.findViewById<EditText>(R.id.add_skills)
+        chipGroup = view.findViewById(R.id.chip_group)
 
         skillsAddButton.setOnClickListener {
+            if(!addSkillView.text.toString().isEmpty()){
+                addChip(addSkillView.text.toString())
+            }
             skillsList.add(addSkillView.text.toString())
             addSkillView.setText("")
-            skillsView.text = skillsList.joinToString(separator = " • ")
+            //skillsView.text = skillsList.joinToString(separator = " • ")
         }
 
         skillsDeleteButton.setOnClickListener {
@@ -173,6 +183,19 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             }
             )
 
+    }
+
+    private fun addChip(text: String){
+        val chip = Chip(this.context)
+        chip.text = text
+        chip.isCloseIconVisible = true
+        chip.chipBackgroundColor =
+            this.context?.let { ContextCompat.getColor(it, R.color.teal_200) }?.let {
+                ColorStateList.valueOf(it) }
+        chip.setOnCloseIconClickListener{
+            chipGroup.removeView(chip)
+        }
+        chipGroup.addView(chip)
     }
 
     fun setVariables(view: View){

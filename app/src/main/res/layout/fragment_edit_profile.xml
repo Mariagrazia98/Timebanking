@@ -185,6 +185,12 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic" />
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
                 <EditText
                     android:id="@+id/add_skills"
                     android:layout_width="match_parent"

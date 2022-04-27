@@ -42,7 +42,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     var age = 24
     var email: String = "mario.rossi@gmail.com"
     var location: String = "Torino"
-    var skills: String = "Android developer"
+    //var skills: String = "Android developer"
     var description: String = "Student"
     val skillsList: MutableList<String> = mutableListOf()
     private var bitmap: Bitmap? = null
@@ -52,10 +52,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var nicknameView: EditText
     lateinit var emailView: EditText
     lateinit var locationView: EditText
-    lateinit var skillsView: TextView
+    //lateinit var skillsView: TextView
     lateinit var descriptionView: EditText
     lateinit var frameLayout: FrameLayout
-    lateinit var chipGroup: ChipGroup
+    lateinit var skillsGroup: ChipGroup
 
     var h: Int = 0
     var w: Int = 0
@@ -100,18 +100,20 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 email= it.email
                 location= it.location
                 age=it.age
-                skills=it.skills
                 description=it.description
-
-                skills.split(",").map { skillsList.add(it) }
-                skillsList.remove("")
+                it.skills.split(",").map {
+                    skillsList.add(it.trim())
+                    addChip(it.trim())
+                    }
+                //TODO vedere
+                //skillsList.remove("")
             }
             fullnameView.setText(fullname)
             ageView.setText(age.toString())
             nicknameView.setText(nickname)
             emailView.setText(email)
             locationView.setText(location)
-            skillsView.text = skills
+            //skillsView.text = skills
             descriptionView.setText(description)
         }
 
@@ -130,24 +132,24 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
 
         val skillsAddButton = view.findViewById<Button>(R.id.skillsAddButton)
-        val skillsDeleteButton = view.findViewById<Button>(R.id.skillsDeleteButton)
+        //val skillsDeleteButton = view.findViewById<Button>(R.id.skillsDeleteButton)
         val addSkillView = view.findViewById<EditText>(R.id.add_skills)
-        chipGroup = view.findViewById(R.id.chip_group)
+        skillsGroup = view.findViewById(R.id.skills)
 
-        skillsAddButton.setOnClickListener {
-            if(!addSkillView.text.toString().isEmpty()){
+       skillsAddButton.setOnClickListener {
+            if(!addSkillView.text.toString().isEmpty() && !skillsList.contains(addSkillView.text.toString())){
                 addChip(addSkillView.text.toString())
+                skillsList.add(addSkillView.text.toString())
             }
-            skillsList.add(addSkillView.text.toString())
-            addSkillView.setText("")
+           addSkillView.setText("")
             //skillsView.text = skillsList.joinToString(separator = " • ")
         }
-
+/*
         skillsDeleteButton.setOnClickListener {
-            skillsList.clear()
+            skillsList.remove(skillsView.text)
             addSkillView.setText("")
             skillsView.text = ""
-        }
+        }*/
 
         addSkillView.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -169,7 +171,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.nickname = nicknameView.text.toString()
                     user.email = emailView.text.toString()
                     user.location = locationView.text.toString()
-                    user.skills = emailView.text.toString()
+                    user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
                     user.description = descriptionView.text.toString()
                     user.age= Integer.parseInt(ageView.text.toString())
                     profileVM.updateUser(user)
@@ -193,9 +195,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             this.context?.let { ContextCompat.getColor(it, R.color.teal_200) }?.let {
                 ColorStateList.valueOf(it) }
         chip.setOnCloseIconClickListener{
-            chipGroup.removeView(chip)
+            skillsGroup.removeView(chip)
+            skillsList.remove(chip.text.toString())
         }
-        chipGroup.addView(chip)
+        skillsGroup.addView(chip)
     }
 
     fun setVariables(view: View){
@@ -204,7 +207,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         nicknameView = view.findViewById(R.id.Edit_Nickname)
         emailView = view.findViewById(R.id.Edit_Email)
         locationView = view.findViewById(R.id.Edit_Location)
-        skillsView = view.findViewById(R.id.edit_skills)
+        //skillsView = view.findViewById(R.id.edit_skills)
         descriptionView = view.findViewById(R.id.edit_description)
     }
 

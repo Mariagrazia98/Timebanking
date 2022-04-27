@@ -3,6 +3,7 @@ package it.polito.timebanking
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,12 +13,15 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import org.json.JSONObject
@@ -40,7 +44,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var nicknameView: TextView
     lateinit var emailView: TextView
     lateinit var locationView: TextView
-    lateinit var skillsView: TextView
+    //lateinit var skillsView: TextView
+    lateinit var skillsGroup: ChipGroup
     lateinit var descriptionView: TextView
     lateinit var imageView : ImageView
     lateinit var frameLayout : FrameLayout
@@ -97,7 +102,10 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             nicknameView.text = nickname
             emailView.text = email
             locationView.text = location
-            skillsView.text = skills
+            //skillsView.text = skills
+            skills.split(",").map {
+                addChip(it.trim())
+            }
             descriptionView.text=description
         }
 
@@ -122,7 +130,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         nicknameView = view.findViewById(R.id.nickname)
         emailView = view.findViewById(R.id.email)
         locationView = view.findViewById(R.id.location)
-        skillsView = view.findViewById(R.id.skills)
+        skillsGroup = view.findViewById(R.id.skills)
         descriptionView = view.findViewById(R.id.description)
         imageView = view.findViewById(R.id.imageView)
 
@@ -200,5 +208,15 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         file = File(file, "profileImage.jpg")
         bitmap = BitmapFactory.decodeFile(file.absolutePath)
+    }
+
+    private fun addChip(text: String){
+        val chip = Chip(this.context)
+        chip.text = text
+        chip.isCloseIconVisible = false
+        chip.setOnCloseIconClickListener{
+            skillsGroup.removeView(chip)
+        }
+        skillsGroup.addView(chip)
     }
 }

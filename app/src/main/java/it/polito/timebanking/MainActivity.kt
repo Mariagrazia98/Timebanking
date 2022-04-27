@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding

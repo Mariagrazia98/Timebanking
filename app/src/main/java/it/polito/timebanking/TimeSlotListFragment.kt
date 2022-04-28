@@ -22,10 +22,10 @@ class TimeSlotListFragment : Fragment() {
         setHasOptionsMenu(true);
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        //delete edit_button
         menu.findItem(R.id.edit_button).isVisible = false;
-        inflater.inflate(R.menu.options_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
+        super.onPrepareOptionsMenu(menu)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

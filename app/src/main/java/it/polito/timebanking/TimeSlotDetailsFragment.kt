@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
@@ -24,9 +26,22 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var locationView: TextView
     lateinit var durationView: TextView
 
+    /*
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.options_menu, menu)
+    }
+    */
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true);
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.edit_button).isVisible = false;
+        inflater.inflate(R.menu.options_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,8 +67,22 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
     }
 
+    /*
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
+    */
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        var bundle = bundleOf("id" to slotId)
+        println("SLOT ID: ")
+        println(slotId)
+        return when (item.itemId) {
+            R.id.slot -> {
+                findNavController().navigate(R.id.timeSlotEditFragment, bundle)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }

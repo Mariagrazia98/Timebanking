@@ -15,17 +15,16 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
@@ -146,6 +145,18 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             if(!addSkillView.text.toString().isEmpty() && !skillsList.contains(addSkillView.text.toString())){
                 addChip(addSkillView.text.toString())
                 skillsList.add(addSkillView.text.toString())
+            }else{
+                //if skill already added
+                if(skillsList.contains(addSkillView.text.toString())){
+                    val snackbar = Snackbar.make(requireView(), "Skill already added!", Snackbar.LENGTH_SHORT)
+                    val sbView: View = snackbar.view
+                    this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.danger) }
+                        ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                    this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.black) }
+                        ?.let { it2 -> snackbar.setTextColor(it2) }
+                    snackbar.show()
+                }
             }
            addSkillView.setText("")
         }

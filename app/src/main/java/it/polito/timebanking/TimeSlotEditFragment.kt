@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -19,9 +18,6 @@ import com.google.android.material.snackbar.Snackbar
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
@@ -111,8 +107,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 descriptionView.setText(it.description)
                 locationView.setText(it.location)
                 durationView.setText(it.duration.toString())
-                dateButton.text = LocalDate.parse(it.date, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()
-                timeButton.text = LocalTime.parse(it.time, DateTimeFormatter.ofPattern("HH:mm")).toString()
+                dateButton.text = it.date
+                timeButton.text = it.time
 
             }
         }

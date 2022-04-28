@@ -98,7 +98,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id: Long = 1 //to be changed
-        val lol = item.itemId
         var bundle = bundleOf("id" to id)
         return when (item.itemId) {
             R.id.edit_button -> {

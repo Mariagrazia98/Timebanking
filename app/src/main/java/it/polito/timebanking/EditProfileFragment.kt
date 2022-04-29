@@ -199,7 +199,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         chip.text = text
         chip.isCloseIconVisible = true
         chip.chipBackgroundColor =
-            this.context?.let { ContextCompat.getColor(it, R.color.teal_200) }?.let {
+            this.context?.let { ContextCompat.getColor(it, R.color.primary_light) }?.let {
                 ColorStateList.valueOf(it) }
         chip.setOnCloseIconClickListener{
             skillsGroup.removeView(chip)

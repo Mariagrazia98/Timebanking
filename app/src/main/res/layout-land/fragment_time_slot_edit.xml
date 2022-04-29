@@ -26,7 +26,7 @@
                 android:text="@string/editAdvertisement"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-                android:textColor="@color/purple_200"
+                android:textColor="@color/primary_dark"
                 android:textStyle="bold|italic" />
 
             <TextView
@@ -39,7 +39,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/title_advertisement_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/primary_dark" />
 
             <EditText
                 android:id="@+id/edit_titleAdvertisement"
@@ -52,7 +52,8 @@
                 android:textAlignment="textStart"
                 android:inputType="text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/primary_text"/>
 
             <TextView
                 android:id="@+id/descriptionAdvertisementText"
@@ -64,7 +65,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/description_advertisement_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/primary_dark" />
 
             <EditText
                 android:id="@+id/edit_descriptionAdvertisement"
@@ -77,7 +78,8 @@
                 android:text="@string/description_advertisement"
                 android:inputType="text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:textColor="@color/primary_text" />
 
             <TextView
                 android:id="@+id/dateTimeAdvertisementText"
@@ -88,7 +90,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/date_time_advertisement_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/primary_dark" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/sampleDate"
-                    android:textColor="@color/black"
+                    android:textColor="@color/primary_text"
                     style="?android:spinnerStyle"
                     android:ems="10"
                     android:enabled="true"
@@ -113,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/sampleTime"
-                    android:textColor="@color/black"
+                    android:textColor="@color/primary_text"
                     style="?android:spinnerStyle"
                     android:ems="10"
                     android:enabled="true"
@@ -131,7 +133,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/duration_advertisement_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/primary_dark" />
 
             <EditText
                 android:id="@+id/editTextNumber"
@@ -153,7 +155,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/location_advertisement_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/primary_dark" />
 
             <EditText
                 android:id="@+id/edit_locationAdvertisement"
@@ -164,7 +166,8 @@
                 android:text="@string/location_advertisement"
                 android:inputType="text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:textColor="@color/primary_text"/>
 
         </LinearLayout>
     </ScrollView>

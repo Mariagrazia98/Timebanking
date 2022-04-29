@@ -27,7 +27,7 @@
                 android:text="@string/advertisement"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-                android:textColor="@color/purple_200"
+                android:textColor="@color/primary_dark"
                 android:textStyle="bold|italic" />
 
             <TextView
@@ -40,7 +40,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/title_advertisement_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/primary_dark" />
 
             <TextView
                 android:id="@+id/titleAdvertisement"
@@ -51,7 +51,7 @@
                 android:text="@string/title_advertisement"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/black"
+                android:textColor="@color/primary_text"
                 android:textStyle="bold" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/date_time_advertisement_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/primary_dark" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:text="@string/_15_05_22"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/primary_text" />
 
                 <TextView
                     android:id="@+id/timeAdvertisement"
@@ -88,7 +88,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:text="@string/_19_30"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/primary_text" />
 
             </LinearLayout>
 
@@ -102,7 +102,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/duration_advertisement_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/primary_dark" />
 
             <TextView
                 android:id="@+id/durationAdvertisement"
@@ -112,7 +112,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:text="@string/_120"
-                android:textColor="@color/black" />
+                android:textColor="@color/primary_text" />
 
             <TextView
                 android:id="@+id/locationAdvertisementText"
@@ -124,7 +124,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/location_advertisement_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/primary_dark" />
 
             <TextView
                 android:id="@+id/locationAdvertisement"
@@ -134,7 +134,8 @@
                 android:paddingEnd="10dp"
                 android:text="@string/location_advertisement"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:textColor="@color/primary_text"/>
 
             <TextView
                 android:id="@+id/descriptionAdvertisementText"
@@ -146,7 +147,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/description_advertisement_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/purple_200" />
+                android:textColor="@color/primary_dark" />
 
             <TextView
                 android:id="@+id/descriptionAdvertisement"
@@ -159,7 +160,8 @@
                 android:text="@string/description_advertisement"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="italic"
-                tools:text="@string/description_advertisement" />
+                tools:text="@string/description_advertisement"
+                android:textColor="@color/primary_text"/>
 
         </LinearLayout>
     </ScrollView>

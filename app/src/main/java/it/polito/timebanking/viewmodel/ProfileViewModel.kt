@@ -11,16 +11,15 @@ import kotlin.concurrent.thread
 
 class ProfileViewModel(application: Application): AndroidViewModel(application)  {
     val repo = UserRepository(application)
-    val users: LiveData<List<User>>? = repo.getAllUsers()
 
     //users
-    fun addUser(user: User):Long? {
-        var id:Long? = 0
+    fun addUser(user: User){
         thread {
-            id = repo.addUser(user)
+            repo.addUser(user)
         }
-        return id
     }
+
+    fun getAllUsers(): LiveData<List<User>>? = repo.getAllUsers()
 
     fun updateUser(user: User){
         thread {

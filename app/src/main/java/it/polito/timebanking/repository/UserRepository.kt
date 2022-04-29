@@ -7,9 +7,8 @@ class UserRepository(application: Application) {
     private val userDao = UserDatabase.getDatabase(application)?.userDao()
 
 
-    fun addUser(user: User): Long? {
-        val id_returned: Long? = userDao?.addUser(user)
-        return id_returned
+    fun addUser(user: User){
+        userDao?.addUser(user)
     }
 
     fun updateUser(user: User) {

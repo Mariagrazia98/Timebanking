@@ -3,9 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/drawable-anydpi/border_set_left.xml" value="0.1" />
-        <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/drawable/border_set.xml" value="0.1" />
-        <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/layout/fragment_time_slot.xml" value="0.45" />
+        <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/layout/fragment_time_slot.xml" value="0.335" />
         <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/layout/fragment_time_slot_details.xml" value="0.1157548125633232" />
         <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/layout/nav_header_main.xml" value="0.1" />
         <entry key="..\:/Users/Antonio vespa/Documents/GitHub/Timebanking/app/src/main/res/menu/edit_button.xml" value="0.16875" />
@@ -32,7 +30,7 @@
         <entry key="app/src/main/res/layout/ciao.xml" value="0.3663949275362319" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.3546195652173913" />
         <entry key="app/src/main/res/layout/fragment_show_profile.xml" value="0.38405797101449274" />
-        <entry key="app/src/main/res/layout/fragment_time_slot.xml" value="0.3013698630136986" />
+        <entry key="app/src/main/res/layout/fragment_time_slot.xml" value="0.5289855072463768" />
         <entry key="app/src/main/res/layout/fragment_time_slot_details.xml" value="0.38405797101449274" />
         <entry key="app/src/main/res/layout/fragment_time_slot_edit.xml" value="0.3736413043478261" />
         <entry key="app/src/main/res/layout/fragment_time_slot_list.xml" value="0.27009222661396576" />

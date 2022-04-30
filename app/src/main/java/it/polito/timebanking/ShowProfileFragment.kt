@@ -101,12 +101,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
         if(bitmap!=null)
             imageView.setImageBitmap(bitmap)
-
-        //temporaneo
-        var bundle = bundleOf("id" to id)
-        imageView.setOnClickListener{
-            NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_showProfileFragment_to_editProfileFragment, bundle)
-        }
     }
 
     private fun setVariables(view:View) {

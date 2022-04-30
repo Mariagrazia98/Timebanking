@@ -9,7 +9,7 @@
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/divider"
+        app:cardBackgroundColor="@color/light_divider"
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,15 +23,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:orientation="horizontal">
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                >
 
                 <TextView
                     android:id="@+id/slot_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/text_margin"
+                    android:layout_marginLeft="16dp"
                     android:layout_weight="4"
                     android:paddingStart="7dp"
                     android:paddingLeft="2dp"
@@ -45,25 +46,28 @@
                     android:id="@+id/button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/primary_dark"
-                    app:srcCompat="@drawable/ic_editpencil"
-                    app:tint="@color/icons" />
-
+                    android:contentDescription="@string/edit_slot"
+                    android:cropToPadding="false"
+                    android:src="@drawable/ic_editpencil" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                >
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/border_set_right"
                     android:orientation="vertical">
 
                     <TextView
@@ -75,14 +79,15 @@
                         android:enabled="false"
                         android:text="@string/date_slot_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary_dark" />
+                        android:textColor="@color/primary_dark"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/slot_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="3dp"
                         android:layout_marginBottom="10dp"
                         android:text="@string/sampleDate"
                         android:textAppearance="?attr/textAppearanceListItem"
@@ -93,8 +98,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-
+                    android:orientation="vertical"
+                    >
                     <TextView
                         android:id="@+id/startTimeAdvertisementText"
                         android:layout_width="wrap_content"
@@ -104,14 +109,15 @@
                         android:enabled="false"
                         android:text="@string/start_slot_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary_dark" />
+                        android:textColor="@color/primary_dark"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/slot_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="3dp"
                         android:layout_marginBottom="10dp"
                         android:text="@string/sampleTime"
                         android:textAppearance="?attr/textAppearanceListItem"
@@ -122,6 +128,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/border_set_left"
                     android:orientation="vertical">
 
                     <TextView
@@ -133,14 +140,15 @@
                         android:enabled="false"
                         android:text="@string/duration_slot_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary_dark" />
+                        android:textColor="@color/primary_dark"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/slot_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="3dp"
                         android:layout_marginBottom="10dp"
                         android:text="@string/sampleDuration"
                         android:textAppearance="?attr/textAppearanceListItem"

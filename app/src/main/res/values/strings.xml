@@ -28,16 +28,24 @@
     <string name="sampleDate">15/05/22</string>
     <string name="sampleTime">19:30</string>
     <string name="sampleDuration">120</string>
-
     <!-- Time slot Labels -->
     <string name="title_advertisement_text">Title advertisement:</string>
     <string name="description_advertisement_text">Description of offered service:</string>
     <string name="date_time_advertisement_text">Date and time of the advertisement:</string>
     <string name="duration_advertisement_text">Duration of the offered time slot (minutes):</string>
     <string name="location_advertisement_text">Location advertisement:</string>
-    <string name="date_slot_text">Date:</string>
-    <string name="start_slot_text">Start:</string>
-    <string name="duration_slot_text">Duration (min):</string>
+    <string name="date_slot_text">Date</string>
+    <string name="start_slot_text">Start</string>
+    <string name="duration_slot_text">Duration (min)</string>
+
+    <string name="titleAdvertisement">Title advertisement:</string>
+    <string name="add_slot">add_slot</string>
+    <string name="lectures">Lectures</string>
+    <string name="_15_05_22">15/05/22</string>
+    <string name="_19_30">19:30</string>
+    <string name="duration_min">Duration (min)</string>
+    <string name="_120">120</string>
+    <string name="edit_slot">edit slot</string>
     <string name="no_data_available">No slots available</string>
 
     <!-- Buttons and menu voices -->

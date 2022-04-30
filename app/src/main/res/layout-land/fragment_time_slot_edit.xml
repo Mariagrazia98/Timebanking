@@ -14,7 +14,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:orientation="vertical">
 
             <TextView
@@ -29,57 +31,40 @@
                 android:textColor="@color/primary_dark"
                 android:textStyle="bold|italic" />
 
-            <TextView
-                android:id="@+id/titleTextAdvertisement"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingRight="10dp"
-                android:text="@string/title_advertisement_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/primary_dark" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintVertical_bias="0.0">
 
-            <EditText
-                android:id="@+id/edit_titleAdvertisement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingRight="10dp"
-                android:text="@string/title_advertisement"
-                android:textAlignment="textStart"
-                android:inputType="text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textStyle="bold"
-                android:textColor="@color/primary_text"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_titleAdvertisement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/title_advertisement_text"
+                    android:text="@string/title_advertisement"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/descriptionAdvertisementText"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingRight="10dp"
-                android:text="@string/description_advertisement_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/primary_dark" />
+                android:layout_marginBottom="10dp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintVertical_bias="0.0">
 
-            <EditText
-                android:id="@+id/edit_descriptionAdvertisement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines="3"
-                android:maxLines="8"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="@string/description_advertisement"
-                android:inputType="text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="italic"
-                android:textColor="@color/primary_text" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_descriptionAdvertisement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description_advertisement_text"
+                    android:text="@string/description_advertisement"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/dateTimeAdvertisementText"
@@ -123,51 +108,39 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/durationAdvertisementText"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingRight="10dp"
-                android:text="@string/duration_advertisement_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/primary_dark" />
+                android:layout_marginBottom="10dp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintVertical_bias="0.0">
 
-            <EditText
-                android:id="@+id/editTextNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="@string/sampleDuration"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:inputType="number" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/duration_advertisement_text"
+                    android:text="@string/sampleDuration"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/locationAdvertisementText"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingRight="10dp"
-                android:text="@string/location_advertisement_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/primary_dark" />
+                android:layout_marginBottom="10dp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintVertical_bias="0.0">
 
-            <EditText
-                android:id="@+id/edit_locationAdvertisement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:text="@string/location_advertisement"
-                android:inputType="text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="italic"
-                android:textColor="@color/primary_text"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_locationAdvertisement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/location_advertisement_text"
+                    android:text="@string/location_advertisement"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
     </ScrollView>

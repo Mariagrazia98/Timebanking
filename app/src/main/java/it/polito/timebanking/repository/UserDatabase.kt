@@ -10,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [User::class],
-    version = 2
+    version = 1
 )
 abstract class UserDatabase: RoomDatabase() {
     abstract fun userDao(): UserDao
@@ -23,16 +23,11 @@ abstract class UserDatabase: RoomDatabase() {
             (
                     INSTANCE?:
                     synchronized(this) {
-                        val MIGRATION_1_2 = object : Migration(1,2){
-                            override fun migrate(database: SupportSQLiteDatabase) {
-                                database.execSQL("ALTER TABLE 'users' ADD COLUMN 'imagePath' TEXT")
-                            }
-                        }
                         val i = INSTANCE ?: Room.databaseBuilder(
                             context.applicationContext,
                             UserDatabase::class.java,
                             "users"
-                        ).addMigrations(MIGRATION_1_2).build()
+                        ).build()
                         INSTANCE = i
                         INSTANCE
                     }

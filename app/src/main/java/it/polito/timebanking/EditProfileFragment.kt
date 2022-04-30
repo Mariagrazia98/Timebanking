@@ -102,7 +102,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
 
         setVariables(view);
-        /*profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {
+
+        profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {
             if(it != null) {
                 fullname = it.fullname
                 nickname = it.nickname
@@ -129,7 +130,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             locationView.setText(location)
             descriptionView.setText(description)
         }
-*/
+
         getProfileImageLFS()
         val iv = view.findViewById<ImageView>(R.id.Edit_imageView)
         if (bitmap != null)

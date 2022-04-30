@@ -202,7 +202,8 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:text="@string/button_add_skills"
-                    android:backgroundTint="@color/accent"/>
+                    android:backgroundTint="@color/accent"
+                    android:textColor="@color/primary_text" />
 
                 <TextView
                     android:id="@+id/descriptionText"

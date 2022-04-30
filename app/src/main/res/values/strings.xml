@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">TimeBanking</string>
-    <string name="fullname">Mario Rossi</string>
+    <string name="fullname">Luca Neri</string>
     <string name="age">24</string>
     <string name="yo">y.o.</string>
-    <string name="nickname">Mario98</string>
+    <string name="nickname">Luca98</string>
     <string name="email_address">mario.rossi@gmail.com</string>
     <string name="location">Torino</string>
     <string name="description">Frequento il Politecnico di Torino, mi piace cucinare e ascoltare musica</string>

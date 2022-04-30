@@ -136,7 +136,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         if (bitmap != null)
             iv.setImageBitmap(bitmap)
 
-        val imgButton = view.findViewById<Button>(R.id.imageButton)
+        val imgButton = view.findViewById<ImageButton>(R.id.imageButton)
 
         imgButton.setOnClickListener { //To register the button with context menu.
             registerForContextMenu(imgButton)

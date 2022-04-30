@@ -29,13 +29,13 @@
                 android:layout_height="300dp"
                 android:layout_weight="1">
 
-                <Button
+                <ImageButton
                     android:id="@+id/imageButton"
                     android:layout_width="58dp"
                     android:layout_height="55dp"
                     android:backgroundTint="@color/primary_dark"
                     android:contentDescription="@string/camera_button"
-                    app:icon="@drawable/ic_camera"
+                    app:srcCompat="@drawable/ic_camera"
                     app:iconSize="30dp"
                     app:tint="@color/icons"/>
 
@@ -59,143 +59,113 @@
                 android:layout_weight="2"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/Edit_FullName"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="name"
-                    android:hint="@string/fullname"
-                    android:inputType="textPersonName"
-                    android:text="@string/fullname"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary_text"/>
+                    android:layout_marginBottom="10dp"
+                    app:boxBackgroundMode="outline"
+                    app:layout_constraintVertical_bias="0.0">
 
-                <TextView
-                    android:id="@+id/ageText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/age_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/primary_dark" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/Edit_FullName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="FullName"
+                        android:text="@string/fullname"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/edit_age"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:importantForAutofill="no"
-                    android:inputType="numberDecimal"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="0dp"
-                    android:text="@string/age"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic"
-                    android:textColor="@color/primary_text"/>
+                    android:layout_marginBottom="10dp"
+                    app:boxBackgroundMode="outline"
+                    app:layout_constraintVertical_bias="0.0">
 
-                <TextView
-                    android:id="@+id/nicknameText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/nickname_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/primary_dark" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/age_text"
+                        android:text="@string/age"
+                        android:inputType="numberDecimal"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/Edit_Nickname"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="name"
-                    android:inputType="text"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/nickname"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic"
-                    android:textColor="@color/primary_text"/>
+                    android:layout_marginBottom="10dp"
+                    app:boxBackgroundMode="outline"
+                    app:layout_constraintVertical_bias="0.0">
 
-                <TextView
-                    android:id="@+id/emailText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/email_address_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/primary_dark" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/Edit_Nickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/nickname_text"
+                        android:text="@string/nickname"
+                        android:inputType="text"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/Edit_Email"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="emailAddress"
-                    android:ems="10"
-                    android:inputType="textEmailAddress"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/email_address"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic"
-                    android:textColor="@color/primary_text"/>
+                    android:layout_marginBottom="10dp"
+                    app:boxBackgroundMode="outline"
+                    app:layout_constraintVertical_bias="0.0">
 
-                <TextView
-                    android:id="@+id/locationText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/location_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/primary_dark" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/Edit_Email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email_address_text"
+                        android:text="@string/email_address"
+                        android:inputType="textEmailAddress"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/Edit_Location"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="postalAddress"
-                    android:inputType="textPostalAddress"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/location"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic"
-                    android:textColor="@color/primary_text"/>
+                    android:layout_marginBottom="10dp"
+                    app:boxBackgroundMode="outline"
+                    app:layout_constraintVertical_bias="0.0">
 
-                <TextView
-                    android:id="@+id/skillsText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/skills_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/primary_dark" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/Edit_Location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/location_text"
+                        android:text="@string/location"
+                        android:inputType="text"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/skills"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    />
+                    android:paddingEnd="10dp" />
 
-                <EditText
-                    android:id="@+id/add_skills"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic"
-                    android:textColor="@color/primary_text"/>
+                    android:layout_marginBottom="10dp"
+                    app:boxBackgroundMode="outline"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/add_skills"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/addskills_hint"
+                        android:inputType="text"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/skillsAddButton"
@@ -206,33 +176,25 @@
                     android:backgroundTint="@color/accent"
                     android:textColor="@color/primary_text" />
 
-                <TextView
-                    android:id="@+id/descriptionText"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/description_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/primary_dark" />
+                    android:layout_marginBottom="10dp"
+                    app:boxBackgroundMode="outline"
+                    app:layout_constraintVertical_bias="0.0">
 
-                <EditText
-                    android:id="@+id/edit_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:gravity="start|top"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine"
-                    android:lines="5"
-                    android:maxLines="10"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:text="@string/description"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic"
-                    android:textColor="@color/primary_text"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/description_text"
+                        android:text="@string/description"
+                        android:inputType="textMultiLine"
+                        android:gravity="start|top"
+                        android:lines="5"
+                        android:maxLines="10" />
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
         </LinearLayout>

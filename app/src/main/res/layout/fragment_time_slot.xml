@@ -36,7 +36,7 @@
                     android:paddingStart="7dp"
                     android:paddingLeft="2dp"
                     android:paddingTop="3dp"
-                    android:text="@string/lectures"
+                    android:text="@string/title_advertisement"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textColor="@color/primary_text"
                     android:textSize="18sp" />
@@ -49,7 +49,6 @@
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/primary_dark"
-                    android:contentDescription="@string/edit_slot"
                     app:srcCompat="@drawable/ic_editpencil"
                     app:tint="@color/icons" />
 
@@ -74,7 +73,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
                         android:enabled="false"
-                        android:text="@string/date"
+                        android:text="@string/date_slot_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/primary_dark" />
 
@@ -85,7 +84,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="10dp"
-                        android:text="@string/_15_05_22"
+                        android:text="@string/sampleDate"
                         android:textAppearance="?attr/textAppearanceListItem"
                         android:textColor="@color/primary_text" />
                 </LinearLayout>
@@ -103,7 +102,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
                         android:enabled="false"
-                        android:text="@string/start"
+                        android:text="@string/start_slot_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/primary_dark" />
 
@@ -114,7 +113,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="10dp"
-                        android:text="@string/_19_30"
+                        android:text="@string/sampleTime"
                         android:textAppearance="?attr/textAppearanceListItem"
                         android:textColor="@color/primary_text" />
                 </LinearLayout>
@@ -132,7 +131,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
                         android:enabled="false"
-                        android:text="@string/duration_min"
+                        android:text="@string/duration_slot_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/primary_dark" />
 
@@ -143,7 +142,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="10dp"
-                        android:text="@string/_120"
+                        android:text="@string/sampleDuration"
                         android:textAppearance="?attr/textAppearanceListItem"
                         android:textColor="@color/primary_text" />
                 </LinearLayout>

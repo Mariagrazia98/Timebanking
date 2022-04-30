@@ -1,53 +1,53 @@
 <resources>
     <string name="app_name">TimeBanking</string>
-    <string name="fullname">Luca Neri</string>
+
+    <!-- Profile Defaults -->
+    <string name="fullname">Mario Rossi</string>
     <string name="age">24</string>
     <string name="yo">y.o.</string>
-    <string name="nickname">Luca98</string>
+    <string name="nickname">Mario98</string>
     <string name="email_address">mario.rossi@gmail.com</string>
     <string name="location">Torino</string>
-    <string name="description">Frequento il Politecnico di Torino, mi piace cucinare e ascoltare musica</string>
-    <string name="age_text">Age:</string>
-    <string name="nickname_text">Nickname: </string>
-    <string name="email_address_text">Email: </string>
-    <string name="location_text">Location: </string>
-    <string name="description_text">Description: </string>
-    <string name="skills_text">Skills: </string>
-    <string name="menu">Menu</string>
-    <string name="profile_picture">Profile picture</string>
-    <string name="camera_button">Camera</string>
-    <string name="take_a_photo">Take a photo</string>
-    <string name="select_from_gallery">Select from gallery</string>
-    <string name="preference_file_key">preference_file</string>
     <string name="skills">Android developer, Electrician</string>
-    <string name="button_add_skills">Add skill</string>
-    <string name="button_delete_skills">Delete skills</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_advertisement_text">Title advertisement:</string>
+    <string name="description">Frequento il Politecnico di Torino, mi piace cucinare e ascoltare musica</string>
+
+    <!-- Profile Labels -->
+    <string name="age_text">Age</string>
+    <string name="nickname_text">Nickname</string>
+    <string name="email_address_text">Email</string>
+    <string name="location_text">Location</string>
+    <string name="skills_text">Skills</string>
+    <string name="addskills_hint">Add a new skill</string>
+    <string name="description_text">Description</string>
+
+    <!-- Time slot Defaults -->
     <string name="title_advertisement">Offer lectures</string>
-    <string name="description_advertisement_text">Description of offered service:</string>
     <string name="description_advertisement">Offer lectures in scientific subjects</string>
-    <string name="date_time_advertisement_text">Date and time of the advertisement:</string>
-    <string name="duration_advertisement_text">Duration of the offered time slot (minutes):</string>
     <string name="duration_advertisement">3</string>
-    <string name="location_advertisement_text">Location advertisment:</string>
     <string name="location_advertisement">My Home</string>
     <string name="sampleDate">15/05/22</string>
     <string name="sampleTime">19:30</string>
     <string name="sampleDuration">120</string>
-    <string name="advertisement">Advertisement</string>
-    <string name="titleAdvertisement">Title advertisement:</string>
-    <string name="editAdvertisement">Edit Advertisement</string>
-    <string name="add_slot">add_slot</string>
-    <string name="lectures">Lectures</string>
-    <string name="date">Date:</string>
-    <string name="_15_05_22">15/05/22</string>
-    <string name="start">Start:</string>
-    <string name="_19_30">19:30</string>
-    <string name="duration_min">Duration (min):</string>
-    <string name="_120">120</string>
-    <string name="edit_slot">edit slot</string>
+
+    <!-- Time slot Labels -->
+    <string name="title_advertisement_text">Title advertisement:</string>
+    <string name="description_advertisement_text">Description of offered service:</string>
+    <string name="date_time_advertisement_text">Date and time of the advertisement:</string>
+    <string name="duration_advertisement_text">Duration of the offered time slot (minutes):</string>
+    <string name="location_advertisement_text">Location advertisement:</string>
+    <string name="date_slot_text">Date:</string>
+    <string name="start_slot_text">Start:</string>
+    <string name="duration_slot_text">Duration (min):</string>
     <string name="no_data_available">No slots available</string>
+
+    <!-- Buttons and menu voices -->
+    <string name="button_add_skills">Add skill</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="camera_button">Camera</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="select_from_gallery">Select from gallery</string>
+
+    <!-- Drawer and Navigation-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -57,9 +57,15 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profile">Profile</string>
     <string name="advertisementList">Advertisement list</string>
+    <string name="advertisement">Advertisement</string>
+    <string name="editAdvertisement">Edit Advertisement</string>
     <string name="edit_profile">Edit Profile</string>
+
+    <!-- BOH -->
+    <string name="menu">Menu</string>
+    <string name="preference_file_key">preference_file</string>
+
 </resources>

@@ -5,5 +5,6 @@
         android:id="@+id/edit_button"
         android:icon="@drawable/ic_editpencil"
         android:title="@string/menu"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        app:tint="@color/icons"/>
 </menu>

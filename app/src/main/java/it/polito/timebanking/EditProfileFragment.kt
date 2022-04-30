@@ -153,7 +153,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.danger) }
                         ?.let { it2 -> sbView.setBackgroundColor(it2) }
 
-                    this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.black) }
+                    this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
                         ?.let { it2 -> snackbar.setTextColor(it2) }
                     snackbar.show()
                 }

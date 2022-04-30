@@ -30,7 +30,8 @@
                 android:backgroundTint="@color/primary_dark"
                 android:contentDescription="@string/camera_button"
                 app:icon="@drawable/ic_camera"
-                app:iconSize="30dp" />
+                app:iconSize="30dp"
+                app:tint="@color/icons"/>
 
             <ImageView
                 android:id="@+id/Edit_imageView"

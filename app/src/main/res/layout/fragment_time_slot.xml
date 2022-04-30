@@ -9,7 +9,7 @@
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#B0BABA"
+        app:cardBackgroundColor="@color/divider"
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,8 @@
                     android:layout_margin="@dimen/text_margin"
                     android:layout_weight="4"
                     android:text="@string/lectures"
-                    android:textAppearance="?attr/textAppearanceListItem" />
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textColor="@color/primary_text"/>
 
                 <ImageButton
                     android:id="@+id/button"
@@ -42,9 +43,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/purple_500"
+                    android:backgroundTint="@color/primary_dark"
                     android:contentDescription="@string/edit_slot"
-                    app:srcCompat="@drawable/ic_editpencil" />
+                    app:srcCompat="@drawable/ic_editpencil"
+                    app:tint="@color/icons"/>
 
             </LinearLayout>
 
@@ -68,7 +70,7 @@
                         android:enabled="false"
                         android:text="@string/date"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/purple_200" />
+                        android:textColor="@color/primary_dark" />
 
                     <TextView
                         android:id="@+id/slot_date"
@@ -77,7 +79,8 @@
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/text_margin"
                         android:text="@string/_15_05_22"
-                        android:textAppearance="?attr/textAppearanceListItem" />
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:textColor="@color/primary_text"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -94,7 +97,7 @@
                         android:enabled="false"
                         android:text="@string/start"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/purple_200" />
+                        android:textColor="@color/primary_dark" />
 
                     <TextView
                         android:id="@+id/slot_time"
@@ -103,7 +106,8 @@
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/text_margin"
                         android:text="@string/_19_30"
-                        android:textAppearance="?attr/textAppearanceListItem" />
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:textColor="@color/primary_text"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -120,7 +124,7 @@
                         android:enabled="false"
                         android:text="@string/duration_min"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/purple_200" />
+                        android:textColor="@color/primary_dark" />
 
                     <TextView
                         android:id="@+id/slot_duration"
@@ -129,7 +133,8 @@
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/text_margin"
                         android:text="@string/_120"
-                        android:textAppearance="?attr/textAppearanceListItem" />
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:textColor="@color/primary_text"/>
                 </LinearLayout>
 
             </LinearLayout>

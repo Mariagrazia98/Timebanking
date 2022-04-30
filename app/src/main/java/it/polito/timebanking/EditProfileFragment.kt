@@ -155,7 +155,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.danger) }
                         ?.let { it2 -> sbView.setBackgroundColor(it2) }
 
-                    this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.black) }
+                    this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
                         ?.let { it2 -> snackbar.setTextColor(it2) }
                     snackbar.show()
                 }
@@ -201,7 +201,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         chip.text = text
         chip.isCloseIconVisible = true
         chip.chipBackgroundColor =
-            this.context?.let { ContextCompat.getColor(it, R.color.teal_200) }?.let {
+            this.context?.let { ContextCompat.getColor(it, R.color.primary_light) }?.let {
                 ColorStateList.valueOf(it) }
         chip.setOnCloseIconClickListener{
             skillsGroup.removeView(chip)

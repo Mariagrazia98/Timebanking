@@ -27,10 +27,11 @@
                 android:id="@+id/imageButton"
                 android:layout_width="58dp"
                 android:layout_height="55dp"
-                android:backgroundTint="@color/purple_500"
+                android:backgroundTint="@color/primary_dark"
                 android:contentDescription="@string/camera_button"
-                app:icon="@drawable/camera"
-                app:iconSize="30dp" />
+                app:icon="@drawable/ic_camera"
+                app:iconSize="30dp"
+                app:tint="@color/icons"/>
 
             <ImageView
                 android:id="@+id/Edit_imageView"
@@ -68,7 +69,8 @@
                     android:inputType="textPersonName"
                     android:text="@string/fullname"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -85,7 +87,7 @@
                         android:paddingRight="0dp"
                         android:text="@string/nickname_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/purple_200" />
+                        android:textColor="@color/primary_dark" />
 
                     <TextView
                         android:id="@+id/ageText"
@@ -96,7 +98,7 @@
                         android:paddingRight="0dp"
                         android:text="@string/age_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/purple_200" />
+                        android:textColor="@color/primary_dark" />
 
                 </LinearLayout>
 
@@ -115,7 +117,8 @@
                         android:inputType="text"
                         android:text="@string/nickname"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        android:textColor="@color/primary_text"/>
 
                     <EditText
                         android:id="@+id/edit_age"
@@ -126,7 +129,8 @@
                         android:inputType="numberDecimal"
                         android:text="@string/age"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        android:textColor="@color/primary_text"/>
                 </LinearLayout>
 
                 <TextView
@@ -138,7 +142,7 @@
                     android:paddingRight="0dp"
                     android:text="@string/email_address_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/purple_200" />
+                    android:textColor="@color/primary_dark" />
 
                 <EditText
                     android:id="@+id/Edit_Email"
@@ -149,7 +153,8 @@
                     android:inputType="textEmailAddress"
                     android:text="@string/email_address"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:textColor="@color/primary_text"/>
 
                 <TextView
                     android:id="@+id/locationText2"
@@ -160,7 +165,7 @@
                     android:paddingRight="0dp"
                     android:text="@string/location_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/purple_200" />
+                    android:textColor="@color/primary_dark" />
 
                 <EditText
                     android:id="@+id/Edit_Location"
@@ -170,7 +175,8 @@
                     android:inputType="textPostalAddress"
                     android:text="@string/location"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:textColor="@color/primary_text"/>
 
                 <TextView
                     android:id="@+id/skillsText"
@@ -181,7 +187,7 @@
                     android:paddingRight="0dp"
                     android:text="@string/skills_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/purple_200" />
+                    android:textColor="@color/primary_dark" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/skills"
@@ -196,14 +202,17 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:textColor="@color/primary_text"/>
 
                 <Button
                     android:id="@+id/skillsAddButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:text="@string/button_add_skills" />
+                    android:text="@string/button_add_skills"
+                    android:backgroundTint="@color/accent"
+                    android:textColor="@color/primary_text" />
 
                 <TextView
                     android:id="@+id/descriptionText"
@@ -214,7 +223,7 @@
                     android:paddingRight="0dp"
                     android:text="@string/description_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/purple_200" />
+                    android:textColor="@color/primary_dark" />
 
                 <EditText
                     android:id="@+id/edit_description"
@@ -228,7 +237,8 @@
                     android:maxLines="8"
                     android:text="@string/description"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:textColor="@color/primary_text"/>
 
             </LinearLayout>
         </ScrollView>

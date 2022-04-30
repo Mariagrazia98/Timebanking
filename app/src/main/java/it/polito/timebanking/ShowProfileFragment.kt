@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -49,7 +50,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     lateinit var profileVM: ProfileViewModel
     lateinit var user: User
-
+    var id: Long = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -71,17 +72,16 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
 
         setVariables(view)
-        val id: Long = 1 //to be changed
-        profileVM.getUserById(id)!!.observe(viewLifecycleOwner) {
-            if(it != null) {
-
-                fullname = it.fullname
-                nickname = it.nickname
-                email= it.email
-                location= it.location
-                age=it.age
-                skills=it.skills
-                description=it.description
+        profileVM.getAllUsers()?.observe(viewLifecycleOwner) {
+            if(it.isNotEmpty()) {
+                fullname = it[0].fullname
+                nickname = it[0].nickname
+                email= it[0].email
+                location= it[0].location
+                age=it[0].age
+                skills=it[0].skills
+                description=it[0].description
+                id = it[0].id
             }
             fullnameView.text = fullname
             ageView.text = age.toString()
@@ -101,6 +101,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
         if(bitmap!=null)
             imageView.setImageBitmap(bitmap)
+
     }
 
     private fun setVariables(view:View) {

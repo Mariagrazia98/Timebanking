@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
@@ -53,7 +54,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var skillsAddButton:Button
     lateinit var addSkillView:EditText
 
-
     var h: Int = 0
     var w: Int = 0
 
@@ -78,6 +78,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         super.onViewCreated(view, savedInstanceState)
 
         profileId = arguments?.getLong("id")!!
+        Log.d("antodeb","id passato è $profileId")
         profileVM =  ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
         fv = view
 
@@ -101,6 +102,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
 
         setVariables(view);
+
         profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {
             if(it != null) {
                 fullname = it.fullname
@@ -175,7 +177,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 override fun handleOnBackPressed() {
                     // Do custom work here
                     user = User()
-                    user.id = profileId
                     user.fullname = fullnameView.text.toString()
                     user.nickname = nicknameView.text.toString()
                     user.email = emailView.text.toString()
@@ -183,8 +184,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
                     user.description = descriptionView.text.toString()
                     user.age= Integer.parseInt(ageView.text.toString())
+                    user.imagePath = getProfileImagePath()
+                    user.id = profileId
                     profileVM.updateUser(user)
-                    
                     // if you want onBackPressed() to be called as normal afterwards
                     if (isEnabled) {
                         isEnabled = false
@@ -311,12 +313,16 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
     }
 
-    fun getProfileImageLFS() {
+    fun getProfileImagePath(): String{
         //Get profile image from internal storage (local filesystem)
         val wrapper = ContextWrapper(requireActivity().applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         file = File(file, "profileImage.jpg")
-        bitmap = BitmapFactory.decodeFile(file.absolutePath)
+        return file.absolutePath
+    }
+
+    fun getProfileImageLFS() {
+        bitmap = BitmapFactory.decodeFile(getProfileImagePath())
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

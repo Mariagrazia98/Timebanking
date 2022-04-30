@@ -1,11 +1,15 @@
 package it.polito.timebanking
 
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,17 +33,26 @@ import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel:ProfileViewModel by viewModels()
     private val slotViewModel:TimeSlotViewModel by viewModels()
-    private val userId:Long=1 //assuming that there is at least one user.
+    private var userId:Long=0
     lateinit private var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
     private lateinit var binding: ActivityMainBinding
 
     lateinit var user: User
+
+    fun getProfileImagePath(): String{
+        //Get profile image from internal storage (local filesystem)
+        val wrapper = ContextWrapper(applicationContext)
+        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+        file = File(file, "profileImage.jpg")
+        return file.absolutePath
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,27 +64,29 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setupWithNavController(binding.navigationView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
-
         drawerLayout = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.navigationView)
-
-        profileViewModel.getUserById(userId)?.observe(this) {
-            if(it == null) { //there is no user (first launch of the application)
+        profileViewModel.getAllUsers()?.observe(this) {
+            //calculate actual number of users (workaround to infinite loop)
+            if(it.isEmpty()){
                 println("there is no user?")
                 user = User()
-                user.fullname = "Luca Neri"
-                user.nickname = "Luca98"
-                user.email = "luca.neri@gmail.com"
+                user.fullname = "Mario Rossi"
+                user.nickname = "Mario98"
+                user.email = "mario.rossi@gmail.com"
                 user.location = "Torino"
                 user.description="Student"
                 user.skills="Android developer"
-                user.age=18
+                user.age=24
+                user.imagePath = getProfileImagePath()
                 profileViewModel.addUser(user)
+            }else{
+                userId = it[0].id
+                //aggiornamento
+                findViewById<TextView>(R.id.titleHeader).text = it[0].nickname
+                findViewById<TextView>(R.id.subtitleHeader).text = it[0].email
+                findViewById<ImageView>(R.id.imageViewHeader).setImageBitmap(BitmapFactory.decodeFile(it[0].imagePath))
             }
-            else user = it
-            //set header info
-            findViewById<TextView>(R.id.titleHeader).text = user.nickname
-            findViewById<TextView>(R.id.subtitleHeader).text = user.email
         }
 
         navView.setNavigationItemSelectedListener(){
@@ -97,8 +112,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id: Long = 1 //to be changed
-        var bundle = bundleOf("id" to id)
+        var bundle = bundleOf("id" to userId)
         return when (item.itemId) {
             R.id.edit_button -> {
                 navController.navigate(R.id.editProfileFragment, bundle)

@@ -23,7 +23,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="64dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -33,20 +33,25 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/text_margin"
                     android:layout_weight="4"
+                    android:paddingStart="7dp"
+                    android:paddingLeft="2dp"
+                    android:paddingTop="3dp"
                     android:text="@string/lectures"
                     android:textAppearance="?attr/textAppearanceListItem"
-                    android:textColor="@color/primary_text"/>
+                    android:textColor="@color/primary_text"
+                    android:textSize="18sp" />
 
                 <ImageButton
                     android:id="@+id/button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/primary_dark"
                     android:contentDescription="@string/edit_slot"
                     app:srcCompat="@drawable/ic_editpencil"
-                    app:tint="@color/icons"/>
+                    app:tint="@color/icons" />
 
             </LinearLayout>
 
@@ -67,6 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
                         android:enabled="false"
                         android:text="@string/date"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -77,10 +83,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/text_margin"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
                         android:text="@string/_15_05_22"
                         android:textAppearance="?attr/textAppearanceListItem"
-                        android:textColor="@color/primary_text"/>
+                        android:textColor="@color/primary_text" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -94,6 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
                         android:enabled="false"
                         android:text="@string/start"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -104,10 +112,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/text_margin"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
                         android:text="@string/_19_30"
                         android:textAppearance="?attr/textAppearanceListItem"
-                        android:textColor="@color/primary_text"/>
+                        android:textColor="@color/primary_text" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -121,6 +130,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
                         android:enabled="false"
                         android:text="@string/duration_min"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -131,10 +141,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/text_margin"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
                         android:text="@string/_120"
                         android:textAppearance="?attr/textAppearanceListItem"
-                        android:textColor="@color/primary_text"/>
+                        android:textColor="@color/primary_text" />
                 </LinearLayout>
 
             </LinearLayout>

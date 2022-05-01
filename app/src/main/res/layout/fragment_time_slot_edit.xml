@@ -86,27 +86,23 @@
 
                 <Button
                     android:id="@+id/edit_dateAdvertisement"
+                    style="?android:spinnerStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:text="@string/sampleDate"
-                    android:textColor="@color/primary_text"
-                    style="?android:spinnerStyle"
-                    android:ems="10"
-                    android:enabled="true"
-                    android:inputType="date" />
+                    android:textColor="@color/primary_text" />
 
                 <Button
                     android:id="@+id/edit_timeAdvertisement"
+                    style="?android:spinnerStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:text="@string/sampleTime"
-                    android:textColor="@color/primary_text"
-                    style="?android:spinnerStyle"
-                    android:ems="10"
-                    android:enabled="true"
-                    android:inputType="time" />
+                    android:textColor="@color/primary_text" />
 
             </LinearLayout>
 

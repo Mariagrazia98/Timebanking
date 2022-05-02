@@ -175,7 +175,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    // Do custom work here
                     user = User()
                     user.fullname = fullnameView.text.toString()
                     user.nickname = nicknameView.text.toString()

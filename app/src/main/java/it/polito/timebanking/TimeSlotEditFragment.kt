@@ -123,7 +123,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    // Do custom work here
                     slot= Slot()
                     slot.id=slotId
                     slot.date = dateButton.text.toString()

@@ -16,16 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 
 import androidx.core.view.GravityCompat
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.navigation.NavigationView
@@ -36,9 +29,9 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
-    private val profileViewModel:ProfileViewModel by viewModels()
-    private val slotViewModel:TimeSlotViewModel by viewModels()
-    private var userId:Long=0
+    private val profileViewModel: ProfileViewModel by viewModels()
+    private val slotViewModel: TimeSlotViewModel by viewModels()
+    private var userId: Long = 0
     lateinit private var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
@@ -46,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var user: User
 
-    fun getProfileImagePath(): String{
+    fun getProfileImagePath(): String {
         //Get profile image from internal storage (local filesystem)
         val wrapper = ContextWrapper(applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
@@ -67,36 +60,35 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.navigationView)
         profileViewModel.getAllUsers()?.observe(this) {
-            //calculate actual number of users (workaround to infinite loop)
-            if(it.isEmpty()){
-                println("there is no user?")
+            //calculate actual number of users and take the last one
+            if (it.isEmpty()) {
                 user = User()
                 user.fullname = "Mario Rossi"
                 user.nickname = "Mario98"
                 user.email = "mario.rossi@gmail.com"
                 user.location = "Torino"
-                user.description="Student"
-                user.skills="Android developer"
-                user.age=24
+                user.description = "Student"
+                user.skills = "Android developer"
+                user.age = 24
                 user.imagePath = getProfileImagePath()
                 profileViewModel.addUser(user)
-            }else{
+            } else {
                 userId = it[0].id
                 //aggiornamento
                 findViewById<TextView>(R.id.titleHeader).text = it[0].nickname
                 findViewById<TextView>(R.id.subtitleHeader).text = it[0].email
-                findViewById<ImageView>(R.id.imageViewHeader).setImageBitmap(BitmapFactory.decodeFile(it[0].imagePath))
+                findViewById<ImageView>(R.id.imageViewHeader).setImageBitmap(
+                    BitmapFactory.decodeFile(
+                        it[0].imagePath
+                    )
+                )
             }
         }
 
-        navView.setNavigationItemSelectedListener(){
-            item ->
-            if (item.itemId == R.id.profileMenuItem){
-                // your code
+        navView.setNavigationItemSelectedListener() { item ->
+            if (item.itemId == R.id.profileMenuItem) {
                 navController.navigate(R.id.showProfileFragment)
-            }
-            else if (item.itemId ==R.id.advMenuItem){
-                // your code
+            } else if (item.itemId == R.id.advMenuItem) {
                 navController.navigate(R.id.timeSlotListFragment)
             }
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -123,7 +115,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
         return NavigationUI.navigateUp(navController, drawerLayout)
     }

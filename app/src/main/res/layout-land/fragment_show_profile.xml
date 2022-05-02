@@ -130,7 +130,7 @@
                             android:textColor="@color/primary_text" />
 
                         <TextView
-                            android:id="@+id/textView"
+                            android:id="@+id/yo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

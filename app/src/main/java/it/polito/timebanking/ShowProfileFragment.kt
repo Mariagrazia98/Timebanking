@@ -9,17 +9,11 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import it.polito.timebanking.repository.User
@@ -27,13 +21,13 @@ import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
-    var fullname: String="Mario Rossi"
-    var nickname: String="Mario 98"
+    var fullname: String=""
+    var nickname: String=""
     var age = 24
-    var email: String = "mario.rossi@gmail.com"
-    var location: String = "Torino"
-    var skills: String = "Android developer"
-    var description: String = "Student"
+    var email: String = ""
+    var location: String = ""
+    var skills: String = ""
+    var description: String = ""
     private var bitmap: Bitmap? = null
     lateinit var sharedPref : SharedPreferences
 
@@ -118,7 +112,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     }
 
-
     fun convertDpToPixel(dp: Int): Float {
         return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
@@ -133,56 +126,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             frameLayout.post{frameLayout.layoutParams = LinearLayout.LayoutParams(w/3, h)}
         }
     }
-
-    /*fun storeInfoSP(){
-        //Save data to SharedPreferences in a JSON object
-        val jsonProfile = JSONObject()
-        jsonProfile.put("fullname", fullname)
-        jsonProfile.put("age", age)
-        jsonProfile.put("nickname", nickname)
-        jsonProfile.put("email", email)
-        jsonProfile.put("location", location)
-        jsonProfile.put("skills", skills)
-        jsonProfile.put("description", description)
-
-        val editor = sharedPref.edit()
-        editor.putString("profile", jsonProfile.toString()) //sharedPref saves (key,value) pair and this method wants a string as value
-        editor.apply()
-    }*/
-
-    /*fun getInfoSP(){
-        //Get data from SharedPreferences
-        sharedPref = requireActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-
-        //Create a json with default data to be used if sharedPref doesn't contain anything
-        val jsonDefault = JSONObject()
-        jsonDefault.put("fullname", "Mario Rossi")
-        jsonDefault.put("age", 24)
-        jsonDefault.put("nickname", "Mario98")
-        jsonDefault.put("email", "mario.rossi@gmail.com")
-        jsonDefault.put("location", "Torino")
-        jsonDefault.put("skills", "Android developer, Electrician")
-        jsonDefault.put("description", "Frequento il Politecnico di Torino")
-
-        val profileString = sharedPref.getString("profile", jsonDefault.toString()) //retrieve the string containing data in json format with the key "profile"
-        val json = JSONObject(profileString.toString())  //transform the obtained string into a json to easily access all the fields
-
-        fullname = if(json.has("fullname")) json.getString("fullname") else jsonDefault.getString("fullname")
-        age = if(json.has("age")) json.getInt("age") else jsonDefault.getInt("age")
-        nickname = if(json.has("nickname")) json.getString("nickname") else jsonDefault.getString("nickname")
-        email = if(json.has("email")) json.getString("email") else jsonDefault.getString("email")
-        location = if(json.has("location")) json.getString("location") else jsonDefault.getString("location")
-        skills = if(json.has("skills")) json.getString("skills") else jsonDefault.getString("skills")
-        description = if(json.has("description")) json.getString("description") else jsonDefault.getString("description")
-
-        fullnameView.text = fullname
-        ageView.text = age.toString()
-        nicknameView.text = nickname
-        emailView.text = email
-        locationView.text = location
-        skillsView.text = skills
-        descriptionView.text=description
-    }*/
 
     fun getProfileImageLFS(){
         //Get profile image from internal storage (local filesystem)

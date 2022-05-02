@@ -79,7 +79,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         dateInputLayout.setEndIconOnClickListener {
             context?.let { it1 ->
                 DatePickerDialog(
-                    it1, dateSetListener,
+                    it1, R.style.DialogTheme, dateSetListener,
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH),
                     cal.get(Calendar.DAY_OF_MONTH)).show()
@@ -99,7 +99,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         timeInputLayout.setEndIconOnClickListener {
             context?.let { it1 ->
                 TimePickerDialog(
-                    it1, timeSetListener,
+                    it1, R.style.DialogTheme, timeSetListener,
                     cal.get(Calendar.HOUR_OF_DAY),
                     cal.get(Calendar.MINUTE), true).show()
             }

@@ -186,6 +186,29 @@
                     android:textColor="@color/primary_text"/>
 
                 <TextView
+                    android:id="@+id/descriptionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/description_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/primary_dark" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="5"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/description"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="italic" />
+
+                <TextView
                     android:id="@+id/skillsText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -204,30 +227,6 @@
                     android:paddingEnd="10dp"
                     android:textColor="@color/primary_text"
                     />
-
-                <TextView
-                    android:id="@+id/descriptionText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/description_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/primary_dark" />
-
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="5"
-                    android:minLines="2"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/description"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="italic" />
 
             </LinearLayout>
         </ScrollView>

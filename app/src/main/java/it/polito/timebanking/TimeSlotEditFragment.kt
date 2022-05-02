@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
@@ -136,11 +137,25 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     slot.location = locationView.text.toString()
                     if(slotId!=-1L) { //edit
                         timeSlotVM.updateSlot(slot)
-                        Snackbar.make(requireView(), "Time slot updated", Snackbar.LENGTH_SHORT).show()
+                        val snackbar = Snackbar.make(requireView(), "Time slot updated!", Snackbar.LENGTH_SHORT)
+                        val sbView: View = snackbar.view
+                        context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                            ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                        context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
+                            ?.let { it2 -> snackbar.setTextColor(it2) }
+                        snackbar.show()
                     }
                     else{ //create
                         timeSlotVM.addSlot(slot)
-                        Snackbar.make(requireView(), "Time slot created", Snackbar.LENGTH_SHORT).show()
+                        val snackbar = Snackbar.make(requireView(), "Time slot created!", Snackbar.LENGTH_SHORT)
+                        val sbView: View = snackbar.view
+                        context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                            ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                        context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
+                            ?.let { it2 -> snackbar.setTextColor(it2) }
+                        snackbar.show()
                     }
 
 

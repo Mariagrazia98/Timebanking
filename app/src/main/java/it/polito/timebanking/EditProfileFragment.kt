@@ -302,11 +302,15 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             stream.flush()
             stream.close()
-            Toast.makeText(
-                requireActivity().applicationContext,
-                "Upload photo successfully!",
-                Toast.LENGTH_SHORT
-            ).show()
+            val snackbar = Snackbar.make(requireView(), "Upload photo successfully!", Snackbar.LENGTH_SHORT)
+            val sbView: View = snackbar.view
+            context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+            context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
+                ?.let { it2 -> snackbar.setTextColor(it2) }
+            snackbar.show()
+
         } catch (e: IOException) {
             e.printStackTrace()
         }

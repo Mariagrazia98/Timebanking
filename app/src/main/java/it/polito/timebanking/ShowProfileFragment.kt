@@ -3,6 +3,7 @@ package it.polito.timebanking
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,6 +13,7 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
@@ -194,6 +196,9 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         val chip = Chip(this.context)
         chip.text = text
         chip.isCloseIconVisible = false
+        chip.chipBackgroundColor =
+            this.context?.let { ContextCompat.getColor(it, R.color.primary_light) }?.let {
+                ColorStateList.valueOf(it) }
         chip.setOnCloseIconClickListener{
             skillsGroup.removeView(chip)
         }

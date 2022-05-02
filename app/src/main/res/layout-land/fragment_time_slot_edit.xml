@@ -66,45 +66,56 @@
                     android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/dateTimeAdvertisementText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingRight="10dp"
-                android:text="@string/date_time_advertisement_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/primary_dark" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
 
-                <Button
-                    android:id="@+id/edit_dateAdvertisement"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dateInput"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/sampleDate"
-                    android:textColor="@color/primary_text"
-                    style="?android:spinnerStyle"
-                    android:ems="10"
-                    android:enabled="true"
-                    android:inputType="date" />
+                    app:boxBackgroundMode="outline"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_calendar"
+                    app:endIconMode="custom"
+                    app:layout_constraintVertical_bias="0.0"
+                    android:layout_marginEnd="5dp">
 
-                <Button
-                    android:id="@+id/edit_timeAdvertisement"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_dateAdvertisement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Date"
+                        android:inputType="date"
+                        android:text="@string/sampleDate" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/timeInput"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/sampleTime"
-                    android:textColor="@color/primary_text"
-                    style="?android:spinnerStyle"
-                    android:ems="10"
-                    android:enabled="true"
-                    android:inputType="time" />
+                    app:boxBackgroundMode="outline"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_time"
+                    app:endIconMode="custom"
+                    app:layout_constraintVertical_bias="0.0"
+                    android:layout_marginStart="5dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_timeAdvertisement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Time"
+                        android:inputType="time"
+                        android:text="@string/sampleTime" />
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 

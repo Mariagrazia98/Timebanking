@@ -21,35 +21,13 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/screenAdvertisement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/advertisement"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-                android:textColor="@color/primary_dark"
-                android:textStyle="bold|italic" />
-
-            <TextView
-                android:id="@+id/titleTextAdvertisement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingRight="10dp"
-                android:text="@string/title_advertisement_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/primary_dark" />
-
-            <TextView
                 android:id="@+id/titleAdvertisement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:text="@string/title_advertisement"
-                android:textAlignment="textStart"
+                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/primary_text"
                 android:textStyle="bold" />
@@ -152,14 +130,14 @@
                 android:id="@+id/descriptionAdvertisement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lines="5"
                 android:maxLines="8"
+                android:minLines="1"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/description_advertisement"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                tools:text="@string/description_advertisement"
-                android:textColor="@color/primary_text"/>
+                android:textColor="@color/primary_text"
+                tools:text="@string/description_advertisement" />
 
         </LinearLayout>
     </ScrollView>

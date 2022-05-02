@@ -12,6 +12,7 @@
     <string name="description">Frequento il Politecnico di Torino, mi piace cucinare e ascoltare musica</string>
 
     <!-- Profile Labels -->
+    <string name="fullname_text">Fullname</string>
     <string name="age_text">Age</string>
     <string name="nickname_text">Nickname</string>
     <string name="email_address_text">Email</string>

@@ -34,13 +34,14 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="16dp"
                     android:layout_weight="4"
-                    android:paddingStart="7dp"
-                    android:paddingLeft="2dp"
+                    android:paddingStart="0dp"
+                    android:paddingLeft="0dp"
                     android:paddingTop="3dp"
                     android:text="@string/title_advertisement"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textColor="@color/primary_text"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <ImageButton
                     android:id="@+id/button"

@@ -71,9 +71,10 @@
                         android:id="@+id/Edit_FullName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="FullName"
+                        android:hint="@string/fullname_text"
+                        android:inputType="textPersonName"
                         android:text="@string/fullname"
-                        android:inputType="textPersonName"/>
+                        android:textColor="#757575" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -188,12 +189,13 @@
                         android:id="@+id/edit_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/description_text"
-                        android:text="@string/description"
-                        android:inputType="textMultiLine"
+                        android:autoText="false"
                         android:gravity="start|top"
-                        android:lines="5"
-                        android:maxLines="10" />
+                        android:hint="@string/description_text"
+                        android:inputType="textAutoCorrect|textMultiLine|textAutoComplete"
+                        android:maxLines="8"
+                        android:minLines="2"
+                        android:text="@string/description" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

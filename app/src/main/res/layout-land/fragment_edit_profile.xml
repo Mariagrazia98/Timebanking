@@ -74,8 +74,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="FullName"
-                        android:text="@string/fullname"
-                        android:inputType="textPersonName"/>
+                        android:inputType="textPersonName"
+                        android:text="@string/fullname" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -202,12 +202,11 @@
                         android:id="@+id/edit_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/description_text"
-                        android:text="@string/description"
-                        android:inputType="textMultiLine"
                         android:gravity="start|top"
-                        android:lines="5"
-                        android:maxLines="10" />
+                        android:hint="@string/description_text"
+                        android:inputType="textMultiLine"
+                        android:maxLines="8"
+                        android:text="@string/description" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

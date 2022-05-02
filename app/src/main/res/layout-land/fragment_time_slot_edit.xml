@@ -27,7 +27,7 @@
                 android:paddingEnd="10dp"
                 android:text="@string/editAdvertisement"
                 android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/primary_dark"
                 android:textStyle="bold|italic" />
 

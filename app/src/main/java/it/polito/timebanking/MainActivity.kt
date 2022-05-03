@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 user.age = 24
                 user.imagePath = getProfileImage().absolutePath
                 profileViewModel.addUser(user)
-            } else { //if there is at least one user, store the id of the first one.
+            } else { //for this lab we just considered the existence of one single user, so if there is at least one user we take the first one
                 userId = it[0].id
                 //update drawer
                 findViewById<TextView>(R.id.titleHeader).text = it[0].nickname

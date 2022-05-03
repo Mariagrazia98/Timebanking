@@ -59,7 +59,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
         setVariables(view)
         profileVM.getAllUsers()?.observe(viewLifecycleOwner) {
-
+            //for this lab we just considered the existence of one single user, so if there is at least one user we take the first one
             if(it!=null) {
                 fullnameView.text = it[0].fullname
                 ageView.text = it[0].age.toString()

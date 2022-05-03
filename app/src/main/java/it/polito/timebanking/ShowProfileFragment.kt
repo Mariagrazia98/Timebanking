@@ -20,15 +20,7 @@ import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
-    var fullname: String=""
-    var nickname: String=""
-    var age = 24
-    var email: String = ""
-    var location: String = ""
-    var skills: String = ""
-    var description: String = ""
     private var bitmap: Bitmap? = null
-
 
     lateinit var fullnameView: TextView
     lateinit var ageView: TextView
@@ -66,28 +58,22 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
 
         setVariables(view)
-        profileVM.getUserById((activity as MainActivity).userId)?.observe(viewLifecycleOwner) {
+        profileVM.getAllUsers()?.observe(viewLifecycleOwner) {
+
             if(it!=null) {
-                fullname = it.fullname
-                nickname = it.nickname
-                email= it.email
-                location= it.location
-                age=it.age
-                skills=it.skills
-                description=it.description
-                id = it.id
-            }
-            fullnameView.text = fullname
-            ageView.text = age.toString()
-            nicknameView.text = nickname
-            emailView.text = email
-            locationView.text = location
-            descriptionView.text=description
-            if(skills != ""){
-                skills.split(",").map {
-                    addChip(it.trim())
+                fullnameView.text = it[0].fullname
+                ageView.text = it[0].age.toString()
+                nicknameView.text = it[0].nickname
+                emailView.text = it[0].email
+                locationView.text = it[0].location
+                descriptionView.text=it[0].description
+                if(it[0].skills != ""){
+                    it[0].skills.split(",").map {
+                        addChip(it.trim())
+                    }
                 }
             }
+
         }
 
         getProfileImageLFS()

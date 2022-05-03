@@ -35,31 +35,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/descriptionAdvertisementText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingRight="10dp"
-                android:text="@string/description_advertisement_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/primary_dark" />
-
-            <TextView
-                android:id="@+id/descriptionAdvertisement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="8"
-                android:minLines="1"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="@string/description_advertisement"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/primary_text"
-                android:textStyle="italic" />
-
-            <TextView
                 android:id="@+id/dateTimeAdvertisementText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,10 +55,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:text="@string/sampleDate"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/primary_text" />
 
                 <TextView
@@ -91,8 +66,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:text="@string/sampleTime"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/primary_text" />
             </LinearLayout>
 
@@ -113,10 +88,10 @@
                 android:id="@+id/durationAdvertisement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:text="@string/sampleDuration"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/primary_text" />
 
             <TextView
@@ -139,8 +114,31 @@
                 android:paddingEnd="10dp"
                 android:text="@string/location_advertisement"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="italic"
                 android:textColor="@color/primary_text"/>
+
+            <TextView
+                android:id="@+id/descriptionAdvertisementText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:text="@string/description_advertisement_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/primary_dark" />
+
+            <TextView
+                android:id="@+id/descriptionAdvertisement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="8"
+                android:minLines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/description_advertisement"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/primary_text" />
 
         </LinearLayout>
     </ScrollView>

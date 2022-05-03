@@ -107,12 +107,21 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             (activity as MainActivity).supportActionBar?.title = "Edit advertisement"
 
             timeSlotVM.getSlotById(slotId)?.observe(viewLifecycleOwner) {
-                titleView.setText(it.title)
-                descriptionView.setText(it.description)
-                locationView.setText(it.location)
-                durationView.setText(it.duration.toString())
-                dateView.setText(it.date)
-                timeView.setText(it.time)
+                if(savedInstanceState==null) {
+                    titleView.setText(it.title)
+                    descriptionView.setText(it.description)
+                    locationView.setText(it.location)
+                    durationView.setText(it.duration.toString())
+                    dateView.setText(it.date)
+                    timeView.setText(it.time)
+                }else{
+                    titleView.setText(savedInstanceState.getString("title"))
+                    descriptionView.setText(savedInstanceState.getString("description"))
+                    locationView.setText(savedInstanceState.getString("location"))
+                    durationView.setText(savedInstanceState.getString("duration"))
+                    dateView.setText(savedInstanceState.getString("date"))
+                    timeView.setText(savedInstanceState.getString("time"))
+                }
             }
         }
         else{ //create
@@ -166,6 +175,16 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         )
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("title", titleView.text.toString())
+        outState.putString("description", descriptionView.text.toString())
+        outState.putString("duration", durationView.text.toString())
+        outState.putString("location", locationView.text.toString())
+        outState.putString("date", dateView.text.toString())
+        outState.putString("time", timeView.text.toString())
     }
 
 }

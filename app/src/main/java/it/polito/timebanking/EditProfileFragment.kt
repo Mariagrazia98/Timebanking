@@ -14,7 +14,6 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
@@ -102,24 +101,31 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
         setVariables(view);
 
+
         profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {
-            if(it != null) {
+            if(it != null && savedInstanceState==null) {
                 fullname = it.fullname
                 nickname = it.nickname
                 email= it.email
                 location= it.location
                 age=it.age
                 description=it.description
-                if(it.skills != "" && savedInstanceState==null){
+                if(it.skills != ""){
                     it.skills.split(",").map {
                         skillsList.add(it.trim())
                         addChip(it.trim())
                     }
-                }else{
-                    if (savedInstanceState != null) {
-                        skillsList = savedInstanceState.getStringArrayList("skillsList") as ArrayList<String>
-                        skillsList.map{ addChip(it.trim())}
-                    }
+                }
+            }else{
+                if (savedInstanceState != null) {
+                    fullname = savedInstanceState.getString("fullname", fullname)
+                    nickname = savedInstanceState.getString("nickname", nickname)
+                    email = savedInstanceState.getString("email", email)
+                    location = savedInstanceState.getString("location", location)
+                    description = savedInstanceState.getString("description", description)
+                    age = savedInstanceState.getInt("age", age)
+                    skillsList = savedInstanceState.getStringArrayList("skillsList") as ArrayList<String>
+                    skillsList.map{ addChip(it.trim())}
                 }
             }
             fullnameView.setText(fullname)
@@ -330,5 +336,11 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putStringArrayList("skillsList", skillsList)
+        outState.putString("fullname", fullnameView.text.toString())
+        outState.putString("nickname", nicknameView.text.toString())
+        outState.putInt("age", ageView.text.toString().toInt())
+        outState.putString("email", emailView.text.toString())
+        outState.putString("location", locationView.text.toString())
+        outState.putString("description", descriptionView.text.toString())
     }
 }

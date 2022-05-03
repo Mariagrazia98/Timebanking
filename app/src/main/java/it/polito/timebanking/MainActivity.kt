@@ -1,11 +1,9 @@
 package it.polito.timebanking
 
-import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -14,7 +12,6 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -25,14 +22,12 @@ import com.google.android.material.navigation.NavigationView
 import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
-import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
-    private val slotViewModel: TimeSlotViewModel by viewModels()
     var userId: Long = 0
-    lateinit private var navController: NavController
+    lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
     private lateinit var binding: ActivityMainBinding
@@ -100,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.timeSlotListFragment)
             }
             drawerLayout.closeDrawer(GravityCompat.START)
-            true;
+            true
         }
     }
 
@@ -111,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        var bundle = bundleOf("id" to userId)
+        val bundle = bundleOf("id" to userId)
         return when (item.itemId) {
             R.id.edit_button -> {
                 navController.navigate(R.id.editProfileFragment, bundle)

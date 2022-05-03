@@ -19,12 +19,12 @@ class TimeSlotListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         //delete edit_button
-        menu.findItem(R.id.edit_button).isVisible = false;
+        menu.findItem(R.id.edit_button).isVisible = false
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -45,8 +45,8 @@ class TimeSlotListFragment : Fragment() {
                 rv.visibility = View.GONE
                 ev.visibility = View.VISIBLE
             }else {
-                rv.visibility = View.VISIBLE;
-                ev.visibility = View.GONE;
+                rv.visibility = View.VISIBLE
+                ev.visibility = View.GONE
             }
         }
 

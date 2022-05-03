@@ -64,12 +64,12 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         //delete edit_button
-        menu.findItem(R.id.edit_button).isVisible = false;
+        menu.findItem(R.id.edit_button).isVisible = false
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -99,7 +99,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             })
         }
 
-        setVariables(view);
+        setVariables(view)
 
 
         profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {

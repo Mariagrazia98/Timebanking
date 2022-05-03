@@ -7,7 +7,6 @@ import android.view.Menu
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.EditText
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -33,12 +32,12 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         //delete edit_button
-        menu.findItem(R.id.edit_button).isVisible = false;
+        menu.findItem(R.id.edit_button).isVisible = false
         super.onPrepareOptionsMenu(menu)
     }
 

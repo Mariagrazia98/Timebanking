@@ -2,7 +2,6 @@ package it.polito.timebanking
 
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -29,7 +28,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     var skills: String = ""
     var description: String = ""
     private var bitmap: Bitmap? = null
-    lateinit var sharedPref : SharedPreferences
 
 
     lateinit var fullnameView: TextView

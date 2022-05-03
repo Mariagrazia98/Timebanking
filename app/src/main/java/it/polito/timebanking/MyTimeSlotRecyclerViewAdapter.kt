@@ -29,24 +29,18 @@ class MyTimeSlotRecyclerViewAdapter(val data: List<Slot>) :
             date.text = item.date
             time.text = item.time
             duration.text = item.duration.toString()
-
-
         }
-
-        fun unbind() {}
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemSlotViewHolder {
-        val vg =
-            LayoutInflater.from(parent.context).inflate(R.layout.fragment_time_slot, parent, false)
+        val vg = LayoutInflater.from(parent.context).inflate(R.layout.fragment_time_slot, parent, false)
         return ItemSlotViewHolder(vg)
     }
 
     override fun onBindViewHolder(holder: ItemSlotViewHolder, position: Int) {
-
         val item = list[position]
         item.let { holder.bind(it) }
-        var bundle = bundleOf("id" to item.id)
+        val bundle = bundleOf("id" to item.id)
 
         holder.cv.setOnClickListener {
             findNavController(FragmentManager.findFragment(it)).navigate(

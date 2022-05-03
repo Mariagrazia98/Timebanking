@@ -104,7 +104,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
         if(slotId!=-1L){ //edit
             (activity as MainActivity).supportActionBar?.title = "Edit advertisement"
-
             timeSlotVM.getSlotById(slotId)?.observe(viewLifecycleOwner) {
                 if(savedInstanceState==null) {
                     titleView.setText(it.title)

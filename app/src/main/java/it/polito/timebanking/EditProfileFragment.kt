@@ -136,7 +136,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             descriptionView.setText(description)
         }
 
-        getProfileImageLFS()
+        getProfileImageLFS(savedInstanceState)
         val iv = view.findViewById<ImageView>(R.id.Edit_imageView)
         if (bitmap != null)
             iv.setImageBitmap(bitmap)
@@ -191,6 +191,15 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.imagePath = getProfileImage().absolutePath
                     user.id = profileId
                     profileVM.updateUser(user)
+                    val snackbar = Snackbar.make(requireView(), "Profile updated!", Snackbar.LENGTH_SHORT)
+                    val sbView: View = snackbar.view
+                    context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                        ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                    context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
+                        ?.let { it2 -> snackbar.setTextColor(it2) }
+                    snackbar.show()
+
                     // if you want onBackPressed() to be called as normal afterwards
                     if (isEnabled) {
                         isEnabled = false
@@ -329,8 +338,11 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     }
 
-    fun getProfileImageLFS() {
-        if(getProfileImage().exists()) {
+    fun getProfileImageLFS( savedInstanceState: Bundle?) {
+        if(savedInstanceState != null){
+            bitmap = savedInstanceState.getParcelable("bitmap")
+        }
+        else if(getProfileImage().exists()) {
             bitmap = BitmapFactory.decodeFile(getProfileImage().absolutePath)
         }
     }
@@ -344,5 +356,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         outState.putString("email", emailView.text.toString())
         outState.putString("location", locationView.text.toString())
         outState.putString("description", descriptionView.text.toString())
+        outState.putParcelable("bitmap", bitmap)
     }
 }

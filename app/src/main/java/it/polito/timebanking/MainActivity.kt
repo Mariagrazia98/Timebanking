@@ -85,6 +85,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.editProfileFragment || destination.id == R.id.timeSlotEditFragment) {
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                supportActionBar?.setDisplayShowHomeEnabled(false)
+            }
+        }
+
         navView.setNavigationItemSelectedListener() { item ->
             if (item.itemId == R.id.profileMenuItem) {
                 navController.navigate(R.id.showProfileFragment)
@@ -93,7 +100,6 @@ class MainActivity : AppCompatActivity() {
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true;
-
         }
     }
 

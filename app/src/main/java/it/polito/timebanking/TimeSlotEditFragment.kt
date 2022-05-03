@@ -67,7 +67,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            val myFormat = "dd/MM/yyyy" // mention the format you need
+            val myFormat = "dd/MM/yyyy"
             val sdf = SimpleDateFormat(myFormat, Locale.ITALY)
             dateView.setText(sdf.format(cal.time))
         }

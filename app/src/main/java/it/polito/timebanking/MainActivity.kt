@@ -34,12 +34,11 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var user: User
 
-    fun getProfileImagePath(): String {
+    fun getProfileImage(): File {
         //Get profile image from internal storage (local filesystem)
         val wrapper = ContextWrapper(applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        file = File(file, "profileImage.jpg")
-        return file.absolutePath
+        return File(file, "profileImage.jpg")
     }
 
 
@@ -56,8 +55,7 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.navigationView)
         profileViewModel.getAllUsers()?.observe(this) {
-            //calculate actual number of users and take the last one
-            if (it.isEmpty()) {
+            if (it.isEmpty()) { //if there is no user in the db, create a new one with the information below
                 user = User()
                 user.fullname = "Mario Rossi"
                 user.nickname = "Mario98"
@@ -66,18 +64,21 @@ class MainActivity : AppCompatActivity() {
                 user.description = "Student"
                 user.skills = "Android developer"
                 user.age = 24
-                user.imagePath = getProfileImagePath()
+                user.imagePath = getProfileImage().absolutePath
                 profileViewModel.addUser(user)
-            } else {
+            } else { //if there is at least one user, store the id of the first one.
                 userId = it[0].id
-                //aggiornamento
+                //update drawer
                 findViewById<TextView>(R.id.titleHeader).text = it[0].nickname
                 findViewById<TextView>(R.id.subtitleHeader).text = it[0].email
-                findViewById<ImageView>(R.id.imageViewHeader).setImageBitmap(
-                    BitmapFactory.decodeFile(
-                        it[0].imagePath
+                if(getProfileImage().exists()){
+                    findViewById<ImageView>(R.id.imageViewHeader).setImageBitmap(
+                        BitmapFactory.decodeFile(
+                            it[0].imagePath
+                        )
                     )
-                )
+                }
+
             }
         }
 

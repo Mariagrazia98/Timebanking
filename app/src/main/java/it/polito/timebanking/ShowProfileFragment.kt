@@ -90,7 +90,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             }
         }
 
-        //getInfoSP()
         getProfileImageLFS()
 
         if(bitmap!=null)
@@ -130,7 +129,10 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         val wrapper = ContextWrapper(requireActivity().applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         file = File(file, "profileImage.jpg")
-        bitmap = BitmapFactory.decodeFile(file.absolutePath)
+        if(file.exists()){
+            bitmap = BitmapFactory.decodeFile(file.absolutePath)
+        }
+
     }
 
     private fun addChip(text: String){

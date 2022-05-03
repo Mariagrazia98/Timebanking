@@ -12,7 +12,7 @@ import kotlin.concurrent.thread
 class ProfileViewModel(application: Application): AndroidViewModel(application)  {
     val repo = UserRepository(application)
 
-    //users
+
     fun addUser(user: User){
         thread {
             repo.addUser(user)

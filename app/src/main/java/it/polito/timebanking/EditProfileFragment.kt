@@ -188,7 +188,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
                     user.description = descriptionView.text.toString()
                     user.age= Integer.parseInt(ageView.text.toString())
-                    user.imagePath = getProfileImagePath()
+                    user.imagePath = getProfileImage().absolutePath
                     user.id = profileId
                     profileVM.updateUser(user)
                     // if you want onBackPressed() to be called as normal afterwards
@@ -321,16 +321,18 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
     }
 
-    fun getProfileImagePath(): String{
+    fun getProfileImage(): File{
         //Get profile image from internal storage (local filesystem)
         val wrapper = ContextWrapper(requireActivity().applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        file = File(file, "profileImage.jpg")
-        return file.absolutePath
+        return File(file, "profileImage.jpg")
+
     }
 
     fun getProfileImageLFS() {
-        bitmap = BitmapFactory.decodeFile(getProfileImagePath())
+        if(getProfileImage().exists()) {
+            bitmap = BitmapFactory.decodeFile(getProfileImage().absolutePath)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

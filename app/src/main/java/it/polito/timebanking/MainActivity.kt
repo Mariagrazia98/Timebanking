@@ -31,7 +31,7 @@ import java.io.File
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
     private val slotViewModel: TimeSlotViewModel by viewModels()
-    private var userId: Long = 0
+    var userId: Long = 0
     lateinit private var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         file = File(file, "profileImage.jpg")
         return file.absolutePath
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -68,16 +68,16 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
 
         setVariables(view)
-        profileVM.getAllUsers()?.observe(viewLifecycleOwner) {
-            if(it.isNotEmpty()) {
-                fullname = it[0].fullname
-                nickname = it[0].nickname
-                email= it[0].email
-                location= it[0].location
-                age=it[0].age
-                skills=it[0].skills
-                description=it[0].description
-                id = it[0].id
+        profileVM.getUserById((activity as MainActivity).userId)?.observe(viewLifecycleOwner) {
+            if(it!=null) {
+                fullname = it.fullname
+                nickname = it.nickname
+                email= it.email
+                location= it.location
+                age=it.age
+                skills=it.skills
+                description=it.description
+                id = it.id
             }
             fullnameView.text = fullname
             ageView.text = age.toString()

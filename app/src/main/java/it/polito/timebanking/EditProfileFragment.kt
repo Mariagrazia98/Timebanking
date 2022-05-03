@@ -78,7 +78,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         super.onViewCreated(view, savedInstanceState)
 
         profileId = arguments?.getLong("id")!!
-        Log.d("antodeb","id passato è $profileId")
         profileVM =  ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
         fv = view
 

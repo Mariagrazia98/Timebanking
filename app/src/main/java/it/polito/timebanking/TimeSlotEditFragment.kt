@@ -108,6 +108,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
 
         if(slotId!=-1L){ //edit
+            (activity as MainActivity).supportActionBar?.title = "Edit advertisement"
+
             timeSlotVM.getSlotById(slotId)?.observe(viewLifecycleOwner) {
                 titleView.setText(it.title)
                 descriptionView.setText(it.description)
@@ -118,6 +120,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         }
         else{ //create
+            (activity as MainActivity).supportActionBar?.title = "Create advertisement"
             dateView.setText(SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis()))
             view.findViewById<TextView>(R.id.screenEditAdvertisement).setText("Create Advertisement")
         }

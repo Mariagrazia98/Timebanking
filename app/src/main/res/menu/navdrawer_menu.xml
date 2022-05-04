@@ -11,4 +11,15 @@
             android:icon="@drawable/list"
             android:title="@string/advertisement" />
     </group>
+
+
+    <group>
+        android:checkableBehavior="single"
+        android:id="@+id/gm_log">
+        <item
+            android:id="@+id/nav_log"
+            android:icon="@drawable/ic_person"
+            android:title="Login"/>
+    </group>
+
 </menu>

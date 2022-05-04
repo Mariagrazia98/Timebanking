@@ -20,3 +20,4 @@ class User {
     //Lab3
     //var slots:List<Int>???
 }
+

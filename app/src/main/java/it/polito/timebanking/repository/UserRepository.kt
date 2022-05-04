@@ -5,6 +5,8 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class UserRepository(application: Application) {
@@ -50,4 +52,5 @@ class UserRepository(application: Application) {
     fun getAllUsers(): LiveData<List<User>>? = userDao?.findAll()
 
     fun getUserById(id:Long): LiveData<User>? = userDao?.searchUserByID(id)
+
 }

@@ -19,10 +19,13 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
+    lateinit var mAuth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
 
     lateinit var user: User
@@ -44,6 +48,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //initialize the FirebaseAuth instance.
+        mAuth = FirebaseAuth.getInstance();
+
         setContentView(R.layout.activity_main)
         //drawer settings
         val navHostFragment =
@@ -99,7 +107,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
-
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = mAuth.currentUser
+       // updateUI(currentUser)
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.edit_button, menu)
@@ -123,5 +136,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
+
 
 }

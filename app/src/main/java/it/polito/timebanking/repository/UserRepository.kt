@@ -15,7 +15,7 @@ class UserRepository(application: Application) {
 
     fun addUser(user: User){
         userDao?.addUser(user)
-        // Create a new user with a first and last name
+      /*  // Create a new user with a first and last name
         // Create a new user with a first and last name
         Log.d("addd user", "ADD")
         val user: MutableMap<String, Any> = HashMap()
@@ -34,7 +34,7 @@ class UserRepository(application: Application) {
                     "DocumentSnapshot added with ID: " + documentReference.id
                 )
             }
-            .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
+            .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }*/
     }
 
     fun updateUser(user: User) {

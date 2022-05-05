@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.MediaParser.SeekPoint.START
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -29,6 +31,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -46,11 +49,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
-    lateinit var mAuth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
 
     lateinit var user: User
 
+    //Firebase
+    lateinit var mAuth: FirebaseAuth
+    private var userState: FirebaseUser? = null
 
     // Choose authentication providers
     val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
@@ -71,12 +76,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //initialize the FirebaseAuth instance.
-        mAuth = FirebaseAuth.getInstance();
-
         setContentView(R.layout.activity_main)
-        //drawer settings
+
+        //drawer initialize
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
@@ -85,6 +87,67 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
         drawerLayout = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.navigationView)
+
+
+        //Drawer item
+        var log_item = navView.menu.findItem(R.id.nav_log)
+        var profile_item = navView.menu.findItem(R.id.profileMenuItem)
+        var adv_item = navView.menu.findItem(R.id.advMenuItem)
+
+
+        //initialize the FirebaseAuth instance.
+        mAuth = FirebaseAuth.getInstance();
+
+        //Listener called when there is a change in the authentication state
+        mAuth.addAuthStateListener { authState ->
+            Log.d("AuthListener", "Inside add AuthStateListener ")
+            userState = authState.currentUser
+            userState?.reload()
+            if (userState == null) {
+                Log.d("AuthListener", "null user")
+
+                log_item.title = "Login"
+                log_item.setOnMenuItemClickListener {
+                    login()
+                    true
+                }
+
+                profile_item.isVisible = false
+                adv_item.isVisible = false
+
+
+            } else {
+                Log.d("AuthListener", "there is a user")
+                log_item.title = "Logout"
+                log_item.setOnMenuItemClickListener {
+                    logout()
+                    true
+                }
+
+                profile_item.isVisible = true
+                adv_item.isVisible = true
+                Firebase.firestore
+                    .collection("users")
+                    .document(userState!!.uid)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        if (document.data != null) {
+                            findViewById<TextView>(R.id.titleHeader).text = userState!!.displayName
+                            findViewById<TextView>(R.id.subtitleHeader).text = userState!!.email
+                            println(       userState!!.photoUrl.toString())
+                            findViewById<ImageView>(R.id.imageViewHeader).setImageBitmap(
+                                BitmapFactory.decodeFile(
+                                    userState!!.photoUrl.toString()
+                                )
+                            )
+                        }
+                    }
+            }
+
+        }
+
+
+
         profileViewModel.getAllUsers()?.observe(this) {
             if (it.isEmpty()) { //if there is no user in the db, create a new one with the information below
                 user = User()
@@ -100,7 +163,7 @@ class MainActivity : AppCompatActivity() {
             } else { //for this lab we just considered the existence of one single user, so if there is at least one user we take the first one
                 userId = it[0].id
                 //update drawer
-                findViewById<TextView>(R.id.titleHeader).text = it[0].nickname
+                /*findViewById<TextView>(R.id.titleHeader).text = it[0].nickname
                 findViewById<TextView>(R.id.subtitleHeader).text = it[0].email
                 if(getProfileImage().exists()){
                     findViewById<ImageView>(R.id.imageViewHeader).setImageBitmap(
@@ -108,7 +171,7 @@ class MainActivity : AppCompatActivity() {
                             it[0].imagePath
                         )
                     )
-                }
+                }*/
 
             }
         }
@@ -142,8 +205,23 @@ class MainActivity : AppCompatActivity() {
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .build()
+
+
         signInLauncher.launch(signInIntent)
     }
+
+    private fun logout() {
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnSuccessListener {
+                Log.d("LOGIN", "Logout successful!")
+                Toast.makeText(this, "Logout successful!", Toast.LENGTH_SHORT).show()
+                findViewById<TextView>(R.id.titleHeader).text = ""
+                findViewById<TextView>(R.id.subtitleHeader).text = ""
+            }
+    }
+
+
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
@@ -160,7 +238,9 @@ class MainActivity : AppCompatActivity() {
                     .document(user.uid)
                     .get()
                     .addOnSuccessListener { document ->
-                        if (document != null) {
+                        if (document.data != null) {
+                            Log.d("LOGIN", user.uid.toString())
+                            Log.d("LOGIN", document.getData().toString())
                             Log.d("LOGIN", "User login")
                             // timestamp of latest login -> it triggers the observer and loads the user data
                             val updates = hashMapOf<String, Any>(
@@ -168,11 +248,12 @@ class MainActivity : AppCompatActivity() {
                             )
                             Firebase.firestore.collection("users").document(user.uid).update(updates)
                                 .addOnCompleteListener {
-                                    Snackbar.make(
+                                   /* Snackbar.make(
                                         findViewById(R.id.timeSlotListFragment),
                                         "Login successful",
                                         Snackbar.LENGTH_SHORT
-                                    ).show()
+                                    ).show()*/
+                                    Log.d("ok","ok2")
                                 }
                         } else {
                             Log.d("LOGIN", "New user signed up")
@@ -184,11 +265,11 @@ class MainActivity : AppCompatActivity() {
                             )
                             Firebase.firestore.collection("users").document(user.uid).set(newUser, SetOptions.merge())
                                 .addOnSuccessListener {
-                                    Snackbar.make(
+                                    /*Snackbar.make(
                                         findViewById(R.id.timeSlotListFragment),
                                         "Login successful",
                                         Snackbar.LENGTH_SHORT
-                                    ).show()
+                                    ).show()*/
                                 } }
             }
 

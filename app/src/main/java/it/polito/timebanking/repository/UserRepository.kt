@@ -4,18 +4,23 @@ import android.app.Application
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
+import com.google.android.gms.tasks.Tasks.await
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import it.polito.timebanking.model.UserFire
+import kotlinx.coroutines.tasks.await
 
 
 class UserRepository(application: Application) {
     private val userDao = UserDatabase.getDatabase(application)?.userDao()
     private val db = FirebaseFirestore.getInstance()
 
-    fun addUser(user: User){
+    fun addUser(user: User) {
         userDao?.addUser(user)
-      /*  // Create a new user with a first and last name
+        /*  // Create a new user with a first and last name
         // Create a new user with a first and last name
         Log.d("addd user", "ADD")
         val user: MutableMap<String, Any> = HashMap()
@@ -37,20 +42,71 @@ class UserRepository(application: Application) {
             .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }*/
     }
 
+    fun getAllUsers(): LiveData<List<User>>? = userDao?.findAll()
+    /*TODO implement it in firebase version*/
+
     fun updateUser(user: User) {
         userDao?.updateUser(user)
     }
 
-    fun clearAllUsers(){
+    fun clearAllUsers() {
         userDao?.removeAll()
     }
+    /*TODO implement it in firebase version*/
 
-    fun removeUserById(id: String){
-        userDao?.removeUserById(id)
+
+    fun getUserById(id: Long): LiveData<User>? = userDao?.searchUserByID(id)
+
+
+    //Firebase
+    suspend fun addUserF(user: UserFire): Boolean {
+        return try {
+            db.collection("users")
+                .document(user.uid)
+                .set(user, SetOptions.merge())
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
-    fun getAllUsers(): LiveData<List<User>>? = userDao?.findAll()
+    fun getUserByIdF(id: String): Result<DocumentReference?> {
+        try {
+            val data = FirebaseFirestore.getInstance()
+                .document("users/${id}")
+            return Result.success(data)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
 
-    fun getUserById(id:Long): LiveData<User>? = userDao?.searchUserByID(id)
+    suspend fun loginUser(uid: String, updates: HashMap<String,Any>): Boolean {
+        return try{
+            Firebase.firestore
+                .collection("users")
+                .document(uid)
+                .update(updates)
+                .await()
+            true
+        }catch (e: Exception){
+            false
+        }
+    }
+
+    suspend fun updateUserF( user: UserFire) : Boolean
+    {
+        return try{
+            Firebase.firestore
+                .collection("users")
+                .document(user.uid)
+                .set(user)
+                .await()
+            true
+        }catch (e: Exception){
+            false
+        }
+    }
+
 
 }

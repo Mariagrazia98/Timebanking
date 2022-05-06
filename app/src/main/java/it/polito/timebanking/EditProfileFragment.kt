@@ -26,6 +26,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Timestamp
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
@@ -344,14 +347,32 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             stream.flush()
             stream.close()
-            val snackbar = Snackbar.make(requireView(), "Upload photo successfully!", Snackbar.LENGTH_SHORT)
-            val sbView: View = snackbar.view
-            context?.let { ContextCompat.getColor(it, R.color.primary_light) }
-                ?.let { it2 -> sbView.setBackgroundColor(it2) }
 
-            context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
-                ?.let { it2 -> snackbar.setTextColor(it2) }
-            snackbar.show()
+            //Store image on firestore
+            val firebaseImagePath = user.uid + Timestamp.now()
+            val userRef = Firebase.storage.reference.child("images_user/${firebaseImagePath}")
+            userRef.putFile(Uri.fromFile(file))
+                .addOnSuccessListener {
+                    file.delete() //delete the file from local storage
+                    userRef.downloadUrl.addOnCompleteListener {
+                        user.imagePath = it.result.toString()
+                        val snackbar = Snackbar.make(requireView(), "Upload photo successfully!", Snackbar.LENGTH_SHORT)
+                        val sbView: View = snackbar.view
+                        context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                            ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                        context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
+                            ?.let { it2 -> snackbar.setTextColor(it2) }
+                        snackbar.show()
+                    }
+                }
+                .addOnFailureListener {
+                    val snackbar = Snackbar.make(requireView(), "Error while updtaing the photo  profile! Try again!", Snackbar.LENGTH_SHORT)
+                    snackbar.show()
+                }
+
+
+
 
         } catch (e: IOException) {
             e.printStackTrace()

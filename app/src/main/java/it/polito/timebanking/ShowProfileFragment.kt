@@ -19,6 +19,7 @@ import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
 import androidx.lifecycle.Observer
+import it.polito.timebanking.model.UserFire
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private var bitmap: Bitmap? = null
@@ -37,7 +38,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var userId: String
 
     lateinit var profileVM: ProfileViewModel
-    lateinit var user: User
+    //lateinit var user: UserFire
     var id: Long = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,13 +82,27 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                             addChip(it.trim())
                         }
                     }
+                    bitmap= BitmapFactory.decodeFile(user.imagePath)?.also { bitmap ->
+
+                        imageView.setImageBitmap(bitmap)
+                    }
                 }
             })
 
-        getProfileImageLFS()
+ /*       getProfileImageLFS()
+        //Get profile image from internal storage (local filesystem)
+        val wrapper = ContextWrapper(requireActivity().applicationContext)
+        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+        file = File(file, "profileImage.jpg")
+        if (file.exists()) {
+            bitmap = BitmapFactory.decodeFile(file.absolutePath)
+        }
+*/
 
-        if (bitmap != null)
-            imageView.setImageBitmap(bitmap)
+
+
+       /* if (bitmap != null)
+            imageView.setImageBitmap(bitmap)*/
 
     }
 

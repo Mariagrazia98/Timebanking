@@ -17,15 +17,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/skill_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Skill prova"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:paddingStart="10dp"
-            android:paddingEnd="10dp"/>
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="Skill prova"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     </androidx.cardview.widget.CardView>
 

@@ -17,6 +17,8 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
 class SkillsListFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
 
+    val skillList = listOf("Android developer", "Electrician", "Gardening", "Bicycle repairer", "Babysitter")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -29,18 +31,17 @@ class SkillsListFragment : Fragment() {
 
         val ev: TextView = view.findViewById(R.id.empty_view)
         val rv = view.findViewById<RecyclerView>(R.id.rv)
-        timeSlotVM.slots?.observe(viewLifecycleOwner) {
-            rv.layoutManager = LinearLayoutManager(context)
-            val adapter = MySkillRecyclerViewAdapter(it)
-            rv.adapter = adapter
 
-            if(it.size<1){
-                rv.visibility = View.GONE
-                ev.visibility = View.VISIBLE
-            }else {
-                rv.visibility = View.VISIBLE
-                ev.visibility = View.GONE
-            }
+        rv.layoutManager = LinearLayoutManager(context)
+        val adapter = MySkillRecyclerViewAdapter(skillList)
+        rv.adapter = adapter
+
+        if(skillList.size<1){
+            rv.visibility = View.GONE
+            ev.visibility = View.VISIBLE
+        }else {
+            rv.visibility = View.VISIBLE
+            ev.visibility = View.GONE
         }
 
         return view

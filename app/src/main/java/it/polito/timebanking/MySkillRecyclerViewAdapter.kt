@@ -14,15 +14,16 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.timebanking.repository.Slot
 
-class MySkillRecyclerViewAdapter(val data: List<Slot>) :
+class MySkillRecyclerViewAdapter(val data: List<String>) :
     RecyclerView.Adapter<MySkillRecyclerViewAdapter.SkillViewHolder>() {
         var list = data.toMutableList()
 
         class SkillViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             val cv: CardView = v.findViewById(R.id.cv)
+            private val title: TextView = v.findViewById(R.id.skill_title)
 
-            fun bind(item: Slot) {
-
+            fun bind(item: String) {
+                title.text = item
             }
         }
 
@@ -31,9 +32,11 @@ class MySkillRecyclerViewAdapter(val data: List<Slot>) :
             return SkillViewHolder(vg)
         }
 
+
         override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
             val item = list[position]
             item.let { holder.bind(it) }
+            /*
             val bundle = bundleOf("id" to item.id)
 
             holder.cv.setOnClickListener {
@@ -42,6 +45,7 @@ class MySkillRecyclerViewAdapter(val data: List<Slot>) :
                     bundle
                 )
             }
+            */
         }
 
 

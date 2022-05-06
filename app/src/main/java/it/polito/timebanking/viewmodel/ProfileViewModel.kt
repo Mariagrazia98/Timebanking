@@ -51,8 +51,8 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
         return res
     }
 
-    fun getUserByIdF(id:String): LiveData<DocumentReference> {
-        val res = MutableLiveData<DocumentReference>()
+    fun getUserByIdF(id:String): LiveData<UserFire?> {
+        val res = MutableLiveData<UserFire?>()
         viewModelScope.launch {
             val result = repo.getUserByIdF(id)
             res.postValue(result.getOrNull())

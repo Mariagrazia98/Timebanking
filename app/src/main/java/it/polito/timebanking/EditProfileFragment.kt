@@ -21,11 +21,12 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
-import it.polito.timebanking.repository.User
+import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
 import java.io.FileOutputStream
@@ -57,8 +58,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     var w: Int = 0
 
     lateinit var profileVM: ProfileViewModel
-    lateinit var user: User
-    var profileId:Long = 1
+    //lateinit var user: User
+    lateinit var  user:UserFire
+    lateinit var userId:String
     lateinit var fv: View
 
 
@@ -76,7 +78,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        profileId = arguments?.getLong("id")!!
+        userId = arguments?.getString("id")!!
         profileVM =  ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
         fv = view
 
@@ -102,39 +104,45 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         setVariables(view)
 
 
-        profileVM.getUserById(profileId)?.observe(viewLifecycleOwner) {
-            if(it != null && savedInstanceState==null) {
-                fullname = it.fullname
-                nickname = it.nickname
-                email= it.email
-                location= it.location
-                age=it.age
-                description=it.description
-                if(it.skills != ""){
-                    it.skills.split(",").map {
-                        skillsList.add(it.trim())
-                        addChip(it.trim())
+        userId = arguments?.getString("id")!!
+        profileVM.getUserByIdF(userId)
+            .observe(viewLifecycleOwner, Observer {
+                if(it != null && savedInstanceState==null) {
+                    fullname = it.fullname
+                    nickname = it.nickname
+                    email= it.email
+                    location= it.location
+                    age=it.age
+                    description=it.description
+                    if(it.skills != ""){
+                        it.skills.split(",").map {
+                            skillsList.add(it.trim())
+                            addChip(it.trim())
+                        }
+                    }
+                }else{
+                    if (savedInstanceState != null) {
+                        fullname = savedInstanceState.getString("fullname", fullname)
+                        nickname = savedInstanceState.getString("nickname", nickname)
+                        email = savedInstanceState.getString("email", email)
+                        location = savedInstanceState.getString("location", location)
+                        description = savedInstanceState.getString("description", description)
+                        age = savedInstanceState.getInt("age", age)
+                        skillsList = savedInstanceState.getStringArrayList("skillsList") as ArrayList<String>
+                        skillsList.map{ addChip(it.trim())}
                     }
                 }
-            }else{
-                if (savedInstanceState != null) {
-                    fullname = savedInstanceState.getString("fullname", fullname)
-                    nickname = savedInstanceState.getString("nickname", nickname)
-                    email = savedInstanceState.getString("email", email)
-                    location = savedInstanceState.getString("location", location)
-                    description = savedInstanceState.getString("description", description)
-                    age = savedInstanceState.getInt("age", age)
-                    skillsList = savedInstanceState.getStringArrayList("skillsList") as ArrayList<String>
-                    skillsList.map{ addChip(it.trim())}
-                }
-            }
-            fullnameView.setText(fullname)
-            ageView.setText(age.toString())
-            nicknameView.setText(nickname)
-            emailView.setText(email)
-            locationView.setText(location)
-            descriptionView.setText(description)
-        }
+                fullnameView.setText(fullname)
+                ageView.setText(age.toString())
+                nicknameView.setText(nickname)
+                emailView.setText(email)
+                locationView.setText(location)
+                descriptionView.setText(description)
+            })
+        /*TODO remove it*/
+        /*      profileVM.getUserById(userId)?.observe(viewLifecycleOwner) {
+
+        }*/
 
         getProfileImageLFS(savedInstanceState)
         val iv = view.findViewById<ImageView>(R.id.Edit_imageView)
@@ -180,7 +188,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    user = User()
+                  /*  user = User()
                     user.fullname = fullnameView.text.toString()
                     user.nickname = nicknameView.text.toString()
                     user.email = emailView.text.toString()
@@ -189,16 +197,36 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.description = descriptionView.text.toString()
                     user.age= Integer.parseInt(ageView.text.toString())
                     user.imagePath = getProfileImage().absolutePath
-                    user.id = profileId
+                    user.id = userId
                     profileVM.updateUser(user)
-                    val snackbar = Snackbar.make(requireView(), "Profile updated!", Snackbar.LENGTH_SHORT)
-                    val sbView: View = snackbar.view
-                    context?.let { ContextCompat.getColor(it, R.color.primary_light) }
-                        ?.let { it2 -> sbView.setBackgroundColor(it2) }
 
-                    context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
-                        ?.let { it2 -> snackbar.setTextColor(it2) }
-                    snackbar.show()
+                   */
+                    user = UserFire()
+                    user.fullname = fullnameView.text.toString()
+                    user.nickname = nicknameView.text.toString()
+                    user.email = emailView.text.toString()
+                    user.location = locationView.text.toString()
+                    user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
+                    user.description = descriptionView.text.toString()
+                    user.age= Integer.parseInt(ageView.text.toString())
+                    user.imagePath = getProfileImage().absolutePath
+                    user.uid = userId
+                    profileVM.updateUserF(user).observe(viewLifecycleOwner, Observer {
+                        if(it){
+                            val snackbar = Snackbar.make(requireView(), "Profile updated!", Snackbar.LENGTH_SHORT)
+                            val sbView: View = snackbar.view
+                            context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                                ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                            context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
+                                ?.let { it2 -> snackbar.setTextColor(it2) }
+                            snackbar.show()
+                        }
+                        else{
+                            val snackbar = Snackbar.make(requireView(), "Something is wrong, try later!", Snackbar.LENGTH_SHORT)
+                            snackbar.show()
+                        }
+                    })
 
                     // if you want onBackPressed() to be called as normal afterwards
                     if (isEnabled) {

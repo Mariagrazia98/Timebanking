@@ -71,11 +71,16 @@ class UserRepository(application: Application) {
         }
     }
 
-    fun getUserByIdF(id: String): Result<DocumentReference?> {
-        try {
-            val data = FirebaseFirestore.getInstance()
-                .document("users/${id}")
-            return Result.success(data)
+    suspend fun getUserByIdF(uid: String): Result<UserFire?> {
+        return try {
+            val data = Firebase.firestore
+                .collection("users")
+                .document(uid)
+                .get()
+                .await()
+            Log.d("DATA", data.data.toString())
+            Log.d("DATA", data.toObject(UserFire::class.java).toString() )
+            return Result.success(data.toObject(UserFire::class.java))
         } catch (e: Exception) {
             return Result.failure(e)
         }

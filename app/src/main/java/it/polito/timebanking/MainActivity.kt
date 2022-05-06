@@ -3,15 +3,11 @@ package it.polito.timebanking
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.media.MediaParser.SeekPoint.START
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -26,16 +22,11 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.repository.User
@@ -45,7 +36,7 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
-    var userId: Long = 0
+    //var userId: Long = 0
     lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
@@ -97,7 +88,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //initialize the FirebaseAuth instance.
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance()
 
         //Listener called when there is a change in the authentication state
         mAuth.addAuthStateListener { authState ->
@@ -179,11 +170,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
+
         navView.setNavigationItemSelectedListener() { item ->
+            val bundle = bundleOf("id" to (userState?.uid ?: 0))
+
             if (item.itemId == R.id.profileMenuItem) {
-                navController.navigate(R.id.showProfileFragment)
+                navController.navigate(R.id.showProfileFragment, bundle)
             } else if (item.itemId == R.id.advMenuItem) {
-                navController.navigate(R.id.timeSlotListFragment)
+                navController.navigate(R.id.timeSlotListFragment, bundle)
             } else if (item.itemId == R.id.nav_log) {
                 login()
             }
@@ -216,7 +211,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
-        val response = result.idpResponse
+        //val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
@@ -225,8 +220,6 @@ class MainActivity : AppCompatActivity() {
             user?.getIdToken(true)
 
             if (user != null) {
-
-
                 profileViewModel.getUserByIdF(user.uid)
                     .observe(this,
                         Observer
@@ -283,8 +276,6 @@ class MainActivity : AppCompatActivity() {
             Log.e("Login result", "Sign in failed")
         }
     }
-
-
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -117,7 +117,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             .observe(viewLifecycleOwner, Observer {
                 if (it != null && savedInstanceState == null) {
                     user = it
-                    fullname = it.fullname
+                    currentPhotoPath = it.imagePath
+                    /*fullname = it.fullname
                     nickname = it.nickname
                     email = it.email
                     location = it.location
@@ -130,10 +131,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         }
                     }
                     currentPhotoPath = it.imagePath
-                    Glide.with(requireContext()).load(user.imagePath).into(profileImageView)
-                } else {
-                    if (savedInstanceState != null) {
-                        fullname = savedInstanceState.getString("fullname", fullname)
+                    Glide.with(requireContext()).load(user.imagePath).into(profileImageView)*/
+                } else  if (savedInstanceState != null) {
+                    /*    fullname = savedInstanceState.getString("fullname", fullname)
                         nickname = savedInstanceState.getString("nickname", nickname)
                         email = savedInstanceState.getString("email", email)
                         location = savedInstanceState.getString("location", location)
@@ -142,19 +142,26 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         skillsList =
                             savedInstanceState.getStringArrayList("skillsList") as ArrayList<String>
                         skillsList.map { addChip(it.trim()) }
-                        imagePath = savedInstanceState.getString("imagePath", imagePath)
-                        currentPhotoPath = savedInstanceState.getString("currentPhotoPath")
-                    }
+                        imagePath = savedInstanceState.getString("imagePath", imagePath)*/
+                         user = profileVM.getUser()
+                        currentPhotoPath = savedInstanceState.getString("imagePath")
+
                 }
 
-
-                fullnameView.setText(fullname)
-                ageView.setText(age.toString())
-                nicknameView.setText(nickname)
-                emailView.setText(email)
-                locationView.setText(location)
-                descriptionView.setText(description)
-                Glide.with(requireContext()).load(currentPhotoPath).into(profileImageView)
+                fullnameView.setText(user.fullname)
+                ageView.setText(user.age.toString())
+                nicknameView.setText(user.nickname)
+                emailView.setText(user.email)
+                locationView.setText(user.location)
+                descriptionView.setText(user.description)
+                if (user.skills != "") {
+                    user.skills.split(",").map {
+                        skillsList.add(it.trim())
+                        addChip(it.trim())
+                    }
+                }
+                Log.d("DEBUG", user.imagePath.toString())
+                Glide.with(requireContext()).load(user.imagePath).into(profileImageView)
 
             })
 
@@ -377,7 +384,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 userRef.downloadUrl.addOnCompleteListener {
                     user.imagePath = it.result.toString() //new file path
                     currentPhotoPath = user.imagePath
-
+                    Glide.with(requireContext()).load(user.imagePath).into(profileImageView)
                     Log.d("ATTEMPT", "Path" + user.imagePath.toString())
 
                     profileVM.updateUserF(user).observe(viewLifecycleOwner, Observer {
@@ -413,14 +420,15 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putStringArrayList("skillsList", skillsList)
+        profileVM.setUser(user = user)
+/*        outState.putStringArrayList("skillsList", skillsList)
         outState.putString("fullname", fullnameView.text.toString())
         outState.putString("nickname", nicknameView.text.toString())
         outState.putInt("age", ageView.text.toString().toInt())
         outState.putString("email", emailView.text.toString())
         outState.putString("location", locationView.text.toString())
         outState.putString("description", descriptionView.text.toString())
-        outState.putString("currentPhotoPath", currentPhotoPath)
+        outState.putString("currentPhotoPath", currentPhotoPath)*/
         outState.putString("imagePath", currentPhotoPath)
     }
 }

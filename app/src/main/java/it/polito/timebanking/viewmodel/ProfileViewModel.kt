@@ -11,6 +11,16 @@ import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
 class ProfileViewModel(application: Application): AndroidViewModel(application)  {
+    private lateinit var user: UserFire
+
+    fun getUser(): UserFire {
+        return user
+    }
+
+    fun setUser(user: UserFire) {
+        this.user = user
+    }
+
     val repo = UserRepository(application)
 
 

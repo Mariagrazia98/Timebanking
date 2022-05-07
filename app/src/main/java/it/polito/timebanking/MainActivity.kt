@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -19,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.firebase.ui.auth.AuthUI
@@ -30,6 +32,7 @@ import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
@@ -61,11 +64,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //drawer initialize
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
         binding = ActivityMainBinding.inflate(layoutInflater)
         setupWithNavController(binding.navigationView, navController)
+
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
         drawerLayout = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.navigationView)
@@ -106,15 +109,15 @@ class MainActivity : AppCompatActivity() {
                 profile_item.isVisible = true
                 adv_item.isVisible = true
 
-                /* findViewById<TextView>(R.id.titleHeader).text = userState!!.displayName
-                 findViewById<TextView>(R.id.subtitleHeader).text = userState!!.email
-                 println(userState!!.photoUrl.toString())
-                 findViewById<ImageView>(R.id.imageViewHeader).setImageBitmap(
-                     BitmapFactory.decodeFile(
-                         userState!!.photoUrl.toString()
-                     )
-                 )*/
 
+             /*   findViewById<TextView>(R.id.titleHeader).text = userState?.displayName?:" "
+                findViewById<TextView>(R.id.subtitleHeader).text = userState?.email?:" "
+                try {
+                    //todo: aggiungere verifica file esiste
+                    Glide.with(this *//* context *//*).load(user.imagePath).into(findViewById<ImageView>(R.id.imageViewHeader))
+                } catch (e: IOException) {
+                    Log.d("ERRORE", e.toString())
+                }*/
             }
 
         }
@@ -141,6 +144,7 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
+
     }
 
     private fun login() {

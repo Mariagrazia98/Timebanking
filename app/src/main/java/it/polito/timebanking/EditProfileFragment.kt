@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
@@ -23,6 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
@@ -37,14 +39,17 @@ import java.io.IOException
 import java.io.OutputStream
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
-    var fullname: String="Mario Rossi"
-    var nickname: String="Mario 98"
+    var fullname: String=""
+    var nickname: String=""
     var age = 24
-    var email: String = "mario.rossi@gmail.com"
-    var location: String = "Torino"
-    var description: String = "Student"
+    var email: String = ""
+    var location: String = ""
+    var description: String = ""
     var skillsList: ArrayList<String> = arrayListOf()
+    var imagePath: String?= null
+
     private var bitmap: Bitmap? = null
+    private var currentPhotoPath: String? = null
 
     lateinit var fullnameView: EditText
     lateinit var ageView: EditText
@@ -56,7 +61,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var skillsGroup: ChipGroup
     lateinit var skillsAddButton:Button
     lateinit var addSkillView:EditText
-
+    lateinit var profileImageView: ImageView
     var h: Int = 0
     var w: Int = 0
 
@@ -108,9 +113,11 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
 
         userId = arguments?.getString("id")!!
+        Log.d("user", userId)
         profileVM.getUserByIdF(userId)
             .observe(viewLifecycleOwner, Observer {
                 if(it != null && savedInstanceState==null) {
+                    user=it
                     fullname = it.fullname
                     nickname = it.nickname
                     email= it.email
@@ -123,6 +130,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                             addChip(it.trim())
                         }
                     }
+                    currentPhotoPath=it.imagePath
+                    Glide.with(requireContext()).load(user.imagePath).into(profileImageView)
                 }else{
                     if (savedInstanceState != null) {
                         fullname = savedInstanceState.getString("fullname", fullname)
@@ -133,24 +142,36 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         age = savedInstanceState.getInt("age", age)
                         skillsList = savedInstanceState.getStringArrayList("skillsList") as ArrayList<String>
                         skillsList.map{ addChip(it.trim())}
+                        imagePath = savedInstanceState.getString("imagePath", imagePath)
+                        currentPhotoPath = savedInstanceState.getString("currentPhotoPath")
+
                     }
+
                 }
+
+
                 fullnameView.setText(fullname)
                 ageView.setText(age.toString())
                 nicknameView.setText(nickname)
                 emailView.setText(email)
                 locationView.setText(location)
                 descriptionView.setText(description)
+                Log.d("imagePath", imagePath.toString())
+                Glide.with(requireContext()).load(currentPhotoPath).into(profileImageView)
+
             })
         /*TODO remove it*/
         /*      profileVM.getUserById(userId)?.observe(viewLifecycleOwner) {
 
         }*/
 
-        getProfileImageLFS(savedInstanceState)
+/*        getProfileImageLFS(savedInstanceState)
         val iv = view.findViewById<ImageView>(R.id.Edit_imageView)
         if (bitmap != null)
-            iv.setImageBitmap(bitmap)
+            iv.setImageBitmap(bitmap)*/
+
+
+
 
         val imgButton = view.findViewById<ImageButton>(R.id.imageButton)
 
@@ -212,7 +233,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
                     user.description = descriptionView.text.toString()
                     user.age= Integer.parseInt(ageView.text.toString())
-                    user.imagePath = getProfileImage().absolutePath
+                    user.imagePath = currentPhotoPath
                     user.uid = userId
                     profileVM.updateUserF(user).observe(viewLifecycleOwner, Observer {
                         if(it){
@@ -264,6 +285,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         skillsAddButton = view.findViewById(R.id.skillsAddButton)
         addSkillView = view.findViewById(R.id.add_skills)
         skillsGroup = view.findViewById(R.id.skills)
+        profileImageView=view.findViewById(R.id.Edit_imageView)
     }
 
 
@@ -341,29 +363,42 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         //Save profile image into internal storage
         val wrapper = ContextWrapper(requireActivity().applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        file = File(file, "profileImage.jpg")
+        val filename = user.uid + Timestamp.now()+".jpg"
+        file = File(file, filename)
+        currentPhotoPath = file.absolutePath
         try {
             val stream: OutputStream = FileOutputStream(file)
             bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             stream.flush()
             stream.close()
 
-            //Store image on firestore
-            val firebaseImagePath = user.uid + Timestamp.now()
-            val userRef = Firebase.storage.reference.child("images_user/${firebaseImagePath}")
+
+            val userRef = Firebase.storage.reference.child("images_user/${Uri.fromFile(file).lastPathSegment }")
             userRef.putFile(Uri.fromFile(file))
                 .addOnSuccessListener {
                     file.delete() //delete the file from local storage
+                    currentPhotoPath = Uri.fromFile(file).lastPathSegment
                     userRef.downloadUrl.addOnCompleteListener {
                         user.imagePath = it.result.toString()
-                        val snackbar = Snackbar.make(requireView(), "Upload photo successfully!", Snackbar.LENGTH_SHORT)
-                        val sbView: View = snackbar.view
-                        context?.let { ContextCompat.getColor(it, R.color.primary_light) }
-                            ?.let { it2 -> sbView.setBackgroundColor(it2) }
+                        currentPhotoPath = user.imagePath
+                        Log.d("ATTEMPT","Path"+ user.imagePath.toString())
+                        profileVM.updateUserF(user).observe(viewLifecycleOwner, Observer {
+                            Log.d("ATTEMPT","Booelan"+it)
+                            if(it){
+                                val snackbar = Snackbar.make(requireView(), "Upload photo successfully!", Snackbar.LENGTH_SHORT)
+                                val sbView: View = snackbar.view
+                                context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                                    ?.let { it2 -> sbView.setBackgroundColor(it2) }
 
-                        context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
-                            ?.let { it2 -> snackbar.setTextColor(it2) }
-                        snackbar.show()
+                                context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
+                                    ?.let { it2 -> snackbar.setTextColor(it2) }
+                                snackbar.show()
+                            }
+                            else{
+                                Log.d("LOG","something goes wrong")
+                            }
+                        })
+
                     }
                 }
                 .addOnFailureListener {
@@ -372,29 +407,27 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }
 
 
-
-
         } catch (e: IOException) {
             e.printStackTrace()
         }
     }
 
-    fun getProfileImage(): File{
+   /* fun getProfileImage(): File{
         //Get profile image from internal storage (local filesystem)
         val wrapper = ContextWrapper(requireActivity().applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         return File(file, "profileImage.jpg")
 
-    }
+    }*/
 
-    fun getProfileImageLFS( savedInstanceState: Bundle?) {
+   /* fun getProfileImageLFS( savedInstanceState: Bundle?) {
         if(savedInstanceState != null){
-            bitmap = savedInstanceState.getParcelable("bitmap")
+            //bitmap = savedInstanceState.getParcelable("bitmap")
         }
         else if(getProfileImage().exists()) {
             bitmap = BitmapFactory.decodeFile(getProfileImage().absolutePath)
         }
-    }
+    }*/
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -405,6 +438,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         outState.putString("email", emailView.text.toString())
         outState.putString("location", locationView.text.toString())
         outState.putString("description", descriptionView.text.toString())
-        outState.putParcelable("bitmap", bitmap)
+        outState.putString("currentPhotoPath", currentPhotoPath)
+        outState.putString("imagePath", currentPhotoPath)
     }
 }

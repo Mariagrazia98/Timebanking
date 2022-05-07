@@ -58,14 +58,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-    fun getProfileImage(): File {
-        //Get profile image from internal storage (local filesystem)
-        val wrapper = ContextWrapper(applicationContext)
-        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        return File(file, "profileImage.jpg")
-    }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -81,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         navView = findViewById(R.id.navigationView)
 
 
-        //Drawer item
+        //Drawer items
         var log_item = navView.menu.findItem(R.id.nav_log)
         var profile_item = navView.menu.findItem(R.id.profileMenuItem)
         var adv_item = navView.menu.findItem(R.id.advMenuItem)
@@ -96,8 +88,6 @@ class MainActivity : AppCompatActivity() {
             userState = authState.currentUser
             userState?.reload()
             if (userState == null) {
-                Log.d("AuthListener", "null user")
-
                 log_item.title = "Login"
                 log_item.setOnMenuItemClickListener {
                     login()
@@ -106,7 +96,6 @@ class MainActivity : AppCompatActivity() {
 
                 profile_item.isVisible = false
                 adv_item.isVisible = false
-
 
             } else {
                 Log.d("AuthListener", "there is a user")
@@ -118,7 +107,6 @@ class MainActivity : AppCompatActivity() {
 
                 profile_item.isVisible = true
                 adv_item.isVisible = true
-
 
                 /* findViewById<TextView>(R.id.titleHeader).text = userState!!.displayName
                  findViewById<TextView>(R.id.subtitleHeader).text = userState!!.email
@@ -303,4 +291,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    /*TODO Remove */
+    fun getProfileImage(): File {
+        //Get profile image from internal storage (local filesystem)
+        val wrapper = ContextWrapper(applicationContext)
+        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+        return File(file, "profileImage.jpg")
+    }
 }

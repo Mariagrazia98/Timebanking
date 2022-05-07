@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -19,7 +20,11 @@ import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import it.polito.timebanking.model.UserFire
+import java.io.IOException
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private var bitmap: Bitmap? = null
@@ -38,8 +43,15 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var userId: String
 
     lateinit var profileVM: ProfileViewModel
+
     //lateinit var user: UserFire
     var id: Long = 0
+
+
+    // Reference to an image file in Cloud Storage
+    val storageReference = Firebase.storage.reference
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -82,27 +94,35 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                             addChip(it.trim())
                         }
                     }
-                    bitmap= BitmapFactory.decodeFile(user.imagePath)?.also { bitmap ->
 
-                        imageView.setImageBitmap(bitmap)
+                    // Download directly from StorageReference using Glide
+                    try {
+                        Log.d("ATTEMPT", "Try to load") //todo: aggiungere verifica file esiste
+                        Log.d("ATTEMPT", user.imagePath?:"ciao")
+                        Glide.with(this /* context */)
+                            .load(user.imagePath)
+                            .into(imageView)
+                        Log.d("ATTEMPT", "End load")
+                    } catch (e: IOException) {
+                        Log.d("ERRORE", e.toString())
                     }
+
+                    /*   bitmap= BitmapFactory.decodeFile(user.imagePath)?.also { bitmap ->
+
+                           imageView.setImageBitmap(bitmap)
+                       }*/
                 }
             })
 
- /*       getProfileImageLFS()
-        //Get profile image from internal storage (local filesystem)
-        val wrapper = ContextWrapper(requireActivity().applicationContext)
-        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        file = File(file, "profileImage.jpg")
-        if (file.exists()) {
-            bitmap = BitmapFactory.decodeFile(file.absolutePath)
+        /*getProfileImageLFS()
+
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap)
         }
 */
 
-
-
-       /* if (bitmap != null)
-            imageView.setImageBitmap(bitmap)*/
+        /* if (bitmap != null)
+             imageView.setImageBitmap(bitmap)*/
 
     }
 
@@ -136,7 +156,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
     }
 
-    fun getProfileImageLFS() {
+   /* fun getProfileImageLFS() {
         //Get profile image from internal storage (local filesystem)
         val wrapper = ContextWrapper(requireActivity().applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
@@ -145,7 +165,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             bitmap = BitmapFactory.decodeFile(file.absolutePath)
         }
 
-    }
+    }*/
 
     private fun addChip(text: String) {
         val chip = Chip(this.context)
@@ -160,4 +180,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
         skillsGroup.addView(chip)
     }
+
+
+
 }

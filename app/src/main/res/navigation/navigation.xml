@@ -46,4 +46,8 @@
         android:name="it.polito.timebanking.EditProfileFragment"
         android:label="@string/edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/skillsListFragment"
+        android:name="it.polito.timebanking.SkillsListFragment"
+        android:label="SkillsListFragment" />
 </navigation>

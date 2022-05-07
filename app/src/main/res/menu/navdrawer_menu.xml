@@ -10,6 +10,10 @@
             android:id="@+id/advMenuItem"
             android:icon="@drawable/list"
             android:title="@string/advertisement" />
+        <item
+            android:id="@+id/skillsMenuItem"
+            android:icon="@drawable/list"
+            android:title="Skills" />
     </group>
 
 

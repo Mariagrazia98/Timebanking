@@ -138,7 +138,9 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.showProfileFragment, bundle)
             } else if (item.itemId == R.id.advMenuItem) {
                 navController.navigate(R.id.timeSlotListFragment, bundle)
-            } else if (item.itemId == R.id.nav_log) {
+            } else if (item.itemId == R.id.skillsMenuItem) {
+                navController.navigate(R.id.skillsListFragment, bundle)
+            }else if (item.itemId == R.id.nav_log) {
                 login()
             }
             drawerLayout.closeDrawer(GravityCompat.START)

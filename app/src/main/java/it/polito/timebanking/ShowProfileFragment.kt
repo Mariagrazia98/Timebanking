@@ -1,11 +1,8 @@
 package it.polito.timebanking
 
-import android.content.Context
-import android.content.ContextWrapper
+
 import android.content.res.ColorStateList
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -16,19 +13,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
-import java.io.File
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import it.polito.timebanking.model.UserFire
 import java.io.IOException
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
-    private var bitmap: Bitmap? = null
-
     lateinit var fullnameView: TextView
     lateinit var ageView: TextView
     lateinit var nicknameView: TextView
@@ -44,12 +34,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     lateinit var profileVM: ProfileViewModel
 
-    //lateinit var user: UserFire
     var id: Long = 0
-
-
-    // Reference to an image file in Cloud Storage
-    val storageReference = Firebase.storage.reference
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,32 +82,13 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
                     // Download directly from StorageReference using Glide
                     try {
-                        Log.d("ATTEMPT", "Try to load") //todo: aggiungere verifica file esiste
-                        Log.d("ATTEMPT", user.imagePath?:"ciao")
-                        Glide.with(this /* context */)
-                            .load(user.imagePath)
-                            .into(imageView)
-                        Log.d("ATTEMPT", "End load")
+                        //todo: aggiungere verifica file esiste
+                        Glide.with(this /* context */).load(user.imagePath).into(imageView)
                     } catch (e: IOException) {
                         Log.d("ERRORE", e.toString())
                     }
-
-                    /*   bitmap= BitmapFactory.decodeFile(user.imagePath)?.also { bitmap ->
-
-                           imageView.setImageBitmap(bitmap)
-                       }*/
                 }
             })
-
-        /*getProfileImageLFS()
-
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap)
-        }
-*/
-
-        /* if (bitmap != null)
-             imageView.setImageBitmap(bitmap)*/
 
     }
 
@@ -156,17 +122,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
     }
 
-   /* fun getProfileImageLFS() {
-        //Get profile image from internal storage (local filesystem)
-        val wrapper = ContextWrapper(requireActivity().applicationContext)
-        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        file = File(file, "profileImage.jpg")
-        if (file.exists()) {
-            bitmap = BitmapFactory.decodeFile(file.absolutePath)
-        }
-
-    }*/
-
     private fun addChip(text: String) {
         val chip = Chip(this.context)
         chip.text = text
@@ -180,7 +135,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
         skillsGroup.addView(chip)
     }
-
 
 
 }

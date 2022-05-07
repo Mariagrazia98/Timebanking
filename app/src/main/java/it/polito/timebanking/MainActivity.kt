@@ -1,7 +1,6 @@
 package it.polito.timebanking
 
-import android.content.Context
-import android.content.ContextWrapper
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -31,11 +30,10 @@ import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
-import java.io.File
-
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
+
     //var userId: Long = 0
     lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
@@ -74,9 +72,9 @@ class MainActivity : AppCompatActivity() {
 
 
         //Drawer items
-        var log_item = navView.menu.findItem(R.id.nav_log)
-        var profile_item = navView.menu.findItem(R.id.profileMenuItem)
-        var adv_item = navView.menu.findItem(R.id.advMenuItem)
+        val log_item = navView.menu.findItem(R.id.nav_log)
+        val profile_item = navView.menu.findItem(R.id.profileMenuItem)
+        val adv_item = navView.menu.findItem(R.id.advMenuItem)
 
 
         //initialize the FirebaseAuth instance.
@@ -122,42 +120,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        /*  profileViewModel.getAllUsers()?.observe(this) {
-              if (it.isEmpty()) { //if there is no user in the db, create a new one with the information below
-                  user = User()
-                  user.fullname = "Mario Rossi"
-                  user.nickname = "Mario98"
-                  user.email = "mario.rossi@gmail.com"
-                  user.location = "Torino"
-                  user.description = "Student"
-                  user.skills = "Android developer"
-                  user.age = 24
-                  user.imagePath = getProfileImage().absolutePath
-                  profileViewModel.addUser(user)
-              } else { //for this lab we just considered the existence of one single user, so if there is at least one user we take the first one
-                  userId = it[0].id
-                  //update drawer
-                  /*findViewById<TextView>(R.id.titleHeader).text = it[0].nickname
-                  findViewById<TextView>(R.id.subtitleHeader).text = it[0].email
-                  if(getProfileImage().exists()){
-                      findViewById<ImageView>(R.id.imageViewHeader).setImageBitmap(
-                          BitmapFactory.decodeFile(
-                              it[0].imagePath
-                          )
-                      )
-                  }*/
-
-              }
-          }
-      */
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.editProfileFragment || destination.id == R.id.timeSlotEditFragment) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 supportActionBar?.setDisplayShowHomeEnabled(false)
             }
         }
-
 
 
         navView.setNavigationItemSelectedListener() { item ->
@@ -199,62 +167,57 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
-        //val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
-            // ...
             user?.reload()
             user?.getIdToken(true)
 
             if (user != null) {
                 profileViewModel.getUserByIdF(user.uid)
-                    .observe(this,
-                        Observer
-                        { document ->
-                            if (document != null) {
-                                Log.d("LOGIN", user.uid.toString())
+                    .observe(this, Observer { document ->
+                        if (document != null) {
+                            Log.d("LOGIN", user.uid)
 
-                                // timestamp of latest login -> it triggers the observer and loads the user data
-                                val updates = hashMapOf<String, Any>(
-                                    "timestamp" to FieldValue.serverTimestamp()
-                                )
+                            // timestamp of latest login
+                            val updates = hashMapOf<String, Any>(
+                                "timestamp" to FieldValue.serverTimestamp()
+                            )
 
-                                profileViewModel.loginUser(user.uid, updates)
-                                    .observe(this, Observer { isSuccess ->
-                                        if (isSuccess) {
-                                            startActivity(Intent(this, MainActivity::class.java))
-                                            overridePendingTransition(0, 0)
-                                            finish()
-                                            overridePendingTransition(0, 0)
-                                            Toast.makeText(
-                                                this,
-                                                "Welcome back!",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                    })
-
-                            } else {
-                                Log.d("LOGIN", "New user signed up")
-                                val newUser = UserFire(
-                                    uid = user.uid,
-                                    fullname = if (user.displayName != null) user.displayName.toString() else "",
-                                    email = user.email!!,
-                                    imagePath = if (user.photoUrl != null) user.photoUrl!!.toString() else null
-                                )
-                                profileViewModel.addUserF(newUser)
-                                    .observe(this, Observer { isSuccess ->
-                                        if (isSuccess) {
-                                            Toast.makeText(this, "Welcome!", Toast.LENGTH_SHORT)
-                                                .show()
-                                        }
-                                    })
-                            }
-
-                            Log.d("Login result", "Sign in success")
-                            // ...
-                        })
+                            profileViewModel.loginUser(user.uid, updates)
+                                .observe(this, Observer { isSuccess ->
+                                    if (isSuccess) {
+                                        startActivity(Intent(this, MainActivity::class.java))
+                                        overridePendingTransition(0, 0)
+                                        finish()
+                                        overridePendingTransition(0, 0)
+                                        Toast.makeText(
+                                            this,
+                                            "Welcome back" + user.displayName + "!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                })
+                        } else {
+                            Log.d("LOGIN", "New user signed up")
+                            val newUser = UserFire(
+                                uid = user.uid,
+                                fullname = if (user.displayName != null) user.displayName.toString() else "",
+                                email = user.email!!,
+                                imagePath = if (user.photoUrl != null) user.photoUrl!!.toString() else null
+                            )
+                            profileViewModel.addUserF(newUser)
+                                .observe(this, Observer { isSuccess ->
+                                    if (isSuccess) {
+                                        Toast.makeText(
+                                            this,
+                                            "Welcome!" + user.displayName + "!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                })
+                        }
+                    })
             }
         } else {
             // Sign in failed. If response is null the user canceled the
@@ -262,6 +225,7 @@ class MainActivity : AppCompatActivity() {
             // response.getError().getErrorCode() and handle the error.
             // ...
             Log.e("Login result", "Sign in failed")
+            Toast.makeText(this, "Sign in failed, try later..", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -290,12 +254,4 @@ class MainActivity : AppCompatActivity() {
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
-
-    /*TODO Remove */
-    fun getProfileImage(): File {
-        //Get profile image from internal storage (local filesystem)
-        val wrapper = ContextWrapper(applicationContext)
-        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        return File(file, "profileImage.jpg")
-    }
 }

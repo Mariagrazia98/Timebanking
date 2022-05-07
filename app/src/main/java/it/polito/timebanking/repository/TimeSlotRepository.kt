@@ -3,10 +3,18 @@ package it.polito.timebanking.repository
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import it.polito.timebanking.model.TimeSlotFire
+import it.polito.timebanking.model.UserFire
+import kotlinx.coroutines.tasks.await
 
 class TimeSlotRepository(application: Application) {
-
     private val slotDao = SlotDatabase.getDatabase(application)?.slotDao()
+    private val db = FirebaseFirestore.getInstance()
 
     //slots
     fun addSlot(title:String,description:String,date:String,time:String,duration: Int, location: String):Long?{
@@ -14,6 +22,7 @@ class TimeSlotRepository(application: Application) {
         val id_returned:Long? = slotDao?.addSlot(s)
         return id_returned
     }
+
     fun updateSlot(slot:Slot){
         slotDao?.updateSlot(slot)
     }
@@ -29,4 +38,88 @@ class TimeSlotRepository(application: Application) {
     fun getAllSlots(): LiveData<List<Slot>>? = slotDao?.findAll()
 
     fun getSlotById(id: Long?): LiveData<Slot>? = slotDao?.searchSlotByID(id)
+
+
+
+    //Firebase
+    fun getNewSlotId(): String {
+        return try {
+            val data = Firebase.firestore
+                .collection("timeslots")
+                .document()
+                .id
+            data
+        } catch (e: Exception) {
+            e.toString()
+        }
+    }
+
+    suspend fun addSlotF(userId: String, slot: TimeSlotFire): Boolean {
+        return try {
+            Firebase.firestore
+                .collection("users")
+                .document(userId)
+                .collection("timeslots")
+                .document()
+                .set(slot)
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    suspend fun removeSlotF(userId: String, slotId: String): Boolean {
+        return try {
+            Firebase.firestore
+                .collection("users")
+                .document(userId)
+                .collection("timeslots")
+                .document(slotId)
+                .delete()
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    suspend fun updateSlotF(userId: String, slot: TimeSlotFire): Boolean {
+        return try {
+            Firebase.firestore
+                .collection("users")
+                .document(userId)
+                .collection("timeslots")
+                .document(slot.id)
+                .set(slot)
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    suspend fun getUserSlotsF(uid: String): Result<List<TimeSlotFire>?> {
+        return try {
+            val data = Firebase.firestore
+                .collection("users")
+                .document(uid)
+                .collection("timeslots")
+                .get()
+                .await()
+
+            print(data.documents.map { it.data.toString() })
+
+            val result = mutableListOf<TimeSlotFire>()
+            data.documents.map {
+                if(it.data != null){
+                    it.toObject(TimeSlotFire::class.java)?.let { it1 -> result.add(it1) }
+                }
+            }
+            return Result.success(result)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
+
 }

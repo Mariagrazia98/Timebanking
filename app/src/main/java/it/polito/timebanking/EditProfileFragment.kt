@@ -7,13 +7,13 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
@@ -23,9 +23,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Timestamp
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
@@ -34,14 +38,17 @@ import java.io.IOException
 import java.io.OutputStream
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
-    var fullname: String="Mario Rossi"
-    var nickname: String="Mario 98"
+    var fullname: String = ""
+    var nickname: String = ""
     var age = 24
-    var email: String = "mario.rossi@gmail.com"
-    var location: String = "Torino"
-    var description: String = "Student"
+    var email: String = ""
+    var location: String = ""
+    var description: String = ""
     var skillsList: ArrayList<String> = arrayListOf()
+    var imagePath: String? = null
+
     private var bitmap: Bitmap? = null
+    private var currentPhotoPath: String? = null
 
     lateinit var fullnameView: EditText
     lateinit var ageView: EditText
@@ -51,16 +58,17 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var descriptionView: EditText
     lateinit var frameLayout: FrameLayout
     lateinit var skillsGroup: ChipGroup
-    lateinit var skillsAddButton:Button
-    lateinit var addSkillView:EditText
-
+    lateinit var skillsAddButton: Button
+    lateinit var addSkillView: EditText
+    lateinit var profileImageView: ImageView
     var h: Int = 0
     var w: Int = 0
 
     lateinit var profileVM: ProfileViewModel
+
     //lateinit var user: User
-    lateinit var  user:UserFire
-    lateinit var userId:String
+    lateinit var user: UserFire
+    lateinit var userId: String
     lateinit var fv: View
 
 
@@ -78,8 +86,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userId = arguments?.getString("id")!!
-        profileVM =  ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
+        profileVM = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
         fv = view
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -105,49 +112,58 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
 
         userId = arguments?.getString("id")!!
+        Log.d("user", userId)
         profileVM.getUserByIdF(userId)
             .observe(viewLifecycleOwner, Observer {
-                if(it != null && savedInstanceState==null) {
-                    fullname = it.fullname
+                if (it != null && savedInstanceState == null) {
+                    user = it
+                    currentPhotoPath = it.imagePath
+                    /*fullname = it.fullname
                     nickname = it.nickname
-                    email= it.email
-                    location= it.location
-                    age=it.age
-                    description=it.description
-                    if(it.skills != ""){
+                    email = it.email
+                    location = it.location
+                    age = it.age
+                    description = it.description
+                    if (it.skills != "") {
                         it.skills.split(",").map {
                             skillsList.add(it.trim())
                             addChip(it.trim())
                         }
                     }
-                }else{
-                    if (savedInstanceState != null) {
-                        fullname = savedInstanceState.getString("fullname", fullname)
+                    currentPhotoPath = it.imagePath
+                    Glide.with(requireContext()).load(user.imagePath).into(profileImageView)*/
+                } else  if (savedInstanceState != null) {
+                    /*    fullname = savedInstanceState.getString("fullname", fullname)
                         nickname = savedInstanceState.getString("nickname", nickname)
                         email = savedInstanceState.getString("email", email)
                         location = savedInstanceState.getString("location", location)
                         description = savedInstanceState.getString("description", description)
                         age = savedInstanceState.getInt("age", age)
-                        skillsList = savedInstanceState.getStringArrayList("skillsList") as ArrayList<String>
-                        skillsList.map{ addChip(it.trim())}
+                        skillsList =
+                            savedInstanceState.getStringArrayList("skillsList") as ArrayList<String>
+                        skillsList.map { addChip(it.trim()) }
+                        imagePath = savedInstanceState.getString("imagePath", imagePath)*/
+                         user = profileVM.getUser()
+                        currentPhotoPath = savedInstanceState.getString("imagePath")
+
+                }
+
+                fullnameView.setText(user.fullname)
+                ageView.setText(user.age.toString())
+                nicknameView.setText(user.nickname)
+                emailView.setText(user.email)
+                locationView.setText(user.location)
+                descriptionView.setText(user.description)
+                if (user.skills != "") {
+                    user.skills.split(",").map {
+                        skillsList.add(it.trim())
+                        addChip(it.trim())
                     }
                 }
-                fullnameView.setText(fullname)
-                ageView.setText(age.toString())
-                nicknameView.setText(nickname)
-                emailView.setText(email)
-                locationView.setText(location)
-                descriptionView.setText(description)
+                Log.d("DEBUG", user.imagePath.toString())
+                Glide.with(requireContext()).load(user.imagePath).into(profileImageView)
+
             })
-        /*TODO remove it*/
-        /*      profileVM.getUserById(userId)?.observe(viewLifecycleOwner) {
-
-        }*/
-
-        getProfileImageLFS(savedInstanceState)
-        val iv = view.findViewById<ImageView>(R.id.Edit_imageView)
-        if (bitmap != null)
-            iv.setImageBitmap(bitmap)
 
         val imgButton = view.findViewById<ImageButton>(R.id.imageButton)
 
@@ -156,14 +172,17 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             requireActivity().openContextMenu(imgButton)
         }
 
-       skillsAddButton.setOnClickListener {
-            if(!addSkillView.text.toString().isEmpty() && !skillsList.contains(addSkillView.text.toString())){
+        skillsAddButton.setOnClickListener {
+            if (!addSkillView.text.toString()
+                    .isEmpty() && !skillsList.contains(addSkillView.text.toString())
+            ) {
                 addChip(addSkillView.text.toString())
                 skillsList.add(addSkillView.text.toString())
-            }else{
+            } else {
                 //if skill already added
-                if(skillsList.contains(addSkillView.text.toString())){
-                    val snackbar = Snackbar.make(requireView(), "Skill already added!", Snackbar.LENGTH_SHORT)
+                if (skillsList.contains(addSkillView.text.toString())) {
+                    val snackbar =
+                        Snackbar.make(requireView(), "Skill already added!", Snackbar.LENGTH_SHORT)
                     val sbView: View = snackbar.view
                     this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.danger) }
                         ?.let { it2 -> sbView.setBackgroundColor(it2) }
@@ -173,13 +192,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     snackbar.show()
                 }
             }
-           addSkillView.setText("")
+            addSkillView.setText("")
         }
 
         addSkillView.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 skillsAddButton.isEnabled = s.toString().trim().isNotEmpty()
             }
+
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         })
@@ -188,19 +208,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                  /*  user = User()
-                    user.fullname = fullnameView.text.toString()
-                    user.nickname = nicknameView.text.toString()
-                    user.email = emailView.text.toString()
-                    user.location = locationView.text.toString()
-                    user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
-                    user.description = descriptionView.text.toString()
-                    user.age= Integer.parseInt(ageView.text.toString())
-                    user.imagePath = getProfileImage().absolutePath
-                    user.id = userId
-                    profileVM.updateUser(user)
-
-                   */
                     user = UserFire()
                     user.fullname = fullnameView.text.toString()
                     user.nickname = nicknameView.text.toString()
@@ -208,22 +215,34 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.location = locationView.text.toString()
                     user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
                     user.description = descriptionView.text.toString()
-                    user.age= Integer.parseInt(ageView.text.toString())
-                    user.imagePath = getProfileImage().absolutePath
+                    user.age = Integer.parseInt(ageView.text.toString())
+                    user.imagePath = currentPhotoPath
                     user.uid = userId
                     profileVM.updateUserF(user).observe(viewLifecycleOwner, Observer {
-                        if(it){
-                            val snackbar = Snackbar.make(requireView(), "Profile updated!", Snackbar.LENGTH_SHORT)
+                        if (it) {
+                            val snackbar = Snackbar.make(
+                                requireView(),
+                                "Profile updated!",
+                                Snackbar.LENGTH_SHORT
+                            )
                             val sbView: View = snackbar.view
                             context?.let { ContextCompat.getColor(it, R.color.primary_light) }
                                 ?.let { it2 -> sbView.setBackgroundColor(it2) }
 
-                            context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
+                            context?.let { it1 ->
+                                ContextCompat.getColor(
+                                    it1,
+                                    R.color.primary_text
+                                )
+                            }
                                 ?.let { it2 -> snackbar.setTextColor(it2) }
                             snackbar.show()
-                        }
-                        else{
-                            val snackbar = Snackbar.make(requireView(), "Something is wrong, try later!", Snackbar.LENGTH_SHORT)
+                        } else {
+                            val snackbar = Snackbar.make(
+                                requireView(),
+                                "Something is wrong, try later!",
+                                Snackbar.LENGTH_SHORT
+                            )
                             snackbar.show()
                         }
                     })
@@ -237,21 +256,22 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             })
     }
 
-    private fun addChip(text: String){
+    private fun addChip(text: String) {
         val chip = Chip(this.context)
         chip.text = text
         chip.isCloseIconVisible = true
         chip.chipBackgroundColor =
             this.context?.let { ContextCompat.getColor(it, R.color.primary_light) }?.let {
-                ColorStateList.valueOf(it) }
-        chip.setOnCloseIconClickListener{
+                ColorStateList.valueOf(it)
+            }
+        chip.setOnCloseIconClickListener {
             skillsGroup.removeView(chip)
             skillsList.remove(chip.text.toString())
         }
         skillsGroup.addView(chip)
     }
 
-    fun setVariables(view: View){
+    fun setVariables(view: View) {
         fullnameView = view.findViewById(R.id.Edit_FullName)
         ageView = view.findViewById(R.id.edit_age)
         nicknameView = view.findViewById(R.id.Edit_Nickname)
@@ -261,6 +281,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         skillsAddButton = view.findViewById(R.id.skillsAddButton)
         addSkillView = view.findViewById(R.id.add_skills)
         skillsGroup = view.findViewById(R.id.skills)
+        profileImageView = view.findViewById(R.id.Edit_imageView)
     }
 
 
@@ -270,20 +291,21 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         bitmap = intent?.extras?.get("data") as Bitmap
         val iv = fv.findViewById<ImageView>(R.id.Edit_imageView)
         iv.setImageBitmap(bitmap)
-        saveProfileImageLFS()
+        saveProfileImage()
     }
 
-    fun handleGalleryImage(uri: Uri?){
+    fun handleGalleryImage(uri: Uri?) {
         val iv = fv.findViewById<ImageView>(R.id.Edit_imageView)
         iv.setImageURI(uri)
         bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
-        saveProfileImageLFS()
+        saveProfileImage()
     }
 
     //result of opening camera
     val resultLauncherCameraImage =
         registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            ActivityResultContracts.StartActivityForResult()
+        ) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 handleCameraImage(result.data)
             }
@@ -297,20 +319,24 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             }
         }
 
-    fun openCamera(){
+    fun openCamera() {
         //intent to open camera app
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         resultLauncherCameraImage.launch(cameraIntent)
     }
 
-    fun openGallery(){
+    fun openGallery() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         resultLauncherGalleryImage.launch("image/*")
     }
 
     //create the floating menu after pressing on the camera img
-    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater: MenuInflater = requireActivity().menuInflater
         inflater.inflate(R.menu.image_menu, menu)
@@ -334,56 +360,75 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
 
-    fun saveProfileImageLFS() {
-        //Save profile image into internal storage
+    fun saveProfileImage() {
         val wrapper = ContextWrapper(requireActivity().applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        file = File(file, "profileImage.jpg")
-        try {
-            val stream: OutputStream = FileOutputStream(file)
-            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-            stream.flush()
-            stream.close()
-            val snackbar = Snackbar.make(requireView(), "Upload photo successfully!", Snackbar.LENGTH_SHORT)
-            val sbView: View = snackbar.view
-            context?.let { ContextCompat.getColor(it, R.color.primary_light) }
-                ?.let { it2 -> sbView.setBackgroundColor(it2) }
+        val filename = user.uid  + ".jpg"
+        Log.d("CODE CLEANING", filename)
+        file = File(file, filename)
+        val stream: OutputStream = FileOutputStream(file)
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        stream.flush()
+        stream.close()
 
-            context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
-                ?.let { it2 -> snackbar.setTextColor(it2) }
-            snackbar.show()
 
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
+        Log.d("CODE CLEANING", Uri.fromFile(file).lastPathSegment.toString())
+        Log.d("CODE CLEANING",file.absolutePath.toString())
 
-    fun getProfileImage(): File{
-        //Get profile image from internal storage (local filesystem)
-        val wrapper = ContextWrapper(requireActivity().applicationContext)
-        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        return File(file, "profileImage.jpg")
+        val userRef = Firebase.storage.reference.child("images_user/${Uri.fromFile(file).lastPathSegment}")
+        userRef.putFile(Uri.fromFile(file))
+            .addOnSuccessListener {
+                file.delete() //delete the file
 
-    }
+                currentPhotoPath = Uri.fromFile(file).lastPathSegment
+                userRef.downloadUrl.addOnCompleteListener {
+                    user.imagePath = it.result.toString() //new file path
+                    currentPhotoPath = user.imagePath
+                    Glide.with(requireContext()).load(user.imagePath).into(profileImageView)
+                    Log.d("ATTEMPT", "Path" + user.imagePath.toString())
 
-    fun getProfileImageLFS( savedInstanceState: Bundle?) {
-        if(savedInstanceState != null){
-            bitmap = savedInstanceState.getParcelable("bitmap")
-        }
-        else if(getProfileImage().exists()) {
-            bitmap = BitmapFactory.decodeFile(getProfileImage().absolutePath)
-        }
+                    profileVM.updateUserF(user).observe(viewLifecycleOwner, Observer {
+                        if (it) {
+                            val snackbar = Snackbar.make(requireView(), "Upload photo successfully!", Snackbar.LENGTH_SHORT
+                            )
+                            val sbView: View = snackbar.view
+                            context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                                ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                            context?.let { it1 ->
+                                ContextCompat.getColor(
+                                    it1,
+                                    R.color.primary_text
+                                )
+                            }
+                                ?.let { it2 -> snackbar.setTextColor(it2) }
+                            snackbar.show()
+                        } else {
+                            val snackbar = Snackbar.make(requireView(), "Error while updtaing the photo  profile! Try again!", Snackbar.LENGTH_SHORT)
+                            snackbar.show()
+                        }
+                    })
+                }
+            }
+            .addOnFailureListener {
+                val snackbar = Snackbar.make(requireView(), "Error while updtaing the photo  profile! Try again!", Snackbar.LENGTH_SHORT
+                )
+                snackbar.show()
+            }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putStringArrayList("skillsList", skillsList)
+        profileVM.setUser(user = user)
+/*        outState.putStringArrayList("skillsList", skillsList)
         outState.putString("fullname", fullnameView.text.toString())
         outState.putString("nickname", nicknameView.text.toString())
         outState.putInt("age", ageView.text.toString().toInt())
         outState.putString("email", emailView.text.toString())
         outState.putString("location", locationView.text.toString())
         outState.putString("description", descriptionView.text.toString())
-        outState.putParcelable("bitmap", bitmap)
+        outState.putString("currentPhotoPath", currentPhotoPath)*/
+        outState.putString("imagePath", currentPhotoPath)
     }
 }

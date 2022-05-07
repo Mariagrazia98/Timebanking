@@ -1,13 +1,11 @@
 package it.polito.timebanking
 
-import android.content.Context
-import android.content.ContextWrapper
+
 import android.content.res.ColorStateList
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -15,14 +13,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
-import java.io.File
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import java.io.IOException
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
-    private var bitmap: Bitmap? = null
-
     lateinit var fullnameView: TextView
     lateinit var ageView: TextView
     lateinit var nicknameView: TextView
@@ -37,8 +33,10 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var userId: String
 
     lateinit var profileVM: ProfileViewModel
-    lateinit var user: User
+
     var id: Long = 0
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -81,13 +79,16 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                             addChip(it.trim())
                         }
                     }
+
+                    // Download directly from StorageReference using Glide
+                    try {
+                        //todo: aggiungere verifica file esiste
+                        Glide.with(this /* context */).load(user.imagePath).into(imageView)
+                    } catch (e: IOException) {
+                        Log.d("ERRORE", e.toString())
+                    }
                 }
             })
-
-        getProfileImageLFS()
-
-        if (bitmap != null)
-            imageView.setImageBitmap(bitmap)
 
     }
 
@@ -121,17 +122,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
     }
 
-    fun getProfileImageLFS() {
-        //Get profile image from internal storage (local filesystem)
-        val wrapper = ContextWrapper(requireActivity().applicationContext)
-        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-        file = File(file, "profileImage.jpg")
-        if (file.exists()) {
-            bitmap = BitmapFactory.decodeFile(file.absolutePath)
-        }
-
-    }
-
     private fun addChip(text: String) {
         val chip = Chip(this.context)
         chip.text = text
@@ -145,4 +135,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
         skillsGroup.addView(chip)
     }
+
+
 }

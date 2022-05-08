@@ -2,6 +2,7 @@ package it.polito.timebanking
 
 import android.os.Bundle
 import android.view.*
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +13,7 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class SkillsListFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
-
+    lateinit var searchView: SearchView
     val skillList = listOf("Android developer", "Electrician", "Gardening", "Bicycle repairer", "Babysitter")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,7 +41,10 @@ class SkillsListFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_button, menu);
+        inflater.inflate(R.menu.search_button, menu)
+        var menuItem = menu.findItem(R.id.search_button)
+        searchView = menuItem.actionView as SearchView
+        searchView.queryHint = "Type here to search"
         super.onCreateOptionsMenu(menu, inflater)
     }
 

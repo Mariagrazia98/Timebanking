@@ -1,8 +1,10 @@
 package it.polito.timebanking
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -204,54 +206,74 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         })
 
+        handleButton();
+
+
+    }
+
+    private fun handleButton() {
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    user = UserFire()
-                    user.fullname = fullnameView.text.toString()
-                    user.nickname = nicknameView.text.toString()
-                    user.email = emailView.text.toString()
-                    user.location = locationView.text.toString()
-                    user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
-                    user.description = descriptionView.text.toString()
-                    user.age = Integer.parseInt(ageView.text.toString())
-                    user.imagePath = currentPhotoPath
-                    user.uid = userId
-                    profileVM.updateUserF(user).observe(viewLifecycleOwner, Observer {
-                        if (it) {
-                            val snackbar = Snackbar.make(
-                                requireView(),
-                                "Profile updated!",
-                                Snackbar.LENGTH_SHORT
-                            )
-                            val sbView: View = snackbar.view
-                            context?.let { ContextCompat.getColor(it, R.color.primary_light) }
-                                ?.let { it2 -> sbView.setBackgroundColor(it2) }
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+                    builder.setMessage("Do you want to update the profile?")
+                        .setPositiveButton("Confirm") { dialog, id ->
+                            // hide the trip
+                            user = UserFire()
+                            user.fullname = fullnameView.text.toString()
+                            user.nickname = nicknameView.text.toString()
+                            user.email = emailView.text.toString()
+                            user.location = locationView.text.toString()
+                            user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
+                            user.description = descriptionView.text.toString()
+                            user.age = Integer.parseInt(ageView.text.toString())
+                            user.imagePath = currentPhotoPath
+                            user.uid = userId
+                            profileVM.updateUserF(user).observe(viewLifecycleOwner, Observer {
+                                if (it) {
+                                    val snackbar = Snackbar.make(
+                                        requireView(),
+                                        "Profile updated!",
+                                        Snackbar.LENGTH_SHORT
+                                    )
+                                    val sbView: View = snackbar.view
+                                    context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                                        ?.let { it2 -> sbView.setBackgroundColor(it2) }
 
-                            context?.let { it1 ->
-                                ContextCompat.getColor(
-                                    it1,
-                                    R.color.primary_text
-                                )
-                            }
-                                ?.let { it2 -> snackbar.setTextColor(it2) }
-                            snackbar.show()
-                        } else {
-                            val snackbar = Snackbar.make(
-                                requireView(),
-                                "Something is wrong, try later!",
-                                Snackbar.LENGTH_SHORT
-                            )
-                            snackbar.show()
+                                    context?.let { it1 ->
+                                        ContextCompat.getColor(
+                                            it1,
+                                            R.color.primary_text
+                                        )
+                                    }
+                                        ?.let { it2 -> snackbar.setTextColor(it2) }
+                                    snackbar.show()
+                                    // if you want onBackPressed() to be called as normal afterwards
+                                    if (isEnabled) {
+                                        isEnabled = false
+                                        requireActivity().onBackPressed()
+                                    }
+                                } else {
+                                    val snackbar = Snackbar.make(
+                                        requireView(),
+                                        "Something is wrong, try later!",
+                                        Snackbar.LENGTH_SHORT
+                                    )
+                                    snackbar.show()
+                                }
+                            })
                         }
-                    })
+                        .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+                            // User cancelled the dialog
+                            // if you want onBackPressed() to be called as normal afterwards
+                            if (isEnabled) {
+                                isEnabled = false
+                                requireActivity().onBackPressed()
+                            }
+                        })
+                    builder.show()
 
-                    // if you want onBackPressed() to be called as normal afterwards
-                    if (isEnabled) {
-                        isEnabled = false
-                        requireActivity().onBackPressed()
-                    }
                 }
             })
     }

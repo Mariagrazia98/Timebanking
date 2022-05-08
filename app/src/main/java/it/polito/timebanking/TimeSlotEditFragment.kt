@@ -35,7 +35,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var timeslot: TimeSlotFire
 
     lateinit var userSkills: MutableList<String>
-    lateinit var timeslotSkills: MutableList<String>
+    var timeslotSkills: MutableList<String> = mutableListOf()
 
     lateinit var dateInputLayout: TextInputLayout
     lateinit var timeInputLayout: TextInputLayout
@@ -120,22 +120,14 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         }
 
-        profileVM.getUserByIdF(userId).observe(viewLifecycleOwner) {
-            userSkills = it?.skills ?: mutableListOf()
-            if (userSkills.isNotEmpty()) {
-                userSkills.forEach { skill ->
-                    addChip(skill.trim())
-                }
-            }
-        }
-
-
         if(slotId!= ""){ //edit
             (activity as MainActivity).supportActionBar?.title = "Edit advertisement"
             timeSlotVM.getSlotFById(userId, slotId).observe(viewLifecycleOwner) {
                 if (it != null && savedInstanceState == null) {
+                    println(it)
                     timeslot = it
                 } else if(savedInstanceState != null) {
+                    println("savedInstanceState")
                     timeslot = timeSlotVM.getSlot()
                 }
                 titleView.setText(timeslot.title)
@@ -144,11 +136,31 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 durationView.setText(timeslot.duration.toString())
                 dateView.setText(timeslot.date)
                 timeView.setText(timeslot.time)
+
+                profileVM.getUserByIdF(userId).observe(viewLifecycleOwner) {
+                    userSkills = it?.skills ?: mutableListOf()
+                    if (userSkills.isNotEmpty()) {
+                        userSkills.forEach { skill ->
+                            addChip(skill.trim())
+                        }
+                    }
+                }
             }
         }else{ //create
             (activity as MainActivity).supportActionBar?.title = "Create advertisement"
             dateView.setText(SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis()))
+            profileVM.getUserByIdF(userId).observe(viewLifecycleOwner) {
+                userSkills = it?.skills ?: mutableListOf()
+                if (userSkills.isNotEmpty()) {
+                    userSkills.forEach { skill ->
+                        addChip(skill.trim())
+                    }
+                }
+            }
         }
+
+        handleButton()
+
         /*
         if(slotId!=-1L){ //edit
 
@@ -181,56 +193,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         }
 
 */
-        handleButton()
-
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        timeslot.id = slotId
-        timeslot.title = titleView.text.toString()
-        timeslot.description = descriptionView.text.toString()
-        timeslot.duration =  durationView.text.toString().toInt()
-        timeslot.location = locationView.text.toString()
-        timeslot.date = dateView.text.toString()
-        timeslot.time = timeView.text.toString()
-        timeSlotVM.setSlot(timeslot)
-        /*outState.putString("title", titleView.text.toString())
-        outState.putString("description", descriptionView.text.toString())
-        outState.putString("duration", durationView.text.toString())
-        outState.putString("location", locationView.text.toString())
-        outState.putString("date", dateView.text.toString())
-        outState.putString("time", timeView.text.toString())
-         */
-    }
-
-    private fun addChip(text: String) {
-        val chip = Chip(this.context)
-        chip.text = text
-        chip.isCloseIconVisible = false
-        chip.isChipIconVisible = false
-        chip.isCheckable = true
-        chip.chipBackgroundColor =
-            this.context?.let { ContextCompat.getColor(it, R.color.primary_light) }?.let {
-                ColorStateList.valueOf(it)
-            }
-        skillsGroup.addView(chip)
-        chip.setOnCheckedChangeListener { _, _ ->
-            registerFilterChanged()
-        }
-    }
-
-    private fun registerFilterChanged() {
-        //TODO gestire rotazione device
-        val ids = skillsGroup.checkedChipIds
-        timeslotSkills =  mutableListOf()
-
-        ids.forEach { id ->
-            timeslotSkills.add(skillsGroup.findViewById<Chip>(id).text as String)
-            Log.d("timeslotSkills", timeslotSkills.toString())
-        }
-    }
-
 
     private fun handleButton() {
         requireActivity()
@@ -238,7 +201,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-                    builder.setMessage("Do you want to update the slot?")
+                    val message = if(slotId!="") "Do you want to update the slot?" else "Do you want to create this slot?"
+                    builder.setMessage(message)
                         .setPositiveButton("Confirm") { dialog, id ->
                             timeslot = TimeSlotFire()
                             timeslot.date = dateView.text.toString()
@@ -247,6 +211,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                             timeslot.description = descriptionView.text.toString()
                             timeslot.duration = durationView.text.toString().toInt()
                             timeslot.location = locationView.text.toString()
+                            timeslot.skills = timeslotSkills
                             if(slotId!="") { //edit
                                 timeslot.id = slotId
                                 timeSlotVM.updateSlotF(userId, timeslot)
@@ -325,4 +290,60 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         )
     }
 
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        timeslot.id = slotId
+        timeslot.title = titleView.text.toString()
+        timeslot.description = descriptionView.text.toString()
+        timeslot.duration =  durationView.text.toString().toInt()
+        timeslot.location = locationView.text.toString()
+        timeslot.date = dateView.text.toString()
+        timeslot.time = timeView.text.toString()
+        timeslot.skills = timeslotSkills
+        timeSlotVM.setSlot(timeslot)
+        /*outState.putString("title", titleView.text.toString())
+        outState.putString("description", descriptionView.text.toString())
+        outState.putString("duration", durationView.text.toString())
+        outState.putString("location", locationView.text.toString())
+        outState.putString("date", dateView.text.toString())
+        outState.putString("time", timeView.text.toString())
+         */
+    }
+
+    private fun addChip(text: String) {
+        val chip = Chip(this.context)
+        chip.text = text
+        chip.isCloseIconVisible = false
+        chip.isChipIconVisible = false
+        chip.isCheckable = true
+        if(timeslot.skills.contains(text)){
+            chip.isChecked = true
+            timeslotSkills.add(chip.text.toString())
+        }
+        chip.chipBackgroundColor =
+            this.context?.let { ContextCompat.getColor(it, R.color.primary_light) }?.let {
+                ColorStateList.valueOf(it)
+            }
+        skillsGroup.addView(chip)
+        chip.setOnCheckedChangeListener { _, _ ->
+            registerFilterChanged(chip)
+        }
+    }
+
+    private fun registerFilterChanged(chip: Chip) {
+        //TODO gestire rotazione device
+        println(chip.toString())
+        if(chip.isChecked)
+            timeslotSkills.add(chip.text.toString())
+        else
+            timeslotSkills.remove(chip.text.toString())
+
+        /*val ids = skillsGroup.checkedChipIds
+        timeslotSkills =  mutableListOf()
+
+        ids.forEach { id ->
+            timeslotSkills.add(skillsGroup.findViewById<Chip>(id).text as String)
+        }*/
+    }
 }

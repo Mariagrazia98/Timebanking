@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import it.polito.timebanking.R
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class SkillsListFragment : Fragment() {
@@ -36,7 +33,7 @@ class SkillsListFragment : Fragment() {
         val adapter = MySkillRecyclerViewAdapter(skillList)
         rv.adapter = adapter
 
-        if(skillList.size<1){
+        if(skillList.isEmpty()){
             rv.visibility = View.GONE
             ev.visibility = View.VISIBLE
         }else {

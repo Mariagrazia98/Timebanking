@@ -1,7 +1,6 @@
 package it.polito.timebanking
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +35,6 @@ class TimeSlotListFragment : Fragment() {
 
         //timeSlotVM.clearSlots() //to clear the repo uncomment this and run the app
         userId = arguments?.getString("id").toString()
-        Log.d("STRING",  arguments?.getString("id").toString())
         val ev: TextView = view.findViewById(R.id.empty_view)
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         timeSlotVM.getAllSlotsByUser(userId)

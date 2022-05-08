@@ -132,8 +132,6 @@ class TimeSlotRepository(application: Application) {
                 .get()
                 .await()
 
-            Log.d("DATA", data.data.toString())
-            Log.d("DATA", data.toObject(TimeSlotFire::class.java).toString() )
             Result.success(data.toObject(TimeSlotFire::class.java))
         } catch (e: Exception) {
             Result.failure(e)

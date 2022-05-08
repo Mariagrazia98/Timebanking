@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -16,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import it.polito.timebanking.model.TimeSlotFire
-import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
@@ -53,8 +51,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         super.onViewCreated(view, savedInstanceState)
 
         slotId = arguments?.getString("id")?:""
-        Log.d("SLOTID_EDITFRAGMENT", arguments?.getString("id")?:"")
-        Log.d("useID_EDITFRAGMENT",  arguments?.getString("userId").toString())
         userId = arguments?.getString("userId")?:""
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
 
@@ -118,11 +114,9 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             (activity as MainActivity).supportActionBar?.title = "Edit advertisement"
             timeSlotVM.getSlotFById(userId, slotId).observe(viewLifecycleOwner) {
                 if (it != null && savedInstanceState == null) {
-                    Log.d("TIMESLOT1", it.toString())
                     timeslot = it
                 } else if(savedInstanceState != null) {
                     timeslot = timeSlotVM.getSlot()
-                    Log.d("TIMESLOT2", timeSlotVM.getSlot().toString())
                 }
                 titleView.setText(timeslot.title)
                 descriptionView.setText(timeslot.description)

@@ -135,10 +135,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 emailView.setText(user.email)
                 locationView.setText(user.location)
                 descriptionView.setText(user.description)
-                if (user.skills != "") {
-                    user.skills.split(",").map {
-                        skillsList.add(it.trim())
-                        addChip(it.trim())
+                if (user.skills.isNotEmpty()) {
+                    user.skills.forEach {skill->
+                        skillsList.add(skill.trim())
+                        addChip(skill.trim())
                     }
                 }
                 Log.d("DEBUG", user.imagePath.toString())
@@ -206,7 +206,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                             user.nickname = nicknameView.text.toString()
                             user.email = emailView.text.toString()
                             user.location = locationView.text.toString()
-                            user.skills = skillsList.toString().removePrefix("[").removeSuffix("]")
+                            user.skills = skillsList
                             user.description = descriptionView.text.toString()
                             user.age = Integer.parseInt(ageView.text.toString())
                             user.imagePath = currentPhotoPath
@@ -437,7 +437,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        profileVM.setUser(user = UserFire(user.uid, user.fullname,nicknameView.text.toString(), user.email, locationView.text.toString(), descriptionView.text.toString(),skillsList.toString().removePrefix("[").removeSuffix("]"),  ageView.text.toString().toInt(), user.imagePath))
+        profileVM.setUser(user = UserFire(user.uid, user.fullname,nicknameView.text.toString(), user.email, locationView.text.toString(), descriptionView.text.toString(),skillsList,  ageView.text.toString().toInt(), user.imagePath))
         outState.putString("imagePath", currentPhotoPath)
     }
 }

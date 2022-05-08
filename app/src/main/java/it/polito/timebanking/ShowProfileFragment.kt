@@ -74,8 +74,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     emailView.text = user.email
                     locationView.text = user.location
                     descriptionView.text = user.description
-                    if (user.skills != "") {
-                        user.skills.split(",").map {
+                    if (user.skills.isNotEmpty()) {
+                        user.skills.forEach{
                             addChip(it.trim())
                         }
                     }

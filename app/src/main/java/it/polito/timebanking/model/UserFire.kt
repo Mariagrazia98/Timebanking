@@ -4,11 +4,7 @@ class UserFire(var uid: String = "uid", var fullname: String = "", var nickname:
                var email: String = "email@address.com",
                var location: String = "",
                var description:String="",
-               var skills:String = "",
+               var skills:MutableList<String> = mutableListOf(),
                var age:Int=18,
                var imagePath:String? = "") {
-
-
-
-
 }

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -28,6 +29,7 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
+import de.hdodenhof.circleimageview.CircleImageView
 import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.repository.User
@@ -42,7 +44,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var headerView:View
+    private lateinit var navTitle:TextView
+    private lateinit var navSubtitle:TextView
     lateinit var user: User
 
     //Firebase
@@ -72,6 +76,9 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
         drawerLayout = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.navigationView)
+        headerView = navView.getHeaderView(0)
+        navTitle = headerView.findViewById(R.id.titleHeader)
+        navSubtitle = headerView.findViewById(R.id.subtitleHeader)
 
 
         //Drawer items
@@ -99,7 +106,19 @@ class MainActivity : AppCompatActivity() {
                 adv_item.isVisible = false
 
             } else {
-                Log.d("AuthListener", "there is a user")
+
+                profileViewModel.getUserByIdF(userState!!.uid)
+                    .observe(this, Observer { user ->
+                        if (user != null) {
+                            navTitle.text= user.fullname
+                            navSubtitle.text=user.email
+                            //todo: aggiungere verifica file esiste
+                            // Download directly from StorageReference using Glide
+                            Glide.with(this /* context */).load(user.imagePath).into( headerView.findViewById<CircleImageView>(R.id.imageViewHeader))
+
+                        }
+                    })
+
                 log_item.title = "Logout"
                 log_item.setOnMenuItemClickListener {
                     logout()
@@ -109,15 +128,6 @@ class MainActivity : AppCompatActivity() {
                 profile_item.isVisible = true
                 adv_item.isVisible = true
 
-
-             /*   findViewById<TextView>(R.id.titleHeader).text = userState?.displayName?:" "
-                findViewById<TextView>(R.id.subtitleHeader).text = userState?.email?:" "
-                try {
-                    //todo: aggiungere verifica file esiste
-                    Glide.with(this *//* context *//*).load(user.imagePath).into(findViewById<ImageView>(R.id.imageViewHeader))
-                } catch (e: IOException) {
-                    Log.d("ERRORE", e.toString())
-                }*/
             }
 
         }

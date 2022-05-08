@@ -64,10 +64,12 @@
                 android:paddingBottom="16dp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputLayout"                    android:layout_width="match_parent"
+                    style="@style/TextInputLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
+                    android:enabled="false"
                     app:boxBackgroundMode="outline"
                     app:layout_constraintVertical_bias="0.0">
 
@@ -75,9 +77,29 @@
                         android:id="@+id/Edit_FullName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:hint="FullName"
                         android:inputType="textPersonName"
                         android:text="@string/fullname" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:enabled="false"
+                    app:boxBackgroundMode="outline"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/Edit_Email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="@string/email_address_text"
+                        android:inputType="textEmailAddress"
+                        android:text="@string/email_address" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -124,21 +146,7 @@
 
                 </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputLayout"                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    app:boxBackgroundMode="outline"
-                    app:layout_constraintVertical_bias="0.0">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Edit_Email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/email_address_text"
-                        android:text="@string/email_address"
-                        android:inputType="textEmailAddress"/>
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextInputLayout"                    android:layout_width="match_parent"

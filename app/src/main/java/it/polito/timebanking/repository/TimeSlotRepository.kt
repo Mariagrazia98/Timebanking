@@ -54,21 +54,6 @@ class TimeSlotRepository(application: Application) {
         }
     }
 
-    suspend fun addSlotF(userId: String, slot: TimeSlotFire): Boolean {
-        return try {
-            Firebase.firestore
-                .collection("users")
-                .document(userId)
-                .collection("timeslots")
-                .document()
-                .set(slot)
-                .await()
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
-
     suspend fun removeSlotF(userId: String, slotId: String): Boolean {
         return try {
             Firebase.firestore
@@ -116,9 +101,9 @@ class TimeSlotRepository(application: Application) {
                     it.toObject(TimeSlotFire::class.java)?.let { it1 -> result.add(it1) }
                 }
             }
-            return Result.success(result)
+            Result.success(result)
         } catch (e: Exception) {
-            return Result.failure(e)
+            Result.failure(e)
         }
     }
 
@@ -153,7 +138,7 @@ class TimeSlotRepository(application: Application) {
                     .collection("timeslots")
                     .get()
                     .await()
-
+                //TODO forse passare direttamente timeslot e fare il foreach dopo
                 timeslots.documents.map {
                     if(it.data != null){
                         it.toObject(TimeSlotFire::class.java)?.let { it1 ->
@@ -170,5 +155,4 @@ class TimeSlotRepository(application: Application) {
     }
 
     //TODO lista di timeslots per skill
-
 }

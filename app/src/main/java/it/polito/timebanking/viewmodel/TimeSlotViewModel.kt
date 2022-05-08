@@ -67,10 +67,10 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return repo.getNewSlotId()
     }
 
-    fun addSlotF(userId: String, slot: TimeSlotFire) : LiveData<Boolean>{
+    fun updateSlotF(userId: String, slot: TimeSlotFire) : LiveData<Boolean>{
         val res = MutableLiveData<Boolean>()
         viewModelScope.launch{
-            val result = repo.addSlotF(userId, slot)
+            val result = repo.updateSlotF(userId, slot)
             res.postValue(result)
         }
         return res
@@ -80,15 +80,6 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         val res = MutableLiveData<Boolean>()
         viewModelScope.launch{
             val result = repo.removeSlotF(userId, slotId)
-            res.postValue(result)
-        }
-        return res
-    }
-
-    fun updateSlotF(userId: String, slot: TimeSlotFire) : LiveData<Boolean>{
-        val res = MutableLiveData<Boolean>()
-        viewModelScope.launch{
-            val result = repo.updateSlotF(userId, slot)
             res.postValue(result)
         }
         return res

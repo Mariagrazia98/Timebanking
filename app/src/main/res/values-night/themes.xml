@@ -1,16 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.MainActivity" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color.
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item> -->
-        <!-- Secondary brand color.
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>-->
-        <!-- Status bar color.
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item> -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:textColorSecondary">@color/light_divider</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryDark</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- Theme.AppCompat.Light.Dialog -->
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/primary_dark</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DatePickerTheme.ButtonBarButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerTheme.ButtonBarButtonStyle</item>
+    </style>
+
+    <style name="DatePickerTheme.ButtonBarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/primary_dark</item>
+    </style>
+
 </resources>

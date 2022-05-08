@@ -10,12 +10,13 @@ import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import it.polito.timebanking.repository.Slot
+import it.polito.timebanking.model.TimeSlotFire
 
-class MyTimeSlotRecyclerViewAdapter(val data: List<Slot>) :
+
+class MyTimeSlotRecyclerViewAdapter(val data: List<TimeSlotFire>, userId: String) :
     RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>() {
     var list = data.toMutableList()
-
+    val userId: String = userId
     class ItemSlotViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val title: TextView = v.findViewById(R.id.slot_title)
         private val date: TextView = v.findViewById(R.id.slot_date)
@@ -24,7 +25,7 @@ class MyTimeSlotRecyclerViewAdapter(val data: List<Slot>) :
         val cv: CardView = v.findViewById(R.id.cv)
         val button: ImageButton = v.findViewById(R.id.button)
 
-        fun bind(item: Slot) {
+        fun bind(item: TimeSlotFire) {
             title.text = item.title
             date.text = item.date
             time.text = item.time
@@ -40,7 +41,7 @@ class MyTimeSlotRecyclerViewAdapter(val data: List<Slot>) :
     override fun onBindViewHolder(holder: ItemSlotViewHolder, position: Int) {
         val item = list[position]
         item.let { holder.bind(it) }
-        val bundle = bundleOf("id" to item.id)
+        val bundle = bundleOf("id" to item.id, "userId" to userId)
 
         holder.cv.setOnClickListener {
             findNavController(FragmentManager.findFragment(it)).navigate(

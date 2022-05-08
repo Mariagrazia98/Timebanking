@@ -3,6 +3,7 @@ package it.polito.timebanking
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -12,13 +13,14 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import it.polito.timebanking.model.TimeSlotFire
+import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
-    var slotId: Long = -1
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var slot: Slot
     lateinit var dateInputLayout: TextInputLayout
@@ -27,8 +29,11 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var descriptionView: EditText
     lateinit var dateView: EditText
     lateinit var timeView: EditText
-    lateinit var locationView:EditText
-    lateinit var durationView:EditText
+    lateinit var locationView: EditText
+    lateinit var durationView: EditText
+    lateinit var userId: String
+    lateinit var slotId: String
+    lateinit var timeslot: TimeSlotFire
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +49,10 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        slotId = arguments?.getLong("id")?:-1
-
+        slotId = arguments?.getString("id")?:""
+        Log.d("SLOTID_EDITFRAGMENT", arguments?.getString("id")?:"")
+        Log.d("useID_EDITFRAGMENT",  arguments?.getString("userId").toString())
+        userId = arguments?.getString("userId")?:""
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
 
         titleView = view.findViewById(R.id.edit_titleAdvertisement)
@@ -54,8 +61,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         durationView = view.findViewById(R.id.editTextNumber)
         dateView = view.findViewById(R.id.edit_dateAdvertisement)
         timeView = view.findViewById(R.id.edit_timeAdvertisement)
-
-        timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
 
 
         //DATE
@@ -101,7 +106,28 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         }
 
-
+        if(slotId!= ""){ //edit
+            (activity as MainActivity).supportActionBar?.title = "Edit advertisement"
+            timeSlotVM.getSlotFById(userId, slotId).observe(viewLifecycleOwner) {
+                if (it != null && savedInstanceState == null) {
+                    Log.d("TIMESLOT1", it.toString())
+                    timeslot = it
+                } else if(savedInstanceState != null) {
+                    timeslot = timeSlotVM.getSlot()
+                    Log.d("TIMESLOT2", timeSlotVM.getSlot().toString())
+                }
+                titleView.setText(timeslot.title)
+                descriptionView.setText(timeslot.description)
+                locationView.setText(timeslot.location)
+                durationView.setText(timeslot.duration.toString())
+                dateView.setText(timeslot.date)
+                timeView.setText(timeslot.time)
+            }
+        }else{ //create
+            (activity as MainActivity).supportActionBar?.title = "Create advertisement"
+            dateView.setText(SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis()))
+        }
+        /*
         if(slotId!=-1L){ //edit
             (activity as MainActivity).supportActionBar?.title = "Edit advertisement"
             timeSlotVM.getSlotById(slotId)?.observe(viewLifecycleOwner) {
@@ -127,11 +153,46 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             dateView.setText(SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis()))
         }
 
+*/
 
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    timeslot = TimeSlotFire()
+                    timeslot.date = dateView.text.toString()
+                    timeslot.time = timeView.text.toString()
+                    timeslot.title = titleView.text.toString()
+                    timeslot.description = descriptionView.text.toString()
+                    timeslot.duration = durationView.text.toString().toInt()
+                    timeslot.location = locationView.text.toString()
+                    if(slotId!="") { //edit
+                        timeslot.id = slotId
+                        timeSlotVM.updateSlotF(userId, timeslot)
+                        val snackbar = Snackbar.make(requireView(), "Time slot updated!", Snackbar.LENGTH_SHORT)
+                        val sbView: View = snackbar.view
+                        context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                            ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                        context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
+                            ?.let { it2 -> snackbar.setTextColor(it2) }
+                        snackbar.show()
+                    }
+                    else{ //create
+                        val newId = timeSlotVM.getNewTripId()
+                        timeslot.id = newId
+                        timeSlotVM.updateSlotF(userId, timeslot)
+                        val snackbar = Snackbar.make(requireView(), "Time slot created!", Snackbar.LENGTH_SHORT)
+                        val sbView: View = snackbar.view
+                        context?.let { ContextCompat.getColor(it, R.color.primary_light) }
+                            ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                        context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
+                            ?.let { it2 -> snackbar.setTextColor(it2) }
+                        snackbar.show()
+                    }
+
+                    /*
                     slot= Slot()
                     slot.id=slotId
                     slot.date = dateView.text.toString()
@@ -162,7 +223,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                             ?.let { it2 -> snackbar.setTextColor(it2) }
                         snackbar.show()
                     }
-
+                     */
 
                     // if you want onBackPressed() to be called as normal afterwards
                     if (isEnabled) {
@@ -177,12 +238,21 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("title", titleView.text.toString())
+        timeslot.id = slotId
+        timeslot.title = titleView.text.toString()
+        timeslot.description = descriptionView.text.toString()
+        timeslot.duration =  durationView.text.toString().toInt()
+        timeslot.location = locationView.text.toString()
+        timeslot.date = dateView.text.toString()
+        timeslot.time = timeView.text.toString()
+        timeSlotVM.setSlot(timeslot)
+        /*outState.putString("title", titleView.text.toString())
         outState.putString("description", descriptionView.text.toString())
         outState.putString("duration", durationView.text.toString())
         outState.putString("location", locationView.text.toString())
         outState.putString("date", dateView.text.toString())
         outState.putString("time", timeView.text.toString())
+         */
     }
 
 }

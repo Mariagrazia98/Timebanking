@@ -77,12 +77,12 @@ class UserRepository(application: Application) {
                 .collection("users")
                 .document(uid)
                 .get()
-                .await()
+                   .await()
             Log.d("DATA", data.data.toString())
             Log.d("DATA", data.toObject(UserFire::class.java).toString() )
-            return Result.success(data.toObject(UserFire::class.java))
+            Result.success(data.toObject(UserFire::class.java))
         } catch (e: Exception) {
-            return Result.failure(e)
+            Result.failure(e)
         }
     }
 

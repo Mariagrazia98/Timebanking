@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import it.polito.timebanking.model.TimeSlotFire
+import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.repository.TimeSlotRepository
 import it.polito.timebanking.repository.UserRepository
@@ -93,8 +94,17 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
-    fun getAllSlotsByUser(userId: String) : LiveData<List<TimeSlotFire>?>{
-        val res = MutableLiveData<List<TimeSlotFire>?>()
+    fun getSlotFById(userId: String, slotId: String) : LiveData<TimeSlotFire?> {
+        val res = MutableLiveData<TimeSlotFire?>()
+        viewModelScope.launch{
+            val result = repo.getSlotFById(userId, slotId)
+            res.postValue(result.getOrNull())
+        }
+        return res
+    }
+
+    fun getAllSlotsByUser(userId: String) : LiveData<List<TimeSlotFire>>{
+        val res = MutableLiveData<List<TimeSlotFire>>()
         viewModelScope.launch{
             val result = repo.getAllSlotsByUser(userId)
             res.postValue(result.getOrNull())

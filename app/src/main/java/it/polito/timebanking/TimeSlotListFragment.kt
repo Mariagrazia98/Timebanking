@@ -1,10 +1,12 @@
 package it.polito.timebanking
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -16,7 +18,7 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
  */
 class TimeSlotListFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
-
+    lateinit var userId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -33,9 +35,26 @@ class TimeSlotListFragment : Fragment() {
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
 
         //timeSlotVM.clearSlots() //to clear the repo uncomment this and run the app
-
+        userId = arguments?.getString("id").toString()
+        Log.d("STRING",  arguments?.getString("id").toString())
         val ev: TextView = view.findViewById(R.id.empty_view)
         val rv = view.findViewById<RecyclerView>(R.id.rv)
+        timeSlotVM.getAllSlotsByUser(userId)
+            .observe(viewLifecycleOwner){
+                rv.layoutManager = LinearLayoutManager(context)
+                val adapter = MyTimeSlotRecyclerViewAdapter(it, userId)
+                rv.adapter = adapter
+
+                if(it.isEmpty()){
+                    rv.visibility = View.GONE
+                    ev.visibility = View.VISIBLE
+                }else {
+                    rv.visibility = View.VISIBLE
+                    ev.visibility = View.GONE
+                }
+            }
+
+        /*
         timeSlotVM.slots?.observe(viewLifecycleOwner) {
             rv.layoutManager = LinearLayoutManager(context)
             val adapter = MyTimeSlotRecyclerViewAdapter(it)
@@ -48,11 +67,12 @@ class TimeSlotListFragment : Fragment() {
                 rv.visibility = View.VISIBLE
                 ev.visibility = View.GONE
             }
-        }
+        }*/
 
         val fab: View = view.findViewById(R.id.fab)
         fab.setOnClickListener{
-            NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2)
+            val bundle = bundleOf("userId" to (userId))
+            NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2, bundle)
         }
 
         return view

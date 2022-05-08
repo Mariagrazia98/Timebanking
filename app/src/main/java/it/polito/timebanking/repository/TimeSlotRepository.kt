@@ -99,7 +99,7 @@ class TimeSlotRepository(application: Application) {
         }
     }
 
-    suspend fun getAllSlotsByUser(uid: String): Result<List<TimeSlotFire>?> {
+    suspend fun getAllSlotsByUser(uid: String): Result<List<TimeSlotFire>> {
         return try {
             val data = Firebase.firestore
                 .collection("users")
@@ -119,6 +119,24 @@ class TimeSlotRepository(application: Application) {
             return Result.success(result)
         } catch (e: Exception) {
             return Result.failure(e)
+        }
+    }
+
+    suspend fun getSlotFById(uid: String, slotId: String): Result<TimeSlotFire?> {
+        return try {
+            val data = Firebase.firestore
+                .collection("users")
+                .document(uid)
+                .collection("timeslots")
+                .document(slotId)
+                .get()
+                .await()
+
+            Log.d("DATA", data.data.toString())
+            Log.d("DATA", data.toObject(TimeSlotFire::class.java).toString() )
+            Result.success(data.toObject(TimeSlotFire::class.java))
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 

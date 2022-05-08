@@ -15,8 +15,6 @@ import kotlin.concurrent.thread
 
 class TimeSlotViewModel(application: Application): AndroidViewModel(application) {
     val repo = TimeSlotRepository(application)
-    val userRepo = UserRepository(application)
-
     val slots: LiveData<List<Slot>>? = repo.getAllSlots()
     //slots
     fun addSlot(slot: Slot):Long?{
@@ -95,10 +93,19 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
-    fun getUserSlotsF(userId: String) : LiveData<List<TimeSlotFire>?>{
+    fun getAllSlotsByUser(userId: String) : LiveData<List<TimeSlotFire>?>{
         val res = MutableLiveData<List<TimeSlotFire>?>()
         viewModelScope.launch{
-            val result = repo.getUserSlotsF(userId)
+            val result = repo.getAllSlotsByUser(userId)
+            res.postValue(result.getOrNull())
+        }
+        return res
+    }
+
+    fun getAllSkills() : LiveData<List<String>?>{
+        val res = MutableLiveData<List<String>?>()
+        viewModelScope.launch{
+            val result = repo.getAllSkills()
             res.postValue(result.getOrNull())
         }
         return res

@@ -8,5 +8,6 @@ class TimeSlotFire(
     var time:String = "",
     var duration:Int = 0,
     var location:String = "",
+    var skills:List<String> = mutableListOf()
     ) {
 }

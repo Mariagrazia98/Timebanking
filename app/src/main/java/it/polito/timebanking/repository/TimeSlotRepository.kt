@@ -99,7 +99,7 @@ class TimeSlotRepository(application: Application) {
         }
     }
 
-    suspend fun getUserSlotsF(uid: String): Result<List<TimeSlotFire>?> {
+    suspend fun getAllSlotsByUser(uid: String): Result<List<TimeSlotFire>?> {
         return try {
             val data = Firebase.firestore
                 .collection("users")
@@ -121,5 +121,38 @@ class TimeSlotRepository(application: Application) {
             return Result.failure(e)
         }
     }
+
+    suspend fun getAllSkills(): Result<List<String>?> {
+        try {
+            val users = Firebase.firestore
+                .collection("users")
+                .get()
+                .await()
+
+            val skills = mutableListOf<String>()
+            users.forEach {
+                val timeslots = Firebase.firestore
+                    .collection("users")
+                    .document(it.id)
+                    .collection("timeslots")
+                    .get()
+                    .await()
+
+                timeslots.documents.map {
+                    if(it.data != null){
+                        it.toObject(TimeSlotFire::class.java)?.let { it1 ->
+                            it1.skills.forEach{it2 ->
+                                skills.add(it2)}
+                        }
+                    }
+                }
+            }
+            return Result.success(skills)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
+
+    //TODO lista di timeslots per skill
 
 }

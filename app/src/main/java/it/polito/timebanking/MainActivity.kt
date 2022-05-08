@@ -199,7 +199,7 @@ class MainActivity : AppCompatActivity() {
                                         overridePendingTransition(0, 0)
                                         Toast.makeText(
                                             this,
-                                            "Welcome back" + user.displayName + "!",
+                                            "Welcome back " + user.displayName + "!",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }

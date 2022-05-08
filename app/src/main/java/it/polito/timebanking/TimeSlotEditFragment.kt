@@ -172,6 +172,9 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+                    builder.setMessage("Do you want to update the slot?")
+                        .setPositiveButton("Confirm") { dialog, id ->
                     timeslot = TimeSlotFire()
                     timeslot.date = dateView.text.toString()
                     timeslot.time = timeView.text.toString()
@@ -238,11 +241,20 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     }
                      */
 
-                    // if you want onBackPressed() to be called as normal afterwards
-                    if (isEnabled) {
-                        isEnabled = false
-                        requireActivity().onBackPressed()
-                    }
+                            if (isEnabled) {
+                                isEnabled = false
+                                requireActivity().onBackPressed()
+                            }
+                        }
+                        .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+                            // User cancelled the dialog
+                            // if you want onBackPressed() to be called as normal afterwards
+                            if (isEnabled) {
+                                isEnabled = false
+                                requireActivity().onBackPressed()
+                            }
+                        })
+                    builder.show()
                 }
             }
         )
@@ -268,7 +280,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         outState.putString("time", timeView.text.toString())
          */
     }
-
+/*
     private fun handleButton() {
         requireActivity()
             .onBackPressedDispatcher
@@ -341,5 +353,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 }
             })
     }
+
+ */
 
 }

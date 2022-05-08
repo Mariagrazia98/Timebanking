@@ -138,7 +138,7 @@ class TimeSlotRepository(application: Application) {
         }
     }
 
-    suspend fun getAllSkills(): Result<List<String>?> {
+    suspend fun getAllSkills(): Result<List<String>> {
         try {
             val users = Firebase.firestore
                 .collection("users")

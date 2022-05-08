@@ -112,8 +112,8 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
-    fun getAllSkills() : LiveData<List<String>?>{
-        val res = MutableLiveData<List<String>?>()
+    fun getAllSkills() : LiveData<List<String>>{
+        val res = MutableLiveData<List<String>>()
         viewModelScope.launch{
             val result = repo.getAllSkills()
             res.postValue(result.getOrNull())

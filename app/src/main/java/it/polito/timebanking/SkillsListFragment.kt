@@ -24,17 +24,20 @@ class SkillsListFragment : Fragment() {
         val ev: TextView = view.findViewById(R.id.empty_view)
         val rv = view.findViewById<RecyclerView>(R.id.rv)
 
-        rv.layoutManager = LinearLayoutManager(context)
-        val adapter = MySkillRecyclerViewAdapter(skillList)
-        rv.adapter = adapter
+        timeSlotVM.getAllSkills()
+            .observe(viewLifecycleOwner) {
+                rv.layoutManager = LinearLayoutManager(context)
+                val adapter = MySkillRecyclerViewAdapter(it)
+                rv.adapter = adapter
 
-        if(skillList.isEmpty()){
-            rv.visibility = View.GONE
-            ev.visibility = View.VISIBLE
-        }else {
-            rv.visibility = View.VISIBLE
-            ev.visibility = View.GONE
-        }
+                if (it.isEmpty()) {
+                    rv.visibility = View.GONE
+                    ev.visibility = View.VISIBLE
+                } else {
+                    rv.visibility = View.VISIBLE
+                    ev.visibility = View.GONE
+                }
+            }
 
         return view
     }

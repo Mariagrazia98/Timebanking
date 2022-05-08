@@ -338,12 +338,5 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             timeslotSkills.add(chip.text.toString())
         else
             timeslotSkills.remove(chip.text.toString())
-
-        /*val ids = skillsGroup.checkedChipIds
-        timeslotSkills =  mutableListOf()
-
-        ids.forEach { id ->
-            timeslotSkills.add(skillsGroup.findViewById<Chip>(id).text as String)
-        }*/
     }
 }

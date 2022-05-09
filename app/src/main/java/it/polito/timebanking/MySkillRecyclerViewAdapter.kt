@@ -41,7 +41,7 @@ class MySkillRecyclerViewAdapter(val data: List<String>) :
     }
 
     fun filter(text: String) {
-        var text = text
+        /*var text = text
         items.clear()
         if (text.isEmpty()) {
             items.addAll(itemsCopy)
@@ -54,7 +54,7 @@ class MySkillRecyclerViewAdapter(val data: List<String>) :
                 }
             }
         }
-        notifyDataSetChanged()
+        notifyDataSetChanged()*/
     }
 
     override fun getItemCount(): Int = list.size

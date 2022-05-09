@@ -69,8 +69,8 @@ class SkillsListFragment : Fragment() {
                     return@setOnQueryTextListner
                 }
 
-                loadLocations(false, qString)
-                return true*/
+                loadLocations(false, qString)*/
+                return true
             }
         })
         super.onCreateOptionsMenu(menu, inflater)

@@ -16,7 +16,7 @@ class SkillsListFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
-    lateinit var adapter: RecyclerView.Adapter<MySkillRecyclerViewAdapter.SkillViewHolder>
+    lateinit var adapter: MySkillRecyclerViewAdapter
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_skills_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
@@ -50,27 +50,12 @@ class SkillsListFragment : Fragment() {
         searchView = menuItem.actionView as SearchView
         searchView.queryHint = "Type here to search"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextChange(qString: String): Boolean {
-                //adapter.filter
+            override fun onQueryTextChange(text: String): Boolean {
+                adapter.filter.filter(text)
                 return true
             }
-            override fun onQueryTextSubmit(qString: String): Boolean {
-                /*placeSearch.hideKeyboard()
-                showProgress()
-                var success = true
-                val placeResult = Validator.Search.place(qString.trim())
-
-                if (!placeResult.success){
-                    context?.onError(getString(placeResult.message, placeResult.arg))
-                    success = false
-                }
-                if (!success) {
-                    hideProgress()
-                    return@setOnQueryTextListner
-                }
-
-                loadLocations(false, qString)*/
-                return true
+            override fun onQueryTextSubmit(text: String): Boolean {
+                return false
             }
         })
         super.onCreateOptionsMenu(menu, inflater)

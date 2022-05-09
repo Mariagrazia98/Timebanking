@@ -16,7 +16,7 @@ class SkillsListFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
-    lateinit var adapter: MySkillRecyclerViewAdapter
+    var adapter: MySkillRecyclerViewAdapter? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_skills_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
@@ -51,7 +51,7 @@ class SkillsListFragment : Fragment() {
         searchView.queryHint = "Type here to search"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextChange(text: String): Boolean {
-                adapter.filter.filter(text)
+                adapter?.filter?.filter(text)
                 return true
             }
             override fun onQueryTextSubmit(text: String): Boolean {

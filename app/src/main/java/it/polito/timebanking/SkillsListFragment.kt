@@ -2,6 +2,7 @@ package it.polito.timebanking
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Adapter
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -14,7 +15,8 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
 class SkillsListFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var searchView: SearchView
-
+    lateinit var recyclerView: RecyclerView
+    lateinit var adapter: RecyclerView.Adapter<MySkillRecyclerViewAdapter.SkillViewHolder>
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_skills_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
@@ -22,19 +24,19 @@ class SkillsListFragment : Fragment() {
         //timeSlotVM.clearSlots() //to clear the repo uncomment this and run the app
 
         val ev: TextView = view.findViewById(R.id.empty_view)
-        val rv = view.findViewById<RecyclerView>(R.id.rv)
+        recyclerView = view.findViewById(R.id.rv)
 
         timeSlotVM.getAllSkills()
             .observe(viewLifecycleOwner) {
-                rv.layoutManager = LinearLayoutManager(context)
-                val adapter = MySkillRecyclerViewAdapter(it)
-                rv.adapter = adapter
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                adapter = MySkillRecyclerViewAdapter(it)
+                recyclerView.adapter = adapter
 
                 if (it.isEmpty()) {
-                    rv.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
                     ev.visibility = View.VISIBLE
                 } else {
-                    rv.visibility = View.VISIBLE
+                    recyclerView.visibility = View.VISIBLE
                     ev.visibility = View.GONE
                 }
             }
@@ -47,6 +49,30 @@ class SkillsListFragment : Fragment() {
         var menuItem = menu.findItem(R.id.search_button)
         searchView = menuItem.actionView as SearchView
         searchView.queryHint = "Type here to search"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextChange(qString: String): Boolean {
+                //adapter.filter
+                return true
+            }
+            override fun onQueryTextSubmit(qString: String): Boolean {
+                /*placeSearch.hideKeyboard()
+                showProgress()
+                var success = true
+                val placeResult = Validator.Search.place(qString.trim())
+
+                if (!placeResult.success){
+                    context?.onError(getString(placeResult.message, placeResult.arg))
+                    success = false
+                }
+                if (!success) {
+                    hideProgress()
+                    return@setOnQueryTextListner
+                }
+
+                loadLocations(false, qString)
+                return true*/
+            }
+        })
         super.onCreateOptionsMenu(menu, inflater)
     }
 

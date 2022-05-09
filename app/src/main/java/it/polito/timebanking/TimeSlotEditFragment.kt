@@ -141,7 +141,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     userSkills = it?.skills ?: mutableListOf()
                     if (userSkills.isNotEmpty()) {
                         userSkills.forEach { skill ->
-                            addChip(skill.trim())
+                            addChip(slotId, skill.trim())
                         }
                     }
                 }
@@ -153,7 +153,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 userSkills = it?.skills ?: mutableListOf()
                 if (userSkills.isNotEmpty()) {
                     userSkills.forEach { skill ->
-                        addChip(skill.trim())
+                        addChip(slotId, skill.trim())
                     }
                 }
             }
@@ -311,13 +311,13 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
          */
     }
 
-    private fun addChip(text: String) {
+    private fun addChip(slotId:String, text: String) {
         val chip = Chip(this.context)
         chip.text = text
         chip.isCloseIconVisible = false
         chip.isChipIconVisible = false
         chip.isCheckable = true
-        if(timeslot.skills.contains(text)){
+        if(slotId != "" && timeslot.skills.contains(text)){
             chip.isChecked = true
             timeslotSkills.add(chip.text.toString())
         }

@@ -42,9 +42,11 @@ class TimeSlotRepository(application: Application) {
 
 
     //Firebase
-    fun getNewSlotId(): String {
+    fun getNewSlotId(userId: String): String {
         return try {
             val data = Firebase.firestore
+                .collection("users")
+                .document(userId)
                 .collection("timeslots")
                 .document()
                 .id

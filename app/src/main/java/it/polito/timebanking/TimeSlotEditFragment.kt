@@ -225,7 +225,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                                 snackbar.show()
                             }
                             else{ //create
-                                val newId = timeSlotVM.getNewTripId()
+                                val newId = timeSlotVM.getNewSlotId(userId)
                                 timeslot.id = newId
                                 timeSlotVM.updateSlotF(userId, timeslot)
                                 val snackbar = Snackbar.make(requireView(), "Time slot created!", Snackbar.LENGTH_SHORT)

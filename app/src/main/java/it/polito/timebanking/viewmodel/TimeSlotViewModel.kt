@@ -63,8 +63,8 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         this.slot = slot
     }
 
-    fun getNewTripId() : String{
-        return repo.getNewSlotId()
+    fun getNewSlotId(userId :String) : String{
+        return repo.getNewSlotId(userId)
     }
 
     fun updateSlotF(userId: String, slot: TimeSlotFire) : LiveData<Boolean>{

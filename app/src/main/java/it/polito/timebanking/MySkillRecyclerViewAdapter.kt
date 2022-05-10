@@ -38,7 +38,7 @@ class MySkillRecyclerViewAdapter(val data: List<String>, userId: String) :
         val item = list[position]
         item.let { holder.bind(it) }
         val read_only = true
-        val bundle = bundleOf("userId" to userId, "read_only" to read_only)
+        val bundle = bundleOf("userId" to userId, "read_only" to read_only, "skill" to item)
 
         holder.cv.setOnClickListener {
             NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(

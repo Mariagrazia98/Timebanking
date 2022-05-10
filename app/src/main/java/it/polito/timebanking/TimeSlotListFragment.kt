@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import it.polito.timebanking.model.TimeSlotFire
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 /**
@@ -42,43 +45,31 @@ class TimeSlotListFragment : Fragment() {
 
         val ev: TextView = view.findViewById(R.id.empty_view)
         val rv = view.findViewById<RecyclerView>(R.id.rv)
-        timeSlotVM.getAllSlotsByUser(userId)
-            .observe(viewLifecycleOwner){
-                rv.layoutManager = LinearLayoutManager(context)
-                val adapter = MyTimeSlotRecyclerViewAdapter(it, userId, read_only)
-                rv.adapter = adapter
+        val fab: View = view.findViewById(R.id.fab)
 
-                if(it.isEmpty()){
-                    rv.visibility = View.GONE
-                    ev.visibility = View.VISIBLE
-                }else {
-                    rv.visibility = View.VISIBLE
-                    ev.visibility = View.GONE
-                }
-            }
-
-        if(read_only)
+        var slotsToObserve : LiveData<List<TimeSlotFire>>? = null
+        if(read_only) {
             (activity as MainActivity).supportActionBar?.title = "Offers list"
+            fab.visibility = View.GONE
+            //slotsToObserve = timeSlotVM.getAllSlotsWithoutThisUser(userId)
+        }else{
+            slotsToObserve = timeSlotVM.getAllSlotsByUser(userId)
+        }
 
-        /*
-        timeSlotVM.slots?.observe(viewLifecycleOwner) {
+        slotsToObserve?.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
-            val adapter = MyTimeSlotRecyclerViewAdapter(it)
+            val adapter = MyTimeSlotRecyclerViewAdapter(it, userId, read_only)
             rv.adapter = adapter
 
-            if(it.size<1){
+            if(it.isEmpty()){
                 rv.visibility = View.GONE
                 ev.visibility = View.VISIBLE
             }else {
                 rv.visibility = View.VISIBLE
                 ev.visibility = View.GONE
             }
-        }*/
-
-        val fab: View = view.findViewById(R.id.fab)
-        if(read_only){
-            fab.visibility = View.GONE
         }
+
         fab.setOnClickListener{
             val bundle = bundleOf("userId" to (userId))
             NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2, bundle)

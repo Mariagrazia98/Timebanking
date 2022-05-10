@@ -111,4 +111,13 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         }
         return res
     }
+
+    fun getSlotsBySkill(skill: String) : LiveData<List<TimeSlotFire>>{
+        val res = MutableLiveData<List<TimeSlotFire>>()
+        viewModelScope.launch{
+            val result = repo.getSlotsBySkill(skill)
+            res.postValue(result.getOrNull())
+        }
+        return res
+    }
 }

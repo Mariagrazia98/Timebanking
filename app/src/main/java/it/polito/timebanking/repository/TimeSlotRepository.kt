@@ -138,7 +138,6 @@ class TimeSlotRepository(application: Application) {
                     .collection("timeslots")
                     .get()
                     .await()
-                //TODO forse passare direttamente timeslot e fare il foreach dopo
                 timeslots.documents.map {
                     if(it.data != null){
                         it.toObject(TimeSlotFire::class.java)?.let { it1 ->
@@ -154,5 +153,34 @@ class TimeSlotRepository(application: Application) {
         }
     }
 
-    //TODO lista di timeslots per skill
+    suspend fun getSlotsBySkill(skill: String): Result<List<TimeSlotFire>> {
+        try {
+            val users = Firebase.firestore
+                .collection("users")
+                .get()
+                .await()
+
+            val filteredSlots = mutableListOf<TimeSlotFire>()
+            users.forEach {
+                val timeslots = Firebase.firestore
+                    .collection("users")
+                    .document(it.id)
+                    .collection("timeslots")
+                    .get()
+                    .await()
+                timeslots.documents.map {
+                    if(it.data != null){
+                        it.toObject(TimeSlotFire::class.java)?.let { it1 ->
+                            if(it1.skills.contains(skill)){
+                                filteredSlots.add(it1)
+                            }
+                        }
+                    }
+                }
+            }
+            return Result.success(filteredSlots)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
 }

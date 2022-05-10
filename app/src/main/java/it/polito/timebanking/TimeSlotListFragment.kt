@@ -23,6 +23,7 @@ class TimeSlotListFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var userId: String
     var read_only: Boolean = false
+    var skill: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,21 +43,22 @@ class TimeSlotListFragment : Fragment() {
         //timeSlotVM.clearSlots() //to clear the repo uncomment this and run the app
         read_only = arguments?.getBoolean("read_only")?:false
         userId = arguments?.getString("userId").toString()
+        skill = arguments?.getString("skill").toString()
 
         val ev: TextView = view.findViewById(R.id.empty_view)
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         val fab: View = view.findViewById(R.id.fab)
 
-        var slotsToObserve : LiveData<List<TimeSlotFire>>? = null
+        var slotsToObserve : LiveData<List<TimeSlotFire>>?
         if(read_only) {
             (activity as MainActivity).supportActionBar?.title = "Offers list"
             fab.visibility = View.GONE
-            //slotsToObserve = timeSlotVM.getAllSlotsWithoutThisUser(userId)
+            slotsToObserve = timeSlotVM.getSlotsBySkill(skill)
         }else{
             slotsToObserve = timeSlotVM.getAllSlotsByUser(userId)
         }
 
-        slotsToObserve?.observe(viewLifecycleOwner){
+        slotsToObserve.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
             val adapter = MyTimeSlotRecyclerViewAdapter(it, userId, read_only)
             rv.adapter = adapter

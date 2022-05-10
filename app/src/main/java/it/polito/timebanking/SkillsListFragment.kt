@@ -35,7 +35,7 @@ class SkillsListFragment : Fragment() {
         timeSlotVM.getAllSkills()
             .observe(viewLifecycleOwner) {
                 recyclerView.layoutManager = LinearLayoutManager(context)
-                adapter = MySkillRecyclerViewAdapter(it, userId)
+                adapter = MySkillRecyclerViewAdapter(it.distinct(), userId)
                 recyclerView.adapter = adapter
 
                 if (it.isEmpty()) {

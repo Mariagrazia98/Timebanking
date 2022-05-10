@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity() {
                     })
 
                 log_item.title = "Logout"
+                log_item.setIcon(R.drawable.ic_logout)
                 log_item.setOnMenuItemClickListener {
                     logout()
                     true
@@ -142,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 
 
         navView.setNavigationItemSelectedListener() { item ->
-            val bundle = bundleOf("id" to (userState?.uid ?: 0))
+            val bundle = bundleOf("userId" to (userState?.uid ?: 0))
 
             if (item.itemId == R.id.profileMenuItem) {
                 navController.navigate(R.id.showProfileFragment, bundle)
@@ -253,7 +254,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val bundle = bundleOf("id" to (userState?.uid ?: 0))
+        val bundle = bundleOf("userId" to (userState?.uid ?: 0))
         return when (item.itemId) {
             R.id.edit_button -> {
                 navController.navigate(R.id.editProfileFragment, bundle)
@@ -264,8 +265,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
         return NavigationUI.navigateUp(navController, drawerLayout)
     }

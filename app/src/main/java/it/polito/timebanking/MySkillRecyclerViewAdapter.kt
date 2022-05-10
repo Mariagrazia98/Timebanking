@@ -1,5 +1,6 @@
 package it.polito.timebanking
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,12 +8,16 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 
-class MySkillRecyclerViewAdapter(val data: List<String>) :
+class MySkillRecyclerViewAdapter(val data: List<String>, userId: String) :
     RecyclerView.Adapter<MySkillRecyclerViewAdapter.SkillViewHolder>(), Filterable {
     var list = data.toMutableList()
     var originalList = list
+    val userId: String = userId
 
     class SkillViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val cv: CardView = v.findViewById(R.id.cv)
@@ -32,16 +37,16 @@ class MySkillRecyclerViewAdapter(val data: List<String>) :
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
         val item = list[position]
         item.let { holder.bind(it) }
-        /*
-        val bundle = bundleOf("id" to item.id)
+        val read_only = true
+        val bundle = bundleOf("userId" to userId, "read_only" to read_only)
 
         holder.cv.setOnClickListener {
             NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(
-                R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment,
+                R.id.action_skillsListFragment_to_timeSlotListFragment,
                 bundle
             )
         }
-        */
+
     }
 
     override fun getFilter(): Filter {

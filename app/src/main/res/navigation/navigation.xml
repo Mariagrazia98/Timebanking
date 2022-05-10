@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/timeSlotDetailsFragment"
         android:name="it.polito.timebanking.TimeSlotDetailsFragment"
-        android:label="@string/advertisement"
+        android:label="@string/my_offer"
         tools:layout="@layout/fragment_time_slot_details">
         <action
             android:id="@+id/action_timeSlotDetailsFragment_to_timeSlotEditFragment"
@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/timeSlotListFragment"
         android:name="it.polito.timebanking.TimeSlotListFragment"
-        android:label="@string/advertisementList"
+        android:label="@string/myOffersList"
         tools:layout="@layout/fragment_time_slot_list">
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotEditFragment2"
             app:destination="@id/timeSlotEditFragment" />
+        <action
+            android:id="@+id/action_timeSlotListFragment_to_showProfileFragment"
+            app:destination="@id/showProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/showProfileFragment"
@@ -49,5 +52,9 @@
     <fragment
         android:id="@+id/skillsListFragment"
         android:name="it.polito.timebanking.SkillsListFragment"
-        android:label="SkillsListFragment" />
+        android:label="@string/available_skills_list">
+        <action
+            android:id="@+id/action_skillsListFragment_to_timeSlotListFragment"
+            app:destination="@id/timeSlotListFragment" />
+    </fragment>
 </navigation>

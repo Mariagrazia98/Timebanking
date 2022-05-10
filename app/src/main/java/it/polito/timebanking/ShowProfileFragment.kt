@@ -64,7 +64,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         setVariables(view)
 
 
-        userId = arguments?.getString("id")!!
+        userId = arguments?.getString("userId")!!
         profileVM.getUserByIdF(userId)
             .observe(viewLifecycleOwner, Observer { user ->
                 if (user != null) {

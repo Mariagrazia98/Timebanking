@@ -1,6 +1,7 @@
 package it.polito.timebanking
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Adapter
 import android.widget.SearchView
@@ -10,13 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
+import java.io.Console
 
 
 class SkillsListFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
+    lateinit var userId: String
     var adapter: MySkillRecyclerViewAdapter? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_skills_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
@@ -26,10 +30,12 @@ class SkillsListFragment : Fragment() {
         val ev: TextView = view.findViewById(R.id.empty_view)
         recyclerView = view.findViewById(R.id.rv)
 
+        userId = arguments?.getString("userId").toString()
+
         timeSlotVM.getAllSkills()
             .observe(viewLifecycleOwner) {
                 recyclerView.layoutManager = LinearLayoutManager(context)
-                adapter = MySkillRecyclerViewAdapter(it)
+                adapter = MySkillRecyclerViewAdapter(it, userId)
                 recyclerView.adapter = adapter
 
                 if (it.isEmpty()) {

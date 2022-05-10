@@ -2,6 +2,7 @@ package it.polito.timebanking
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -18,6 +19,7 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
 class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var userId: String
     lateinit var slotId: String
+    var read_only = false
     lateinit var timeslot: TimeSlotFire
     lateinit var slot: Slot
     lateinit var timeSlotVM: TimeSlotViewModel
@@ -38,14 +40,17 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.findItem(R.id.edit_button).isVisible = false
-        inflater.inflate(R.menu.options_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
+        if(!read_only) {
+            inflater.inflate(R.menu.options_menu, menu)
+            super.onCreateOptionsMenu(menu, inflater)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         slotId = arguments?.getString("id")!!
         userId = arguments?.getString("userId")!!
+        read_only = arguments?.getBoolean("read_only")?:false
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
 
         dateView = view.findViewById(R.id.dateAdvertisement)
@@ -71,6 +76,9 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 }
             }
         }
+
+        if(read_only)
+            (activity as MainActivity).supportActionBar?.title = "Offer"
 
     }
 

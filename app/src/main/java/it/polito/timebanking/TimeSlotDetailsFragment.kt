@@ -83,7 +83,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val bundle = bundleOf("id" to slotId)
+        val bundle = bundleOf("id" to slotId, "userId" to userId)
         return when (item.itemId) {
             R.id.slot -> {
                 findNavController().navigate(R.id.timeSlotEditFragment, bundle)

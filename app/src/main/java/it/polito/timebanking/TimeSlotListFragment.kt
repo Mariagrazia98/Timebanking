@@ -53,7 +53,7 @@ class TimeSlotListFragment : Fragment() {
         if(read_only) {
             (activity as MainActivity).supportActionBar?.title = "Offers list"
             fab.visibility = View.GONE
-            slotsToObserve = timeSlotVM.getSlotsBySkill(skill)
+            slotsToObserve = timeSlotVM.getSlotsBySkill(userId, skill)
         }else{
             slotsToObserve = timeSlotVM.getAllSlotsByUser(userId)
         }

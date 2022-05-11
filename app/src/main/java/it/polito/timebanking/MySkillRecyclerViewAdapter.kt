@@ -13,11 +13,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 
-class MySkillRecyclerViewAdapter(val data: List<String>, userId: String) :
+class MySkillRecyclerViewAdapter(val data: List<String>, id: String) :
     RecyclerView.Adapter<MySkillRecyclerViewAdapter.SkillViewHolder>(), Filterable {
     var list = data.toMutableList()
     var originalList = list
-    val userId: String = userId
+    val userId: String = id
 
     class SkillViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val cv: CardView = v.findViewById(R.id.cv)
@@ -39,7 +39,6 @@ class MySkillRecyclerViewAdapter(val data: List<String>, userId: String) :
         item.let { holder.bind(it) }
         val read_only = true
         val bundle = bundleOf("userId" to userId, "read_only" to read_only, "skill" to item)
-
         holder.cv.setOnClickListener {
             NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(
                 R.id.action_skillsListFragment_to_timeSlotListFragment,

@@ -31,7 +31,7 @@ class SkillsListFragment : Fragment() {
         recyclerView = view.findViewById(R.id.rv)
 
         userId = arguments?.getString("userId").toString()
-
+        //TODO gestire l'avvio della lista di skills in cui lo userID è null
         timeSlotVM.getAllSkills()
             .observe(viewLifecycleOwner) {
                 recyclerView.layoutManager = LinearLayoutManager(context)

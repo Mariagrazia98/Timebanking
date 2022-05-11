@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 
 
         navView.setNavigationItemSelectedListener() { item ->
-            val bundle = bundleOf("userId" to (userState?.uid ?: 0))
+            val bundle = bundleOf("userId" to (userState?.uid))
 
             if (item.itemId == R.id.profileMenuItem) {
                 navController.navigate(R.id.showProfileFragment, bundle)

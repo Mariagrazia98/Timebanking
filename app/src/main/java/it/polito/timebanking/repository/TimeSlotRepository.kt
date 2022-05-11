@@ -155,7 +155,7 @@ class TimeSlotRepository(application: Application) {
         }
     }
 
-    suspend fun getSlotsBySkill(skill: String): Result<List<TimeSlotFire>> {
+    suspend fun getSlotsBySkill(userId: String, skill: String): Result<List<TimeSlotFire>> {
         try {
             val users = Firebase.firestore
                 .collection("users")
@@ -163,18 +163,24 @@ class TimeSlotRepository(application: Application) {
                 .await()
 
             val filteredSlots = mutableListOf<TimeSlotFire>()
-            users.forEach {
-                val timeslots = Firebase.firestore
-                    .collection("users")
-                    .document(it.id)
-                    .collection("timeslots")
-                    .get()
-                    .await()
-                timeslots.documents.map {
-                    if(it.data != null){
-                        it.toObject(TimeSlotFire::class.java)?.let { it1 ->
-                            if(it1.skills.contains(skill)){
-                                filteredSlots.add(it1)
+            users.forEach { user ->
+                user.toObject(UserFire::class.java).let { u ->
+                    Log.d("user", u.uid)
+                    Log.d("userId", userId)
+                    if (u.uid != userId) {
+                        val timeslots = Firebase.firestore
+                            .collection("users")
+                            .document(u.uid)
+                            .collection("timeslots")
+                            .get()
+                            .await()
+                        timeslots.documents.map {
+                            if (it.data != null) {
+                                it.toObject(TimeSlotFire::class.java)?.let { it1 ->
+                                    if (it1.skills.contains(skill)) {
+                                        filteredSlots.add(it1)
+                                    }
+                                }
                             }
                         }
                     }

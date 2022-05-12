@@ -86,7 +86,7 @@ class TimeSlotRepository(application: Application) {
         }
     }
 
-    suspend fun getAllSlotsByUser(uid: String): Result<List<TimeSlotFire>> {
+    suspend fun getSlotsByUser(uid: String): Result<List<TimeSlotFire>> {
         return try {
             val data = Firebase.firestore
                 .collection("users")

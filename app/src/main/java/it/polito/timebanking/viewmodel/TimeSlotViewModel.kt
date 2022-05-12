@@ -94,10 +94,10 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
-    fun getAllSlotsByUser(userId: String) : LiveData<List<TimeSlotFire>>{
+    fun getSlotsByUser(userId: String) : LiveData<List<TimeSlotFire>>{
         val res = MutableLiveData<List<TimeSlotFire>>()
         viewModelScope.launch{
-            val result = repo.getAllSlotsByUser(userId)
+            val result = repo.getSlotsByUser(userId)
             res.postValue(result.getOrNull())
         }
         return res

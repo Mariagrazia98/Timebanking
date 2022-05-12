@@ -55,7 +55,7 @@ class TimeSlotListFragment : Fragment() {
             fab.visibility = View.GONE
             slotsToObserve = timeSlotVM.getSlotsBySkill(userId, skill)
         }else{
-            slotsToObserve = timeSlotVM.getAllSlotsByUser(userId)
+            slotsToObserve = timeSlotVM.getSlotsByUser(userId)
         }
 
         slotsToObserve.observe(viewLifecycleOwner){

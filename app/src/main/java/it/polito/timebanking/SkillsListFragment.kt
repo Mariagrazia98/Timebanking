@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.io.Console
 
@@ -29,10 +30,10 @@ class SkillsListFragment : Fragment() {
 
         val ev: TextView = view.findViewById(R.id.empty_view)
         recyclerView = view.findViewById(R.id.rv)
+        val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
+        userId = uid.toString()
 
-        userId = arguments?.getString("userId").toString()
-        //TODO gestire l'avvio della lista di skills in cui lo userID è null
-        timeSlotVM.getAllSkills()
+        timeSlotVM.getAllSkills(userId)
             .observe(viewLifecycleOwner) {
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 adapter = MySkillRecyclerViewAdapter(it.distinct(), userId)

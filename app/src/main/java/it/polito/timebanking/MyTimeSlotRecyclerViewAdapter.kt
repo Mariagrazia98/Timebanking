@@ -1,6 +1,5 @@
 package it.polito.timebanking
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +40,7 @@ class MyTimeSlotRecyclerViewAdapter(val data: List<TimeSlotFire>, userId: String
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemSlotViewHolder {
-        val vg = LayoutInflater.from(parent.context).inflate(R.layout.fragment_time_slot, parent, false)
+        val vg = LayoutInflater.from(parent.context).inflate(R.layout.fragment_my_time_slot, parent, false)
         return ItemSlotViewHolder(vg, read_only)
     }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
@@ -13,7 +14,11 @@ import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import it.polito.timebanking.model.TimeSlotFire
 
 
-class MyTimeSlotRecyclerViewAdapter(val data: List<TimeSlotFire>, userId: String, read_only: Boolean) :
+class MyTimeSlotRecyclerViewAdapter(
+    val data: List<TimeSlotFire>,
+    userId: String,
+    read_only: Boolean
+) :
     RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>() {
     var list = data.toMutableList()
     val userId: String = userId
@@ -25,7 +30,8 @@ class MyTimeSlotRecyclerViewAdapter(val data: List<TimeSlotFire>, userId: String
         private val time: TextView = v.findViewById(R.id.slot_time)
         private val duration: TextView = v.findViewById(R.id.slot_duration)
         val cv: CardView = v.findViewById(R.id.cv)
-        val button: ImageButton = v.findViewById(R.id.button)
+        val button: ImageButton? = v.findViewById(R.id.button)
+        val ivSlot : ImageView? = v.findViewById(R.id.imageViewSlot)
 
         fun bind(item: TimeSlotFire, read_only: Boolean) {
             title.text = item.title
@@ -33,14 +39,20 @@ class MyTimeSlotRecyclerViewAdapter(val data: List<TimeSlotFire>, userId: String
             time.text = item.time
             duration.text = item.duration.toString()
 
-            if(read_only){
-                button.setImageResource(R.drawable.ic_person)
+            if (read_only) {
+                ivSlot?.setImageResource(R.drawable.ic_person)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemSlotViewHolder {
-        val vg = LayoutInflater.from(parent.context).inflate(R.layout.fragment_my_time_slot, parent, false)
+        var vg: View?
+        if (read_only)
+            vg = LayoutInflater.from(parent.context)
+                .inflate(R.layout.fragment_other_time_slot, parent, false)
+        else
+            vg = LayoutInflater.from(parent.context)
+                .inflate(R.layout.fragment_my_time_slot, parent, false)
         return ItemSlotViewHolder(vg, read_only)
     }
 
@@ -56,13 +68,13 @@ class MyTimeSlotRecyclerViewAdapter(val data: List<TimeSlotFire>, userId: String
             )
         }
 
-        holder.button.setOnClickListener {
-            if(read_only){
+        holder.button?.setOnClickListener {
+            if (read_only) {
                 findNavController(FragmentManager.findFragment(it)).navigate(
                     R.id.action_timeSlotListFragment_to_showProfileFragment,
                     bundle
                 )
-            }else {
+            } else {
                 findNavController(FragmentManager.findFragment(it)).navigate(
                     R.id.action_timeSlotListFragment_to_timeSlotEditFragment2,
                     bundle

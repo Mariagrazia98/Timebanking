@@ -56,7 +56,13 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
             list
         )
         autoCompleteTextView.setAdapter(arrayAdapter)
-
+        autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            // You can get the label or item that the user clicked:
+            when(position){
+                0 -> (activity as MainActivity).adapterTimeSlots!!.filter.filter("order=date")
+                1 ->  (activity as MainActivity).adapterTimeSlots!!.filter.filter("order=duration")
+            }
+        }
         //DATE
         val cal = Calendar.getInstance()
         dateInputLayout = view.findViewById(R.id.dateInput)

@@ -116,6 +116,10 @@ class MyTimeSlotRecyclerViewAdapter(
                     filteredRes = getFilteredResultsByDuration(constraint.toString().lowercase())
                 else if (constraint.startsWith("time"))
                     filteredRes = getFilteredResultsByStartTime(constraint.toString().lowercase())
+                else if (constraint.startsWith("order=date"))
+                    filteredRes = list.sortedWith { x, y -> x.date.compareTo(y.date) }
+                else if (constraint.startsWith("order=duration"))
+                    filteredRes = list.sortedWith { x, y -> x.duration.compareTo(y.duration) }
                 else
                     filteredRes = originalList
 

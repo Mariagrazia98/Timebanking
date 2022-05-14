@@ -1,5 +1,7 @@
 package it.polito.timebanking.model
 
+import java.io.Serializable
+
 class TimeSlotFire(
     var id:String = "id",
     var title:String = "",
@@ -9,5 +11,5 @@ class TimeSlotFire(
     var duration:Int = 0,
     var location:String = "",
     var skills:MutableList<String> = mutableListOf()
-    ) {
+    ) : Serializable {
 }

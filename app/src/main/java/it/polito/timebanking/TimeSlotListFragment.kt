@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.polito.timebanking.model.TimeSlotFire
+import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 /**
@@ -49,7 +50,7 @@ class TimeSlotListFragment : Fragment() {
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         val fab: View = view.findViewById(R.id.fab)
 
-        var slotsToObserve : LiveData<List<TimeSlotFire>>?
+        var slotsToObserve : LiveData<Map<UserFire, List<TimeSlotFire>>>?
         if(read_only) {
             (activity as MainActivity).supportActionBar?.title = "Offers list"
             fab.visibility = View.GONE
@@ -60,7 +61,7 @@ class TimeSlotListFragment : Fragment() {
 
         slotsToObserve.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
-            val adapter = MyTimeSlotRecyclerViewAdapter(it, userId, read_only)
+            val adapter = MyTimeSlotRecyclerViewAdapter(it, read_only)
             rv.adapter = adapter
 
             if(it.isEmpty()){

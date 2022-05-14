@@ -18,6 +18,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import it.polito.timebanking.model.TimeSlotFire
+import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
@@ -29,8 +30,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var profileVM: ProfileViewModel
     lateinit var slot: Slot
     lateinit var userId: String
-    lateinit var slotId: String
-    lateinit var timeslot: TimeSlotFire
+    var timeslot: TimeSlotFire? = null
+    var user : UserFire? = null
 
     lateinit var userSkills: MutableList<String>
     var timeslotSkills: MutableList<String> = mutableListOf()
@@ -59,8 +60,10 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        slotId = arguments?.getString("id")?:""
-        userId = arguments?.getString("userId")?:""
+        userId = arguments?.getString("userId")?:"" //if edit userId == ""
+        timeslot = arguments?.getSerializable("slot") as TimeSlotFire?
+        user = arguments?.getSerializable("user") as UserFire?
+
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
         profileVM =  ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
 
@@ -71,6 +74,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         dateView = view.findViewById(R.id.edit_dateAdvertisement)
         timeView = view.findViewById(R.id.edit_timeAdvertisement)
         skillsGroup = view.findViewById(R.id.skillsAdvertisement)
+
 
         //DATE
         val cal = Calendar.getInstance()
@@ -118,30 +122,23 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         }
 
-        if(slotId!= ""){ //edit
+        if(timeslot != null){ //edit
             (activity as MainActivity).supportActionBar?.title = "Edit advertisement"
-            timeSlotVM.getSlotFById(userId, slotId).observe(viewLifecycleOwner) {
-                if (it != null && savedInstanceState == null) {
-                    println(it)
-                    timeslot = it
-                } else if(savedInstanceState != null) {
-                    println("savedInstanceState")
-                    timeslot = timeSlotVM.getSlot()
-                }
-                titleView.setText(timeslot.title)
-                descriptionView.setText(timeslot.description)
-                locationView.setText(timeslot.location)
-                durationView.setText(timeslot.duration.toString())
-                dateView.setText(timeslot.date)
-                timeView.setText(timeslot.time)
 
-                profileVM.getUserById(userId).observe(viewLifecycleOwner) {
-                    userSkills = it?.skills ?: mutableListOf()
-                    if (userSkills.isNotEmpty()) {
-                        userSkills.forEach { skill ->
-                            addChip(slotId, skill.trim())
-                        }
-                    }
+            if(savedInstanceState != null){
+                timeslot = timeSlotVM.getSlot()
+            }
+            titleView.setText(timeslot!!.title)
+            descriptionView.setText(timeslot!!.description)
+            locationView.setText(timeslot!!.location)
+            durationView.setText(timeslot!!.duration.toString())
+            dateView.setText(timeslot!!.date)
+            timeView.setText(timeslot!!.time)
+
+            userSkills = user!!.skills
+            if (userSkills.isNotEmpty()) {
+                userSkills.forEach { skill ->
+                    addChip(userId, skill.trim())
                 }
             }
         }else{ //create
@@ -151,46 +148,13 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 userSkills = it?.skills ?: mutableListOf()
                 if (userSkills.isNotEmpty()) {
                     userSkills.forEach { skill ->
-                        addChip(slotId, skill.trim())
+                        addChip(userId, skill.trim())
                     }
                 }
             }
         }
 
         handleButton()
-
-        /*
-        if(slotId!=-1L){ //edit
-
-            (activity as MainActivity).supportActionBar?.title = "Edit advertisement"
-            timeSlotVM.getSlotById(slotId)?.observe(viewLifecycleOwner) {
-                if (savedInstanceState == null) {
-                    titleView.setText(it.title)
-                    descriptionView.setText(it.description)
-                    locationView.setText(it.location)
-                    durationView.setText(it.duration.toString())
-                    dateView.setText(it.date)
-                    timeView.setText(it.time)
-                } else {
-                    titleView.setText(savedInstanceState.getString("title"))
-                    descriptionView.setText(savedInstanceState.getString("description"))
-                    locationView.setText(savedInstanceState.getString("location"))
-                    durationView.setText(savedInstanceState.getString("duration"))
-                    dateView.setText(savedInstanceState.getString("date"))
-                    timeView.setText(savedInstanceState.getString("time"))
-                }
-            }
-        } else { //create
-            (activity as MainActivity).supportActionBar?.title = "Create advertisement"
-            dateView.setText(
-                SimpleDateFormat(
-                    "dd/MM/yyyy",
-                    Locale.ITALY
-                ).format(System.currentTimeMillis())
-            )
-        }
-
-*/
     }
 
     private fun handleButton() {
@@ -199,20 +163,20 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-                    val message = if(slotId!="") "Do you want to update the slot?" else "Do you want to create this slot?"
+                    val message = if(userId=="") "Do you want to update the slot?" else "Do you want to create this slot?"
                     builder.setMessage(message)
                         .setPositiveButton("Confirm") { dialog, id ->
-                            timeslot = TimeSlotFire()
-                            timeslot.date = dateView.text.toString()
-                            timeslot.time = timeView.text.toString()
-                            timeslot.title = titleView.text.toString()
-                            timeslot.description = descriptionView.text.toString()
-                            timeslot.duration = durationView.text.toString().toInt()
-                            timeslot.location = locationView.text.toString()
-                            timeslot.skills = timeslotSkills
-                            if(slotId!="") { //edit
-                                timeslot.id = slotId
-                                timeSlotVM.updateSlotF(userId, timeslot)
+                            val ts = TimeSlotFire()
+                            ts.date = dateView.text.toString()
+                            ts.time = timeView.text.toString()
+                            ts.title = titleView.text.toString()
+                            ts.description = descriptionView.text.toString()
+                            ts.duration = durationView.text.toString().toInt()
+                            ts.location = locationView.text.toString()
+                            ts.skills = timeslotSkills
+                            if(userId == "") { //edit
+                                ts.id = timeslot!!.id
+                                timeSlotVM.updateSlotF(user!!.uid,ts)
                                 val snackbar = Snackbar.make(requireView(), "Time slot updated!", Snackbar.LENGTH_SHORT)
                                 val sbView: View = snackbar.view
                                 context?.let { ContextCompat.getColor(it, R.color.primary_light) }
@@ -224,8 +188,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                             }
                             else{ //create
                                 val newId = timeSlotVM.getNewSlotId(userId)
-                                timeslot.id = newId
-                                timeSlotVM.updateSlotF(userId, timeslot)
+                                ts.id = newId
+                                timeSlotVM.updateSlotF(userId, ts)
                                 val snackbar = Snackbar.make(requireView(), "Time slot created!", Snackbar.LENGTH_SHORT)
                                 val sbView: View = snackbar.view
                                 context?.let { ContextCompat.getColor(it, R.color.primary_light) }
@@ -235,39 +199,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                                     ?.let { it2 -> snackbar.setTextColor(it2) }
                                 snackbar.show()
                             }
-
-                            /*
-                            slot= Slot()
-                            slot.id=slotId
-                            slot.date = dateView.text.toString()
-                            slot.time = timeView.text.toString()
-                            slot.title = titleView.text.toString()
-                            slot.description = descriptionView.text.toString()
-                            slot.duration = durationView.text.toString().toInt()
-                            slot.location = locationView.text.toString()
-                            if(slotId!=-1L) { //edit
-                                timeSlotVM.updateSlot(slot)
-                                val snackbar = Snackbar.make(requireView(), "Time slot updated!", Snackbar.LENGTH_SHORT)
-                                val sbView: View = snackbar.view
-                                context?.let { ContextCompat.getColor(it, R.color.primary_light) }
-                                    ?.let { it2 -> sbView.setBackgroundColor(it2) }
-
-                                context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
-                                    ?.let { it2 -> snackbar.setTextColor(it2) }
-                                snackbar.show()
-                            }
-                            else{ //create
-                                timeSlotVM.addSlot(slot)
-                                val snackbar = Snackbar.make(requireView(), "Time slot created!", Snackbar.LENGTH_SHORT)
-                                val sbView: View = snackbar.view
-                                context?.let { ContextCompat.getColor(it, R.color.primary_light) }
-                                    ?.let { it2 -> sbView.setBackgroundColor(it2) }
-
-                                context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
-                                    ?.let { it2 -> snackbar.setTextColor(it2) }
-                                snackbar.show()
-                            }
-                             */
 
                             if (isEnabled) {
                                 isEnabled = false
@@ -291,31 +222,23 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        timeslot.id = slotId
-        timeslot.title = titleView.text.toString()
-        timeslot.description = descriptionView.text.toString()
-        timeslot.duration =  durationView.text.toString().toInt()
-        timeslot.location = locationView.text.toString()
-        timeslot.date = dateView.text.toString()
-        timeslot.time = timeView.text.toString()
-        timeslot.skills = timeslotSkills
-        timeSlotVM.setSlot(timeslot)
-        /*outState.putString("title", titleView.text.toString())
-        outState.putString("description", descriptionView.text.toString())
-        outState.putString("duration", durationView.text.toString())
-        outState.putString("location", locationView.text.toString())
-        outState.putString("date", dateView.text.toString())
-        outState.putString("time", timeView.text.toString())
-         */
+        timeslot?.title = titleView.text.toString()
+        timeslot?.description = descriptionView.text.toString()
+        timeslot?.duration =  durationView.text.toString().toInt()
+        timeslot?.location = locationView.text.toString()
+        timeslot?.date = dateView.text.toString()
+        timeslot?.time = timeView.text.toString()
+        timeslot?.skills = timeslotSkills
+        timeSlotVM.setSlot(timeslot!!)
     }
 
-    private fun addChip(slotId:String, text: String) {
+    private fun addChip(userId:String, text: String) {
         val chip = Chip(this.context)
         chip.text = text
         chip.isCloseIconVisible = false
         chip.isChipIconVisible = false
         chip.isCheckable = true
-        if(slotId != "" && timeslot.skills.contains(text)){
+        if(userId == "" && timeslot!!.skills.contains(text)){
             chip.isChecked = true
             timeslotSkills.add(chip.text.toString())
         }
@@ -330,8 +253,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     }
 
     private fun registerFilterChanged(chip: Chip) {
-        //TODO gestire rotazione device
-        println(chip.toString())
         if(chip.isChecked)
             timeslotSkills.add(chip.text.toString())
         else

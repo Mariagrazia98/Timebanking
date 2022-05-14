@@ -86,7 +86,7 @@ class TimeSlotRepository(application: Application) {
         }
     }
 
-    suspend fun getSlotsByUser(uid: String): Result<List<TimeSlotFire>> {
+    suspend fun getSlotsByUser(uid: String): Result<Map<UserFire, List<TimeSlotFire>>> {
         return try {
             val data = Firebase.firestore
                 .collection("users")
@@ -95,14 +95,26 @@ class TimeSlotRepository(application: Application) {
                 .get()
                 .await()
 
-            print(data.documents.map { it.data.toString() })
+            val user = Firebase.firestore
+                .collection("users")
+                .document(uid)
+                .get()
+                .await()
 
-            val result = mutableListOf<TimeSlotFire>()
+            val result = mutableMapOf<UserFire, List<TimeSlotFire>>()
+            val slotsUser = mutableListOf<TimeSlotFire>()
+
             data.documents.map {
                 if(it.data != null){
-                    it.toObject(TimeSlotFire::class.java)?.let { it1 -> result.add(it1) }
+                    it.toObject(TimeSlotFire::class.java)?.let { it1 -> slotsUser.add(it1) }
                 }
             }
+            user.toObject(UserFire::class.java).let { u ->
+                if (u != null) {
+                    result[u] = slotsUser
+                }
+            }
+
             Result.success(result)
         } catch (e: Exception) {
             Result.failure(e)
@@ -161,18 +173,17 @@ class TimeSlotRepository(application: Application) {
         }
     }
 
-    suspend fun getSlotsBySkill(userId: String, skill: String): Result<List<TimeSlotFire>> {
+    suspend fun getSlotsBySkill(userId: String, skill: String): Result<Map<UserFire, List<TimeSlotFire>>> {
         try {
             val users = Firebase.firestore
                 .collection("users")
                 .get()
                 .await()
 
-            val filteredSlots = mutableListOf<TimeSlotFire>()
+            val filteredSlots = mutableMapOf<UserFire, List<TimeSlotFire>>()
+            val slotsUser = mutableListOf<TimeSlotFire>()
             users.forEach { user ->
                 user.toObject(UserFire::class.java).let { u ->
-                    Log.d("user", u.uid)
-                    Log.d("userId", userId)
                     if (u.uid != userId) {
                         val timeslots = Firebase.firestore
                             .collection("users")
@@ -184,14 +195,19 @@ class TimeSlotRepository(application: Application) {
                             if (it.data != null) {
                                 it.toObject(TimeSlotFire::class.java)?.let { it1 ->
                                     if (it1.skills.contains(skill)) {
-                                        filteredSlots.add(it1)
+                                        slotsUser.add(it1)
                                     }
                                 }
                             }
                         }
                     }
+                    if(slotsUser.isNotEmpty()){
+                        filteredSlots[u] = ArrayList(slotsUser)
+                        slotsUser.clear()
+                    }
                 }
             }
+            Log.d("filteredSLots", filteredSlots.toString())
             return Result.success(filteredSlots)
         } catch (e: Exception) {
             return Result.failure(e)

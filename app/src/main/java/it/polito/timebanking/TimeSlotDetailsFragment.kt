@@ -13,12 +13,12 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import it.polito.timebanking.model.TimeSlotFire
+import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.repository.Slot
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
-    lateinit var userId: String
-    lateinit var slotId: String
+   // lateinit var slotId: String
     var read_only = false
     lateinit var timeslot: TimeSlotFire
     lateinit var slot: Slot
@@ -30,6 +30,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var locationView: TextView
     lateinit var durationView: TextView
     lateinit var skillsGroup: ChipGroup
+    lateinit var user : UserFire
 
 
 
@@ -48,11 +49,11 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        slotId = arguments?.getString("id")!!
-        userId = arguments?.getString("userId")!!
+        //slotId = arguments?.getString("id")!!
+        user = (arguments?.getSerializable("user") as UserFire?)!!
+        timeslot = (arguments?.getSerializable("slot") as TimeSlotFire?)!!
         read_only = arguments?.getBoolean("read_only")?:false
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
-
         dateView = view.findViewById(R.id.dateAdvertisement)
         timeView = view.findViewById(R.id.timeAdvertisement)
         titleView = view.findViewById(R.id.titleAdvertisement)
@@ -61,16 +62,17 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         durationView = view.findViewById(R.id.durationAdvertisement)
         skillsGroup = view.findViewById(R.id.skillsAdvertisement)
 
-        timeSlotVM.getSlotFById(userId, slotId).observe(viewLifecycleOwner) { ts->
-            if(ts != null){
-                dateView.text = ts.date
-                timeView.text = ts.time
-                titleView.text = ts.title
-                descriptionView.text = ts.description
-                locationView.text = ts.location
-                durationView.text = ts.duration.toString()
-                if (ts.skills.isNotEmpty()) {
-                    ts.skills.forEach{
+
+        timeSlotVM.getSlotFById(user.uid, timeslot.id).observe(viewLifecycleOwner) { t ->
+            if (t != null) {
+                dateView.text = t.date
+                timeView.text = t.time
+                titleView.text = t.title
+                descriptionView.text = t.description
+                locationView.text = t.location
+                durationView.text = t.duration.toString()
+                if (t.skills.isNotEmpty()) {
+                    t.skills.forEach {
                         addChip(it.trim())
                     }
                 }
@@ -82,8 +84,10 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val bundle = bundleOf("id" to slotId, "userId" to userId)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean { //to edit timeslot
+        val bundle = bundleOf()
+        bundle.putSerializable("slot", timeslot)
+        bundle.putSerializable("user", user)
         return when (item.itemId) {
             R.id.slot -> {
                 findNavController().navigate(R.id.timeSlotEditFragment, bundle)

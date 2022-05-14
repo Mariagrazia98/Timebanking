@@ -94,8 +94,8 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
-    fun getSlotsByUser(userId: String) : LiveData<List<TimeSlotFire>>{
-        val res = MutableLiveData<List<TimeSlotFire>>()
+    fun getSlotsByUser(userId: String) :LiveData<Map<UserFire, List<TimeSlotFire>>>{
+        val res = MutableLiveData<Map<UserFire, List<TimeSlotFire>>>()
         viewModelScope.launch{
             val result = repo.getSlotsByUser(userId)
             res.postValue(result.getOrNull())
@@ -112,8 +112,8 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
-    fun getSlotsBySkill(userId:String, skill: String) : LiveData<List<TimeSlotFire>>{
-        val res = MutableLiveData<List<TimeSlotFire>>()
+    fun getSlotsBySkill(userId:String, skill: String) : LiveData<Map<UserFire, List<TimeSlotFire>>>{
+        val res = MutableLiveData<Map<UserFire, List<TimeSlotFire>>>()
         viewModelScope.launch{
             val result = repo.getSlotsBySkill(userId, skill)
             res.postValue(result.getOrNull())

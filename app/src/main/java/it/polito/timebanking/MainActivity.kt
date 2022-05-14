@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -34,7 +33,6 @@ import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.repository.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
-import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
@@ -107,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
             } else {
 
-                profileViewModel.getUserByIdF(userState!!.uid)
+                profileViewModel.getUserById(userState!!.uid)
                     .observe(this, Observer { user ->
                         if (user != null) {
                             navTitle.text= user.fullname
@@ -191,7 +189,7 @@ class MainActivity : AppCompatActivity() {
             user?.getIdToken(true)
 
             if (user != null) {
-                profileViewModel.getUserByIdF(user.uid)
+                profileViewModel.getUserById(user.uid)
                     .observe(this, Observer { document ->
                         if (document != null) {
                             Log.d("LOGIN", user.uid)
@@ -223,7 +221,7 @@ class MainActivity : AppCompatActivity() {
                                 email = user.email!!,
                                 imagePath = if (user.photoUrl != null) user.photoUrl!!.toString() else null
                             )
-                            profileViewModel.addUserF(newUser)
+                            profileViewModel.addUser(newUser)
                                 .observe(this, Observer { isSuccess ->
                                     if (isSuccess) {
                                         Toast.makeText(

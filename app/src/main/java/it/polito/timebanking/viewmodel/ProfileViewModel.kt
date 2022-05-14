@@ -23,36 +23,8 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
 
     val repo = UserRepository(application)
 
-
-    fun addUser(user: User){
-        thread {
-            repo.addUser(user)
-        }
-    }
-
-
-    fun getAllUsers(): LiveData<List<User>>? = repo.getAllUsers() /* TODO implement it*/
-
-    fun updateUser(user: User){
-        thread {
-            repo.updateUser(user)
-        }
-    }
-
-    fun getUserById(id:Long) = repo.getUserById(id)
-
-
-
-    fun clearUsers(){     /*TODO implement it in firebase version*/
-
-        thread {
-            repo.clearAllUsers()
-        }
-    }
-
-
     //Firebase
-    fun addUserF(user: UserFire): LiveData<Boolean>{
+    fun addUser(user: UserFire): LiveData<Boolean>{
         val res = MutableLiveData<Boolean>()
         viewModelScope.launch {
             val result = repo.addUserF(user)
@@ -61,7 +33,7 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
         return res
     }
 
-    fun getUserByIdF(id:String): LiveData<UserFire?> {
+    fun getUserById(id:String): LiveData<UserFire?> {
         val res = MutableLiveData<UserFire?>()
         viewModelScope.launch {
             val result = repo.getUserByIdF(id)
@@ -78,7 +50,7 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
         }
         return res
     }
-    fun updateUserF(user: UserFire) : LiveData<Boolean>{
+    fun updateUser(user: UserFire) : LiveData<Boolean>{
         val res = MutableLiveData<Boolean>()
         viewModelScope.launch {
             val result = repo.updateUserF(user)

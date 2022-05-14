@@ -6,14 +6,12 @@ import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -137,7 +135,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 dateView.setText(timeslot.date)
                 timeView.setText(timeslot.time)
 
-                profileVM.getUserByIdF(userId).observe(viewLifecycleOwner) {
+                profileVM.getUserById(userId).observe(viewLifecycleOwner) {
                     userSkills = it?.skills ?: mutableListOf()
                     if (userSkills.isNotEmpty()) {
                         userSkills.forEach { skill ->
@@ -149,7 +147,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         }else{ //create
             (activity as MainActivity).supportActionBar?.title = "Create advertisement"
             dateView.setText(SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis()))
-            profileVM.getUserByIdF(userId).observe(viewLifecycleOwner) {
+            profileVM.getUserById(userId).observe(viewLifecycleOwner) {
                 userSkills = it?.skills ?: mutableListOf()
                 if (userSkills.isNotEmpty()) {
                     userSkills.forEach { skill ->

@@ -65,7 +65,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
 
         userId = arguments?.getString("userId")!!
-        profileVM.getUserByIdF(userId)
+        profileVM.getUserById(userId)
             .observe(viewLifecycleOwner, Observer { user ->
                 if (user != null) {
                     fullnameView.text = user.fullname

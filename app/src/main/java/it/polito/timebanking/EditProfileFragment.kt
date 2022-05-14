@@ -22,16 +22,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.Timestamp
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import de.hdodenhof.circleimageview.CircleImageView
@@ -39,7 +36,6 @@ import it.polito.timebanking.model.UserFire
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.io.OutputStream
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
@@ -116,7 +112,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
         userId = arguments?.getString("id")!!
         Log.d("user", userId)
-        profileVM.getUserByIdF(userId)
+        profileVM.getUserById(userId)
             .observe(viewLifecycleOwner, Observer {
                 if (it != null && savedInstanceState == null) {
                     user = it
@@ -211,7 +207,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                             user.age = Integer.parseInt(ageView.text.toString())
                             user.imagePath = currentPhotoPath
                             user.uid = userId
-                            profileVM.updateUserF(user).observe(viewLifecycleOwner, Observer {
+                            profileVM.updateUser(user).observe(viewLifecycleOwner, Observer {
                                 if (it) {
                                     val snackbar = Snackbar.make(
                                         requireView(),
@@ -390,7 +386,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     user.imagePath = it.result.toString() //new file path
                     currentPhotoPath = user.imagePath
 
-                    profileVM.updateUserF(user).observe(viewLifecycleOwner, Observer {
+                    profileVM.updateUser(user).observe(viewLifecycleOwner, Observer {
                         if (it) {
                             Glide.with(requireContext()).load(user.imagePath).into(profileImageView)
 

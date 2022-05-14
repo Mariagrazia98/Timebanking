@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -58,7 +59,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var addSkillView: EditText
     lateinit var profileImageView: ImageView
 
-    lateinit var headerViewImage:CircleImageView
+
+    lateinit var headerView:View
 
     var h: Int = 0
     var w: Int = 0
@@ -110,9 +112,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         setVariables(view)
 
 
-        userId = arguments?.getString("id")!!
-        Log.d("user", userId)
+        userId = arguments?.getString("userId")!!
         profileVM.getUserById(userId)
+
             .observe(viewLifecycleOwner, Observer {
                 if (it != null && savedInstanceState == null) {
                     user = it
@@ -286,6 +288,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         addSkillView = view.findViewById(R.id.add_skills)
         skillsGroup = view.findViewById(R.id.skills)
         profileImageView = view.findViewById(R.id.Edit_imageView)
+
+        headerView=(activity as MainActivity).headerView
+
     }
 
 
@@ -388,12 +393,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
                     profileVM.updateUser(user).observe(viewLifecycleOwner, Observer {
                         if (it) {
-                            Glide.with(requireContext()).load(user.imagePath).into(profileImageView)
-
-                            //TODO update drawer image
-
-                            //Glide.with(this /* context */).load(user.imagePath).into( headerViewImage)
-
+                            Glide.with(requireContext()).load(user.imagePath).into( headerView.findViewById<CircleImageView>(R.id.imageViewHeader))
                             val snackbar = Snackbar.make(
                                 requireView(), "Upload photo successfully!", Snackbar.LENGTH_SHORT
                             )

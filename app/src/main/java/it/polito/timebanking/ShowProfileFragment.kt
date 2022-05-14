@@ -81,12 +81,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     }
 
                     // Download directly from StorageReference using Glide
-                    try {
-                        //todo: aggiungere verifica file esiste
+                    if(user.imagePath!=null)
                         Glide.with(this /* context */).load(user.imagePath).into(imageView)
-                    } catch (e: IOException) {
-                        Log.d("ERRORE", e.toString())
-                    }
                 }
             })
 

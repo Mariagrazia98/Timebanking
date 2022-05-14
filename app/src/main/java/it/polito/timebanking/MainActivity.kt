@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
     private lateinit var binding: ActivityMainBinding
-    private lateinit var headerView:View
+    lateinit var headerView:View
     private lateinit var navTitle:TextView
     private lateinit var navSubtitle:TextView
     lateinit var user: User
@@ -110,10 +110,10 @@ class MainActivity : AppCompatActivity() {
                         if (user != null) {
                             navTitle.text= user.fullname
                             navSubtitle.text=user.email
-                            //todo: aggiungere verifica file esiste
-                            // Download directly from StorageReference using Glide
-                            Glide.with(this /* context */).load(user.imagePath).into( headerView.findViewById<CircleImageView>(R.id.imageViewHeader))
-
+                            if(user.imagePath!=null){
+                                var imageHeader=  headerView.findViewById<CircleImageView>(R.id.imageViewHeader)
+                                Glide.with(this /* context */).load(user.imagePath).into(imageHeader)
+                            }
                         }
                     })
 

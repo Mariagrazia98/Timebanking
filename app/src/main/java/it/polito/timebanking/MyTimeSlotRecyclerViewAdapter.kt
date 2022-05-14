@@ -22,9 +22,10 @@ class MyTimeSlotRecyclerViewAdapter(
     read_only: Boolean
 ) :
 
-    RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>(), Filterable  {
+
+    RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>(), Filterable {
     var list = data.toMutableMap().values.flatten()
-    var originalList = list
+    var originalList = data.toMutableMap().values.flatten()
     val read_only: Boolean = read_only
 
     class ItemSlotViewHolder(v: View, read_only: Boolean) : RecyclerView.ViewHolder(v) {
@@ -105,18 +106,20 @@ class MyTimeSlotRecyclerViewAdapter(
 
     override fun getFilter(): Filter {
         return object : Filter() {
+            var resCount = 0
+
             override fun performFiltering(constraint: CharSequence): FilterResults {
-                var filteredRes: List<TimeSlotFire>? = when (true) {
-                    constraint.startsWith("date") -> getFilteredResultsByDate(
-                        constraint.toString().lowercase()
-                    )
-                    constraint.startsWith("duration") -> getFilteredResultsByDuration(
-                        constraint.toString().lowercase()
-                    )
-                    constraint.startsWith("start") -> getFilteredResultsByStartTime(
-                        constraint.toString().lowercase()
-                    )
-                    else -> null
+                var filteredRes: List<TimeSlotFire>? = null
+                if (constraint.startsWith("date"))
+                    filteredRes = getFilteredResultsByDate(constraint.toString().lowercase())
+                else if (constraint.startsWith("duration"))
+                    filteredRes = getFilteredResultsByDuration(constraint.toString().lowercase())
+                else if (constraint.startsWith("time"))
+                    filteredRes = getFilteredResultsByStartTime(constraint.toString().lowercase())
+                else
+                    filteredRes = originalList
+                if (filteredRes != null) {
+                    resCount = filteredRes.size
                 }
                 val results = FilterResults()
                 results.values = filteredRes
@@ -124,7 +127,10 @@ class MyTimeSlotRecyclerViewAdapter(
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                list = results?.values as MutableList<TimeSlotFire>
+                if (resCount == 0)
+                    //list = mutableMapOf<>()
+                else
+                    list = results?.values as MutableList<TimeSlotFire>
                 notifyDataSetChanged()
             }
         }

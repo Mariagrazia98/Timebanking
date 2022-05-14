@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navTitle:TextView
     private lateinit var navSubtitle:TextView
     lateinit var user: User
-    lateinit var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter
+    var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter? = null
 
     //Firebase
     lateinit var mAuth: FirebaseAuth

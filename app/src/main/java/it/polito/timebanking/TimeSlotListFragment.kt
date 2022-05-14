@@ -62,7 +62,9 @@ class TimeSlotListFragment : Fragment() {
         slotsToObserve.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
 
-            (activity as MainActivity).adapterTimeSlots = MyTimeSlotRecyclerViewAdapter(it, read_only)
+            if( (activity as MainActivity).adapterTimeSlots == null)
+                (activity as MainActivity).adapterTimeSlots = MyTimeSlotRecyclerViewAdapter(it, read_only)
+
             rv.adapter = (activity as MainActivity).adapterTimeSlots
 
 

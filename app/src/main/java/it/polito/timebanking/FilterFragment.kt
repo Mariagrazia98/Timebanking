@@ -5,9 +5,11 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
@@ -24,8 +26,8 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
     lateinit var timeInputLayout: TextInputLayout
     lateinit var dateView: EditText
     lateinit var timeView: EditText
-    lateinit var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter
     lateinit var durationView : EditText
+    lateinit var resetBtn : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +41,11 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapterTimeSlots = (activity as MainActivity).adapterTimeSlots
         (activity as MainActivity).supportActionBar?.title = "Filters"
-
+        //resetBtn = view.findViewById(R.id.resetFilters)
+        /*resetBtn.setOnClickListener{
+            (activity as MainActivity).adapterTimeSlots!!.filter.filter("reset")
+        }*/
         autoCompleteTextView = view.findViewById(R.id.orderBySpinner)
         var list = arrayListOf("Date", "Duration")
         var arrayAdapter = ArrayAdapter(
@@ -107,11 +111,12 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     if(dateView.text.isNotEmpty())
-                        adapterTimeSlots.filter.filter("date="+dateView.text)
+                        (activity as MainActivity).adapterTimeSlots!!.filter.filter("date="+dateView.text)
                     if(timeView.text.isNotEmpty())
-                        adapterTimeSlots.filter.filter("time="+timeView.text)
+                        (activity as MainActivity).adapterTimeSlots!!.filter.filter("time="+timeView.text)
                     if(durationView.text.isNotEmpty())
-                        adapterTimeSlots.filter.filter("duration="+durationView.text)
+                        (activity as MainActivity).adapterTimeSlots!!.filter.filter("duration="+durationView.text)
+
                     if (isEnabled) {
                         isEnabled = false
                         requireActivity().onBackPressed()

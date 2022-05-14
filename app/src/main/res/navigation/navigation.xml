@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_timeSlotListFragment_to_showProfileFragment"
             app:destination="@id/showProfileFragment" />
+        <action
+            android:id="@+id/action_timeSlotListFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
     </fragment>
     <fragment
         android:id="@+id/showProfileFragment"
@@ -57,4 +60,8 @@
             android:id="@+id/action_skillsListFragment_to_timeSlotListFragment"
             app:destination="@id/timeSlotListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="it.polito.timebanking.FilterFragment"
+        android:label="FilterFragment" />
 </navigation>

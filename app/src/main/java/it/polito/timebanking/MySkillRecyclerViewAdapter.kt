@@ -56,7 +56,6 @@ class MySkillRecyclerViewAdapter(val data: List<String>, id: String) :
                 results.values = filteredRes
                 return results
             }
-
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 list = results?.values as MutableList<String>
                 notifyDataSetChanged()

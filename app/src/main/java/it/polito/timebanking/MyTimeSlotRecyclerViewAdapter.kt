@@ -5,9 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.os.bundleOf
@@ -23,9 +21,10 @@ class MyTimeSlotRecyclerViewAdapter(
     val data: Map<UserFire, List<TimeSlotFire>>,
     read_only: Boolean
 ) :
-    RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>() {
+
+    RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>(), Filterable  {
     var list = data.toMutableMap().values.flatten()
-   // val userId: String = userId
+    var originalList = list
     val read_only: Boolean = read_only
 
     class ItemSlotViewHolder(v: View, read_only: Boolean) : RecyclerView.ViewHolder(v) {
@@ -36,7 +35,7 @@ class MyTimeSlotRecyclerViewAdapter(
         private val name: TextView? = v.findViewById(R.id.offererName)
         val cv: CardView = v.findViewById(R.id.cv)
         val button: ImageButton? = v.findViewById(R.id.button)
-        val ivSlot : ImageView? = v.findViewById(R.id.imageViewSlot)
+        val ivSlot: ImageView? = v.findViewById(R.id.imageViewSlot)
 
 
         fun bind(item: TimeSlotFire, read_only: Boolean, user: UserFire) {
@@ -103,5 +102,69 @@ class MyTimeSlotRecyclerViewAdapter(
 
 
     override fun getItemCount(): Int = list.size
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence): FilterResults {
+                var filteredRes: List<TimeSlotFire>? = when (true) {
+                    constraint.startsWith("date") -> getFilteredResultsByDate(
+                        constraint.toString().lowercase()
+                    )
+                    constraint.startsWith("duration") -> getFilteredResultsByDuration(
+                        constraint.toString().lowercase()
+                    )
+                    constraint.startsWith("start") -> getFilteredResultsByStartTime(
+                        constraint.toString().lowercase()
+                    )
+                    else -> null
+                }
+                val results = FilterResults()
+                results.values = filteredRes
+                return results
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                list = results?.values as MutableList<TimeSlotFire>
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun getFilteredResultsByDate(str: String): MutableList<TimeSlotFire> {
+        var results = mutableListOf<TimeSlotFire>()
+        var date = str.split('=')[1]
+
+        for (item in originalList) {
+            if (item.date == date) {
+                results.add(item)
+            }
+        }
+
+        return results
+    }
+
+    fun getFilteredResultsByDuration(str: String): MutableList<TimeSlotFire> {
+        var results = mutableListOf<TimeSlotFire>()
+        var duration = str.split('=')[1]
+        for (item in originalList) {
+            if (item.duration >= duration.toInt()) {
+                results.add(item)
+            }
+        }
+        return results
+    }
+
+    fun getFilteredResultsByStartTime(str: String): MutableList<TimeSlotFire> {
+        var results = mutableListOf<TimeSlotFire>()
+        var duration = str.split('=')[1]
+
+        for (item in originalList) {
+            if (item.time >= duration) {
+                results.add(item)
+            }
+        }
+
+        return results
+    }
 
 }

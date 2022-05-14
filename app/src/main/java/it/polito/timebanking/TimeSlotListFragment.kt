@@ -3,6 +3,7 @@ package it.polito.timebanking
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
@@ -12,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.polito.timebanking.model.TimeSlotFire
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
@@ -25,17 +27,15 @@ class TimeSlotListFragment : Fragment() {
     var read_only: Boolean = false
     var skill: String = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.filterBtn -> {
+                findNavController().navigate(R.id.action_timeSlotListFragment_to_filterFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        //delete edit_button
-        menu.findItem(R.id.edit_button).isVisible = false
-        super.onPrepareOptionsMenu(menu)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
@@ -60,8 +60,8 @@ class TimeSlotListFragment : Fragment() {
 
         slotsToObserve.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
-            val adapter = MyTimeSlotRecyclerViewAdapter(it, userId, read_only)
-            rv.adapter = adapter
+            (activity as MainActivity).adapterTimeSlots = MyTimeSlotRecyclerViewAdapter(it, userId, read_only)
+            rv.adapter = (activity as MainActivity).adapterTimeSlots
 
             if(it.isEmpty()){
                 rv.visibility = View.GONE
@@ -80,4 +80,14 @@ class TimeSlotListFragment : Fragment() {
         return view
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.filter_button, menu)
+        menu.findItem(R.id.edit_button).isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 }

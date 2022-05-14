@@ -177,6 +177,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Logout successful!", Toast.LENGTH_SHORT).show()
                 findViewById<TextView>(R.id.titleHeader).text = ""
                 findViewById<TextView>(R.id.subtitleHeader).text = ""
+                headerView.findViewById<CircleImageView>(R.id.imageViewHeader).setImageDrawable(null)
             }
     }
 

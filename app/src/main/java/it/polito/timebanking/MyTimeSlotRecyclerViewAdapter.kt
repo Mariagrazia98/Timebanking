@@ -69,8 +69,8 @@ class MyTimeSlotRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ItemSlotViewHolder, position: Int) {
         val item = list[position]
         lateinit var user: UserFire
-        data.toMutableMap().keys.forEach{
-            if( data.toMutableMap()[it]?.contains(item) == true){
+        data.toMutableMap().keys.forEach {
+            if (data.toMutableMap()[it]?.contains(item) == true) {
                 user = it
             }
         }
@@ -118,9 +118,8 @@ class MyTimeSlotRecyclerViewAdapter(
                     filteredRes = getFilteredResultsByStartTime(constraint.toString().lowercase())
                 else
                     filteredRes = originalList
-                if (filteredRes != null) {
-                    resCount = filteredRes.size
-                }
+
+                resCount = filteredRes.size
                 val results = FilterResults()
                 results.values = filteredRes
                 return results
@@ -128,7 +127,7 @@ class MyTimeSlotRecyclerViewAdapter(
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 if (resCount == 0)
-                    //list = mutableMapOf<>()
+                    list = arrayListOf()
                 else
                     list = results?.values as MutableList<TimeSlotFire>
                 notifyDataSetChanged()

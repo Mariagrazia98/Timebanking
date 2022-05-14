@@ -14,6 +14,7 @@ import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import it.polito.timebanking.model.TimeSlotFire
@@ -42,10 +43,11 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as MainActivity).supportActionBar?.title = "Filters"
-        //resetBtn = view.findViewById(R.id.resetFilters)
-        /*resetBtn.setOnClickListener{
+        resetBtn = view.findViewById(R.id.reset)
+        resetBtn.setOnClickListener{
             (activity as MainActivity).adapterTimeSlots!!.filter.filter("reset")
-        }*/
+            requireActivity().onBackPressed()
+        }
         autoCompleteTextView = view.findViewById(R.id.orderBySpinner)
         var list = arrayListOf("Date", "Duration")
         var arrayAdapter = ArrayAdapter(

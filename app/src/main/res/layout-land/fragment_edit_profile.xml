@@ -32,6 +32,7 @@
                 android:elevation="10dp"
                 app:iconSize="30dp"
                 app:srcCompat="@drawable/ic_camera"
+                android:background="@drawable/rounded_corner_icon_button"
                 app:tint="@color/icons" />
 
             <ImageView

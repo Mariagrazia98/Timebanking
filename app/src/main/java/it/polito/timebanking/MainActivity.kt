@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navSubtitle:TextView
     lateinit var user: User
     var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter? = null
-
+    var keepAdapter : Boolean = false //serve a far funzionare il filtering
     //Firebase
     lateinit var mAuth: FirebaseAuth
     private var userState: FirebaseUser? = null
@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(FirebaseAuthUIActivityResultContract()) { res ->
             this.onSignInResult(res)
         }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -97,18 +97,21 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     }
                     else{
                         nicknameView.text = user.nickname
+                        nicknameTextView.visibility=View.VISIBLE
                     }
                     if(user.location==""){
                         locationView.visibility=View.GONE
                         locationTextView.visibility=View.GONE
                     }else{
                         locationView.text = user.location
+                        locationTextView.visibility=View.VISIBLE
                     }
                     if(user.description==""){
                         descriptionView.visibility=View.GONE
                         descriptionTextView.visibility=View.GONE
                     }else{
                         descriptionView.text = user.description
+                        descriptionTextView.visibility=View.VISIBLE
                     }
 
                     if (user.skills.isNotEmpty()) {

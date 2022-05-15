@@ -55,7 +55,6 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:text="@string/fullname"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                     android:textColor="@color/primary_text"
@@ -78,7 +77,6 @@
                     android:ems="10"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:text="@string/email_address"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/primary_text"
                     android:textStyle="italic" />
@@ -104,10 +102,9 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:text="@string/age"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textStyle="italic"
-                        android:textColor="@color/primary_text"/>
+                        android:textColor="@color/primary_text"
+                        android:textStyle="italic" />
 
                     <TextView
                         android:id="@+id/yo"
@@ -137,11 +134,9 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:text="@string/nickname"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="italic"
-                    android:textColor="@color/primary_text"/>
-
+                    android:textColor="@color/primary_text"
+                    android:textStyle="italic" />
 
 
                 <TextView
@@ -151,7 +146,6 @@
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
                     android:paddingRight="10dp"
-                    android:text="@string/location_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/primary_dark" />
 
@@ -173,7 +167,6 @@
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
                     android:paddingRight="10dp"
-                    android:text="@string/description_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/primary_dark" />
 

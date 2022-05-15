@@ -79,8 +79,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="FullName"
-                        android:inputType="textPersonName"
-                        android:text="@string/fullname" />
+                        android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -98,8 +97,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="@string/email_address_text"
-                        android:inputType="textEmailAddress"
-                        android:text="@string/email_address" />
+                        android:inputType="textEmailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -122,8 +120,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/age_text"
-                            android:text="@string/age"
-                            android:inputType="numberDecimal"/>
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -140,8 +137,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/nickname_text"
-                            android:text="@string/nickname"
-                            android:inputType="text"/>
+                            android:inputType="text" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -160,8 +156,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/location_text"
-                        android:text="@string/location"
-                        android:inputType="text"/>
+                        android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -179,8 +174,7 @@
                         android:gravity="start|top"
                         android:hint="@string/description_text"
                         android:inputType="textAutoCorrect|textMultiLine|textAutoComplete"
-                        android:maxLines="5"
-                        android:text="@string/description" />
+                        android:maxLines="5" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 

@@ -28,6 +28,12 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var descriptionView: TextView
     lateinit var imageView: ImageView
     lateinit var frameLayout: FrameLayout
+
+    lateinit var nicknameTextView: TextView
+    lateinit var locationTextView: TextView
+    lateinit var descriptionTextView: TextView
+
+
     var h: Int = 0
     var w: Int = 0
     lateinit var userId: String
@@ -84,10 +90,27 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 if (user != null) {
                     fullnameView.text = user.fullname
                     ageView.text = user.age.toString()
-                    nicknameView.text = user.nickname
                     emailView.text = user.email
-                    locationView.text = user.location
-                    descriptionView.text = user.description
+                    if(user.nickname==""){
+                        nicknameView.visibility=View.GONE
+                        nicknameTextView.visibility=View.GONE
+                    }
+                    else{
+                        nicknameView.text = user.nickname
+                    }
+                    if(user.location==""){
+                        locationView.visibility=View.GONE
+                        locationTextView.visibility=View.GONE
+                    }else{
+                        locationView.text = user.location
+                    }
+                    if(user.description==""){
+                        descriptionView.visibility=View.GONE
+                        descriptionTextView.visibility=View.GONE
+                    }else{
+                        descriptionView.text = user.description
+                    }
+
                     if (user.skills.isNotEmpty()) {
                         user.skills.forEach{
                             addChip(it.trim())
@@ -111,7 +134,9 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         skillsGroup = view.findViewById(R.id.skills)
         descriptionView = view.findViewById(R.id.description)
         imageView = view.findViewById(R.id.imageView)
-
+        nicknameTextView=view.findViewById(R.id.nicknameText)
+        locationTextView=view.findViewById(R.id.locationText)
+        descriptionTextView=view.findViewById(R.id.descriptionText)
     }
 
     fun convertDpToPixel(dp: Int): Float {

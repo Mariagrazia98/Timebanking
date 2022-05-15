@@ -23,12 +23,12 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -58,7 +58,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var skillsAddButton: Button
     lateinit var addSkillView: EditText
     lateinit var profileImageView: ImageView
-
+    lateinit var updateProfileButton: Button
 
     lateinit var headerView:View
 
@@ -190,7 +190,70 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         headerViewImage=view.findViewById(R.id.imageViewHeader)*/
     }
 
+    private fun updateProfile(){
+        user = UserFire()
+        user.fullname = fullnameView.text.toString()
+        user.nickname = nicknameView.text.toString()
+        user.email = emailView.text.toString()
+        user.location = locationView.text.toString()
+        user.skills = skillsList
+        user.description = descriptionView.text.toString()
+        user.age = Integer.parseInt(ageView.text.toString())
+        user.imagePath = currentPhotoPath
+        user.uid = userId
+        profileVM.updateUser(user).observe(viewLifecycleOwner, Observer {
+            if (it) {
+                val snackbar = Snackbar.make(
+                    requireView(),
+                    "Profile updated!",
+                    Snackbar.LENGTH_SHORT
+                )
+                val sbView: View = snackbar.view
+                context?.let {
+                    ContextCompat.getColor(
+                        it,
+                        R.color.primary_light
+                    )
+                }
+                    ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                context?.let { it1 ->
+                    ContextCompat.getColor(
+                        it1,
+                        R.color.primary_text
+                    )
+                }
+                    ?.let { it2 -> snackbar.setTextColor(it2) }
+                snackbar.show()
+                // if you want onBackPressed() to be called as normal afterwards
+                val fm: FragmentManager = requireActivity().supportFragmentManager
+                fm.popBackStack()
+
+            } else {
+                val snackbar = Snackbar.make(
+                    requireView(),
+                    "Something is wrong, try later!",
+                    Snackbar.LENGTH_SHORT
+                )
+                snackbar.show()
+            }
+        })
+
+    }
     private fun handleButton() {
+
+        updateProfileButton.setOnClickListener {
+            val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+            builder.setMessage("Do you want to update the profile?")
+                .setPositiveButton("Confirm") { dialog, id ->
+                   updateProfile()
+                }
+                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+                    // User cancelled the dialog
+                    // if you want onBackPressed() to be called as normal afterwards
+                })
+            builder.show()
+        }
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -198,55 +261,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
                     builder.setMessage("Do you want to update the profile?")
                         .setPositiveButton("Confirm") { dialog, id ->
-                            // hide the trip
-                            user = UserFire()
-                            user.fullname = fullnameView.text.toString()
-                            user.nickname = nicknameView.text.toString()
-                            user.email = emailView.text.toString()
-                            user.location = locationView.text.toString()
-                            user.skills = skillsList
-                            user.description = descriptionView.text.toString()
-                            user.age = Integer.parseInt(ageView.text.toString())
-                            user.imagePath = currentPhotoPath
-                            user.uid = userId
-                            profileVM.updateUser(user).observe(viewLifecycleOwner, Observer {
-                                if (it) {
-                                    val snackbar = Snackbar.make(
-                                        requireView(),
-                                        "Profile updated!",
-                                        Snackbar.LENGTH_SHORT
-                                    )
-                                    val sbView: View = snackbar.view
-                                    context?.let {
-                                        ContextCompat.getColor(
-                                            it,
-                                            R.color.primary_light
-                                        )
-                                    }
-                                        ?.let { it2 -> sbView.setBackgroundColor(it2) }
-
-                                    context?.let { it1 ->
-                                        ContextCompat.getColor(
-                                            it1,
-                                            R.color.primary_text
-                                        )
-                                    }
-                                        ?.let { it2 -> snackbar.setTextColor(it2) }
-                                    snackbar.show()
-                                    // if you want onBackPressed() to be called as normal afterwards
-                                    if (isEnabled) {
-                                        isEnabled = false
-                                        requireActivity().onBackPressed()
-                                    }
-                                } else {
-                                    val snackbar = Snackbar.make(
-                                        requireView(),
-                                        "Something is wrong, try later!",
-                                        Snackbar.LENGTH_SHORT
-                                    )
-                                    snackbar.show()
-                                }
-                            })
+                            updateProfile()
                         }
                         .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
                             // User cancelled the dialog
@@ -257,7 +272,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                             }
                         })
                     builder.show()
-
                 }
             })
     }
@@ -288,7 +302,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         addSkillView = view.findViewById(R.id.add_skills)
         skillsGroup = view.findViewById(R.id.skills)
         profileImageView = view.findViewById(R.id.Edit_imageView)
-
+        updateProfileButton=view.findViewById(R.id.updateProfileButton)
         headerView=(activity as MainActivity).headerView
 
     }

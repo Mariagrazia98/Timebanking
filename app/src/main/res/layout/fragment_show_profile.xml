@@ -146,6 +146,7 @@
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
                     android:paddingRight="10dp"
+                    android:text="@string/location_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/primary_dark" />
 
@@ -167,6 +168,7 @@
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
                     android:paddingRight="10dp"
+                    android:text="@string/description_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/primary_dark" />
 

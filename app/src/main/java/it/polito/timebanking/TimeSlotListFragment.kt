@@ -3,14 +3,12 @@ package it.polito.timebanking
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -58,13 +56,13 @@ class TimeSlotListFragment : Fragment() {
         }else{
             slotsToObserve = timeSlotVM.getSlotsByUser(userId)
         }
-
         slotsToObserve.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
-
-            if( (activity as MainActivity).adapterTimeSlots == null)
+            if(!(activity as MainActivity).keepAdapter)
                 (activity as MainActivity).adapterTimeSlots = MyTimeSlotRecyclerViewAdapter(it, read_only)
-
+            else
+                (activity as MainActivity).keepAdapter = false
+            Log.d("antodeb","id: ${(activity as MainActivity).adapterTimeSlots}")
             rv.adapter = (activity as MainActivity).adapterTimeSlots
 
 

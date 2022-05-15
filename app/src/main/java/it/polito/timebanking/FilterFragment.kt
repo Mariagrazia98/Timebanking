@@ -1,9 +1,7 @@
 package it.polito.timebanking
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -12,12 +10,8 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import it.polito.timebanking.model.TimeSlotFire
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -118,13 +112,16 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if(dateView.text.isNotEmpty())
-                        (activity as MainActivity).adapterTimeSlots!!.filter.filter("date="+dateView.text)
-                    if(timeView.text.isNotEmpty())
-                        (activity as MainActivity).adapterTimeSlots!!.filter.filter("time="+timeView.text)
-                    if(durationView.text.isNotEmpty())
-                        (activity as MainActivity).adapterTimeSlots!!.filter.filter("duration="+durationView.text)
-
+                    if(!(dateView.text.isEmpty() && dateView.text.isEmpty() && durationView.text.isEmpty())) {
+                        Log.d("antodeb", "id: ${(activity as MainActivity).adapterTimeSlots}")
+                        if (dateView.text.isNotEmpty())
+                            (activity as MainActivity).adapterTimeSlots!!.filter.filter("date=" + dateView.text)
+                        if (timeView.text.isNotEmpty())
+                            (activity as MainActivity).adapterTimeSlots!!.filter.filter("time=" + timeView.text)
+                        if (durationView.text.isNotEmpty())
+                            (activity as MainActivity).adapterTimeSlots!!.filter.filter("duration=" + durationView.text)
+                        (activity as MainActivity).keepAdapter = true
+                    }
                     if (isEnabled) {
                         isEnabled = false
                         requireActivity().onBackPressed()

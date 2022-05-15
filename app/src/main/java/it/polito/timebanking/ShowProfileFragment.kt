@@ -31,11 +31,24 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     var h: Int = 0
     var w: Int = 0
     lateinit var userId: String
+    var read_only = false
 
     lateinit var profileVM: ProfileViewModel
 
     var id: Long = 0
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        if(read_only) {
+            menu.findItem(R.id.edit_button).isVisible = false
+            super.onCreateOptionsMenu(menu, inflater)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,6 +76,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
         setVariables(view)
 
+        read_only = arguments?.getBoolean("read_only")?:false
 
         userId = arguments?.getString("userId")!!
         profileVM.getUserById(userId)

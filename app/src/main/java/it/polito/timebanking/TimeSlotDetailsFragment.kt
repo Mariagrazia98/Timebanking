@@ -87,7 +87,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         if(read_only) {
             (activity as MainActivity).supportActionBar?.title = "Offer"
             profileButton.setOnClickListener{
-                val bundle = bundleOf("userId" to (user.uid))
+                val bundle = bundleOf("userId" to (user.uid), "read_only" to read_only)
                 NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotDetailsFragment_to_showProfileFragment, bundle)
             }
         }else{

@@ -165,6 +165,9 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             this.context?.let { ContextCompat.getColor(it, R.color.primary_light) }?.let {
                 ColorStateList.valueOf(it)
             }
+        chip.setTextColor( this.context?.let { ContextCompat.getColor(it, R.color.primary_text) }?.let {
+            ColorStateList.valueOf(it)
+        })
         chip.setOnCloseIconClickListener {
             skillsGroup.removeView(chip)
         }

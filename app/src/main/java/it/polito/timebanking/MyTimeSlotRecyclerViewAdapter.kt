@@ -87,17 +87,7 @@ class MyTimeSlotRecyclerViewAdapter(
         }
 
         holder.button?.setOnClickListener {
-            if (read_only) {
-                findNavController(FragmentManager.findFragment(it)).navigate(
-                    R.id.action_timeSlotListFragment_to_showProfileFragment,
-                    bundle
-                )
-            } else {
-                findNavController(FragmentManager.findFragment(it)).navigate(
-                    R.id.action_timeSlotListFragment_to_timeSlotEditFragment2,
-                    bundle
-                )
-            }
+            findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2, bundle)
         }
     }
 

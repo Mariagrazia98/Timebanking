@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/search_button"
-        android:icon="@drawable/search"
+        android:icon="@drawable/ic_search"
         android:title="Search"
         app:showAsAction="ifRoom"
         app:tint="@color/icons"

@@ -4,11 +4,14 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -30,6 +33,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var locationView: TextView
     lateinit var durationView: TextView
     lateinit var skillsGroup: ChipGroup
+    lateinit var profileButton: Button
     lateinit var user : UserFire
 
 
@@ -61,6 +65,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         locationView = view.findViewById(R.id.locationAdvertisement)
         durationView = view.findViewById(R.id.durationAdvertisement)
         skillsGroup = view.findViewById(R.id.skillsAdvertisement)
+        profileButton = view.findViewById(R.id.buttonProfile)
 
 
         timeSlotVM.getSlotFById(user.uid, timeslot.id).observe(viewLifecycleOwner) { t ->
@@ -79,9 +84,15 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             }
         }
 
-        if(read_only)
+        if(read_only) {
             (activity as MainActivity).supportActionBar?.title = "Offer"
-
+            profileButton.setOnClickListener{
+                val bundle = bundleOf("userId" to (user.uid))
+                NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotDetailsFragment_to_showProfileFragment, bundle)
+            }
+        }else{
+            profileButton.visibility = View.GONE
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean { //to edit timeslot

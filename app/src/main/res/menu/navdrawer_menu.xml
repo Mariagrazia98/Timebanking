@@ -4,15 +4,15 @@
     <group>
         <item
             android:id="@+id/profileMenuItem"
-            android:icon="@drawable/avatar"
+            android:icon="@drawable/ic_person"
             android:title="@string/profile" />
         <item
             android:id="@+id/advMenuItem"
-            android:icon="@drawable/list"
+            android:icon="@drawable/ic_list"
             android:title="@string/my_offers" />
         <item
             android:id="@+id/skillsMenuItem"
-            android:icon="@drawable/list"
+            android:icon="@drawable/ic_list"
             android:title="@string/available_skills" />
     </group>
 

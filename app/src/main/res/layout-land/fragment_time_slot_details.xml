@@ -157,8 +157,13 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:textColor="@color/primary_text"
-                />
+                android:textColor="@color/primary_text" />
+
+            <Button
+                android:id="@+id/buttonProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="See profile" />
 
         </LinearLayout>
     </ScrollView>

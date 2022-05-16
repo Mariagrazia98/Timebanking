@@ -1,5 +1,6 @@
 package it.polito.timebanking
 
+import android.text.TextUtils.replace
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -87,7 +88,10 @@ class MyTimeSlotRecyclerViewAdapter(
         }
 
         holder.button?.setOnClickListener {
-            findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment2, bundle)
+            findNavController(FragmentManager.findFragment(it)).navigate(
+                R.id.action_timeSlotListFragment_to_timeSlotEditFragment2,
+                bundle
+            )
         }
     }
 
@@ -106,14 +110,22 @@ class MyTimeSlotRecyclerViewAdapter(
                     filteredRes = getFilteredResultsByDuration(constraint.toString().lowercase())
                 else if (constraint.startsWith("time"))
                     filteredRes = getFilteredResultsByStartTime(constraint.toString().lowercase())
-                else if (constraint.startsWith("order=date"))
-                    filteredRes = list.sortedWith { x, y -> x.date.compareTo(y.date) }
-                else if (constraint.startsWith("order=duration"))
-                    filteredRes = list.sortedWith { x, y -> x.duration.compareTo(y.duration) }
-                else
-                    filteredRes = originalList
+                else if (constraint.startsWith("order=Date - asc")) {
+                    list = list.sortedWith { x, y -> x.date.compareTo(y.date) }
+                    filteredRes = list
+                } else if (constraint.startsWith("order=Date - desc")) {
+                    list = list.sortedWith { x, y -> -x.date.compareTo(y.date) }
+                    filteredRes = list
+                } else if (constraint.startsWith("order=Duration - asc")) {
+                    list = list.sortedWith { x, y -> x.duration.compareTo(y.duration) }
+                    filteredRes = list
+                } else if (constraint.startsWith("order=Duration - desc")) {
+                    list = list.sortedWith { x, y -> x.duration.compareTo(y.duration) }
+                    filteredRes = list
+                } else
+                    list = originalList
 
-                resCount = filteredRes.size
+                resCount = filteredRes!!.size
                 val results = FilterResults()
                 results.values = filteredRes
                 return results
@@ -144,9 +156,11 @@ class MyTimeSlotRecyclerViewAdapter(
 
     fun getFilteredResultsByDuration(str: String): MutableList<TimeSlotFire> {
         var results = mutableListOf<TimeSlotFire>()
-        var duration = str.split('=')[1]
+        var duration = str.split('=')[1].replace("\\s".toRegex(), "").split("-")
+        var sx = duration[0].toInt()
+        var dx = duration[1].toInt()
         for (item in originalList) {
-            if (item.duration >= duration.toInt()) {
+            if (item.duration >= sx && item.duration <= dx) {
                 results.add(item)
             }
         }

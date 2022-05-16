@@ -23,7 +23,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -190,90 +189,109 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         headerViewImage=view.findViewById(R.id.imageViewHeader)*/
     }
 
-    private fun updateProfile(){
-        user = UserFire()
-        user.fullname = fullnameView.text.toString()
-        user.nickname = nicknameView.text.toString()
-        user.email = emailView.text.toString()
-        user.location = locationView.text.toString()
-        user.skills = skillsList
-        user.description = descriptionView.text.toString()
-        user.age = Integer.parseInt(ageView.text.toString())
-        user.imagePath = currentPhotoPath
-        user.uid = userId
-        profileVM.updateUser(user).observe(viewLifecycleOwner, Observer {
-            if (it) {
-                val snackbar = Snackbar.make(
-                    requireView(),
-                    "Profile updated!",
-                    Snackbar.LENGTH_SHORT
-                )
-                val sbView: View = snackbar.view
-                context?.let {
-                    ContextCompat.getColor(
-                        it,
-                        R.color.primary_light
-                    )
-                }
-                    ?.let { it2 -> sbView.setBackgroundColor(it2) }
 
-                context?.let { it1 ->
-                    ContextCompat.getColor(
-                        it1,
-                        R.color.primary_text
-                    )
-                }
-                    ?.let { it2 -> snackbar.setTextColor(it2) }
-                snackbar.show()
-                // if you want onBackPressed() to be called as normal afterwards
-                val fm: FragmentManager = requireActivity().supportFragmentManager
-                fm.popBackStack()
-
-            } else {
-                val snackbar = Snackbar.make(
-                    requireView(),
-                    "Something is wrong, try later!",
-                    Snackbar.LENGTH_SHORT
-                )
-                snackbar.show()
-            }
-        })
-
-    }
     private fun handleButton() {
-
         updateProfileButton.setOnClickListener {
-            val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-            builder.setMessage("Do you want to update the profile?")
-                .setPositiveButton("Confirm") { dialog, id ->
-                   updateProfile()
-                }
-                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
-                    // User cancelled the dialog
-                    // if you want onBackPressed() to be called as normal afterwards
-                })
-            builder.show()
+               requireActivity().onBackPressed()
         }
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-                    builder.setMessage("Do you want to update the profile?")
-                        .setPositiveButton("Confirm") { dialog, id ->
-                            updateProfile()
-                        }
-                        .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
-                            // User cancelled the dialog
-                            // if you want onBackPressed() to be called as normal afterwards
-                            if (isEnabled) {
-                                isEnabled = false
-                                requireActivity().onBackPressed()
+                    val isValid= validateProfile()
+                    if(isValid) {
+                        Log.d("isValid", isValid.toString())
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+                        builder.setMessage("Do you want to update the profile?")
+                            .setPositiveButton("Confirm") { dialog, id ->
+                                user = UserFire()
+                                user.fullname = fullnameView.text.toString()
+                                user.nickname = nicknameView.text.toString()
+                                user.email = emailView.text.toString()
+                                user.location = locationView.text.toString()
+                                user.skills = skillsList
+                                user.description = descriptionView.text.toString()
+                                user.age = Integer.parseInt(ageView.text.toString())
+                                user.imagePath = currentPhotoPath
+                                user.uid = userId
+                                profileVM.updateUser(user).observe(viewLifecycleOwner, Observer {
+                                    if (it) {
+                                        val snackbar = Snackbar.make(
+                                            requireView(),
+                                            "Profile updated!",
+                                            Snackbar.LENGTH_SHORT
+                                        )
+                                        val sbView: View = snackbar.view
+                                        context?.let {
+                                            ContextCompat.getColor(
+                                                it,
+                                                R.color.primary_light
+                                            )
+                                        }
+                                            ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                                        context?.let { it1 ->
+                                            ContextCompat.getColor(
+                                                it1,
+                                                R.color.primary_text
+                                            )
+                                        }
+                                            ?.let { it2 -> snackbar.setTextColor(it2) }
+                                        snackbar.show()
+                                        if (isEnabled) {
+                                            isEnabled = false
+                                            requireActivity().onBackPressed()
+                                        }
+                                    } else {
+                                        val snackbar = Snackbar.make(
+                                            requireView(),
+                                            "Something is wrong, try later!",
+                                            Snackbar.LENGTH_SHORT
+                                        )
+                                        snackbar.show()
+                                    }
+                                })
                             }
-                        })
-                    builder.show()
+                            .setNegativeButton(
+                                "Cancel",
+                                DialogInterface.OnClickListener { dialog, id ->
+                                    // User cancelled the dialog
+                                    // if you want onBackPressed() to be called as normal afterwards
+                                    if (isEnabled) {
+                                        isEnabled = false
+                                        requireActivity().onBackPressed()
+                                    }
+                                })
+                        builder.show()
+                    }
                 }
             })
+    }
+
+    private fun validateProfile():Boolean {
+     /*   var isValid:Boolean=false
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    isValid= ageView.text.isNotEmpty() && ageView.text.toString().toInt()>=16 && ageView.text.toString().toInt()<=120
+                Log.d("is valid 2", isValid.toString())
+
+            }
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }*/
+        Log.d("age view", ageView.text.toString() )
+        Log.d("age view", ageView.text.toString().toInt().toString() )
+       // ageView.addTextChangedListener(textWatcher)
+        if(ageView.text.isEmpty() || ageView.text.toString().toInt()<16 || ageView.text.toString().toInt()>120){
+            ageView.error="Age should be more than 16"
+            return false
+        }
+        else{
+            ageView.error=null
+            return true
+        }
     }
 
     private fun addChip(text: String) {

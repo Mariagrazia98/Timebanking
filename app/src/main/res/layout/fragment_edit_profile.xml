@@ -225,9 +225,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corner"
         android:text="UPDATE PROFILE"
+        android:layout_margin="10dp"
         android:bottomRightRadius="10dp"
         android:bottomLeftRadius="10dp"
-        android:layout_margin="20dp"
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent" />

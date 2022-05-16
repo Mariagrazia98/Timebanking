@@ -5,12 +5,10 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
+import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import com.google.android.material.slider.RangeSlider
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,8 +19,12 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
     lateinit var timeInputLayout: TextInputLayout
     lateinit var dateView: EditText
     lateinit var timeView: EditText
-    lateinit var durationView : EditText
-    lateinit var resetBtn : Button
+    lateinit var rangeSlider: RangeSlider
+    lateinit var resetBtn: Button
+    lateinit var applyBtn: Button
+    lateinit var display: TextView
+    var sx = 30
+    var dx = 180
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +40,31 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as MainActivity).supportActionBar?.title = "Filters"
         resetBtn = view.findViewById(R.id.reset)
-        resetBtn.setOnClickListener{
+        resetBtn.setOnClickListener {
             (activity as MainActivity).adapterTimeSlots!!.filter.filter("reset")
             requireActivity().onBackPressed()
         }
+        applyBtn = view.findViewById(R.id.apply)
+        applyBtn.setOnClickListener {
+            if (dateView.text.isNotEmpty())
+                (activity as MainActivity).adapterTimeSlots!!.filter.filter("date=" + dateView.text)
+            if (timeView.text.isNotEmpty())
+                (activity as MainActivity).adapterTimeSlots!!.filter.filter("time=" + timeView.text)
+            (activity as MainActivity).adapterTimeSlots!!.filter.filter("duration= $sx - $dx")
+            (activity as MainActivity).keepAdapter = true
+            requireActivity().onBackPressed()
+        }
+        display = view.findViewById(R.id.rangeTextView)
+        rangeSlider = view.findViewById(R.id.rangeSlider)
+        rangeSlider.addOnChangeListener { rangeSlider, value, fromUser ->
+            val values = rangeSlider.values
+            sx = values[0].toInt()
+            dx = values[1].toInt()
+            display.text = "${sx} - ${dx} mins"
+        }
+
         autoCompleteTextView = view.findViewById(R.id.orderBySpinner)
-        var list = arrayListOf("Date", "Duration")
+        var list = arrayListOf("Date - asc","Date - desc", "Duration - asc", "Duration - desc")
         var arrayAdapter = ArrayAdapter(
             (activity as MainActivity).applicationContext,
             android.R.layout.simple_spinner_dropdown_item,
@@ -52,9 +73,11 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
         autoCompleteTextView.setAdapter(arrayAdapter)
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             // You can get the label or item that the user clicked:
-            when(position){
-                0 -> (activity as MainActivity).adapterTimeSlots!!.filter.filter("order=date")
-                1 ->  (activity as MainActivity).adapterTimeSlots!!.filter.filter("order=duration")
+            when (position) {
+                0 -> (activity as MainActivity).adapterTimeSlots!!.filter.filter("order=${list[0]}")
+                1 -> (activity as MainActivity).adapterTimeSlots!!.filter.filter("order=${list[1]}")
+                1 -> (activity as MainActivity).adapterTimeSlots!!.filter.filter("order=${list[2]}")
+                2 -> (activity as MainActivity).adapterTimeSlots!!.filter.filter("order=${list[3]}")
             }
         }
         //DATE
@@ -63,7 +86,6 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
         dateView = view.findViewById(R.id.dateEditText)
         timeView = view.findViewById(R.id.timeEditText)
         timeInputLayout = view.findViewById(R.id.timeInput)
-        durationView = view.findViewById(R.id.durationEditText)
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 cal.set(Calendar.YEAR, year)
@@ -103,30 +125,6 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
                 ).show()
             }
         }
-        callback()
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    private fun callback() {
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    if(!(dateView.text.isEmpty() && dateView.text.isEmpty() && durationView.text.isEmpty())) {
-                        Log.d("antodeb", "id: ${(activity as MainActivity).adapterTimeSlots}")
-                        if (dateView.text.isNotEmpty())
-                            (activity as MainActivity).adapterTimeSlots!!.filter.filter("date=" + dateView.text)
-                        if (timeView.text.isNotEmpty())
-                            (activity as MainActivity).adapterTimeSlots!!.filter.filter("time=" + timeView.text)
-                        if (durationView.text.isNotEmpty())
-                            (activity as MainActivity).adapterTimeSlots!!.filter.filter("duration=" + durationView.text)
-                        (activity as MainActivity).keepAdapter = true
-                    }
-                    if (isEnabled) {
-                        isEnabled = false
-                        requireActivity().onBackPressed()
-                    }
-                }
-            })
     }
 }

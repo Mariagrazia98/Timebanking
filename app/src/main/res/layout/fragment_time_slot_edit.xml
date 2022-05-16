@@ -162,4 +162,17 @@
         </LinearLayout>
     </ScrollView>
 
+    <Button
+        android:id="@+id/updateSlotButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:text="UPDATE TIMESLOT"
+        android:layout_margin="10dp"
+        android:bottomRightRadius="10dp"
+        android:bottomLeftRadius="10dp"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

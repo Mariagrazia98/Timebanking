@@ -84,7 +84,6 @@
                     android:layout_weight="1"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:text="@string/sampleDate"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/primary_text" />
 
@@ -93,7 +92,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/sampleTime"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/primary_text" />
 
@@ -117,7 +115,6 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:text="@string/sampleDuration"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/primary_text" />
 
@@ -139,7 +136,6 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:text="@string/location_advertisement"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/primary_text" />
 
@@ -163,10 +159,8 @@
                 android:minLines="1"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="@string/description_advertisement"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/primary_text"
-                tools:text="@string/description_advertisement" />
+                android:textColor="@color/primary_text" />
 
             <TextView
                 android:id="@+id/skillsAdvertisementText"

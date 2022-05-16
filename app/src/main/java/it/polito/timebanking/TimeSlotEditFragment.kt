@@ -6,6 +6,7 @@ import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -13,7 +14,6 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -148,6 +148,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         }else{ //create
             (activity as MainActivity).supportActionBar?.title = "Create advertisement"
+            updateSlotButton.text = "CREATE TIMESLOT"
             dateView.setText(SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis()))
             profileVM.getUserById(userId).observe(viewLifecycleOwner) {
                 userSkills = it?.skills ?: mutableListOf()
@@ -162,46 +163,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         handleButton()
     }
 
-    private fun updateSlot(){
-        val ts = TimeSlotFire()
-        ts.date = dateView.text.toString()
-        ts.time = timeView.text.toString()
-        ts.title = titleView.text.toString()
-        ts.description = descriptionView.text.toString()
-        ts.duration = durationView.text.toString().toInt()
-        ts.location = locationView.text.toString()
-        ts.skills = timeslotSkills
-        if(userId == "") { //edit
-            ts.id = timeslot!!.id
-            timeSlotVM.updateSlotF(user!!.uid,ts)
-            val snackbar = Snackbar.make(requireView(), "Time slot updated!", Snackbar.LENGTH_SHORT)
-            val sbView: View = snackbar.view
-            context?.let { ContextCompat.getColor(it, R.color.primary_light) }
-                ?.let { it2 -> sbView.setBackgroundColor(it2) }
-
-            context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
-                ?.let { it2 -> snackbar.setTextColor(it2) }
-            snackbar.show()
-            // if you want onBackPressed() to be called as normal afterwards
-            val fm: FragmentManager = requireActivity().supportFragmentManager
-            fm.popBackStack()
-        }
-        else{ //create
-            val newId = timeSlotVM.getNewSlotId(userId)
-            ts.id = newId
-            timeSlotVM.updateSlotF(userId, ts)
-            val snackbar = Snackbar.make(requireView(), "Time slot created!", Snackbar.LENGTH_SHORT)
-            val sbView: View = snackbar.view
-            context?.let { ContextCompat.getColor(it, R.color.primary_light) }
-                ?.let { it2 -> sbView.setBackgroundColor(it2) }
-
-            context?.let { it1 -> ContextCompat.getColor(it1, R.color.primary_text) }
-                ?.let { it2 -> snackbar.setTextColor(it2) }
-            snackbar.show()
-        }
-
-    }
-
     private fun handleButton() {
 
         updateSlotButton.setOnClickListener {
@@ -212,76 +173,79 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-                    val message = if(userId=="") "Do you want to update the slot?" else "Do you want to create this slot?"
-                    builder.setMessage(message)
-                        .setPositiveButton("Confirm") { dialog, id ->
-                            val ts = TimeSlotFire()
-                            ts.date = dateView.text.toString()
-                            ts.time = timeView.text.toString()
-                            ts.title = titleView.text.toString()
-                            ts.description = descriptionView.text.toString()
-                            ts.duration = durationView.text.toString().toInt()
-                            ts.location = locationView.text.toString()
-                            ts.skills = timeslotSkills
-                            var snackbarMessage="";
-                            if(userId == "") { //edit
-                                ts.id = timeslot!!.id
-                                snackbarMessage= "Time slot updated"
-                            }
-                            else{ //create
-                                val newId = timeSlotVM.getNewSlotId(userId)
-                                ts.id = newId
-                                snackbarMessage= "Time slot create"
-                            }
-                            timeSlotVM.updateSlotF(user!!.uid,ts).observe(viewLifecycleOwner) {
-                                if (it) {
-                                    val snackbar = Snackbar.make(
-                                        requireView(),
-                                        snackbarMessage,
-                                        Snackbar.LENGTH_SHORT
-                                    )
-                                    val sbView: View = snackbar.view
-                                    context?.let {
-                                        ContextCompat.getColor(
-                                            it,
-                                            R.color.primary_light
-                                        )
-                                    }
-                                        ?.let { it2 -> sbView.setBackgroundColor(it2) }
+                    if(validateProfile()){
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+                        val message = if(userId=="") "Do you want to update the slot?" else "Do you want to create this slot?"
+                        builder.setMessage(message)
+                            .setPositiveButton("Confirm") { dialog, id ->
 
-                                    context?.let { it1 ->
-                                        ContextCompat.getColor(
-                                            it1,
-                                            R.color.primary_text
+                                val ts = TimeSlotFire()
+                                ts.date = dateView.text.toString()
+                                ts.time = timeView.text.toString()
+                                ts.title = titleView.text.toString()
+                                ts.description = descriptionView.text.toString()
+                                ts.duration = durationView.text.toString().toInt()
+                                ts.location = locationView.text.toString()
+                                ts.skills = timeslotSkills
+                                var snackbarMessage="";
+                                if(userId == "") { //edit
+                                    ts.id = timeslot!!.id
+                                    snackbarMessage= "Time slot updated"
+                                }
+                                else{ //create
+                                    val newId = timeSlotVM.getNewSlotId(userId)
+                                    ts.id = newId
+                                    snackbarMessage= "Time slot created"
+                                }
+                                timeSlotVM.updateSlotF(user?.uid?: userId,ts).observe(viewLifecycleOwner) {
+                                    if (it) {
+                                        val snackbar = Snackbar.make(
+                                            requireView(),
+                                            snackbarMessage,
+                                            Snackbar.LENGTH_SHORT
                                         )
+                                        val sbView: View = snackbar.view
+                                        context?.let {
+                                            ContextCompat.getColor(
+                                                it,
+                                                R.color.primary_light
+                                            )
+                                        }
+                                            ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                                        context?.let { it1 ->
+                                            ContextCompat.getColor(
+                                                it1,
+                                                R.color.primary_text
+                                            )
+                                        }
+                                            ?.let { it2 -> snackbar.setTextColor(it2) }
+                                        snackbar.show()
+                                        // if you want onBackPressed() to be called as normal afterwards
+                                        if (isEnabled) {
+                                            isEnabled = false
+                                            requireActivity().onBackPressed()
+                                        }
+                                    } else {
+                                        val snackbar = Snackbar.make(
+                                            requireView(),
+                                            "Something is wrong, try later!",
+                                            Snackbar.LENGTH_SHORT
+                                        )
+                                        snackbar.show()
                                     }
-                                        ?.let { it2 -> snackbar.setTextColor(it2) }
-                                    snackbar.show()
-                                    // if you want onBackPressed() to be called as normal afterwards
-                                    if (isEnabled) {
-                                        isEnabled = false
-                                        requireActivity().onBackPressed()
-                                    }
-                                } else {
-                                    val snackbar = Snackbar.make(
-                                        requireView(),
-                                        "Something is wrong, try later!",
-                                        Snackbar.LENGTH_SHORT
-                                    )
-                                    snackbar.show()
                                 }
                             }
-                        }
-                        .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
-                            // User cancelled the dialog
-                            // if you want onBackPressed() to be called as normal afterwards
-                            if (isEnabled) {
-                                isEnabled = false
-                                requireActivity().onBackPressed()
-                            }
-                        })
-                    builder.show()
+                            .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+                                // User cancelled the dialog
+                                // if you want onBackPressed() to be called as normal afterwards
+                                if (isEnabled) {
+                                    isEnabled = false
+                                    requireActivity().onBackPressed()
+                                }
+                            })
+                        builder.show()
+                    }
                 }
             }
         )
@@ -325,5 +289,51 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             timeslotSkills.add(chip.text.toString())
         else
             timeslotSkills.remove(chip.text.toString())
+    }
+
+    private fun validateProfile():Boolean {
+        var isValid: Boolean = true
+        if(titleView.text.isEmpty()){
+            titleView.error="Title should not be empty"
+            isValid = false
+        } else{
+            titleView.error=null
+        }
+
+        if(descriptionView.text.isEmpty()){
+            descriptionView.error="Description should not be empty"
+            isValid = false
+        } else{
+            descriptionView.error=null
+        }
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
+
+        if(dateView.text.isEmpty() || (sdf.parse(dateView.text.toString()) < Calendar.getInstance().time)){
+            dateView.error="Date should be greater than now"
+            Log.d("error", "EROOR")
+            isValid = false
+        } else{
+            dateView.error=null
+        }
+        if(durationView.text.isEmpty() || durationView.text.toString().toInt()<0){
+            durationView.error="Duration should be greater than 0"
+            isValid = false
+        } else{
+            dateView.error=null
+        }
+        if(locationView.text.isEmpty()){
+            locationView.error="Location should not be empty"
+            isValid = false
+        } else{
+            dateView.error=null
+        }
+
+       /* if(timeslotSkills.isEmpty()){
+            isValid = false
+        } else{
+            dateView.error=null
+        }*/
+
+        return isValid
     }
 }

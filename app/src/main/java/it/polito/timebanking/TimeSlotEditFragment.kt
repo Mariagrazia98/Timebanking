@@ -205,16 +205,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private fun handleButton() {
 
         updateSlotButton.setOnClickListener {
-            val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-            builder.setMessage("Do you want to update the profile?")
-                .setPositiveButton("Confirm") { dialog, id ->
-                    updateSlot()
-                }
-                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
-                    // User cancelled the dialog
-                    // if you want onBackPressed() to be called as normal afterwards
-                })
-            builder.show()
+            requireActivity().onBackPressed()
         }
 
         requireActivity()
@@ -225,7 +216,62 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     val message = if(userId=="") "Do you want to update the slot?" else "Do you want to create this slot?"
                     builder.setMessage(message)
                         .setPositiveButton("Confirm") { dialog, id ->
-                            updateSlot()
+                            val ts = TimeSlotFire()
+                            ts.date = dateView.text.toString()
+                            ts.time = timeView.text.toString()
+                            ts.title = titleView.text.toString()
+                            ts.description = descriptionView.text.toString()
+                            ts.duration = durationView.text.toString().toInt()
+                            ts.location = locationView.text.toString()
+                            ts.skills = timeslotSkills
+                            var snackbarMessage="";
+                            if(userId == "") { //edit
+                                ts.id = timeslot!!.id
+                                snackbarMessage= "Time slot updated"
+                            }
+                            else{ //create
+                                val newId = timeSlotVM.getNewSlotId(userId)
+                                ts.id = newId
+                                snackbarMessage= "Time slot create"
+                            }
+                            timeSlotVM.updateSlotF(user!!.uid,ts).observe(viewLifecycleOwner) {
+                                if (it) {
+                                    val snackbar = Snackbar.make(
+                                        requireView(),
+                                        snackbarMessage,
+                                        Snackbar.LENGTH_SHORT
+                                    )
+                                    val sbView: View = snackbar.view
+                                    context?.let {
+                                        ContextCompat.getColor(
+                                            it,
+                                            R.color.primary_light
+                                        )
+                                    }
+                                        ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
+                                    context?.let { it1 ->
+                                        ContextCompat.getColor(
+                                            it1,
+                                            R.color.primary_text
+                                        )
+                                    }
+                                        ?.let { it2 -> snackbar.setTextColor(it2) }
+                                    snackbar.show()
+                                    // if you want onBackPressed() to be called as normal afterwards
+                                    if (isEnabled) {
+                                        isEnabled = false
+                                        requireActivity().onBackPressed()
+                                    }
+                                } else {
+                                    val snackbar = Snackbar.make(
+                                        requireView(),
+                                        "Something is wrong, try later!",
+                                        Snackbar.LENGTH_SHORT
+                                    )
+                                    snackbar.show()
+                                }
+                            }
                         }
                         .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
                             // User cancelled the dialog

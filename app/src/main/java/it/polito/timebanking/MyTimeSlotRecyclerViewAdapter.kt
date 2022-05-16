@@ -47,7 +47,7 @@ class MyTimeSlotRecyclerViewAdapter(
 
             if (read_only) {
                 if (ivSlot != null) {
-                    //Glide.with(requireContext()).load(user.imagePath).into(ivSlot) TODO
+                    Glide.with(ivSlot.context).load(user.imagePath).into(ivSlot)
                 }
                 name?.text = user.fullname
 

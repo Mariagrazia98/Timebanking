@@ -97,7 +97,7 @@ class MyTimeSlotRecyclerViewAdapter(
 
         holder.chatButton.setOnClickListener {
             findNavController(FragmentManager.findFragment(it)).navigate(
-                R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment,
+                R.id.action_timeSlotListFragment_to_chatFragment,
                 bundle
             )
         }

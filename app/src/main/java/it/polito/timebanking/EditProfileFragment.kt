@@ -58,6 +58,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var addSkillView: EditText
     lateinit var profileImageView: ImageView
     lateinit var updateProfileButton: Button
+    lateinit var skillsError : TextView
 
     lateinit var headerView:View
 
@@ -269,6 +270,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
     private fun validateProfile():Boolean {
+        var isValid: Boolean = true
      /*   var isValid:Boolean=false
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -286,12 +288,21 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
        // ageView.addTextChangedListener(textWatcher)
         if(ageView.text.isEmpty() || ageView.text.toString().toInt()<16 || ageView.text.toString().toInt()>120){
             ageView.error="Age should be more than 16"
-            return false
+            isValid = false
         }
         else{
             ageView.error=null
-            return true
         }
+
+        if(skillsList.isEmpty()){
+            Log.d("empty" ,"empty")
+            skillsError.visibility = View.VISIBLE
+            isValid = false
+        } else{
+            skillsError.visibility = View.GONE
+        }
+        return isValid
+
     }
 
     private fun addChip(text: String) {
@@ -307,6 +318,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             skillsList.remove(chip.text.toString())
         }
         skillsGroup.addView(chip)
+        skillsError.visibility = View.GONE
+
     }
 
     fun setVariables(view: View) {
@@ -322,7 +335,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         profileImageView = view.findViewById(R.id.Edit_imageView)
         updateProfileButton=view.findViewById(R.id.updateProfileButton)
         headerView=(activity as MainActivity).headerView
-
+        skillsError = view.findViewById(R.id.skillsTextError)
+        skillsError.visibility = View.GONE
     }
 
 

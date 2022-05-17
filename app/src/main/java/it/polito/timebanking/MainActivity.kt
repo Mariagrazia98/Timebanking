@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var mAuth: FirebaseAuth
     private var userState: FirebaseUser? = null
     var slotsToObserve : LiveData<Map<User, List<TimeSlot>>>? = null
-    //var lastSkill = ""
+    var lastSkill = ""
 
     // Choose authentication providers
     val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())

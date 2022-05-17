@@ -1,6 +1,7 @@
 package it.polito.timebanking
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -46,16 +47,16 @@ class TimeSlotListFragment : Fragment() {
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         val fab: View = view.findViewById(R.id.fab)
 
-        //if(skill != (activity as MainActivity).lastSkill) {
-            if (read_only) {
-                (activity as MainActivity).slotsToObserve =
-                    timeSlotVM.getSlotsBySkill(userId, skill)
-                //(activity as MainActivity).lastSkill = skill
-            } else {
-                (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsByUser(userId)
-                //(activity as MainActivity).lastSkill = skill
-            }
-        //}
+
+        if (read_only && (activity as MainActivity).lastSkill != skill) {
+            (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsBySkill(userId, skill)
+            (activity as MainActivity).lastSkill = skill
+        } else if(read_only && (activity as MainActivity).lastSkill == skill){
+
+        }
+        else {
+            (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsByUser(userId)
+        }
 
         if(read_only){
             (activity as MainActivity).supportActionBar?.title = "Offers list"

@@ -15,8 +15,11 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
@@ -153,6 +156,13 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     addChip(userId, skill.trim())
                 }
             }
+            else{
+                val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+                builder.setMessage("Please, add at least one skill in your profile before creating a new adv")
+                    .setPositiveButton("Go back") { dialog, id ->
+                        (activity as MainActivity).findNavController(R.id.editProfileFragment)
+                    }
+            }
         }else{ //create
             (activity as MainActivity).supportActionBar?.title = "Create advertisement"
             updateSlotButton.text = "CREATE TIMESLOT"
@@ -163,6 +173,16 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     userSkills.forEach { skill ->
                         addChip(userId, skill.trim())
                     }
+                }
+                else{
+                    Log.d("NO SKILL", "NO SKILL")
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+                    builder.setMessage("Please, add at least one skill in your profile before creating a new adv")
+                        .setPositiveButton("Update your profile") { dialog, id ->
+                            val bundle = bundleOf("userId" to userId)
+                            NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.editProfileFragment, bundle)
+                        }
+                    builder.show()
                 }
             }
         }
@@ -204,7 +224,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                                     ts.id = newId
                                     snackbarMessage= "Time slot created"
                                 }
-                                timeSlotVM.updateSlotF(user?.uid?: userId,ts).observe(viewLifecycleOwner) {
+                                timeSlotVM.updateSlot(user?.uid?: userId,ts).observe(viewLifecycleOwner) {
                                     if (it) {
                                         val snackbar = Snackbar.make(
                                             requireView(),

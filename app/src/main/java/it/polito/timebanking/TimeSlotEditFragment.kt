@@ -142,40 +142,29 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             dateView.setText(timeslot!!.date)
             timeView.setText(timeslot!!.time)
 
-            userSkills = user!!.skills
-            if (userSkills.isNotEmpty()) {
-                userSkills.forEach { skill ->
-                    addChip(userId, skill.trim())
-                }
-            }else{
-                val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-                builder.setMessage("Please, add at least one skill in your profile before editing your adv.")
-                    .setPositiveButton("Update your profile") { dialog, id ->
-                        val bundle = bundleOf("userId" to user!!.uid)
-                        NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.editProfileFragment, bundle)
-                    }
-                builder.show()
-            }
         }else{ //create
             (activity as MainActivity).supportActionBar?.title = "Create advertisement"
             updateSlotButton.text = "CREATE TIMESLOT"
             dateView.setText(SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis()))
-            profileVM.getUserById(userId).observe(viewLifecycleOwner) {
-                userSkills = it?.skills ?: mutableListOf()
-                if (userSkills.isNotEmpty()) {
-                    userSkills.forEach { skill ->
-                        addChip(userId, skill.trim())
+        }
+        profileVM.getUserById(user?.uid ?: userId).observe(viewLifecycleOwner) {
+            userSkills = it?.skills ?: mutableListOf()
+            if (userSkills.isNotEmpty()) {
+                userSkills.forEach { skill ->
+                    addChip(userId, skill.trim())
+                }
+            }
+            else{
+                val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+                val message = if(userId == "") "Please, add at least one skill in your profile before creating a new adv."
+                else "Please, add at least one skill in your profile before editing your adv."
+                builder.setMessage(message)
+                    .setPositiveButton("Update your profile") { dialog, id ->
+                        val u = user?.uid ?: userId
+                        val bundle = bundleOf("userId" to u)
+                        NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.editProfileFragment, bundle)
                     }
-                }
-                else{
-                    val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-                    builder.setMessage("Please, add at least one skill in your profile before creating a new adv.")
-                        .setPositiveButton("Update your profile") { dialog, id ->
-                            val bundle = bundleOf("userId" to userId)
-                            NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.editProfileFragment, bundle)
-                        }
-                    builder.show()
-                }
+                builder.show()
             }
         }
         handleButton()

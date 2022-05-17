@@ -98,7 +98,6 @@ class MyTimeSlotRecyclerViewAdapter(
             var resCount = 0
 
             override fun performFiltering(constraint: CharSequence): FilterResults {
-                Thread.sleep(100)
                 var filteredRes: List<TimeSlot>? = null
                 if (constraint.startsWith("date"))
                     filteredRes = getFilteredResultsByDate(constraint.toString().lowercase())

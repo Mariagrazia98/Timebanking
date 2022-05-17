@@ -105,13 +105,13 @@ class MyTimeSlotRecyclerViewAdapter(
                     filteredRes = getFilteredResultsByDuration(constraint.toString().lowercase())
                 else if (constraint.startsWith("time"))
                     filteredRes = getFilteredResultsByStartTime(constraint.toString().lowercase())
-                else if (constraint.startsWith("order=Date - asc")) {
+                else if (constraint.startsWith("order=Date (ascending)")) {
                     filteredRes = list.sortedWith { x, y -> x.date.compareTo(y.date) }
-                } else if (constraint.startsWith("order=Date - desc")) {
+                } else if (constraint.startsWith("order=Date (descending)")) {
                     filteredRes = list.sortedWith { x, y -> -x.date.compareTo(y.date) }
-                } else if (constraint.startsWith("order=Duration - asc")) {
+                } else if (constraint.startsWith("order=Duration (ascending)")) {
                     filteredRes = list.sortedWith { x, y -> x.duration.compareTo(y.duration) }
-                } else if (constraint.startsWith("order=Duration - desc")) {
+                } else if (constraint.startsWith("order=Duration (descending)")) {
                     filteredRes = list.sortedWith{x, y -> -(x.duration.compareTo(y.duration))}
                 } else
                     filteredRes = originalList

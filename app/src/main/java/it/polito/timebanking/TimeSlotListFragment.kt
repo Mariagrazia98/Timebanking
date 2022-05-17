@@ -34,6 +34,7 @@ class TimeSlotListFragment : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
@@ -45,15 +46,23 @@ class TimeSlotListFragment : Fragment() {
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         val fab: View = view.findViewById(R.id.fab)
 
-        var slotsToObserve : LiveData<Map<User, List<TimeSlot>>>?
-        if(read_only) {
+        if(skill != (activity as MainActivity).lastSkill) {
+            if (read_only) {
+                (activity as MainActivity).slotsToObserve =
+                    timeSlotVM.getSlotsBySkill(userId, skill)
+                (activity as MainActivity).lastSkill = skill
+            } else {
+                (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsByUser(userId)
+                (activity as MainActivity).lastSkill = skill
+            }
+        }
+
+        if(read_only){
             (activity as MainActivity).supportActionBar?.title = "Offers list"
             fab.visibility = View.GONE
-            slotsToObserve = timeSlotVM.getSlotsBySkill(userId, skill)
-        }else{
-            slotsToObserve = timeSlotVM.getSlotsByUser(userId)
         }
-        slotsToObserve.observe(viewLifecycleOwner){
+
+        (activity as MainActivity).slotsToObserve?.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
             if(!(activity as MainActivity).keepAdapter)
                 (activity as MainActivity).adapterTimeSlots = MyTimeSlotRecyclerViewAdapter(it, read_only)

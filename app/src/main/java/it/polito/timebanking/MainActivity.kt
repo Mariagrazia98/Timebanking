@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -29,6 +30,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
 import de.hdodenhof.circleimageview.CircleImageView
 import it.polito.timebanking.databinding.ActivityMainBinding
+import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 
@@ -47,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     var filterBundle : Bundle? = null
     lateinit var mAuth: FirebaseAuth
     private var userState: FirebaseUser? = null
+    var slotsToObserve : LiveData<Map<User, List<TimeSlot>>>? = null
+    var lastSkill = ""
 
     // Choose authentication providers
     val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())

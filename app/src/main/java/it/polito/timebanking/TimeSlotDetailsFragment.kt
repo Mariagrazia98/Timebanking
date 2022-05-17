@@ -71,6 +71,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
         timeSlotVM.getSlotFById(user.uid, timeslot.id).observe(viewLifecycleOwner) { t ->
             if (t != null) {
+                timeslot = t
                 dateView.text = t.date
                 timeView.text = t.time
                 titleView.text = t.title

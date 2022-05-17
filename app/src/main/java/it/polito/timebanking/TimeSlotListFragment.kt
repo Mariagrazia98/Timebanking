@@ -1,6 +1,7 @@
 package it.polito.timebanking
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -69,9 +70,8 @@ class TimeSlotListFragment : Fragment() {
             else
                 (activity as MainActivity).keepAdapter = false
             rv.adapter = (activity as MainActivity).adapterTimeSlots
-
-
-            if(it.isEmpty()){
+            
+            if(it.values.first().isEmpty()){
                 rv.visibility = View.GONE
                 ev.visibility = View.VISIBLE
             }else {

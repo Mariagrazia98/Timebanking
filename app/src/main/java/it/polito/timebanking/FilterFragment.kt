@@ -155,6 +155,7 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
             sx = inState.getInt("SX_SLIDER")
             dx = inState.getInt("DX_SLIDER")
             rangeSlider.setValues(sx.toFloat(),dx.toFloat())
+            display.text = "$sx - $dx mins"
             val strDate = inState.getString("DATE")
             val strTime = inState.getString("TIME")
             val strOrder = inState.getString("ORDER_BY")

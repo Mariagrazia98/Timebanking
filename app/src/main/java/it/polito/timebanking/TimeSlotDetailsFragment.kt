@@ -38,6 +38,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var skillsGroup: ChipGroup
     lateinit var profileButton: LinearLayout
     lateinit var profileNameView: TextView
+    lateinit var profileEmailView: TextView
     lateinit var profileImageView: ImageView
     lateinit var user : UserFire
 
@@ -72,6 +73,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         skillsGroup = view.findViewById(R.id.skillsAdvertisement)
         profileButton = view.findViewById(R.id.profileLink)
         profileNameView = view.findViewById(R.id.offererName)
+        profileEmailView = view.findViewById(R.id.offererEmail)
         profileImageView = view.findViewById(R.id.imageViewSlot)
 
 
@@ -95,6 +97,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             (activity as MainActivity).supportActionBar?.title = "Offer"
 
             profileNameView.text = user.fullname
+            profileEmailView.text = user.email
             // Download directly from StorageReference using Glide
             if(user.imagePath!=null)
                 Glide.with(this /* context */).load(user.imagePath).into(profileImageView)

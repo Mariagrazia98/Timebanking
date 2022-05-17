@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navSubtitle:TextView
     var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter? = null
     var keepAdapter : Boolean = false //for filter tool
-
+    var filterBundle : Bundle? = null
     lateinit var mAuth: FirebaseAuth
     private var userState: FirebaseUser? = null
 
@@ -253,5 +253,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
+
+
 
 }

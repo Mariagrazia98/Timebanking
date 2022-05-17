@@ -11,6 +11,7 @@
     <color name="divider">#BDBDBD</color>
     <color name="dark_divider">#A3A3A3</color>
     <color name="danger">#f8d7da</color>
+    <color name="danger_text">#d9534f</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

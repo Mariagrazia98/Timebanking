@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -47,6 +49,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var locationView: EditText
     lateinit var durationView: EditText
     lateinit var skillsGroup: ChipGroup
+    lateinit var skillsError : TextView
 
     lateinit var updateSlotButton: Button
 
@@ -79,6 +82,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         timeView = view.findViewById(R.id.edit_timeAdvertisement)
         skillsGroup = view.findViewById(R.id.skillsAdvertisement)
         updateSlotButton=view.findViewById(R.id.updateSlotButton)
+        skillsError = view.findViewById(R.id.skillsAdvertisementTextError)
+        skillsError.visibility = View.GONE
 
 
         //DATE
@@ -98,12 +103,14 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
         dateInputLayout.setEndIconOnClickListener {
             context?.let { it1 ->
-                DatePickerDialog(
-                    it1, R.style.DialogTheme, dateSetListener,
-                    cal.get(Calendar.YEAR),
-                    cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)
-                ).show()
+                    val picker = DatePickerDialog(
+                        it1, R.style.DialogTheme, dateSetListener,
+                        cal.get(Calendar.YEAR),
+                        cal.get(Calendar.MONTH),
+                        cal.get(Calendar.DAY_OF_MONTH)
+                    )
+                    picker.datePicker.setMinDate(System.currentTimeMillis() - 1000)
+                    picker.show()
             }
         }
 
@@ -285,10 +292,13 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     }
 
     private fun registerFilterChanged(chip: Chip) {
-        if(chip.isChecked)
+        if(chip.isChecked) {
             timeslotSkills.add(chip.text.toString())
-        else
+            skillsError.visibility = View.GONE
+        }
+        else {
             timeslotSkills.remove(chip.text.toString())
+        }
     }
 
     private fun validateProfile():Boolean {
@@ -306,17 +316,23 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         } else{
             descriptionView.error=null
         }
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
 
-        if(dateView.text.isEmpty() || (sdf.parse(dateView.text.toString()) < Calendar.getInstance().time)){
-            dateView.error="Date should be greater than now"
-            Log.d("error", "EROOR")
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        val sdfTime =  SimpleDateFormat("HH:mm")
+
+        Log.d("userDate", sdf.format(sdf.parse(dateView.text.toString())).toString())
+        Log.d("currentDate", sdf.format(Calendar.getInstance().time).toString())
+        Log.d("userTime", sdfTime.format(sdfTime.parse(timeView.text.toString())).toString())
+        Log.d("currentTime", sdfTime.format(Calendar.getInstance().time).toString())
+
+        if(sdf.format(sdf.parse(dateView.text.toString())) == sdf.format(Calendar.getInstance().time) && sdfTime.format(sdfTime.parse(timeView.text.toString())) < sdfTime.format(Calendar.getInstance().time)){
+            timeView.error="Time should be greater than now"
             isValid = false
         } else{
-            dateView.error=null
+            timeView.error=null
         }
-        if(durationView.text.isEmpty() || durationView.text.toString().toInt()<0){
-            durationView.error="Duration should be greater than 0"
+        if(durationView.text.isEmpty() || durationView.text.toString().toInt()<30 || durationView.text.toString().toInt()>240){
+            durationView.error="Duration should be between 30 and 240 min"
             isValid = false
         } else{
             dateView.error=null
@@ -328,11 +344,12 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             dateView.error=null
         }
 
-       /* if(timeslotSkills.isEmpty()){
-            isValid = false
+       if(timeslotSkills.isEmpty()){
+           skillsError.visibility = View.VISIBLE
+           isValid = false
         } else{
-            dateView.error=null
-        }*/
+           skillsError.visibility = View.GONE
+        }
 
         return isValid
     }

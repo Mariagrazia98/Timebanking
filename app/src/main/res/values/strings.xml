@@ -78,5 +78,6 @@
     <string name="menu">Menu</string>
     <string name="preference_file_key">preference_file</string>
     <string name="select_skills">Touch the skills you want to select</string>
+    <string name="error_skills">Select at least one skill</string>
 
 </resources>

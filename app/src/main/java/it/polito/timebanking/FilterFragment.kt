@@ -3,10 +3,8 @@ package it.polito.timebanking
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.textfield.TextInputLayout

@@ -15,7 +15,6 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
@@ -32,19 +31,21 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import de.hdodenhof.circleimageview.CircleImageView
-import it.polito.timebanking.model.UserFire
+import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
-
     var skillsList: ArrayList<String> = arrayListOf()
-
-
     private var bitmap: Bitmap? = null
     private var currentPhotoPath: String? = null
+
+    lateinit var profileVM: ProfileViewModel
+    lateinit var user: User
+    lateinit var userId: String
+    lateinit var fv: View
 
     lateinit var fullnameView: EditText
     lateinit var ageView: EditText
@@ -59,18 +60,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var profileImageView: ImageView
     lateinit var updateProfileButton: Button
     lateinit var skillsError : TextView
-
     lateinit var headerView:View
 
     var h: Int = 0
     var w: Int = 0
-
-    lateinit var profileVM: ProfileViewModel
-
-    //lateinit var user: User
-    lateinit var user: UserFire
-    lateinit var userId: String
-    lateinit var fv: View
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,7 +104,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
         setVariables(view)
 
-
         userId = arguments?.getString("userId")!!
         profileVM.getUserById(userId)
 
@@ -139,7 +131,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         addChip(skill.trim())
                     }
                 }
-                Log.d("DEBUG", user.imagePath.toString())
                 Glide.with(requireContext()).load(user.imagePath).into(profileImageView)
 
             })
@@ -184,10 +175,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         })
 
         handleButton();
-/*
-       var  navView: NavigationView = view.findViewById<NavigationView>(R.id.navigationView)
-        var headerView = navView.getHeaderView(0)
-        headerViewImage=view.findViewById(R.id.imageViewHeader)*/
     }
 
 
@@ -201,11 +188,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 override fun handleOnBackPressed() {
                     val isValid= validateProfile()
                     if(isValid) {
-                        Log.d("isValid", isValid.toString())
                         val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
                         builder.setMessage("Do you want to update the profile?")
                             .setPositiveButton("Confirm") { dialog, id ->
-                                user = UserFire()
+                                user = User()
                                 user.fullname = fullnameView.text.toString()
                                 user.nickname = nicknameView.text.toString()
                                 user.email = emailView.text.toString()
@@ -270,22 +256,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
     private fun validateProfile():Boolean {
-        var isValid: Boolean = true
-     /*   var isValid:Boolean=false
-        val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    isValid= ageView.text.isNotEmpty() && ageView.text.toString().toInt()>=16 && ageView.text.toString().toInt()<=120
-                Log.d("is valid 2", isValid.toString())
+        var isValid = true
 
-            }
-            override fun afterTextChanged(s: Editable?) {
-            }
-        }*/
-        Log.d("age view", ageView.text.toString() )
-        Log.d("age view", ageView.text.toString().toInt().toString() )
-       // ageView.addTextChangedListener(textWatcher)
         if(ageView.text.isEmpty() || ageView.text.toString().toInt()<16 || ageView.text.toString().toInt()>120){
             ageView.error="Age should be more than 16"
             isValid = false
@@ -295,14 +267,13 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
 
         if(skillsList.isEmpty()){
-            Log.d("empty" ,"empty")
             skillsError.visibility = View.VISIBLE
             isValid = false
         } else{
             skillsError.visibility = View.GONE
         }
-        return isValid
 
+        return isValid
     }
 
     private fun addChip(text: String) {
@@ -319,7 +290,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
         skillsGroup.addView(chip)
         skillsError.visibility = View.GONE
-
     }
 
     fun setVariables(view: View) {
@@ -341,7 +311,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
 
     //CAMERA
-
     fun handleCameraImage(intent: Intent?) {
         bitmap = intent?.extras?.get("data") as Bitmap
         val iv = fv.findViewById<ImageView>(R.id.Edit_imageView)
@@ -419,7 +388,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         val wrapper = ContextWrapper(requireActivity().applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         val filename = user.uid + ".jpg"
-        Log.d("CODE CLEANING", filename)
         file = File(file, filename)
         val stream: OutputStream = FileOutputStream(file)
         bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
@@ -479,7 +447,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        profileVM.setUser(user = UserFire(user.uid, user.fullname,nicknameView.text.toString(), user.email, locationView.text.toString(), descriptionView.text.toString(),skillsList,  ageView.text.toString().toInt(), user.imagePath))
+        profileVM.setUser(user = User(user.uid, user.fullname,nicknameView.text.toString(), user.email, locationView.text.toString(), descriptionView.text.toString(),skillsList,  ageView.text.toString().toInt(), user.imagePath))
         outState.putString("imagePath", currentPhotoPath)
     }
 }

@@ -1,28 +1,23 @@
 package it.polito.timebanking
 
-import android.text.TextUtils.replace
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.bumptech.glide.Glide
-import de.hdodenhof.circleimageview.CircleImageView
-import it.polito.timebanking.model.TimeSlotFire
-import it.polito.timebanking.model.UserFire
+import it.polito.timebanking.model.TimeSlot
+import it.polito.timebanking.model.User
 
 
 class MyTimeSlotRecyclerViewAdapter(
-    val data: Map<UserFire, List<TimeSlotFire>>,
+    val data: Map<User, List<TimeSlot>>,
     read_only: Boolean
 ) :
-
 
     RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>(), Filterable {
     var list = data.toMutableMap().values.flatten()
@@ -40,7 +35,7 @@ class MyTimeSlotRecyclerViewAdapter(
         val ivSlot: ImageView? = v.findViewById(R.id.imageViewSlot)
 
 
-        fun bind(item: TimeSlotFire, read_only: Boolean, user: UserFire) {
+        fun bind(item: TimeSlot, read_only: Boolean, user: User) {
             title.text = item.title
             date.text = item.date
             time.text = item.time
@@ -69,7 +64,7 @@ class MyTimeSlotRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ItemSlotViewHolder, position: Int) {
         val item = list[position]
-        lateinit var user: UserFire
+        lateinit var user: User
         data.toMutableMap().keys.forEach {
             if (data.toMutableMap()[it]?.contains(item) == true) {
                 user = it
@@ -103,8 +98,7 @@ class MyTimeSlotRecyclerViewAdapter(
             var resCount = 0
 
             override fun performFiltering(constraint: CharSequence): FilterResults {
-                Log.d("antodeb",constraint.toString())
-                var filteredRes: List<TimeSlotFire>? = null
+                var filteredRes: List<TimeSlot>? = null
                 if (constraint.startsWith("date"))
                     filteredRes = getFilteredResultsByDate(constraint.toString().lowercase())
                 else if (constraint.startsWith("duration"))
@@ -132,14 +126,14 @@ class MyTimeSlotRecyclerViewAdapter(
                 if (resCount == 0)
                     list = arrayListOf()
                 else
-                    list = results?.values as MutableList<TimeSlotFire>
+                    list = results?.values as MutableList<TimeSlot>
                 notifyDataSetChanged()
             }
         }
     }
 
-    fun getFilteredResultsByDate(str: String): MutableList<TimeSlotFire> {
-        var results = mutableListOf<TimeSlotFire>()
+    fun getFilteredResultsByDate(str: String): MutableList<TimeSlot> {
+        var results = mutableListOf<TimeSlot>()
         var date = str.split('=')[1]
 
         for (item in list) {
@@ -151,8 +145,8 @@ class MyTimeSlotRecyclerViewAdapter(
         return results
     }
 
-    fun getFilteredResultsByDuration(str: String): MutableList<TimeSlotFire> {
-        var results = mutableListOf<TimeSlotFire>()
+    fun getFilteredResultsByDuration(str: String): MutableList<TimeSlot> {
+        var results = mutableListOf<TimeSlot>()
         var duration = str.split('=')[1].replace("\\s".toRegex(), "").split("-")
         var sx = duration[0].toInt()
         var dx = duration[1].toInt()
@@ -164,8 +158,8 @@ class MyTimeSlotRecyclerViewAdapter(
         return results
     }
 
-    fun getFilteredResultsByStartTime(str: String): MutableList<TimeSlotFire> {
-        var results = mutableListOf<TimeSlotFire>()
+    fun getFilteredResultsByStartTime(str: String): MutableList<TimeSlot> {
+        var results = mutableListOf<TimeSlot>()
         var duration = str.split('=')[1]
 
         for (item in list) {

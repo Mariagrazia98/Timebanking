@@ -2,9 +2,7 @@ package it.polito.timebanking
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -18,16 +16,13 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import it.polito.timebanking.model.TimeSlotFire
-import it.polito.timebanking.model.UserFire
-import it.polito.timebanking.repository.Slot
+import it.polito.timebanking.model.TimeSlot
+import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
-   // lateinit var slotId: String
     var read_only = false
-    lateinit var timeslot: TimeSlotFire
-    lateinit var slot: Slot
+    lateinit var timeslot: TimeSlot
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var dateView: TextView
     lateinit var timeView: TextView
@@ -40,8 +35,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var profileNameView: TextView
     lateinit var profileEmailView: TextView
     lateinit var profileImageView: ImageView
-    lateinit var user : UserFire
-
+    lateinit var user : User
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,9 +53,8 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //slotId = arguments?.getString("id")!!
-        user = (arguments?.getSerializable("user") as UserFire?)!!
-        timeslot = (arguments?.getSerializable("slot") as TimeSlotFire?)!!
+        user = (arguments?.getSerializable("user") as User?)!!
+        timeslot = (arguments?.getSerializable("slot") as TimeSlot?)!!
         read_only = arguments?.getBoolean("read_only")?:false
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
         dateView = view.findViewById(R.id.dateAdvertisement)
@@ -75,7 +68,6 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         profileNameView = view.findViewById(R.id.offererName)
         profileEmailView = view.findViewById(R.id.offererEmail)
         profileImageView = view.findViewById(R.id.imageViewSlot)
-
 
         timeSlotVM.getSlotFById(user.uid, timeslot.id).observe(viewLifecycleOwner) { t ->
             if (t != null) {

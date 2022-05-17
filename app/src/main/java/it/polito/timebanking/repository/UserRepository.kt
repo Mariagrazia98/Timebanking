@@ -1,25 +1,18 @@
 package it.polito.timebanking.repository
 
-import android.app.Application
-import android.content.ContentValues.TAG
-import android.util.Log
-import androidx.lifecycle.LiveData
-import com.google.android.gms.tasks.Tasks.await
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import it.polito.timebanking.model.UserFire
+import it.polito.timebanking.model.User
 import kotlinx.coroutines.tasks.await
 
 
-class UserRepository(application: Application) {
-    private val userDao = UserDatabase.getDatabase(application)?.userDao()
+class UserRepository() {
     private val db = FirebaseFirestore.getInstance()
 
 
-    suspend fun addUserF(user: UserFire): Boolean {
+    suspend fun addUserF(user: User): Boolean {
         return try {
             db.collection("users")
                 .document(user.uid)
@@ -31,16 +24,14 @@ class UserRepository(application: Application) {
         }
     }
 
-    suspend fun getUserByIdF(uid: String): Result<UserFire?> {
+    suspend fun getUserByIdF(uid: String): Result<User?> {
         return try {
             val data = Firebase.firestore
                 .collection("users")
                 .document(uid)
                 .get()
                    .await()
-            Log.d("DATA", data.data.toString())
-            Log.d("DATA", data.toObject(UserFire::class.java).toString() )
-            Result.success(data.toObject(UserFire::class.java))
+          Result.success(data.toObject(User::class.java))
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -59,7 +50,7 @@ class UserRepository(application: Application) {
         }
     }
 
-    suspend fun updateUserF( user: UserFire) : Boolean
+    suspend fun updateUserF( user: User) : Boolean
     {
         return try{
             Firebase.firestore
@@ -72,6 +63,4 @@ class UserRepository(application: Application) {
             false
         }
     }
-
-
 }

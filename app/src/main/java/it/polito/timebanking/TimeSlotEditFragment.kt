@@ -6,7 +6,6 @@ import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -18,15 +17,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import it.polito.timebanking.model.TimeSlotFire
-import it.polito.timebanking.model.UserFire
-import it.polito.timebanking.repository.Slot
+import it.polito.timebanking.model.TimeSlot
+import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
@@ -35,11 +32,9 @@ import java.util.*
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var profileVM: ProfileViewModel
-    lateinit var slot: Slot
     lateinit var userId: String
-    var timeslot: TimeSlotFire? = null
-    var user : UserFire? = null
-
+    var timeslot: TimeSlot? = null
+    var user : User? = null
     lateinit var userSkills: MutableList<String>
     var timeslotSkills: MutableList<String> = mutableListOf()
 
@@ -53,7 +48,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var durationView: EditText
     lateinit var skillsGroup: ChipGroup
     lateinit var skillsError : TextView
-
     lateinit var updateSlotButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,12 +65,10 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         super.onViewCreated(view, savedInstanceState)
 
         userId = arguments?.getString("userId")?:"" //if edit userId == ""
-        timeslot = arguments?.getSerializable("slot") as TimeSlotFire?
-        user = arguments?.getSerializable("user") as UserFire?
-
+        timeslot = arguments?.getSerializable("slot") as TimeSlot?
+        user = arguments?.getSerializable("user") as User?
         timeSlotVM =  ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
         profileVM =  ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
-
         titleView = view.findViewById(R.id.edit_titleAdvertisement)
         locationView = view.findViewById(R.id.edit_locationAdvertisement)
         descriptionView = view.findViewById(R.id.edit_descriptionAdvertisement)
@@ -155,13 +147,14 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 userSkills.forEach { skill ->
                     addChip(userId, skill.trim())
                 }
-            }
-            else{
+            }else{
                 val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-                builder.setMessage("Please, add at least one skill in your profile before creating a new adv")
-                    .setPositiveButton("Go back") { dialog, id ->
-                        (activity as MainActivity).findNavController(R.id.editProfileFragment)
+                builder.setMessage("Please, add at least one skill in your profile before editing your adv.")
+                    .setPositiveButton("Update your profile") { dialog, id ->
+                        val bundle = bundleOf("userId" to user!!.uid)
+                        NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.editProfileFragment, bundle)
                     }
+                builder.show()
             }
         }else{ //create
             (activity as MainActivity).supportActionBar?.title = "Create advertisement"
@@ -175,9 +168,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     }
                 }
                 else{
-                    Log.d("NO SKILL", "NO SKILL")
                     val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-                    builder.setMessage("Please, add at least one skill in your profile before creating a new adv")
+                    builder.setMessage("Please, add at least one skill in your profile before creating a new adv.")
                         .setPositiveButton("Update your profile") { dialog, id ->
                             val bundle = bundleOf("userId" to userId)
                             NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.editProfileFragment, bundle)
@@ -186,7 +178,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 }
             }
         }
-
         handleButton()
     }
 
@@ -206,7 +197,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                         builder.setMessage(message)
                             .setPositiveButton("Confirm") { dialog, id ->
 
-                                val ts = TimeSlotFire()
+                                val ts = TimeSlot()
                                 ts.date = dateView.text.toString()
                                 ts.time = timeView.text.toString()
                                 ts.title = titleView.text.toString()

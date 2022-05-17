@@ -3,7 +3,6 @@ package it.polito.timebanking
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -30,14 +29,12 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
 import de.hdodenhof.circleimageview.CircleImageView
 import it.polito.timebanking.databinding.ActivityMainBinding
-import it.polito.timebanking.model.UserFire
-import it.polito.timebanking.repository.User
+import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
 
-    //var userId: Long = 0
     lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
@@ -45,10 +42,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var headerView:View
     private lateinit var navTitle:TextView
     private lateinit var navSubtitle:TextView
-    lateinit var user: User
     var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter? = null
-    var keepAdapter : Boolean = false //serve a far funzionare il filtering
-    //Firebase
+    var keepAdapter : Boolean = false //for filter tool
+
     lateinit var mAuth: FirebaseAuth
     private var userState: FirebaseUser? = null
 
@@ -60,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(FirebaseAuthUIActivityResultContract()) { res ->
             this.onSignInResult(res)
         }
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,19 +75,17 @@ class MainActivity : AppCompatActivity() {
         navTitle = headerView.findViewById(R.id.titleHeader)
         navSubtitle = headerView.findViewById(R.id.subtitleHeader)
 
-
         //Drawer items
         val log_item = navView.menu.findItem(R.id.nav_log)
         val profile_item = navView.menu.findItem(R.id.profileMenuItem)
         val adv_item = navView.menu.findItem(R.id.advMenuItem)
 
 
-        //initialize the FirebaseAuth instance.
+        //initialize the FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance()
 
         //Listener called when there is a change in the authentication state
         mAuth.addAuthStateListener { authState ->
-            Log.d("AuthListener", "Inside add AuthStateListener ")
             userState = authState.currentUser
             userState?.reload()
             if (userState == null) {
@@ -133,14 +126,12 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.editProfileFragment || destination.id == R.id.timeSlotEditFragment) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 supportActionBar?.setDisplayShowHomeEnabled(false)
             }
         }
-
 
         navView.setNavigationItemSelectedListener() { item ->
             val bundle = bundleOf("userId" to (userState?.uid))
@@ -167,7 +158,6 @@ class MainActivity : AppCompatActivity() {
             .setAvailableProviders(providers)
             .build()
 
-
         signInLauncher.launch(signInIntent)
     }
 
@@ -175,7 +165,6 @@ class MainActivity : AppCompatActivity() {
         AuthUI.getInstance()
             .signOut(this)
             .addOnSuccessListener {
-                Log.d("LOGIN", "Logout successful!")
                 Toast.makeText(this, "Logout successful!", Toast.LENGTH_SHORT).show()
                 findViewById<TextView>(R.id.titleHeader).text = ""
                 findViewById<TextView>(R.id.subtitleHeader).text = ""
@@ -195,7 +184,6 @@ class MainActivity : AppCompatActivity() {
                 profileViewModel.getUserById(user.uid)
                     .observe(this, Observer { document ->
                         if (document != null) {
-                            Log.d("LOGIN", user.uid)
 
                             // timestamp of latest login
                             val updates = hashMapOf<String, Any>(
@@ -217,8 +205,7 @@ class MainActivity : AppCompatActivity() {
                                     }
                                 })
                         } else {
-                            Log.d("LOGIN", "New user signed up")
-                            val newUser = UserFire(
+                            val newUser = User(
                                 uid = user.uid,
                                 fullname = if (user.displayName != null) user.displayName.toString() else "",
                                 email = user.email!!,
@@ -238,11 +225,7 @@ class MainActivity : AppCompatActivity() {
                     })
             }
         } else {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
-            Log.e("Login result", "Sign in failed")
+            // Sign in failed
             Toast.makeText(this, "Sign in failed, try later..", Toast.LENGTH_SHORT).show()
         }
     }

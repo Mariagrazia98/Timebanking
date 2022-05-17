@@ -1,9 +1,7 @@
 package it.polito.timebanking
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Adapter
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -12,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
-import java.io.Console
 
 
 class SkillsListFragment : Fragment() {
@@ -26,7 +23,6 @@ class SkillsListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_skills_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
         setHasOptionsMenu(true)
-        //timeSlotVM.clearSlots() //to clear the repo uncomment this and run the app
 
         val ev: TextView = view.findViewById(R.id.empty_view)
         recyclerView = view.findViewById(R.id.rv)
@@ -53,7 +49,7 @@ class SkillsListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_button, menu)
-        var menuItem = menu.findItem(R.id.search_button)
+        val menuItem = menu.findItem(R.id.search_button)
         searchView = menuItem.actionView as SearchView
         searchView.queryHint = "Type here to search"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{

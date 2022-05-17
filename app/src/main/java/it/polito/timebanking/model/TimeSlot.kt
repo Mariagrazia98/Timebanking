@@ -2,7 +2,7 @@ package it.polito.timebanking.model
 
 import java.io.Serializable
 
-class TimeSlotFire(
+class TimeSlot(
     var id:String = "id",
     var title:String = "",
     var description:String? = "",

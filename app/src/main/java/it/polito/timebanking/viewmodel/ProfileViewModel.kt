@@ -1,30 +1,24 @@
 package it.polito.timebanking.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
-import com.google.firebase.firestore.DocumentReference
-import it.polito.timebanking.model.UserFire
-import it.polito.timebanking.repository.User
+import it.polito.timebanking.model.User
 import it.polito.timebanking.repository.UserRepository
 import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
 
 class ProfileViewModel(application: Application): AndroidViewModel(application)  {
-    private lateinit var user: UserFire
+    private lateinit var user: User
+    val repo = UserRepository()
 
-    fun getUser(): UserFire {
+    fun getUser(): User {
         return user
     }
 
-    fun setUser(user: UserFire) {
+    fun setUser(user: User) {
         this.user = user
     }
 
-    val repo = UserRepository(application)
-
-    //Firebase
-    fun addUser(user: UserFire): LiveData<Boolean>{
+    fun addUser(user: User): LiveData<Boolean>{
         val res = MutableLiveData<Boolean>()
         viewModelScope.launch {
             val result = repo.addUserF(user)
@@ -33,8 +27,8 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
         return res
     }
 
-    fun getUserById(id:String): LiveData<UserFire?> {
-        val res = MutableLiveData<UserFire?>()
+    fun getUserById(id:String): LiveData<User?> {
+        val res = MutableLiveData<User?>()
         viewModelScope.launch {
             val result = repo.getUserByIdF(id)
             res.postValue(result.getOrNull())
@@ -50,7 +44,7 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
         }
         return res
     }
-    fun updateUser(user: UserFire) : LiveData<Boolean>{
+    fun updateUser(user: User) : LiveData<Boolean>{
         val res = MutableLiveData<Boolean>()
         viewModelScope.launch {
             val result = repo.updateUserF(user)
@@ -59,7 +53,5 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
         return res
 
     }
-
-
 
 }

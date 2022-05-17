@@ -1,7 +1,6 @@
 package it.polito.timebanking
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -13,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import it.polito.timebanking.model.TimeSlotFire
-import it.polito.timebanking.model.UserFire
+import it.polito.timebanking.model.TimeSlot
+import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 /**
@@ -38,8 +37,6 @@ class TimeSlotListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
-
-        //timeSlotVM.clearSlots() //to clear the repo uncomment this and run the app
         read_only = arguments?.getBoolean("read_only")?:false
         userId = arguments?.getString("userId").toString()
         skill = arguments?.getString("skill").toString()
@@ -48,7 +45,7 @@ class TimeSlotListFragment : Fragment() {
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         val fab: View = view.findViewById(R.id.fab)
 
-        var slotsToObserve : LiveData<Map<UserFire, List<TimeSlotFire>>>?
+        var slotsToObserve : LiveData<Map<User, List<TimeSlot>>>?
         if(read_only) {
             (activity as MainActivity).supportActionBar?.title = "Offers list"
             fab.visibility = View.GONE
@@ -62,7 +59,6 @@ class TimeSlotListFragment : Fragment() {
                 (activity as MainActivity).adapterTimeSlots = MyTimeSlotRecyclerViewAdapter(it, read_only)
             else
                 (activity as MainActivity).keepAdapter = false
-            Log.d("antodeb","id: ${(activity as MainActivity).adapterTimeSlots}")
             rv.adapter = (activity as MainActivity).adapterTimeSlots
 
 

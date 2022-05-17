@@ -1,11 +1,9 @@
 package it.polito.timebanking
 
-
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -16,7 +14,6 @@ import com.google.android.material.chip.ChipGroup
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import java.io.IOException
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var fullnameView: TextView
@@ -38,11 +35,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     var w: Int = 0
     lateinit var userId: String
     var read_only = false
-
     lateinit var profileVM: ProfileViewModel
-
     var id: Long = 0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -176,6 +170,5 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
         skillsGroup.addView(chip)
     }
-
 
 }

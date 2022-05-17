@@ -28,19 +28,19 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imageViewSlot"
-                    android:layout_width="120dp"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="4dp"
-                    android:layout_weight="4"
+                    android:layout_weight="1"
                     android:paddingStart="10dp"
                     android:paddingTop="5dp"
                     app:srcCompat="@drawable/profile" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"
+                    android:layout_weight="3"
                     android:orientation="vertical">
 
                     <TextView
@@ -50,7 +50,6 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="8dp"
-                        android:layout_weight="4"
                         android:paddingTop="8dp"
                         android:text="@string/title_advertisement"
                         android:textAppearance="?attr/textAppearanceListItem"
@@ -64,9 +63,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_weight="4"
                         android:text="Mario Rossi" />
                 </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/chatButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner_icon_button"
+                    android:backgroundTint="@color/primary_dark"
+                    android:src="@drawable/ic_chat"
+                    app:tint="@color/white" />
 
             </LinearLayout>
 

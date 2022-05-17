@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +54,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:text="30 - 180 mins"
+                        android:text="30 - 240 mins"
                         android:textSize="15sp" />
                 </LinearLayout>
 
@@ -64,28 +65,8 @@
                     android:stepSize="30"
                     android:valueFrom="30"
                     app:values="@array/initial_slider_values"
-                    android:valueTo="180" />
+                    android:valueTo="240" />
             </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/timeInput"
-                style="@style/TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:boxBackgroundMode="outline"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_time"
-                app:endIconMode="custom"
-                app:layout_constraintVertical_bias="0.0">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/timeEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Start Time"
-                    android:inputType="time" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/dateInput"
@@ -103,9 +84,29 @@
                     android:id="@+id/dateEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Date"
+                    android:hint="Date from"
                     android:inputType="date" />
 
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/timeInput"
+                style="@style/TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:boxBackgroundMode="outline"
+                app:endIconCheckable="true"
+                app:endIconDrawable="@drawable/ic_time"
+                app:endIconMode="custom"
+                app:layout_constraintVertical_bias="0.0">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/timeEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Time from"
+                    android:inputType="time" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -134,13 +135,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView4"
-        app:layout_constraintVertical_bias="0.955">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/reset"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -150,7 +149,7 @@
             android:textSize="15sp"
             app:backgroundTint="@android:color/transparent"
             app:cornerRadius="8dp"
-            app:rippleColor="#33AAAAAA"
+            app:rippleColor="@android:color/white"
             app:strokeColor="@color/primary"
             app:strokeWidth="2dp" />
 

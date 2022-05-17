@@ -27,7 +27,7 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
     lateinit var list : ArrayList<String>
     var mPosition : Int? = null
     var sx = 30
-    var dx = 180
+    var dx = 240
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +73,7 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
         }
 
         autoCompleteTextView = view.findViewById(R.id.orderBySpinner)
-        list = arrayListOf("Date - asc","Date - desc", "Duration - asc", "Duration - desc")
+        list = arrayListOf("Date (ascending)","Date (descending)", "Duration (ascending)", "Duration (descending)")
         var arrayAdapter = ArrayAdapter(
             (activity as MainActivity).applicationContext,
             android.R.layout.simple_spinner_dropdown_item,

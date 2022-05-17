@@ -52,17 +52,15 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
         restoreValuesFromBundle()
 
         resetBtn.setOnClickListener {
-            (activity as MainActivity).adapterTimeSlots!!.filter.filter("reset")
-            saveBundle()
+            (activity as MainActivity).adapterTimeSlots?.filter?.filter("reset")
+            (activity as MainActivity).filterBundle = null
             requireActivity().onBackPressed()
         }
 
         applyBtn.setOnClickListener {
-            (activity as MainActivity).adapterTimeSlots!!.filter.filter("duration= $sx - $dx")
-            Thread.sleep(100)
+            (activity as MainActivity).adapterTimeSlots?.filter?.filter("duration= $sx - $dx")
             if (dateView.text.isNotEmpty())
                 (activity as MainActivity).adapterTimeSlots!!.filter.filter("date=" + dateView.text)
-            Thread.sleep(100)
             if (timeView.text.isNotEmpty())
                 (activity as MainActivity).adapterTimeSlots!!.filter.filter("time=" + timeView.text)
             when (mPosition) {
@@ -80,7 +78,7 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
             val values = rangeSlider.values
             sx = values[0].toInt()
             dx = values[1].toInt()
-            display.text = "${sx} - ${dx} mins"
+            display.text = "$sx - $dx mins"
         }
 
         list = arrayListOf("Date (ascending)","Date (descending)", "Duration (ascending)", "Duration (descending)")
@@ -149,14 +147,14 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
     }
 
     private fun restoreValuesFromBundle(){
-        var inState = (activity as MainActivity).filterBundle
+        val inState = (activity as MainActivity).filterBundle
         if(inState != null){
             sx = inState.getInt("SX_SLIDER")
             dx = inState.getInt("DX_SLIDER")
             rangeSlider.setValues(sx.toFloat(),dx.toFloat())
-            var strDate = inState.getString("DATE")
-            var strTime = inState.getString("TIME")
-            var strOrder = inState.getString("ORDER_BY")
+            val strDate = inState.getString("DATE")
+            val strTime = inState.getString("TIME")
+            val strOrder = inState.getString("ORDER_BY")
             if(strDate?.isNotEmpty() == true)
                 dateView.setText(strDate)
             if(strTime?.isNotEmpty() == true)
@@ -165,6 +163,11 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
                 autoCompleteTextView.setText(strOrder)
         }
         (activity as MainActivity).filterBundle = null
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        saveBundle()
+        super.onSaveInstanceState(outState)
     }
 
     private fun saveBundle() {

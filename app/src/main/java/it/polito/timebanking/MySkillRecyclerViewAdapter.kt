@@ -12,8 +12,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 
-class MySkillRecyclerViewAdapter(val data: List<String>, id: String) :
-    RecyclerView.Adapter<MySkillRecyclerViewAdapter.SkillViewHolder>(), Filterable {
+class MySkillRecyclerViewAdapter(val data: List<String>, id: String) : RecyclerView.Adapter<MySkillRecyclerViewAdapter.SkillViewHolder>(), Filterable {
+
     var list = data.toMutableList()
     var originalList = data.toMutableList()
     val userId: String = id

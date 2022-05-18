@@ -33,6 +33,7 @@ class MyTimeSlotRecyclerViewAdapter(
         val cv: CardView = v.findViewById(R.id.cv)
         val button: ImageButton? = v.findViewById(R.id.button)
         val ivSlot: ImageView? = v.findViewById(R.id.imageViewSlot)
+        val chatButton: ImageButton = v.findViewById(R.id.chatButton)
 
 
         fun bind(item: TimeSlot, read_only: Boolean, user: User) {
@@ -85,6 +86,13 @@ class MyTimeSlotRecyclerViewAdapter(
         holder.button?.setOnClickListener {
             findNavController(FragmentManager.findFragment(it)).navigate(
                 R.id.action_timeSlotListFragment_to_timeSlotEditFragment2,
+                bundle
+            )
+        }
+
+        holder.chatButton.setOnClickListener {
+            findNavController(FragmentManager.findFragment(it)).navigate(
+                R.id.action_timeSlotListFragment_to_chatFragment,
                 bundle
             )
         }

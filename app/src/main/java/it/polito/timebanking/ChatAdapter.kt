@@ -8,9 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.timebanking.MessageItemUi.Companion.TYPE_FRIEND_MESSAGE
 import it.polito.timebanking.MessageItemUi.Companion.TYPE_MY_MESSAGE
+import it.polito.timebanking.model.User
 
 
-class ChatAdapter(var data: MutableList<MessageItemUi>) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {
+class ChatAdapter(var data: MutableList<MessageItemUi>, val user: User) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {
 
     var list = data.toMutableList()
 
@@ -24,7 +25,7 @@ class ChatAdapter(var data: MutableList<MessageItemUi>) : RecyclerView.Adapter<C
             }
             TYPE_FRIEND_MESSAGE -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_receiver_message, parent, false)
-                FriendMessageViewHolder(view)
+                FriendMessageViewHolder(view, user)
             }
             else -> throw IllegalArgumentException("Invalid view type")
         }
@@ -59,11 +60,13 @@ class ChatAdapter(var data: MutableList<MessageItemUi>) : RecyclerView.Adapter<C
         }
     }
 
-    class FriendMessageViewHolder(val view: View) : MessageViewHolder<MessageItemUi>(view) {
+    class FriendMessageViewHolder(val view: View, val user: User) : MessageViewHolder<MessageItemUi>(view) {
         private val messageContent = view.findViewById<TextView>(R.id.text_gchat_message_other)
+        val profileNameChatView = view.findViewById<TextView>(R.id.text_gchat_user_other)
 
         override fun bind(item: MessageItemUi) {
             messageContent.text = item.content
+            profileNameChatView.text = user.fullname
             //messageContent.textColor= item.textColor
         }
     }

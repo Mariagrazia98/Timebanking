@@ -74,5 +74,9 @@
     <fragment
         android:id="@+id/chatFragment"
         android:name="it.polito.timebanking.ChatFragment"
-        android:label="ChatFragment" />
+        android:label="ChatFragment" >
+        <action
+            android:id="@+id/action_chatFragment_to_showProfileFragment"
+            app:destination="@id/showProfileFragment" />
+    </fragment>
 </navigation>

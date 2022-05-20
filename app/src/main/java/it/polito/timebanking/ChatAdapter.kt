@@ -4,8 +4,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import it.polito.timebanking.MessageItemUi.Companion.TYPE_FRIEND_MESSAGE
 import it.polito.timebanking.MessageItemUi.Companion.TYPE_MY_MESSAGE
 import it.polito.timebanking.model.User
@@ -21,11 +26,11 @@ class ChatAdapter(var data: MutableList<MessageItemUi>, val user: User) : Recycl
         return when (viewType) {
             TYPE_MY_MESSAGE -> {
                 val view = LayoutInflater.from(context).inflate(R.layout.fragment_sender_message, parent, false)
-                MyMessageViewHolder(view)
+                SentMessageViewHolder(view)
             }
             TYPE_FRIEND_MESSAGE -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_receiver_message, parent, false)
-                FriendMessageViewHolder(view, user)
+                ReceivedMessageViewHolder(view, user)
             }
             else -> throw IllegalArgumentException("Invalid view type")
         }
@@ -35,8 +40,8 @@ class ChatAdapter(var data: MutableList<MessageItemUi>, val user: User) : Recycl
         val item = data[position]
         Log.d("adapter View", position.toString() + item.content)
         when (holder) {
-            is MyMessageViewHolder -> holder.bind(item)
-            is FriendMessageViewHolder -> holder.bind(item)
+            is SentMessageViewHolder -> holder.bind(item)
+            is ReceivedMessageViewHolder -> holder.bind(item)
             else -> throw IllegalArgumentException()
         }
     }
@@ -51,24 +56,38 @@ class ChatAdapter(var data: MutableList<MessageItemUi>, val user: User) : Recycl
         abstract fun bind(item: T)
     }
 
-    class MyMessageViewHolder(val view: View) : MessageViewHolder<MessageItemUi>(view) {
+    class SentMessageViewHolder(val view: View) : MessageViewHolder<MessageItemUi>(view) {
         private val messageContent = view.findViewById<TextView>(R.id.text_gchat_message_me)
 
         override fun bind(item: MessageItemUi) {
             messageContent.text = item.content
-            //messageContent.textColor= item.textColor
+
         }
     }
 
-    class FriendMessageViewHolder(val view: View, val user: User) : MessageViewHolder<MessageItemUi>(view) {
+    class ReceivedMessageViewHolder(val view: View, val user: User) : MessageViewHolder<MessageItemUi>(view) {
         private val messageContent = view.findViewById<TextView>(R.id.text_gchat_message_other)
         val profileNameChatView = view.findViewById<TextView>(R.id.text_gchat_user_other)
+        val profileImageView = view.findViewById<ImageView>(R.id.image_gchat_profile_other)
 
         override fun bind(item: MessageItemUi) {
             messageContent.text = item.content
             profileNameChatView.text = user.fullname
-            //messageContent.textColor= item.textColor
+            // Download directly from StorageReference using Glide
+            if(user.imagePath!=null)
+                Glide.with(profileImageView.context).load(user.imagePath).into(profileImageView)
+
+            profileImageView.setOnClickListener{
+                val bundle = bundleOf("userId" to (user.uid), "read_only" to true)
+                NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_chatFragment_to_showProfileFragment, bundle)
+            }
+            profileNameChatView.setOnClickListener{
+                val bundle = bundleOf("userId" to (user.uid), "read_only" to true)
+                NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_chatFragment_to_showProfileFragment, bundle)
+            }
         }
+
+
     }
 
 

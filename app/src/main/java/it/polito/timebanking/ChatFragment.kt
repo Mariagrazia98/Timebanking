@@ -1,12 +1,14 @@
 package it.polito.timebanking
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -26,8 +28,9 @@ class ChatFragment : Fragment() {
     lateinit var userId: String
     lateinit var user : User
 
-    lateinit var profileNameView : TextView
-    lateinit var profileImageView : ImageView
+    //lateinit var profileNameView : TextView
+    //lateinit var profileImageView : ImageView
+    //lateinit var profileLink: LinearLayout
 
 
     var messageList: MutableList<MessageItemUi> = mutableListOf(
@@ -39,6 +42,14 @@ class ChatFragment : Fragment() {
         MessageItemUi("Bello bello", 222, 1),
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.edit_button).isVisible = false
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -60,14 +71,22 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //profileNameView = view.findViewById(R.id.offererName)
+        //profileImageView = view.findViewById(R.id.imageViewSlot)
+        //profileLink = view.findViewById(R.id.profileLink)
 
-        profileNameView = view.findViewById(R.id.offererName)
-        profileImageView = view.findViewById(R.id.imageViewSlot)
-
-        profileNameView.text = user.fullname
+        //profileNameView.text = user.fullname    image_gchat_profile_other
+        (activity as MainActivity).supportActionBar?.title = user.fullname
         // Download directly from StorageReference using Glide
-        if(user.imagePath!=null)
-            Glide.with(this /* context */).load(user.imagePath).into(profileImageView)
+        //if(user.imagePath!=null)
+            //Glide.with(this /* context */).load(user.imagePath).into(profileImageView)
+
+        /*
+        profileLink.setOnClickListener{
+            val bundle = bundleOf("userId" to (user.uid), "read_only" to true)
+            NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_chatFragment_to_showProfileFragment, bundle)
+        }
+        */
 
     }
 

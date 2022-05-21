@@ -80,5 +80,7 @@
     <string name="select_skills">Touch the skills you want to select</string>
     <string name="error_skills">Select at least one skill</string>
     <string name="error_user_skills">Add at least one skill</string>
+    <string name="ratingTitle">Would you suggest this user?</string>
+    <string name="ratingAdvice">The user gave you all the information you needed, used correct language, was prompt in replying</string>
 
 </resources>

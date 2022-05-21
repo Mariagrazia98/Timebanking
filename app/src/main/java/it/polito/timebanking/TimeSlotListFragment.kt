@@ -47,7 +47,6 @@ class TimeSlotListFragment : Fragment() {
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         val fab: View = view.findViewById(R.id.fab)
 
-
         if (read_only && (activity as MainActivity).lastSkill != skill) {
             (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsBySkill(userId, skill)
             (activity as MainActivity).lastSkill = skill

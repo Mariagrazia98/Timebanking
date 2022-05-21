@@ -1,5 +1,6 @@
 package it.polito.timebanking
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +11,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 
-class MyReviewRecycleViewAdapter(val data: List<String>) : RecyclerView.Adapter<MyReviewRecycleViewAdapter.ReviewViewHolder>(){
+class MyReviewRecycleViewAdapter(data: List<String>) : RecyclerView.Adapter<MyReviewRecycleViewAdapter.ReviewViewHolder>(){
 
-    var list = data.toMutableList()
+    var list = data
 
     class ReviewViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val cv: CardView = v.findViewById(R.id.cv)
         private val reviewText: TextView = v.findViewById(R.id.reviewText)
-
         fun bind(item: String) {
             reviewText.text = item
         }
@@ -31,6 +30,7 @@ class MyReviewRecycleViewAdapter(val data: List<String>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
         val item = list[position]
+        Log.d("anto",item)
         item.let { holder.bind(it) }
     }
 

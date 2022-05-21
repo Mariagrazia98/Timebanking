@@ -178,4 +178,59 @@ class TimeSlotRepository {
             return Result.failure(e)
         }
     }
+
+    /*
+    suspend fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String): Result<List<Message>?> {
+        return try {
+            val chats = Firebase.firestore
+                .collection("users")
+                .document(uidOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .get()
+                .await()
+
+            var chat = mutableListOf<Message>()
+            chats.forEach{
+                if(it.uid == uidCurrent){
+                    chat = it.messages
+                    //break ?
+                }
+            }
+
+
+            Result.success(chat.toObject(TimeSlot::class.java))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getSlotChatWithAsker(uidCurrent: String, uidOfferer: String, slotId: String): Result<List<Message>?> {
+        return try {
+            val chats = Firebase.firestore
+                .collection("users")
+                .document(uidCurrent)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .get()
+                .await()
+
+            var chat = mutableListOf<Message>()
+            chats.forEach{
+                if(it.uid == uidOfferer){
+                    chat = it.messages
+                    //break ?
+                }
+            }
+
+
+            Result.success(chat.toObject(TimeSlot::class.java))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+     */
+
 }

@@ -8,12 +8,14 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import it.polito.timebanking.model.User
+import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class MessageItem(val content:String){}
 class MessageItemUi(val content:String, val textColor:Int, val messageType:Int){
@@ -24,6 +26,7 @@ class MessageItemUi(val content:String, val textColor:Int, val messageType:Int){
 }
 
 class ChatFragment : Fragment() {
+    lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var userId: String
     lateinit var user : User
@@ -54,8 +57,11 @@ class ChatFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
+        timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
 
         user = (arguments?.getSerializable("user") as User?)!!
+
+        // getSlotChatWithOfferer (userId current, userId offerer, slotId) -> return list of messages
 
         recyclerView = view.findViewById(R.id.recycler_gchat)
         val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
@@ -75,7 +81,7 @@ class ChatFragment : Fragment() {
         //profileImageView = view.findViewById(R.id.imageViewSlot)
         //profileLink = view.findViewById(R.id.profileLink)
 
-        //profileNameView.text = user.fullname    image_gchat_profile_other
+        //profileNameView.text = user.fullname
         (activity as MainActivity).supportActionBar?.title = user.fullname
         // Download directly from StorageReference using Glide
         //if(user.imagePath!=null)

@@ -79,4 +79,24 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         }
         return res
     }
+
+    /*
+    fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String) : LiveData<List<Message>?> {
+        val res = MutableLiveData<TimeSlot?>()
+        viewModelScope.launch{
+            val result = repo.getSlotChatWithOfferer(uidCurrent, uidOfferer, slotId)
+            res.postValue(result.getOrNull())
+        }
+        return res
+    }
+
+    fun getSlotChatWithAsker(uidCurrent: String, uidOfferer: String, slotId: String) : LiveData<List<Message>?> {
+        val res = MutableLiveData<TimeSlot?>()
+        viewModelScope.launch{
+            val result = repo.getSlotChatWithOfferer(uidCurrent, uidOfferer, slotId)
+            res.postValue(result.getOrNull())
+        }
+        return res
+    }
+    */
 }

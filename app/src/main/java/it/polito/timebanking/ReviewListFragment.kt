@@ -25,12 +25,11 @@ class ReviewListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_reviews_list, container, false)
         val rv = view.findViewById<RecyclerView>(R.id.reviewsRv)
-        var reviews = listOf("Ciao","Ciao","Ciao","Ciao","Ciao","Ciao","Ciao","Ciao","Ciao")
+        var reviews = listOf("Ciao","Ciao","Ciao","Ciao","Ciao")
         rv.layoutManager = LinearLayoutManager(context)
         var adapter = MyReviewRecycleViewAdapter(reviews)
         rv.adapter = adapter
-
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return view
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

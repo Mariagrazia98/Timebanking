@@ -30,7 +30,6 @@ class MyReviewRecycleViewAdapter(data: List<String>) : RecyclerView.Adapter<MyRe
 
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
         val item = list[position]
-        Log.d("anto",item)
         item.let { holder.bind(it) }
     }
 

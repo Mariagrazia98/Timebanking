@@ -263,5 +263,11 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(R.id.action_showProfileFragment_to_reviewListFragment)
     }
 
+    fun onClickEditRating(v:View) {
+        navController.navigate(R.id.action_showProfileFragment_to_editReviewFragment)
+    }
+
+
+
 
 }

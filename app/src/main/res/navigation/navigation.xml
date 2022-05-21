@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_showProfileFragment_to_reviewListFragment"
             app:destination="@id/reviewListFragment" />
+        <action
+            android:id="@+id/action_showProfileFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -86,4 +89,8 @@
         android:id="@+id/reviewListFragment"
         android:name="it.polito.timebanking.ReviewListFragment"
         android:label="ReviewListFragment" />
+    <fragment
+        android:id="@+id/editReviewFragment"
+        android:name="it.polito.timebanking.EditReviewFragment"
+        android:label="EditReviewFragment" />
 </navigation>

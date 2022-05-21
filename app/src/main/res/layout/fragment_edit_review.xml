@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginRight="30dp"
         android:text="@string/ratingAdvice"
         android:textSize="16sp"
@@ -34,8 +34,9 @@
     <RatingBar
         android:id="@+id/ratingBar2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="42dp"
         android:layout_marginTop="20dp"
+        android:isIndicator="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -45,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:text="Give reasons for your answer"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="16sp"
@@ -64,7 +65,7 @@
         android:background="@drawable/border_all"
         android:gravity="start"
         android:padding="8dp"
-        android:text="ciao"
+        android:text="Amazing experience, i learned so much!"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,8 +78,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="SEND"
+        android:text="SEND REVIEW"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="definitely no"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/ratingBar2"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:text="absolutely yes"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/ratingBar2"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

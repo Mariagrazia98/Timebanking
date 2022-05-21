@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import it.polito.timebanking.model.ChatMessage
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 import it.polito.timebanking.repository.TimeSlotRepository
@@ -80,9 +81,9 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
-    /*
-    fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String) : LiveData<List<Message>?> {
-        val res = MutableLiveData<TimeSlot?>()
+
+    fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String) : LiveData<List<ChatMessage>?> {
+        val res = MutableLiveData<List<ChatMessage>?>()
         viewModelScope.launch{
             val result = repo.getSlotChatWithOfferer(uidCurrent, uidOfferer, slotId)
             res.postValue(result.getOrNull())
@@ -90,6 +91,7 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
+    /*
     fun getSlotChatWithAsker(uidCurrent: String, uidOfferer: String, slotId: String) : LiveData<List<Message>?> {
         val res = MutableLiveData<TimeSlot?>()
         viewModelScope.launch{

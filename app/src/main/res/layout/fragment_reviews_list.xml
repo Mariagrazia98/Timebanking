@@ -16,4 +16,5 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/fragment_single_review"
         tools:context=".TimeSlotListFragment"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

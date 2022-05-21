@@ -11,24 +11,23 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import it.polito.timebanking.MessageItemUi.Companion.TYPE_FRIEND_MESSAGE
-import it.polito.timebanking.MessageItemUi.Companion.TYPE_MY_MESSAGE
+import it.polito.timebanking.model.ChatMessage
 import it.polito.timebanking.model.User
 
 
-class ChatAdapter(var data: MutableList<MessageItemUi>, val user: User) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {
+class ChatAdapter(var data: List<ChatMessage>?, val user: User) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {
 
-    var list = data.toMutableList()
+    var list = data!!.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder<*> {
         val context = parent.context
 
         return when (viewType) {
-            TYPE_MY_MESSAGE -> {
+            0 -> {
                 val view = LayoutInflater.from(context).inflate(R.layout.fragment_sender_message, parent, false)
                 SentMessageViewHolder(view)
             }
-            TYPE_FRIEND_MESSAGE -> {
+            1 -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_receiver_message, parent, false)
                 ReceivedMessageViewHolder(view, user)
             }
@@ -37,8 +36,8 @@ class ChatAdapter(var data: MutableList<MessageItemUi>, val user: User) : Recycl
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder<*>, position: Int) {
-        val item = data[position]
-        Log.d("adapter View", position.toString() + item.content)
+        val item = list[position]
+        //Log.d("adapter View", position.toString() + item.content)
         when (holder) {
             is SentMessageViewHolder -> holder.bind(item)
             is ReceivedMessageViewHolder -> holder.bind(item)
@@ -46,33 +45,36 @@ class ChatAdapter(var data: MutableList<MessageItemUi>, val user: User) : Recycl
         }
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = list.size
 
 
 
-    override fun getItemViewType(position: Int): Int = data[position].messageType
+    override fun getItemViewType(position: Int): Int = list[position].type
 
     abstract class MessageViewHolder<in T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
         abstract fun bind(item: T)
     }
 
-    class SentMessageViewHolder(val view: View) : MessageViewHolder<MessageItemUi>(view) {
+    class SentMessageViewHolder(val view: View) : MessageViewHolder<ChatMessage>(view) {
         private val messageContent = view.findViewById<TextView>(R.id.text_gchat_message_me)
+        private val msgTime = view.findViewById<TextView>(R.id.text_gchat_timestamp_me)
 
-        override fun bind(item: MessageItemUi) {
-            messageContent.text = item.content
-
+        override fun bind(item: ChatMessage) {
+            messageContent.text = item.text
+            msgTime.text = item.time
         }
     }
 
-    class ReceivedMessageViewHolder(val view: View, val user: User) : MessageViewHolder<MessageItemUi>(view) {
+    class ReceivedMessageViewHolder(val view: View, val user: User) : MessageViewHolder<ChatMessage>(view) {
         private val messageContent = view.findViewById<TextView>(R.id.text_gchat_message_other)
         val profileNameChatView = view.findViewById<TextView>(R.id.text_gchat_user_other)
         val profileImageView = view.findViewById<ImageView>(R.id.image_gchat_profile_other)
+        private val msgTime = view.findViewById<TextView>(R.id.text_gchat_timestamp_other)
 
-        override fun bind(item: MessageItemUi) {
-            messageContent.text = item.content
+        override fun bind(item: ChatMessage) {
+            messageContent.text = item.text
             profileNameChatView.text = user.fullname
+            msgTime.text = item.time
             // Download directly from StorageReference using Glide
             if(user.imagePath!=null)
                 Glide.with(profileImageView.context).load(user.imagePath).into(profileImageView)
@@ -87,8 +89,6 @@ class ChatAdapter(var data: MutableList<MessageItemUi>, val user: User) : Recycl
             }
         }
 
-
     }
-
 
 }

@@ -1,7 +1,10 @@
 package it.polito.timebanking.repository
 
+import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import it.polito.timebanking.model.Chat
+import it.polito.timebanking.model.ChatMessage
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 import kotlinx.coroutines.tasks.await
@@ -179,8 +182,8 @@ class TimeSlotRepository {
         }
     }
 
-    /*
-    suspend fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String): Result<List<Message>?> {
+
+    suspend fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String): Result<List<ChatMessage>?> {
         return try {
             val chats = Firebase.firestore
                 .collection("users")
@@ -188,24 +191,35 @@ class TimeSlotRepository {
                 .collection("timeslots")
                 .document(slotId)
                 .collection("chats")
+                .whereEqualTo("receiverUid", uidCurrent)
                 .get()
                 .await()
 
-            var chat = mutableListOf<Message>()
-            chats.forEach{
-                if(it.uid == uidCurrent){
-                    chat = it.messages
-                    //break ?
+            var messageList: MutableList<ChatMessage>? = mutableListOf()
+            chats.documents.map{
+                val chatId = it.id
+                val list = Firebase.firestore
+                    .collection("users")
+                    .document(uidOfferer)
+                    .collection("timeslots")
+                    .document(slotId)
+                    .collection("chats")
+                    .document(chatId)
+                    .collection("messageList")
+                    .get()
+                    .await()
+
+                list.forEach{
+                    messageList?.add(it.toObject(ChatMessage::class.java))
                 }
             }
 
-
-            Result.success(chat.toObject(TimeSlot::class.java))
+            Result.success(messageList)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
-
+/*
     suspend fun getSlotChatWithAsker(uidCurrent: String, uidOfferer: String, slotId: String): Result<List<Message>?> {
         return try {
             val chats = Firebase.firestore
@@ -231,6 +245,7 @@ class TimeSlotRepository {
             Result.failure(e)
         }
     }
-     */
+ */
+
 
 }

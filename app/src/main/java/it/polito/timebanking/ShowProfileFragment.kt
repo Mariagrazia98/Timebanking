@@ -13,6 +13,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
@@ -170,5 +171,4 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
         skillsGroup.addView(chip)
     }
-
 }

@@ -300,7 +300,7 @@
                                 android:src="@drawable/apici" />
 
                             <TextView
-                                android:id="@+id/textView6"
+                                android:id="@+id/reviewText"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="14dp"
@@ -321,7 +321,10 @@
                             android:gravity="center"
                             android:text="See all reviews"
                             android:textColor="@color/primary"
-                            android:textSize="15sp" />
+                            android:onClick="onClick"
+                            android:clickable="true"
+                            android:textSize="15sp"
+                            android:focusable="true" />
 
                     </LinearLayout>
 

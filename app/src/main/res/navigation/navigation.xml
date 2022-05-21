@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_showProfileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_showProfileFragment_to_reviewListFragment"
+            app:destination="@id/reviewListFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -79,4 +82,8 @@
             android:id="@+id/action_chatFragment_to_showProfileFragment"
             app:destination="@id/showProfileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/reviewListFragment"
+        android:name="it.polito.timebanking.ReviewListFragment"
+        android:label="ReviewListFragment" />
 </navigation>

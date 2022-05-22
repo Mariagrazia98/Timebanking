@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import it.polito.timebanking.model.Chat
 import it.polito.timebanking.model.ChatMessage
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
@@ -96,8 +97,17 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
-    fun getNewChatId(userId :String, slotId: String) : String{
-        return repo.getNewChatId(userId, slotId)
+    fun getNewChatId(userIdOfferer :String, slotId: String) : String{
+        return repo.getNewChatId(userIdOfferer, slotId)
+    }
+
+    fun addChat(userIdOfferer: String, slotId: String, chatId: String, chat: Chat): LiveData<Boolean>{
+        val res = MutableLiveData<Boolean>()
+        viewModelScope.launch {
+            val result = repo.addChat(userIdOfferer, slotId, chatId, chat)
+            res.postValue(result)
+        }
+        return res
     }
 
     fun getNewChatMessageId(userId: String, slotId: String, chatId: String) : String{

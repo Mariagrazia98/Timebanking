@@ -191,7 +191,7 @@ class TimeSlotRepository {
 
 
 
-    suspend fun getChatId(userId: String, slotId: String, uidOfferer: String): String {
+    suspend fun getChatId(userId: String, slotId: String, uidOfferer: String): String? {
         return try {
             val data = Firebase.firestore
                 .collection("users")
@@ -203,7 +203,7 @@ class TimeSlotRepository {
                 .get()
                 .await()
 
-            var chatId: String = ""
+            var chatId: String? = null
             data.documents.map{
                 chatId = it.id
             }
@@ -213,11 +213,11 @@ class TimeSlotRepository {
         }
     }
 
-    fun getNewChatId(userId: String, slotId: String): String {
+    fun getNewChatId(userIdOfferer: String, slotId: String): String {
         return try {
             val data = Firebase.firestore
                 .collection("users")
-                .document(userId)
+                .document(userIdOfferer)
                 .collection("timeslots")
                 .document(slotId)
                 .collection("chats")
@@ -226,6 +226,23 @@ class TimeSlotRepository {
             data
         } catch (e: Exception) {
             e.toString()
+        }
+    }
+
+    suspend fun addChat(userIdOfferer: String, slotId: String, chatId: String, chat: Chat): Boolean {
+        return try {
+            Firebase.firestore
+                .collection("users")
+                .document(userIdOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .document(chatId)
+                .set(chat, SetOptions.merge())
+                .await()
+            true
+        } catch (e: Exception) {
+            false
         }
     }
 

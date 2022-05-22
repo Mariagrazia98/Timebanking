@@ -1,6 +1,7 @@
 package it.polito.timebanking.repository
 
 import android.util.Log
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import it.polito.timebanking.model.Chat
@@ -182,6 +183,88 @@ class TimeSlotRepository {
         }
     }
 
+
+
+
+
+
+
+
+
+    suspend fun getChatId(userId: String, slotId: String, uidOfferer: String): String {
+        return try {
+            val data = Firebase.firestore
+                .collection("users")
+                .document(uidOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .whereEqualTo("receiverUid", userId)
+                .get()
+                .await()
+
+            var chatId: String = ""
+            data.documents.map{
+                chatId = it.id
+            }
+            chatId
+        } catch (e: Exception) {
+            e.toString()
+        }
+    }
+
+    fun getNewChatId(userId: String, slotId: String): String {
+        return try {
+            val data = Firebase.firestore
+                .collection("users")
+                .document(userId)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .document()
+                .id
+            data
+        } catch (e: Exception) {
+            e.toString()
+        }
+    }
+
+    fun getNewChatMessageId(userId: String, slotId: String, chatId: String): String {
+        return try {
+            val data = Firebase.firestore
+                .collection("users")
+                .document(userId)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .document(chatId)
+                .collection("messageList")
+                .document()
+                .id
+            data
+        } catch (e: Exception) {
+            e.toString()
+        }
+    }
+
+    suspend fun addChatMessage(userIdOfferer: String, slotId: String, chatId: String, msg: ChatMessage): Boolean {
+        return try {
+            Firebase.firestore
+                .collection("users")
+                .document(userIdOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .document(chatId)
+                .collection("messageList")
+                .document(msg.id)
+                .set(msg, SetOptions.merge())
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 
     suspend fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String): Result<List<ChatMessage>?> {
         return try {

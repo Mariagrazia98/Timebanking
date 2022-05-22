@@ -3,7 +3,10 @@ package it.polito.timebanking
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.EditText
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +15,7 @@ import it.polito.timebanking.model.ChatMessage
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
+import java.text.SimpleDateFormat
 import java.util.*
 
 /*
@@ -30,10 +34,10 @@ class ChatFragment : Fragment() {
     lateinit var userId: String
     lateinit var userOfferer : User
     lateinit var slot : TimeSlot
-
-    //lateinit var profileNameView : TextView
-    //lateinit var profileImageView : ImageView
-    //lateinit var profileLink: LinearLayout
+    var chatId: String? = null
+    
+    lateinit var chatTextView: EditText
+    lateinit var sendButton: ImageButton
 
 /*
     var messageList: MutableList<ChatMessage> = mutableListOf(
@@ -68,7 +72,11 @@ class ChatFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recycler_gchat)
 
-        // getSlotChatWithOfferer (userId current, userId offerer, slotId) -> return list of messages
+        timeSlotVM.getChatId(userId, slot.id, userOfferer.uid).observe(viewLifecycleOwner){
+            if(it!=null)
+                chatId = it
+        }
+
         timeSlotVM.getSlotChatWithOfferer(userId, userOfferer.uid, slot.id).observe(viewLifecycleOwner){
             recyclerView.layoutManager = LinearLayoutManager(context)
             if(it!=null) {
@@ -85,22 +93,21 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //profileNameView = view.findViewById(R.id.offererName)
-        //profileImageView = view.findViewById(R.id.imageViewSlot)
-        //profileLink = view.findViewById(R.id.profileLink)
+        chatTextView = view.findViewById(R.id.edit_gchat_message)
+        sendButton = view.findViewById(R.id.button_gchat_send)
 
-        //profileNameView.text = user.fullname
         (activity as MainActivity).supportActionBar?.title = userOfferer.fullname
-        // Download directly from StorageReference using Glide
-        //if(user.imagePath!=null)
-            //Glide.with(this /* context */).load(user.imagePath).into(profileImageView)
 
-        /*
-        profileLink.setOnClickListener{
-            val bundle = bundleOf("userId" to (user.uid), "read_only" to true)
-            NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_chatFragment_to_showProfileFragment, bundle)
+        sendButton.setOnClickListener{
+            if(chatTextView.text.toString() != "" && chatId != null){
+                val msgId = timeSlotVM.getNewChatMessageId(userId, slot.id, chatId!!)
+                val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //controllare
+                val time = SimpleDateFormat("hh:mm").format(Date()) //controllare
+                var msg = ChatMessage(msgId, chatTextView.text.toString(), 0, date, time)
+                val ret = timeSlotVM.addChatMessage(userOfferer.uid, slot.id, chatId!!, msg)
+                chatTextView.setText("")
+            }
         }
-        */
 
     }
 

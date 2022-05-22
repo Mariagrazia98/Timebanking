@@ -62,7 +62,7 @@ class ChatFragment : Fragment() {
             if(it!=null) {
                 //controllare sorting
                 val messages = it.sortedWith( compareBy({it.date}, {it.time}))
-                val adapter = ChatAdapter(messages, userOfferer)
+                val adapter = ChatAdapter(messages, userId, userOfferer)
                 recyclerView.adapter = adapter
             }
         }
@@ -79,12 +79,11 @@ class ChatFragment : Fragment() {
         (activity as MainActivity).supportActionBar?.title = userOfferer.fullname
 
         sendButton.setOnClickListener{
-            Log.d("prova", chatId.toString())
             if(chatTextView.text.toString() != "" && chatId != null){
                 val msgId = timeSlotVM.getNewChatMessageId(userId, slot.id, chatId!!)
                 val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //controllare
-                val time = SimpleDateFormat("hh:mm").format(Date()) //controllare
-                val msg = ChatMessage(msgId, chatTextView.text.toString(), 0, date, time)
+                val time = SimpleDateFormat("HH:mm").format(Date()) //controllare
+                val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
                 val ret = timeSlotVM.addChatMessage(userOfferer.uid, slot.id, chatId!!, msg)
                 chatTextView.setText("")
             }else if(chatTextView.text.toString() != "" && chatId == null){
@@ -93,8 +92,8 @@ class ChatFragment : Fragment() {
                 timeSlotVM.addChat(userOfferer.uid, slot.id, chatId, chat)
                 val msgId = timeSlotVM.getNewChatMessageId(userId, slot.id, chatId!!)
                 val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //controllare
-                val time = SimpleDateFormat("hh:mm").format(Date()) //controllare
-                val msg = ChatMessage(msgId, chatTextView.text.toString(), 0, date, time)
+                val time = SimpleDateFormat("HH:mm").format(Date()) //controllare
+                val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
                 val ret = timeSlotVM.addChatMessage(userOfferer.uid, slot.id, chatId!!, msg)
                 chatTextView.setText("")
             }

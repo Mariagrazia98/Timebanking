@@ -88,8 +88,8 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
 
 
 
-    fun getChatId(userId :String, slotId: String, uidOfferer: String) : LiveData<String>{
-        val res = MutableLiveData<String>()
+    fun getChatId(userId :String, slotId: String, uidOfferer: String) : LiveData<String?>{
+        val res = MutableLiveData<String?>()
         viewModelScope.launch{
             val result = repo.getChatId(userId, slotId, uidOfferer)
             res.postValue(result)

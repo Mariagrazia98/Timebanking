@@ -15,7 +15,7 @@ import it.polito.timebanking.model.ChatMessage
 import it.polito.timebanking.model.User
 
 
-class ChatAdapter(var data: List<ChatMessage>?, val user: User) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {
+class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val userOfferer: User) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {
 
     var list = data!!.toMutableList()
 
@@ -29,7 +29,7 @@ class ChatAdapter(var data: List<ChatMessage>?, val user: User) : RecyclerView.A
             }
             1 -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_receiver_message, parent, false)
-                ReceivedMessageViewHolder(view, user)
+                ReceivedMessageViewHolder(view, userOfferer)
             }
             else -> throw IllegalArgumentException("Invalid view type")
         }
@@ -49,7 +49,12 @@ class ChatAdapter(var data: List<ChatMessage>?, val user: User) : RecyclerView.A
 
 
 
-    override fun getItemViewType(position: Int): Int = list[position].type
+    override fun getItemViewType(position: Int): Int {
+        if(list[position].idSender == userSenderId)
+            return 0
+        else
+            return 1
+    }
 
     abstract class MessageViewHolder<in T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
         abstract fun bind(item: T)

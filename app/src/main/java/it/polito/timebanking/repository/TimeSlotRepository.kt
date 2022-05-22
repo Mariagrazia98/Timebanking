@@ -313,7 +313,6 @@ class TimeSlotRepository {
                     messageList?.add(it.toObject(ChatMessage::class.java))
                 }
             }
-
             Result.success(messageList)
         } catch (e: Exception) {
             Result.failure(e)

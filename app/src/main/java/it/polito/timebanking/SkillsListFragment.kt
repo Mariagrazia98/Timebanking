@@ -17,6 +17,7 @@ class SkillsListFragment : Fragment() {
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
     lateinit var userId: String
+    lateinit var title: TextView
     var adapter: MySkillRecyclerViewAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -26,6 +27,8 @@ class SkillsListFragment : Fragment() {
 
         val ev: TextView = view.findViewById(R.id.empty_view)
         recyclerView = view.findViewById(R.id.rv)
+        title = view.findViewById(R.id.skillsTitle)
+        title.visibility = View.GONE
         val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
         userId = uid.toString()
 
@@ -37,9 +40,11 @@ class SkillsListFragment : Fragment() {
 
                 if (it.isEmpty()) {
                     recyclerView.visibility = View.GONE
+                    title.visibility = View.GONE
                     ev.visibility = View.VISIBLE
                 } else {
                     recyclerView.visibility = View.VISIBLE
+                    title.visibility = View.VISIBLE
                     ev.visibility = View.GONE
                 }
             }

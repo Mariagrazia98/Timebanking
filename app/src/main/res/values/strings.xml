@@ -82,5 +82,6 @@
     <string name="error_user_skills">Add at least one skill</string>
     <string name="ratingTitle">Would you suggest this user?</string>
     <string name="ratingAdvice">The user gave you all the information you needed, used correct language, was prompt in replying</string>
+    <string name="skillListTitle">Select the skill you are interested in</string>
 
 </resources>

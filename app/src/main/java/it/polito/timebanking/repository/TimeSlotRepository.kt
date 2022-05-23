@@ -1,6 +1,7 @@
 package it.polito.timebanking.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -283,6 +284,7 @@ class TimeSlotRepository {
         }
     }
 
+    //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
     suspend fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String): Result<List<ChatMessage>?> {
         return try {
             val chats = Firebase.firestore
@@ -318,8 +320,9 @@ class TimeSlotRepository {
             Result.failure(e)
         }
     }
-/*
-    suspend fun getSlotChatWithAsker(uidCurrent: String, uidOfferer: String, slotId: String): Result<List<Message>?> {
+
+    //retrieve all started chats (incoming requests by other user to the offerer -> current user) for a specific timeslot
+    suspend fun getChatsSlotIncomingRequests(uidCurrent: String, slotId: String) : Result<List<Chat>?> {
         return try {
             val chats = Firebase.firestore
                 .collection("users")
@@ -330,21 +333,35 @@ class TimeSlotRepository {
                 .get()
                 .await()
 
-            var chat = mutableListOf<Message>()
-            chats.forEach{
-                if(it.uid == uidOfferer){
-                    chat = it.messages
-                    //break ?
-                }
-            }
+            val allChats : MutableList<Chat>? = chats.toObjects(Chat::class.java)
 
-
-            Result.success(chat.toObject(TimeSlot::class.java))
+            Result.success(allChats)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
- */
+
+    //retrieve the chat messages exchanged between the current user (offerer) and another user who is asking for the timeslot
+    suspend fun getSlotChatWithAsker(uidCurrent: String, slotId: String, chat: Chat): Result<List<ChatMessage>?> {
+        return try {
+            val messages = Firebase.firestore
+                .collection("users")
+                .document(uidCurrent)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .document(chat.id)
+                .collection("messageList")
+                .get()
+                .await()
+
+            val messageList : MutableList<ChatMessage>? = messages.toObjects(ChatMessage::class.java)
+
+            Result.success(messageList)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
 
 }

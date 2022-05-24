@@ -12,7 +12,7 @@ class UserRepository() {
     private val db = FirebaseFirestore.getInstance()
 
 
-    suspend fun addUserF(user: User): Boolean {
+    suspend fun addUser(user: User): Boolean {
         return try {
             db.collection("users")
                 .document(user.uid)
@@ -24,7 +24,7 @@ class UserRepository() {
         }
     }
 
-    suspend fun getUserByIdF(uid: String): Result<User?> {
+    suspend fun getUserById(uid: String): Result<User?> {
         return try {
             val data = Firebase.firestore
                 .collection("users")
@@ -50,7 +50,7 @@ class UserRepository() {
         }
     }
 
-    suspend fun updateUserF( user: User) : Boolean
+    suspend fun updateUser(user: User) : Boolean
     {
         return try{
             Firebase.firestore

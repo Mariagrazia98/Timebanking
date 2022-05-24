@@ -21,7 +21,7 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
     fun addUser(user: User): LiveData<Boolean>{
         val res = MutableLiveData<Boolean>()
         viewModelScope.launch {
-            val result = repo.addUserF(user)
+            val result = repo.addUser(user)
             res.postValue(result)
         }
         return res
@@ -30,7 +30,7 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
     fun getUserById(id:String): LiveData<User?> {
         val res = MutableLiveData<User?>()
         viewModelScope.launch {
-            val result = repo.getUserByIdF(id)
+            val result = repo.getUserById(id)
             res.postValue(result.getOrNull())
         }
         return res
@@ -47,7 +47,7 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
     fun updateUser(user: User) : LiveData<Boolean>{
         val res = MutableLiveData<Boolean>()
         viewModelScope.launch {
-            val result = repo.updateUserF(user)
+            val result = repo.updateUser(user)
             res.postValue(result)
         }
         return res

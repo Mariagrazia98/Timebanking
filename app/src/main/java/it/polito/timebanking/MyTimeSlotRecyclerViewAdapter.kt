@@ -72,7 +72,7 @@ class MyTimeSlotRecyclerViewAdapter(
             }
         }
         item.let { holder.bind(it, read_only, user) }
-        val bundle = bundleOf("read_only" to read_only)
+        val bundle = bundleOf("read_only" to read_only, "mychats" to false)
         bundle.putSerializable("user", user)
         bundle.putSerializable("slot", item)
 

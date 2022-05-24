@@ -1,7 +1,6 @@
 package it.polito.timebanking.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -124,10 +123,10 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
     }
 
     //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
-    fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String) : LiveData<List<ChatMessage>?> {
-        val res = MutableLiveData<List<ChatMessage>?>()
+    fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String, chatId: String) : MutableLiveData<MutableList<ChatMessage>?> {
+        val res = MutableLiveData<MutableList<ChatMessage>?>()
         viewModelScope.launch{
-            val result = repo.getSlotChatWithOfferer(uidCurrent, uidOfferer, slotId)
+            val result = repo.getSlotChatWithOfferer(uidCurrent, uidOfferer, slotId, chatId)
             res.postValue(result.getOrNull())
         }
         return res

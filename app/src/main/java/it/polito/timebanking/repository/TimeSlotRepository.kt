@@ -285,36 +285,24 @@ class TimeSlotRepository {
     }
 
     //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
-    suspend fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String): Result<List<ChatMessage>?> {
+    suspend fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String, chatId: String): Result<MutableList<ChatMessage>?> {
         return try {
-            val chats = Firebase.firestore
+            val chatMessages = Firebase.firestore
                 .collection("users")
                 .document(uidOfferer)
                 .collection("timeslots")
                 .document(slotId)
                 .collection("chats")
-                .whereEqualTo("receiverUid", uidCurrent)
+                .document(chatId)
+                .collection("messageList")
                 .get()
                 .await()
 
             var messageList: MutableList<ChatMessage>? = mutableListOf()
-            chats.documents.map{
-                val chatId = it.id
-                val list = Firebase.firestore
-                    .collection("users")
-                    .document(uidOfferer)
-                    .collection("timeslots")
-                    .document(slotId)
-                    .collection("chats")
-                    .document(chatId)
-                    .collection("messageList")
-                    .get()
-                    .await()
-
-                list.forEach{
-                    messageList?.add(it.toObject(ChatMessage::class.java))
-                }
+            chatMessages.forEach{
+                messageList?.add(it.toObject(ChatMessage::class.java))
             }
+
             Result.success(messageList)
         } catch (e: Exception) {
             Result.failure(e)
@@ -335,6 +323,7 @@ class TimeSlotRepository {
 
             val allChats : MutableList<Chat>? = chats.toObjects(Chat::class.java)
 
+            Log.d("prova2", allChats?.get(0)?.receiverUid.toString())
             Result.success(allChats)
         } catch (e: Exception) {
             Result.failure(e)

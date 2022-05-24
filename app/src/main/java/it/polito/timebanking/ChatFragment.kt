@@ -6,7 +6,6 @@ import android.view.*
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +25,8 @@ class ChatFragment : Fragment() {
     lateinit var userOfferer : User
     lateinit var slot : TimeSlot
     var chatId: String? = null
+    var mychats = false
+    //var chatsList : MutableList<Chat> = mutableListOf()
 
     lateinit var chatTextView: EditText
     lateinit var sendButton: ImageButton
@@ -46,26 +47,46 @@ class ChatFragment : Fragment() {
 
         userOfferer = (arguments?.getSerializable("user") as User?)!!
         slot = (arguments?.getSerializable("slot") as TimeSlot?)!!
+        mychats = arguments?.getBoolean("mychats")?:false
 
         val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
         userId = uid.toString()
 
         recyclerView = view.findViewById(R.id.recycler_gchat)
 
-        timeSlotVM.getChatId(userId, slot.id, userOfferer.uid).observe(viewLifecycleOwner){
-            if(it!=null)
-                chatId = it
-        }
+        if(!mychats){
+            timeSlotVM.getChatId(userId, slot.id, userOfferer.uid).observe(viewLifecycleOwner){
+                if(it!=null){
+                    chatId = it
+                    timeSlotVM.getSlotChatWithOfferer(userId, userOfferer.uid, slot.id, chatId!!).observe(viewLifecycleOwner){
+                        recyclerView.layoutManager = LinearLayoutManager(context)
+                        Log.d("prova", "observer called1")
+                        if(it!=null) {
+                            //controllare sorting
+                            var messages = it.sortedWith( compareBy({it.date}, {it.time})).toMutableList()
+                            val adapter = ChatAdapter(messages, userId, userOfferer)
+                            recyclerView.adapter = adapter
+                            Log.d("prova", "observer called2")
+                        }
+                    }
+                }
 
-        timeSlotVM.getSlotChatWithOfferer(userId, userOfferer.uid, slot.id).observe(viewLifecycleOwner){
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            if(it!=null) {
-                //controllare sorting
-                val messages = it.sortedWith( compareBy({it.date}, {it.time}))
-                val adapter = ChatAdapter(messages, userId, userOfferer)
-                recyclerView.adapter = adapter
+            }
+        }else if(mychats){
+            val chatsList = timeSlotVM.getChatsSlotIncomingRequests(userId, slot.id)
+            val chat = chatsList.value?.get(0)
+            Log.d("prova1", chat?.id?:"null")
+            timeSlotVM.getSlotChatWithAsker(userId, slot.id, chat!!).observe(viewLifecycleOwner){
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                if(it!=null) {
+                    //controllare sorting
+                    var messages = it.sortedWith( compareBy({it.date}, {it.time})).toMutableList()
+                    val adapter = ChatAdapter(messages, userId, userOfferer)
+                    recyclerView.adapter = adapter
+                }
             }
         }
+
 
         return view
     }
@@ -98,6 +119,7 @@ class ChatFragment : Fragment() {
                 chatTextView.setText("")
             }
         }
+
     }
 
 }

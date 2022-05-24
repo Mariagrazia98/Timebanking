@@ -3,6 +3,7 @@ package it.polito.timebanking
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -37,6 +38,8 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var profileImageView: ImageView
     lateinit var user : User
 
+    lateinit var seeChatsButton : Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +72,8 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         profileEmailView = view.findViewById(R.id.offererEmail)
         profileImageView = view.findViewById(R.id.imageViewSlot)
 
+        seeChatsButton = view.findViewById(R.id.chatsButton)
+
         timeSlotVM.getSlotFById(user.uid, timeslot.id).observe(viewLifecycleOwner) { t ->
             if (t != null) {
                 timeslot = t
@@ -99,8 +104,20 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 val bundle = bundleOf("userId" to (user.uid), "read_only" to read_only)
                 NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(R.id.action_timeSlotDetailsFragment_to_showProfileFragment, bundle)
             }
+
+            seeChatsButton.visibility = View.GONE
         }else{
             profileButton.visibility = View.GONE
+
+            val bundle = bundleOf("read_only" to read_only, "mychats" to true)
+            bundle.putSerializable("user", user)
+            bundle.putSerializable("slot", timeslot)
+            seeChatsButton.setOnClickListener {
+                NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(
+                    R.id.action_timeSlotDetailsFragment_to_chatFragment,
+                    bundle
+                )
+            }
         }
     }
 

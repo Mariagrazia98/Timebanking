@@ -104,7 +104,6 @@ class MainActivity : AppCompatActivity() {
                 adv_item.isVisible = false
 
             } else {
-
                 profileViewModel.getUserById(userState!!.uid)
                     .observe(this, Observer { user ->
                         if (user != null) {
@@ -259,8 +258,10 @@ class MainActivity : AppCompatActivity() {
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
-    fun onClick(v:View) {
-        navController.navigate(R.id.action_showProfileFragment_to_reviewListFragment)
+    fun onClickSeeAllReviews(v:View) {
+        var bundle = Bundle()
+        bundle.putString("userId",userState?.uid)
+        navController.navigate(R.id.action_showProfileFragment_to_reviewListFragment,bundle)
     }
 
     fun onClickEditRating(v:View) {

@@ -237,7 +237,7 @@
                     android:layout_marginTop="5dp"
                     android:foregroundTint="#2196F3"
                     android:progressBackgroundTint="#FFFFFF"
-                    android:progressTint="#FB3838"
+                    android:progressTint="@color/accent"
                     android:rating="3.5"
                     android:secondaryProgressTint="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -275,7 +275,7 @@
                         android:orientation="vertical">
 
                         <RatingBar
-                            android:id="@+id/ratingBar3"
+                            android:id="@+id/ratingBarDisplay"
                             style="@android:style/Widget.Holo.Light.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -284,7 +284,7 @@
                             android:layout_marginBottom="10dp"
                             android:layout_weight="1"
                             android:numStars="5"
-                            android:progressTint="#FB3838"
+                            android:progressTint="@color/accent"
                             android:rating="4" />
 
                         <LinearLayout
@@ -326,7 +326,7 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:gravity="center"
-                            android:onClick="onClick"
+                            android:onClick="onClickSeeAllReviews"
                             android:text="See all reviews"
                             android:textColor="@color/primary"
                             android:textSize="15sp" />

@@ -15,6 +15,7 @@ import it.polito.timebanking.viewmodel.ProfileViewModel
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import it.polito.timebanking.viewmodel.ReviewViewModel
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var fullnameView: TextView
@@ -31,12 +32,12 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var locationTextView: TextView
     lateinit var descriptionTextView: TextView
 
-
     var h: Int = 0
     var w: Int = 0
     lateinit var userId: String
     var read_only = false
     lateinit var profileVM: ProfileViewModel
+    lateinit var reviewsVM: ReviewViewModel
     var id: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +56,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         super.onViewCreated(view, savedInstanceState)
 
         profileVM = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
+        reviewsVM = ViewModelProvider(requireActivity()).get(ReviewViewModel::class.java)
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             val sv = view.findViewById<ScrollView>(R.id.scrollView)

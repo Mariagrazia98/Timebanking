@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <RatingBar
-                android:id="@+id/ratingBar3"
+                android:id="@+id/ratingBarDisplay"
                 style="@android:style/Widget.Holo.Light.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:numStars="5"
-                android:progressTint="#FB3838"
+                android:progressTint="@color/accent"
                 android:rating="4" />
 
             <LinearLayout

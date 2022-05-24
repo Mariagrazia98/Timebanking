@@ -4,21 +4,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
+import it.polito.timebanking.model.Review
 
-class MyReviewRecycleViewAdapter(data: List<String>) : RecyclerView.Adapter<MyReviewRecycleViewAdapter.ReviewViewHolder>(){
+class MyReviewRecycleViewAdapter(data: List<Review>) : RecyclerView.Adapter<MyReviewRecycleViewAdapter.ReviewViewHolder>(){
 
     var list = data
 
     class ReviewViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val reviewText: TextView = v.findViewById(R.id.reviewText)
-        fun bind(item: String) {
-            reviewText.text = item
+        private val rating : RatingBar = v.findViewById(R.id.ratingBarDisplay)
+        fun bind(item: Review) {
+            reviewText.text = item.comment
+            rating.rating = item.rating
         }
     }
 

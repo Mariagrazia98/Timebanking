@@ -323,7 +323,6 @@ class TimeSlotRepository {
 
             val allChats : MutableList<Chat>? = chats.toObjects(Chat::class.java)
 
-            Log.d("prova2", allChats?.get(0)?.receiverUid.toString())
             Result.success(allChats)
         } catch (e: Exception) {
             Result.failure(e)

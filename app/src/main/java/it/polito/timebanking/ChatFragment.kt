@@ -18,18 +18,21 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class ChatFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var recyclerView: RecyclerView
+
     lateinit var userId: String
     lateinit var userOfferer : User
     lateinit var slot : TimeSlot
     var chatId: String? = null
-    var mychats = false
-    //var chatsList : MutableList<Chat> = mutableListOf()
 
+    var mychats = false
     lateinit var chatTextView: EditText
     lateinit var sendButton: ImageButton
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,24 +61,12 @@ class ChatFragment : Fragment() {
             timeSlotVM.getChatId(userId, slot.id, userOfferer.uid).observe(viewLifecycleOwner){
                 if(it!=null){
                     chatId = it
-                    timeSlotVM.getSlotChatWithOfferer(userId, userOfferer.uid, slot.id, chatId!!).observe(viewLifecycleOwner){
-                        recyclerView.layoutManager = LinearLayoutManager(context)
-                        Log.d("prova", "observer called1")
-                        if(it!=null) {
-                            //controllare sorting
-                            var messages = it.sortedWith( compareBy({it.date}, {it.time})).toMutableList()
-                            val adapter = ChatAdapter(messages, userId, userOfferer)
-                            recyclerView.adapter = adapter
-                            Log.d("prova", "observer called2")
-                        }
-                    }
+                    getChatMessages()
                 }
-
             }
         }else if(mychats){
             val chatsList = timeSlotVM.getChatsSlotIncomingRequests(userId, slot.id)
             val chat = chatsList.value?.get(0)
-            Log.d("prova1", chat?.id?:"null")
             timeSlotVM.getSlotChatWithAsker(userId, slot.id, chat!!).observe(viewLifecycleOwner){
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 if(it!=null) {
@@ -87,13 +78,6 @@ class ChatFragment : Fragment() {
             }
         }
 
-
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         chatTextView = view.findViewById(R.id.edit_gchat_message)
         sendButton = view.findViewById(R.id.button_gchat_send)
 
@@ -101,25 +85,45 @@ class ChatFragment : Fragment() {
 
         sendButton.setOnClickListener{
             if(chatTextView.text.toString() != "" && chatId != null){
-                val msgId = timeSlotVM.getNewChatMessageId(userId, slot.id, chatId!!)
-                val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //controllare
-                val time = SimpleDateFormat("HH:mm").format(Date()) //controllare
-                val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
-                val ret = timeSlotVM.addChatMessage(userOfferer.uid, slot.id, chatId!!, msg)
-                chatTextView.setText("")
+                sendMessage()
             }else if(chatTextView.text.toString() != "" && chatId == null){
-                val chatId = timeSlotVM.getNewChatId(userOfferer.uid, slot.id)
-                val chat = Chat(chatId, userId)
-                timeSlotVM.addChat(userOfferer.uid, slot.id, chatId, chat)
-                val msgId = timeSlotVM.getNewChatMessageId(userId, slot.id, chatId!!)
-                val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //controllare
-                val time = SimpleDateFormat("HH:mm").format(Date()) //controllare
-                val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
-                val ret = timeSlotVM.addChatMessage(userOfferer.uid, slot.id, chatId!!, msg)
-                chatTextView.setText("")
+                createChat()
             }
         }
 
+        return view
+    }
+
+
+
+
+    fun getChatMessages(){
+        timeSlotVM.getSlotChatWithOfferer(userId, userOfferer.uid, slot.id, chatId!!).observe(viewLifecycleOwner){
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            if(it!=null) {
+                //controllare sorting
+                var messages = it.sortedWith( compareBy({it.date}, {it.time})).toMutableList()
+                val adapter = ChatAdapter(messages, userId, userOfferer)
+                recyclerView.adapter = adapter
+            }
+        }
+    }
+
+    fun sendMessage(){
+        val msgId = timeSlotVM.getNewChatMessageId(userId, slot.id, chatId!!)
+        val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //controllare
+        val time = SimpleDateFormat("HH:mm").format(Date()) //controllare
+        val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
+        val ret = timeSlotVM.addChatMessage(userOfferer.uid, slot.id, chatId!!, msg)
+        chatTextView.setText("")
+        getChatMessages()
+    }
+
+    fun createChat(){
+        chatId = timeSlotVM.getNewChatId(userOfferer.uid, slot.id)
+        val chat = Chat(chatId.toString(), userId)
+        timeSlotVM.addChat(userOfferer.uid, slot.id, chatId.toString(), chat)
+        sendMessage()
     }
 
 }

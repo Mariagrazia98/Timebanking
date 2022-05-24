@@ -65,9 +65,10 @@ class ChatFragment : Fragment() {
                 }
             }
         }else if(mychats){
-            val chatsList = timeSlotVM.getChatsSlotIncomingRequests(userId, slot.id)
-            val chat = chatsList.value?.get(0)
-            timeSlotVM.getSlotChatWithAsker(userId, slot.id, chat!!).observe(viewLifecycleOwner){
+            //val chatsList = timeSlotVM.getChatsSlotIncomingRequests(userId, slot.id)
+            //val chat = chatsList.value?.get(0)
+                //prova -> temporaneo
+            timeSlotVM.getSlotChatWithAsker(userId, slot.id, "ZDqza5uYGOCF49OK2EkQ").observe(viewLifecycleOwner){
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 if(it!=null) {
                     //controllare sorting

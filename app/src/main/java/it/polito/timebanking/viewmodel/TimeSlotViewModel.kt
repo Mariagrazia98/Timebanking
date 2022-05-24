@@ -131,7 +131,7 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         }
         return res
     }
-
+/*
     //retrieve all started chats (incoming requests by other user to the offerer -> current user) for a specific timeslot
     fun getChatsSlotIncomingRequests(uidCurrent: String, slotId: String) : LiveData<List<Chat>?> {
         val res = MutableLiveData<List<Chat>?>()
@@ -141,12 +141,12 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         }
         return res
     }
-
+*/
     //retrieve the chat messages exchanged between the current user (offerer) and another user who is asking for the timeslot
-    fun getSlotChatWithAsker(uidCurrent: String, slotId: String, chat: Chat) : LiveData<List<ChatMessage>?> {
+    fun getSlotChatWithAsker(uidCurrent: String, slotId: String, chatId: String) : LiveData<List<ChatMessage>?> {
         val res = MutableLiveData<List<ChatMessage>?>()
         viewModelScope.launch{
-            val result = repo.getSlotChatWithAsker(uidCurrent, slotId, chat)
+            val result = repo.getSlotChatWithAsker(uidCurrent, slotId, chatId)
             res.postValue(result.getOrNull())
         }
         return res

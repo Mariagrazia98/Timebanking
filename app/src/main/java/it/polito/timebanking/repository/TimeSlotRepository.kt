@@ -308,7 +308,7 @@ class TimeSlotRepository {
             Result.failure(e)
         }
     }
-
+/*
     //retrieve all started chats (incoming requests by other user to the offerer -> current user) for a specific timeslot
     suspend fun getChatsSlotIncomingRequests(uidCurrent: String, slotId: String) : Result<List<Chat>?> {
         return try {
@@ -321,16 +321,21 @@ class TimeSlotRepository {
                 .get()
                 .await()
 
-            val allChats : MutableList<Chat>? = chats.toObjects(Chat::class.java)
+            //val allChats : MutableList<Chat>? = chats.toObjects(Chat::class.java)
 
-            Result.success(allChats)
+            var chatList: MutableList<Chat>? = mutableListOf()
+            chats.forEach{
+                chatList?.add(it.toObject(Chat::class.java))
+            }
+
+            Result.success(chatList)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
-
+*/
     //retrieve the chat messages exchanged between the current user (offerer) and another user who is asking for the timeslot
-    suspend fun getSlotChatWithAsker(uidCurrent: String, slotId: String, chat: Chat): Result<List<ChatMessage>?> {
+    suspend fun getSlotChatWithAsker(uidCurrent: String, slotId: String, chatId: String): Result<List<ChatMessage>?> {
         return try {
             val messages = Firebase.firestore
                 .collection("users")
@@ -338,7 +343,7 @@ class TimeSlotRepository {
                 .collection("timeslots")
                 .document(slotId)
                 .collection("chats")
-                .document(chat.id)
+                .document(chatId)
                 .collection("messageList")
                 .get()
                 .await()

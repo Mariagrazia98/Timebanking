@@ -308,7 +308,7 @@ class TimeSlotRepository {
             Result.failure(e)
         }
     }
-/*
+
     //retrieve all started chats (incoming requests by other user to the offerer -> current user) for a specific timeslot
     suspend fun getChatsSlotIncomingRequests(uidCurrent: String, slotId: String) : Result<List<Chat>?> {
         return try {
@@ -325,7 +325,10 @@ class TimeSlotRepository {
 
             var chatList: MutableList<Chat>? = mutableListOf()
             chats.forEach{
-                chatList?.add(it.toObject(Chat::class.java))
+                val chatMap = it.data
+                val chat = Chat(it.id, chatMap.getValue("receiverUid").toString())
+                //chatList?.add(it.toObject(Chat::class.java))
+                chatList?.add(chat)
             }
 
             Result.success(chatList)
@@ -333,7 +336,7 @@ class TimeSlotRepository {
             Result.failure(e)
         }
     }
-*/
+
     //retrieve the chat messages exchanged between the current user (offerer) and another user who is asking for the timeslot
     suspend fun getSlotChatWithAsker(uidCurrent: String, slotId: String, chatId: String): Result<List<ChatMessage>?> {
         return try {

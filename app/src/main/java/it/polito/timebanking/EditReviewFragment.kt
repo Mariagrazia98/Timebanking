@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -22,12 +23,20 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
     lateinit var sendReviewBtn: Button
     lateinit var reviewsVM: ReviewViewModel
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        //delete edit_button
+        menu.findItem(R.id.edit_button).isVisible = false
+        super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as MainActivity).supportActionBar?.title = "Edit Review"
         reviewsVM = ViewModelProvider(requireActivity()).get(ReviewViewModel::class.java)
+        setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

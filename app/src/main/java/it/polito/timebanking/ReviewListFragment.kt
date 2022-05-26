@@ -45,6 +45,7 @@ class ReviewListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as MainActivity).supportActionBar?.title = "Reviews List"
         setHasOptionsMenu(true)
     }
 

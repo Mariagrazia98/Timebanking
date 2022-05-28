@@ -31,8 +31,6 @@ class ChatTitleAdapter(val data: List<ChatUser>, slot: TimeSlot) : RecyclerView.
         val chatPersonName: TextView = v.findViewById(R.id.chatPersonName)
         val imageViewPerson: ImageView = v.findViewById(R.id.imageViewPerson)
 
-        //profileVM.getUserById(item.reciverUid)
-
         fun bind(item: ChatUser) {
             chatPersonName.text = item.otherUser.fullname
             if(item.otherUser.imagePath!=null)

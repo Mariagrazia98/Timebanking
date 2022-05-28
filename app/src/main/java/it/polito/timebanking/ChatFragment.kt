@@ -94,7 +94,7 @@ class ChatFragment : Fragment() {
                 if (chat != null && chat!!.chatStatus == 0) {
                     reviewButton.visibility = View.GONE
                 }
-                if ( (userId!=offererId) || (chat != null && chat!!.chatStatus == 1)) {
+                if ( (userId!=offererId) || chat==null || (chat != null && chat!!.chatStatus == 1)) {
                     assignButton.visibility = View.GONE
                     rejectButton.visibility = View.GONE
                     titleChat.visibility = View.GONE
@@ -149,6 +149,9 @@ class ChatFragment : Fragment() {
 
         assignButton.setOnClickListener{
             profileVM.getUserById(chat!!.receiverUid).observe(viewLifecycleOwner) { userReceiver ->
+                println(userReceiver?.fullname)
+                println(userReceiver?.credit)
+                println(slot.duration)
                 if (userReceiver!!.credit <= slot.duration) {
                     printMessage("The user has not enough credit! It is not possible to assign the timeslot to him")
                 } else {
@@ -214,14 +217,7 @@ class ChatFragment : Fragment() {
             message,
             Snackbar.LENGTH_LONG
         )
-        val sbView: View = snackbar.view
-        context?.let {
-            ContextCompat.getColor(
-                it,
-                R.color.primary_light
-            )
-        }
-            ?.let { it2 -> sbView.setBackgroundColor(it2) }
+
         snackbar.show()
     }
 }

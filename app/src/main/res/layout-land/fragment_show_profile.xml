@@ -49,6 +49,15 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/credit"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:drawableEnd="@mipmap/ic_launcher_round"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    tools:text="10" />
+
+                <TextView
                     android:id="@+id/fullName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

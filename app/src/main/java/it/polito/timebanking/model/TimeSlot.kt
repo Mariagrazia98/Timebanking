@@ -11,7 +11,7 @@ class TimeSlot(
     var duration:Int = 0,
     var location:String = "",
     var skills:MutableList<String> = mutableListOf(),
-    var status:Int=0, //0 = available , 1 = assigned, 2 = complete
+    var status:Int=0, //0 = available , 1 = assigned
     var reviewState: Int=0, //0= no review, 1=review from offer, 2=review from receiver, 3=review from both
     var idReceiver:String?=null,
     ) : Serializable {}

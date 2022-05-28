@@ -145,8 +145,13 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         numReviews=view.findViewById(R.id.numReviews)
         avgRatings=view.findViewById(R.id.ratingAvg)
         cv=view.findViewById(R.id.cvLastRating)
+        alertNoReviews=view.findViewById(R.id.alertNoReviews)
         reviewsVM.getReviewsByUser(userId).observe(viewLifecycleOwner){ reviews ->
             if(reviews.size != 0) {
+                alertNoReviews.visibility= View.GONE
+                ratingBar.visibility = View.VISIBLE
+                numReviews.visibility = View.VISIBLE
+                avgRatings.visibility = View.VISIBLE
                 val avg = reviews.map { r -> r.rating }.average()
                 ratingBar.rating = avg.toFloat()
                 val text = "${reviews.size} reviews"
@@ -158,6 +163,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 numReviews.visibility = View.GONE
                 avgRatings.visibility = View.GONE
                 cv.visibility = View.GONE
+                alertNoReviews.visibility= View.VISIBLE
             }
         }
     }

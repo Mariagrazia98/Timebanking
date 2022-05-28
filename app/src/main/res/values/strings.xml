@@ -87,5 +87,6 @@
     <string name="skillListTitle">Select the skill you are interested in</string>
     <string name="suggestReview">Amazing experience, i learned so much!</string>
     <string name="hintComment">Give reasons for your answer</string>
+    <string name="noAvailableReview">There is no available review</string>
 
 </resources>

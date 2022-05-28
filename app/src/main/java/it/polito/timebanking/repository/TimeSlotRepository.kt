@@ -394,4 +394,57 @@ class TimeSlotRepository {
         }
     }
 
+    suspend fun getInterestedSlotsByUser(userId: String): Result<Map<User, List<TimeSlot>>> {
+        try {
+            val users = Firebase.firestore
+                .collection("users")
+                .get()
+                .await()
+
+            val filteredSlots = mutableMapOf<User, List<TimeSlot>>()
+            val slotsUser = mutableListOf<TimeSlot>()
+            users.forEach { user ->
+                user.toObject(User::class.java).let { u ->
+                    if (u.uid != userId) {
+                        val timeslots = Firebase.firestore
+                            .collection("users")
+                            .document(u.uid)
+                            .collection("timeslots")
+                            .get()
+                            .await()
+
+                        timeslots.forEach { timeslot ->
+                            timeslot.toObject(TimeSlot::class.java).let { t ->
+                                val chats = Firebase.firestore
+                                    .collection("users")
+                                    .document(u.uid)
+                                    .collection("timeslots")
+                                    .document(t.id)
+                                    .collection("chats")
+                                    .get()
+                                    .await()
+
+                                chats.documents.map {
+                                    if (it.data != null) {
+                                        it.toObject(Chat::class.java).let { it1 ->
+                                            if (it1?.receiverUid == userId) {
+                                                slotsUser.add(t)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (slotsUser.isNotEmpty()) {
+                        filteredSlots[u] = ArrayList(slotsUser)
+                        slotsUser.clear()
+                    }
+                }
+            }
+            return Result.success(filteredSlots)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
 }

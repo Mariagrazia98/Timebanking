@@ -69,6 +69,8 @@
     <string name="myOffersList">My offers list</string>
     <string name="my_offers">My offers</string>
     <string name="my_offer">My offer</string>
+    <string name="interested_offers">Interested offers</string>
+    <string name="interestedOffersList">Interested offers list</string>
     <string name="available_skills">Available skills</string>
     <string name="available_skills_list">Available skills list</string>
     <string name="editAdvertisement">Edit Offer</string>

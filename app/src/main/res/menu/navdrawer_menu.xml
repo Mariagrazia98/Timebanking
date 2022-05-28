@@ -14,6 +14,11 @@
             android:id="@+id/skillsMenuItem"
             android:icon="@drawable/skill"
             android:title="@string/available_skills" />
+        <item
+            android:id="@+id/interestedAdvMenuItem"
+            android:icon="@drawable/ic_list"
+            android:title="@string/interested_offers" />
+
     </group>
 
 

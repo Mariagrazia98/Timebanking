@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import it.polito.timebanking.model.Review
 import it.polito.timebanking.viewmodel.ReviewViewModel
-import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
     lateinit var ratingBar: RatingBar
@@ -57,12 +57,13 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         val review = Review()
         review.comment = comment.text.toString()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            review.date = LocalDateTime.now().toString()
+            val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            review.date = LocalDateTime.now().format(formatter).toString()
         }
         review.rating = ratingBar.rating
         review.id = id
-        review.idReviewer = "ej7JqSWGomdHgTMpwnLshbKY1on1"
-        review.type = 1
+        review.nameReviewer = "Mariagrazia"
+        review.type = 0
         reviewsVM.updateReview("eRJhLDrANkXQj8ZLTMTeSh9uqj43", review).observe(viewLifecycleOwner) {
             Log.d("debugReview", it.toString())
         }

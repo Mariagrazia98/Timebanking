@@ -8,7 +8,7 @@ import java.util.*
 
 class Review (
     var id:String = "",
-    var idReviewer:String = "",
+    var nameReviewer:String = "",
     var comment:String = "",
     var type: Int = -1, //0: offerer, 1: receiver
     var date:String = "",

@@ -352,7 +352,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="50dp"
                     android:gravity="center"
-                    android:text="There is no avaible review"
+                    android:text="@string/noAvailableReview"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="20sp"
                     android:visibility="gone"

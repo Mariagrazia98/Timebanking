@@ -66,9 +66,9 @@
             app:destination="@id/chatFragment" />
     </fragment>
     <fragment
-        android:id="@+id/assignedOrAcceptedTimeSlotListFragment"
-        android:name="it.polito.timebanking.AssignedOrAcceptedTimeSlotListFragment"
-        tools:layout="@layout/fragment_assigned_accepted_time_slot_list">
+        android:id="@+id/tabFragment"
+        android:name="it.polito.timebanking.TabFragment"
+        tools:layout="@layout/fragment_tab">
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
             app:destination="@id/timeSlotDetailsFragment" />

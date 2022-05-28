@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity() {
             } else if (item.itemId == R.id.skillsMenuItem) {
                 navController.navigate(R.id.skillsListFragment, bundle)
             }else if (item.itemId == R.id.assignedOrAcceptedAdvMenuItem) {
-                navController.navigate(R.id.assignedOrAcceptedTimeSlotListFragment, bundle)
+                navController.navigate(R.id.tabFragment, bundle)
             }else if (item.itemId == R.id.nav_log) {
                 login()
             }

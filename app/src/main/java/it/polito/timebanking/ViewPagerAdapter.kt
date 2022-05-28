@@ -1,7 +1,5 @@
 package it.polito.timebanking
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 private const val NUM_TABS = 2
@@ -15,9 +13,9 @@ class ViewPagerAdapter(fragment: Fragment) :
 
     override fun createFragment(position: Int): Fragment {
         when (position) {
-            0 -> return Prova()
-            1 -> return Prova()
-            else -> return Prova()
+            0 -> return AssignedOrAcceptedTimeSlotListFragment()
+            1 -> return AssignedOrAcceptedTimeSlotListFragment()
+            else -> return AssignedOrAcceptedTimeSlotListFragment()
         }
     }
 }

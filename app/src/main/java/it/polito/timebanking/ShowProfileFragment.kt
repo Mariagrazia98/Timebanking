@@ -15,7 +15,9 @@ import com.google.android.material.chip.ChipGroup
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import it.polito.timebanking.model.Review
 import it.polito.timebanking.viewmodel.ReviewViewModel
+import org.w3c.dom.Text
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var creditView:TextView
@@ -36,7 +38,11 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var avgRatings: TextView
     lateinit var cv: CardView
     lateinit var alertNoReviews: TextView
-
+    lateinit var reviewerName: TextView
+    lateinit var typeReview: TextView
+    lateinit var imageReview: ImageView
+    lateinit var commentReview: TextView
+    lateinit var ratingLR: RatingBar
     var h: Int = 0
     var w: Int = 0
     lateinit var userId: String
@@ -149,6 +155,11 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         avgRatings=view.findViewById(R.id.ratingAvg)
         cv=view.findViewById(R.id.cvLastRating)
         alertNoReviews=view.findViewById(R.id.alertNoReviews)
+        reviewerName=view.findViewById(R.id.nameReviewerLR)
+        ratingLR=view.findViewById(R.id.ratingBarDisplayLR)
+        typeReview=view.findViewById(R.id.typeReviewLR)
+        commentReview=view.findViewById(R.id.reviewTextLR)
+        imageReview=view.findViewById(R.id.imageViewLR)
         reviewsVM.getReviewsByUser(userId).observe(viewLifecycleOwner){ reviews ->
             if(reviews.size != 0) {
                 alertNoReviews.visibility= View.GONE
@@ -160,6 +171,14 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 val text = "${reviews.size} reviews"
                 numReviews.text = text
                 avgRatings.text = avg.toString()
+                var last : Review = reviews[reviews.size-1]
+                reviewerName.text = last.nameReviewer
+                ratingLR.rating = last.rating
+                commentReview.text = last.comment
+                if(last.type == 0){
+                    typeReview.text = "as Offerer"
+                    imageReview.setImageResource(R.drawable.teacher)
+                }
             }
             else{
                 ratingBar.visibility = View.GONE

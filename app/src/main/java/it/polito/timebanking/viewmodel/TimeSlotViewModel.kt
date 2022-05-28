@@ -152,4 +152,14 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
+
+    fun getInterestedSlotsByUser(userId: String) :LiveData<Map<User, List<TimeSlot>>>{
+        val res = MutableLiveData<Map<User, List<TimeSlot>>>()
+        viewModelScope.launch{
+            val result = repo.getInterestedSlotsByUser(userId)
+            res.postValue(result.getOrNull())
+        }
+        return res
+    }
+
 }

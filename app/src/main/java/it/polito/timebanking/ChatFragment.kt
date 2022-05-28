@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,7 @@ class ChatFragment : Fragment() {
     lateinit var userId: String
     lateinit var userOfferer : User
     lateinit var slot : TimeSlot
+    var read_only : Boolean = false
     var chatId: String? = null
 
     var mychats = false
@@ -47,11 +49,12 @@ class ChatFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
+        val assignTimeSlot = view.findViewById<LinearLayout>(R.id.linearLayout4)
 
         userOfferer = (arguments?.getSerializable("user") as User?)!!
         slot = (arguments?.getSerializable("slot") as TimeSlot?)!!
         mychats = arguments?.getBoolean("mychats")?:false
-
+        read_only = arguments?.getBoolean("read_only")?:false
         val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
         userId = uid.toString()
 
@@ -95,6 +98,12 @@ class ChatFragment : Fragment() {
             }else if(chatTextView.text.toString() != "" && chatId == null){
                 createChat()
             }
+        }
+
+        if(read_only){
+            assignTimeSlot.visibility = View.GONE
+        }else{
+            assignTimeSlot.visibility = View.VISIBLE
         }
 
         return view

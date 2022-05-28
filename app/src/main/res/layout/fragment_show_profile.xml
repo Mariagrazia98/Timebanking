@@ -309,7 +309,7 @@
                                     android:layout_marginTop="4dp"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="as  Offerer"
+                                    android:text="as Receiver"
                                     android:textSize="15sp" />
 
                                 <ImageView
@@ -317,7 +317,7 @@
                                     android:layout_width="5dp"
                                     android:layout_height="27dp"
                                     android:layout_weight="1"
-                                    app:srcCompat="@drawable/teacher" />
+                                    app:srcCompat="@drawable/student" />
 
                             </LinearLayout>
 

@@ -172,10 +172,9 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 reviewerName.text = last.nameReviewer
                 ratingLR.rating = last.rating
                 commentReview.text = last.comment
-                if(last.type == 1){
-                    typeReview.text = "as Receiver"
-                    /*imageReview.invalidate()
-                    imageReview.setImageResource(R.drawable.student)*/
+                if(last.type == 0){
+                    typeReview.text = "as Offerer"
+                    imageReview.setImageResource(R.drawable.teacher)
                 }
             }
             else{

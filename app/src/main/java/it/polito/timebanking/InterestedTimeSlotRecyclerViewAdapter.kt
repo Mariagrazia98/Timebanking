@@ -28,7 +28,7 @@ class InterestedTimeSlotRecyclerViewAdapter(
         private val time: TextView = v.findViewById(R.id.slot_time)
         private val duration: TextView = v.findViewById(R.id.slot_duration)
         private val name: TextView? = v.findViewById(R.id.offererName)
-        val cv: CardView = v.findViewById(R.id.cv)
+        val cv: CardView = v.findViewById(R.id.cvLastRating)
         val button: ImageButton? = v.findViewById(R.id.button)
         val ivSlot: ImageView? = v.findViewById(R.id.imageViewSlot)
         val chatButton: ImageButton? = v.findViewById(R.id.chatButton)

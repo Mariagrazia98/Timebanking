@@ -50,8 +50,7 @@ class ChatTitleAdapter(val data: List<ChatUser>, slot: TimeSlot) : RecyclerView.
         val item = list[position]
         item.let { holder.bind(it) }
 
-        val read_only = true
-        val bundle = bundleOf("read_only" to read_only, "skill" to item)
+        val bundle = bundleOf("mychats" to true)
         bundle.putSerializable("user", item.otherUser)
         bundle.putSerializable("slot", slot)
         holder.cv.setOnClickListener {

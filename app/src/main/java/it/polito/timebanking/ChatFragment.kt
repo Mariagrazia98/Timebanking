@@ -79,60 +79,67 @@ class ChatFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recycler_gchat)
 
-        if(!mychats){
-            timeSlotVM.getChat(userId, slot.id, userOfferer.uid).observe(viewLifecycleOwner){
-                if(it!=null){
+        if(!mychats) {
+            timeSlotVM.getChat(userId, slot.id, userOfferer.uid).observe(viewLifecycleOwner) {
+                if (it != null) {
                     chatId = it.id //TODO:REMOVE
-                    chat=it
+                    chat = it
 
-                    if(chat!=null && chat!!.chatStatus==0){
-                        reviewButton.visibility=View.GONE
+                    if (chat != null && chat!!.chatStatus == 0) {
+                        reviewButton.visibility = View.GONE
                     }
-                    if( /*(userId!=userOfferer.uid)|| */ (chat!=null && chat!!.chatStatus==1)){
-                        assignButton.visibility=View.GONE
-                        rejectButton.visibility=View.GONE
-                        titleChat.visibility=View.GONE
+                    if ( /*(userId!=userOfferer.uid)|| */ (chat != null && chat!!.chatStatus == 1)) {
+                        assignButton.visibility = View.GONE
+                        rejectButton.visibility = View.GONE
+                        titleChat.visibility = View.GONE
                     }
-                    if(chat!=null && chat!!.chatStatus==1){ //assigned timeslot
+                    if (chat != null && chat!!.chatStatus == 1) { //assigned timeslot
                         titleChat.setText("This timeslot request was rejected!")
-                        if(slot.idReceiver==userId && ( slot.reviewState==2 || slot.reviewState==3)  ) { //current user receiver
-                            reviewButton.visibility=View.GONE
+                        if (slot.idReceiver == userId && (slot.reviewState == 2 || slot.reviewState == 3)) { //current user receiver
+                            reviewButton.visibility = View.GONE
+                        } else if (slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) {
+                            reviewButton.visibility = View.VISIBLE
                         }
-                        else if(slot.idReceiver==userId && (slot.reviewState==0 || slot.reviewState==1)){
-                            reviewButton.visibility=View.VISIBLE
-                        }
-                        if(slot.idReceiver!=userId && ( slot.reviewState==1 || slot.reviewState==3)  ) { //current user offer
-                            reviewButton.visibility=View.GONE
-                        }
-                        else if(slot.idReceiver==userId && (slot.reviewState==0 || slot.reviewState==2)){
-                            reviewButton.visibility=View.VISIBLE
+                        if (slot.idReceiver != userId && (slot.reviewState == 1 || slot.reviewState == 3)) { //current user offer
+                            reviewButton.visibility = View.GONE
+                        } else if (slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 2)) {
+                            reviewButton.visibility = View.VISIBLE
                         }
                     }
                     getChatMessages()
                 }
             }
         }else if(mychats){
-            val chatsList = timeSlotVM.getChatsSlotIncomingRequests(userId, slot.id)
-            //val chat = chatsList.value?.get(0)
-            chatsList.observe(viewLifecycleOwner){
-                if(it!=null){
-                    val chat = it[0]
-                    //prova -> temporaneo //"ZDqza5uYGOCF49OK2EkQ"
-                    timeSlotVM.getSlotChatWithAsker(userId, slot.id, chat?.id!!).observe(viewLifecycleOwner){
-                        recyclerView.layoutManager = LinearLayoutManager(context)
-                        if(it!=null) {
-                            //controllare sorting
-                            var messages = it.sortedWith( compareBy({it.date}, {it.time})).toMutableList()
-                            val adapter = ChatAdapter(messages, userId, userOfferer)
-                            recyclerView.adapter = adapter
+            timeSlotVM.getChat(userOfferer.uid, slot.id, userId).observe(viewLifecycleOwner) {
+                if (it != null) {
+                    chatId = it.id //TODO:REMOVE
+                    chat = it
+
+                    if (chat != null && chat!!.chatStatus == 0) {
+                        reviewButton.visibility = View.GONE
+                    }
+                    if ( /*(userId!=userOfferer.uid)|| */ (chat != null && chat!!.chatStatus == 1)) {
+                        assignButton.visibility = View.GONE
+                        rejectButton.visibility = View.GONE
+                        titleChat.visibility = View.GONE
+                    }
+                    if (chat != null && chat!!.chatStatus == 1) { //assigned timeslot
+                        titleChat.setText("This timeslot request was rejected!")
+                        if (slot.idReceiver == userId && (slot.reviewState == 2 || slot.reviewState == 3)) { //current user receiver
+                            reviewButton.visibility = View.GONE
+                        } else if (slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) {
+                            reviewButton.visibility = View.VISIBLE
+                        }
+                        if (slot.idReceiver != userId && (slot.reviewState == 1 || slot.reviewState == 3)) { //current user offer
+                            reviewButton.visibility = View.GONE
+                        } else if (slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 2)) {
+                            reviewButton.visibility = View.VISIBLE
                         }
                     }
+                    getChatMessages()
                 }
             }
         }
-
-
-
 
         sendButton.setOnClickListener{
             if(chatTextView.text.toString() != "" && chatId != null){
@@ -141,6 +148,7 @@ class ChatFragment : Fragment() {
                 createChat()
             }
         }
+
         rejectButton.setOnClickListener{
             if(chatId!=null){
                 timeSlotVM.rejectChat("LKM0KgFeF9VeRHwhzTApsMQZ6Qt1", slot.id, chatId!!) //TODO:userId
@@ -163,6 +171,7 @@ class ChatFragment : Fragment() {
                 titleChat.setText("This timeslot request was rejected")
             }
         }
+
         assignButton.setOnClickListener{
             profileVM.getUserById(chat!!.receiverUid).observe(viewLifecycleOwner) { userReceiver ->
                 if (userReceiver!!.credit <= slot.duration) {
@@ -196,13 +205,25 @@ class ChatFragment : Fragment() {
 
 
     fun getChatMessages(){
-        timeSlotVM.getSlotChatWithOfferer(userId, userOfferer.uid, slot.id, chatId!!).observe(viewLifecycleOwner){
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            if(it!=null) {
-                //controllare sorting
-                var messages = it.sortedWith( compareBy({it.date}, {it.time})).toMutableList()
-                val adapter = ChatAdapter(messages, userId, userOfferer)
-                recyclerView.adapter = adapter
+        if(!mychats){
+            timeSlotVM.getSlotChatWithOfferer(userId, userOfferer.uid, slot.id, chatId!!).observe(viewLifecycleOwner){
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                if(it!=null) {
+                    //controllare sorting
+                    var messages = it.sortedWith( compareBy({it.date}, {it.time})).toMutableList()
+                    val adapter = ChatAdapter(messages, userId, userOfferer)
+                    recyclerView.adapter = adapter
+                }
+            }
+        }else if(mychats){
+            timeSlotVM.getSlotChatWithOfferer(userOfferer.uid, userId, slot.id, chatId!!).observe(viewLifecycleOwner){
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                if(it!=null) {
+                    //controllare sorting
+                    var messages = it.sortedWith( compareBy({it.date}, {it.time})).toMutableList()
+                    val adapter = ChatAdapter(messages, userId, userOfferer)
+                    recyclerView.adapter = adapter
+                }
             }
         }
     }

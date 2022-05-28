@@ -93,20 +93,19 @@ class ChatFragment : Fragment() {
             if (it != null) {
                 chatId = it.id //TODO:REMOVE
                 chat = it
-                if (chat!!.chatStatus == 0) {
+                if (slot.status== 0) {
                     reviewButton.visibility = View.GONE
                 }
-                else if ( userId==offererId && chat!!.chatStatus == 0){
+                if ( userId==offererId && slot.status== 0){
+                    Log.d("vis", "visible")
                     assignButton.visibility = View.VISIBLE
                     rejectButton.visibility = View.VISIBLE
                 }
-                else if ( (userId!=offererId)|| (chat != null && chat!!.chatStatus == 1)) {
-                        assignButton.visibility = View.GONE
-                        rejectButton.visibility = View.GONE
-                        titleChat.visibility = View.GONE
-                }
-                else if (chat!!.chatStatus == 1) { //assigned timeslot
-                    titleChat.setText("This timeslot request was rejected!")
+                if ( slot.status == 1){
+                    assignButton.visibility = View.GONE
+                    rejectButton.visibility = View.GONE
+                    titleChat.visibility = View.GONE
+                   // titleChat.setText("This timeslot request was rejected!")
                     if (slot.idReceiver == userId && (slot.reviewState == 2 || slot.reviewState == 3)) { //current user receiver
                         reviewButton.visibility = View.GONE
                     } else if (slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) {
@@ -114,7 +113,7 @@ class ChatFragment : Fragment() {
                     }
                     if (slot.idReceiver != userId && (slot.reviewState == 1 || slot.reviewState == 3)) { //current user offer
                         reviewButton.visibility = View.GONE
-                    } else if (slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 2)) {
+                    } else if (slot.idReceiver != userId && (slot.reviewState == 0 || slot.reviewState == 2)) {
                         reviewButton.visibility = View.VISIBLE
                     }
                 }
@@ -138,7 +137,7 @@ class ChatFragment : Fragment() {
 
         rejectButton.setOnClickListener{
             if(chatId!=null){
-                timeSlotVM.rejectChat(offererId, slot.id, chatId!!) //TODO:userId
+                timeSlotVM.rejectChat(offererId, slot.id, chatId!!)
                 val snackbar = Snackbar.make(
                     requireView(),
                     "This timeslot was refused sucessufully for the this user",

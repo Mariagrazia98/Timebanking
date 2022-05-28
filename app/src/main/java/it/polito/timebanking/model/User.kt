@@ -8,5 +8,6 @@ class User(var uid: String = "uid", var fullname: String = "", var nickname: Str
            var description:String="",
            var skills:MutableList<String> = mutableListOf(),
            var age:Int=18,
-           var imagePath:String? = "") : Serializable {
+           var imagePath:String? = "",
+           var credit:Int ) : Serializable {
 }

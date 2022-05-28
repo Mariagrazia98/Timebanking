@@ -149,9 +149,6 @@ class ChatFragment : Fragment() {
             Log.d("assign timeslot", slot.toString())
             slot.status=1; //assigned
             slot.idReceiver=userOfferer.uid
-            println(slot.status)
-            println(slot.idReceiver)
-            println(userId)
             timeSlotVM.updateSlot(userId, slot)
             //TODO: investire credit
         }

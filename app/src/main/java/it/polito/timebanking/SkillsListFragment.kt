@@ -1,6 +1,7 @@
 package it.polito.timebanking
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import android.widget.TextView
@@ -32,6 +33,7 @@ class SkillsListFragment : Fragment() {
         val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
         userId = uid.toString()
 
+        Log.d("user",userId)
         timeSlotVM.getAllSkills(userId)
             .observe(viewLifecycleOwner) {
                 recyclerView.layoutManager = LinearLayoutManager(context)

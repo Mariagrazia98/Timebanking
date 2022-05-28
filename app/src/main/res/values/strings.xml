@@ -88,5 +88,8 @@
     <string name="suggestReview">Amazing experience, i learned so much!</string>
     <string name="hintComment">Give reasons for your answer</string>
     <string name="noAvailableReview">There is no available review</string>
+    <string name="assigned">Assigned</string>
+    <string name="accepted">Accepted</string>
+    <string name="assigned_accepted_offers">Assigned/Accepted offers</string>
 
 </resources>

@@ -32,7 +32,6 @@ class ChatFragment : Fragment() {
     lateinit var userId: String
     lateinit var otherUser : User
     lateinit var slot : TimeSlot
-    var chatId: String? = null
     var chat:Chat?=null
 
     var mychats = false
@@ -89,15 +88,12 @@ class ChatFragment : Fragment() {
 
         timeSlotVM.getChat(askerId, slot.id, offererId).observe(viewLifecycleOwner) {
 
-            Log.d("CHAT", it?.chatStatus.toString())
             if (it != null) {
-                chatId = it.id //TODO:REMOVE
                 chat = it
                 if (slot.status== 0) {
                     reviewButton.visibility = View.GONE
                 }
                 if ( userId==offererId && slot.status== 0){
-                    Log.d("vis", "visible")
                     assignButton.visibility = View.VISIBLE
                     rejectButton.visibility = View.VISIBLE
                 }
@@ -128,30 +124,17 @@ class ChatFragment : Fragment() {
         }
 
         sendButton.setOnClickListener{
-            if(chatTextView.text.toString() != "" && chatId != null){
+            if(chatTextView.text.toString() != "" && chat!= null){
                 sendMessage()
-            }else if(chatTextView.text.toString() != "" && chatId == null){
+            }else if(chatTextView.text.toString() != "" && chat == null){
                 createChat()
             }
         }
 
         rejectButton.setOnClickListener{
-            if(chatId!=null){
-                timeSlotVM.rejectChat(offererId, slot.id, chatId!!)
-                val snackbar = Snackbar.make(
-                    requireView(),
-                    "This timeslot was refused sucessufully for the this user",
-                    Snackbar.LENGTH_LONG
-                )
-                val sbView: View = snackbar.view
-                context?.let {
-                    ContextCompat.getColor(
-                        it,
-                        R.color.primary_light
-                    )
-                }
-                    ?.let { it2 -> sbView.setBackgroundColor(it2) }
-                snackbar.show()
+            if(chat!=null){
+                timeSlotVM.rejectChat(offererId, slot.id, chat!!.id)
+                printMessage("This timeslot was refused with success for the this user")
                 assignButton.visibility=View.GONE
                 rejectButton.visibility=View.GONE
                 titleChat.setText("This timeslot request was rejected")
@@ -194,7 +177,7 @@ class ChatFragment : Fragment() {
 
 
     fun getChatMessages(){
-        timeSlotVM.getSlotChatMessages(offererId, slot.id, chatId!!).observe(viewLifecycleOwner){
+        timeSlotVM.getSlotChatMessages(offererId, slot.id, chat!!.id).observe(viewLifecycleOwner){
             recyclerView.layoutManager = LinearLayoutManager(context)
             if(it!=null) {
                 //controllare sorting
@@ -206,19 +189,18 @@ class ChatFragment : Fragment() {
     }
 
     fun sendMessage(){
-        val msgId = timeSlotVM.getNewChatMessageId(offererId, slot.id, chatId!!)
+        val msgId = timeSlotVM.getNewChatMessageId(offererId, slot.id, chat!!.id)
         val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //controllare
         val time = SimpleDateFormat("HH:mm").format(Date()) //controllare
         val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
-        val ret = timeSlotVM.addChatMessage(offererId, slot.id, chatId!!, msg)
+        val ret = timeSlotVM.addChatMessage(offererId, slot.id, chat!!.id, msg)
         chatTextView.setText("")
         getChatMessages()
     }
 
     fun createChat(){
-        chatId = timeSlotVM.getNewChatId(offererId, slot.id)
-        val chat = Chat(chatId.toString(), userId)
-        timeSlotVM.addChat(offererId, slot.id, chatId.toString(), chat)
+        val chatId = timeSlotVM.getNewChatId(offererId, slot.id)
+        timeSlotVM.addChat(offererId, slot.id, chatId.toString(), Chat(chatId.toString(), userId))
         sendMessage()
     }
 
@@ -228,7 +210,6 @@ class ChatFragment : Fragment() {
             message,
             Snackbar.LENGTH_LONG
         )
-
         snackbar.show()
     }
 }

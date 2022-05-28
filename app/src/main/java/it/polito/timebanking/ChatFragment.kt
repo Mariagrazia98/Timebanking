@@ -13,12 +13,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import it.polito.timebanking.model.Chat
 import it.polito.timebanking.model.ChatMessage
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
+import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,6 +28,7 @@ import java.util.*
 
 class ChatFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
+    lateinit var profileVM:ProfileViewModel
     lateinit var recyclerView: RecyclerView
 
     lateinit var userId: String
@@ -39,6 +42,7 @@ class ChatFragment : Fragment() {
     lateinit var sendButton: ImageButton
     lateinit var rejectButton: Button
     lateinit var assignButton:Button
+    lateinit var reviewButton:Button
     lateinit var titleChat: TextView
 
 
@@ -56,11 +60,13 @@ class ChatFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
+        profileVM=ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
         titleChat = view.findViewById(R.id.assignQuestion)
         chatTextView = view.findViewById(R.id.edit_gchat_message)
         sendButton = view.findViewById(R.id.button_gchat_send)
         rejectButton = view.findViewById(R.id.rejectButton)
         assignButton = view.findViewById(R.id.assignButton)
+        reviewButton = view.findViewById(R.id.reviewButton)
         userOfferer = (arguments?.getSerializable("user") as User?)!!
         slot = (arguments?.getSerializable("slot") as TimeSlot?)!!
         mychats = arguments?.getBoolean("mychats")?:false
@@ -78,18 +84,29 @@ class ChatFragment : Fragment() {
                 if(it!=null){
                     chatId = it.id //TODO:REMOVE
                     chat=it
-                    println(it.id)
-                    println(it.chatStatus)
-                    println("chat")
-                    println(chat)
-                    println(chat?.chatStatus)
-                    if((userId!=userOfferer.uid) || (chat!=null && chat!!.chatStatus==1)){
+
+                    if(chat!=null && chat!!.chatStatus==0){
+                        reviewButton.visibility=View.GONE
+                    }
+                    if( /*(userId!=userOfferer.uid)|| */ (chat!=null && chat!!.chatStatus==1)){
                         assignButton.visibility=View.GONE
                         rejectButton.visibility=View.GONE
                         titleChat.visibility=View.GONE
                     }
-                    if(chat!=null && chat!!.chatStatus==1){
+                    if(chat!=null && chat!!.chatStatus==1){ //assigned timeslot
                         titleChat.setText("This timeslot request was rejected!")
+                        if(slot.idReceiver==userId && ( slot.reviewState==2 || slot.reviewState==3)  ) { //current user receiver
+                            reviewButton.visibility=View.GONE
+                        }
+                        else if(slot.idReceiver==userId && (slot.reviewState==0 || slot.reviewState==1)){
+                            reviewButton.visibility=View.VISIBLE
+                        }
+                        if(slot.idReceiver!=userId && ( slot.reviewState==1 || slot.reviewState==3)  ) { //current user offer
+                            reviewButton.visibility=View.GONE
+                        }
+                        else if(slot.idReceiver==userId && (slot.reviewState==0 || slot.reviewState==2)){
+                            reviewButton.visibility=View.VISIBLE
+                        }
                     }
                     getChatMessages()
                 }
@@ -147,13 +164,33 @@ class ChatFragment : Fragment() {
             }
         }
         assignButton.setOnClickListener{
-            Log.d("assign timeslot", slot.toString())
-            slot.status=1; //assigned
-            slot.idReceiver=userOfferer.uid
-            timeSlotVM.updateSlot(userId, slot)
-            //TODO: investire credit
+            profileVM.getUserById(chat!!.receiverUid).observe(viewLifecycleOwner) { userReceiver ->
+                if (userReceiver!!.credit <= slot.duration) {
+                    printMessage("The user has not enough credit! It is not possible to assign the timeslot to him")
+                } else {
+                    profileVM.updateUserCredit( //decrement credit receiver
+                        userReceiver.uid,
+                        userReceiver.credit - slot.duration
+                    ).observe(viewLifecycleOwner){
+                        if(it){
+                            profileVM.getUserById(chat!!.receiverUid).observe(viewLifecycleOwner
+                            ) { userOffer ->
+                                profileVM.updateUserCredit(
+                                    "LKM0KgFeF9VeRHwhzTApsMQZ6Qt1",//TODO UPDATE
+                                    userOffer!!.credit + slot.duration
+                                ) //increment credit offer
+                                slot.status=1; //assigned
+                                slot.idReceiver=chat!!.receiverUid
+                                timeSlotVM.updateSlot(userId, slot)//update timeslot status
+                            }
+                        }
+                    }
+                }
+            }
         }
-
+        reviewButton.setOnClickListener{
+            //TODO
+        }
         return view
     }
 
@@ -187,4 +224,20 @@ class ChatFragment : Fragment() {
         sendMessage()
     }
 
+    fun printMessage(message:String){
+        val snackbar = Snackbar.make(
+            requireView(),
+            message,
+            Snackbar.LENGTH_LONG
+        )
+        val sbView: View = snackbar.view
+        context?.let {
+            ContextCompat.getColor(
+                it,
+                R.color.primary_light
+            )
+        }
+            ?.let { it2 -> sbView.setBackgroundColor(it2) }
+        snackbar.show()
+    }
 }

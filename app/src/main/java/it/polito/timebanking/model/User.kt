@@ -9,5 +9,5 @@ class User(var uid: String = "uid", var fullname: String = "", var nickname: Str
            var skills:MutableList<String> = mutableListOf(),
            var age:Int=18,
            var imagePath:String? = "",
-           var credit:Int ) : Serializable {
+           var credit:Int=-1 ) : Serializable {
 }

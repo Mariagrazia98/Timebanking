@@ -1,6 +1,7 @@
 package it.polito.timebanking.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,6 +30,7 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun updateSlot(userId: String, slot: TimeSlot) : LiveData<Boolean>{
+        Log.d("VIEW MODEL", "make the query")
         val res = MutableLiveData<Boolean>()
         viewModelScope.launch{
             val result = repo.updateSlot(userId, slot)

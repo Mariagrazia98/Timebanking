@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.timebanking.model.Review
+import it.polito.timebanking.viewmodel.ProfileViewModel
 
 class MyReviewRecycleViewAdapter(data: List<Review>) : RecyclerView.Adapter<MyReviewRecycleViewAdapter.ReviewViewHolder>(){
 

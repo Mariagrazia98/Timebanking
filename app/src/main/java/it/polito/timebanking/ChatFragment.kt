@@ -1,6 +1,7 @@
 package it.polito.timebanking
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
@@ -87,19 +88,24 @@ class ChatFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_gchat)
 
         timeSlotVM.getChat(askerId, slot.id, offererId).observe(viewLifecycleOwner) {
+
+            Log.d("CHAT", it?.chatStatus.toString())
             if (it != null) {
                 chatId = it.id //TODO:REMOVE
                 chat = it
-
-                if (chat != null && chat!!.chatStatus == 0) {
+                if (chat!!.chatStatus == 0) {
                     reviewButton.visibility = View.GONE
                 }
-                if ( (userId!=offererId) || chat==null || (chat != null && chat!!.chatStatus == 1)) {
-                    assignButton.visibility = View.GONE
-                    rejectButton.visibility = View.GONE
-                    titleChat.visibility = View.GONE
+                else if ( userId==offererId && chat!!.chatStatus == 0){
+                    assignButton.visibility = View.VISIBLE
+                    rejectButton.visibility = View.VISIBLE
                 }
-                if (chat != null && chat!!.chatStatus == 1) { //assigned timeslot
+                else if ( (userId!=offererId)|| (chat != null && chat!!.chatStatus == 1)) {
+                        assignButton.visibility = View.GONE
+                        rejectButton.visibility = View.GONE
+                        titleChat.visibility = View.GONE
+                }
+                else if (chat!!.chatStatus == 1) { //assigned timeslot
                     titleChat.setText("This timeslot request was rejected!")
                     if (slot.idReceiver == userId && (slot.reviewState == 2 || slot.reviewState == 3)) { //current user receiver
                         reviewButton.visibility = View.GONE
@@ -113,6 +119,12 @@ class ChatFragment : Fragment() {
                     }
                 }
                 getChatMessages()
+            }
+            else{
+                assignButton.visibility = View.GONE
+                rejectButton.visibility = View.GONE
+                reviewButton.visibility=View.GONE
+                titleChat.visibility = View.GONE
             }
         }
 

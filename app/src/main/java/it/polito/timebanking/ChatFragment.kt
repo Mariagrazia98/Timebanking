@@ -1,14 +1,19 @@
 package it.polito.timebanking
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import it.polito.timebanking.model.Chat
 import it.polito.timebanking.model.ChatMessage
@@ -27,10 +32,14 @@ class ChatFragment : Fragment() {
     lateinit var userOfferer : User
     lateinit var slot : TimeSlot
     var chatId: String? = null
+    var chat:Chat?=null
 
     var mychats = false
     lateinit var chatTextView: EditText
     lateinit var sendButton: ImageButton
+    lateinit var rejectButton: Button
+    lateinit var assignButton:Button
+    lateinit var titleChat: TextView
 
 
 
@@ -47,10 +56,17 @@ class ChatFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
-
+        titleChat = view.findViewById(R.id.assignQuestion)
+        chatTextView = view.findViewById(R.id.edit_gchat_message)
+        sendButton = view.findViewById(R.id.button_gchat_send)
+        rejectButton = view.findViewById(R.id.rejectButton)
+        assignButton = view.findViewById(R.id.assignButton)
         userOfferer = (arguments?.getSerializable("user") as User?)!!
         slot = (arguments?.getSerializable("slot") as TimeSlot?)!!
         mychats = arguments?.getBoolean("mychats")?:false
+
+        (activity as MainActivity).supportActionBar?.title = userOfferer.fullname
+
 
         val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
         userId = uid.toString()
@@ -58,9 +74,22 @@ class ChatFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_gchat)
 
         if(!mychats){
-            timeSlotVM.getChatId(userId, slot.id, userOfferer.uid).observe(viewLifecycleOwner){
+            timeSlotVM.getChat(userId, slot.id, userOfferer.uid).observe(viewLifecycleOwner){
                 if(it!=null){
-                    chatId = it
+                    chatId = it.id //TODO:REMOVE
+                    chat=it
+                    println(it.id)
+                    println(it.chatStatus)
+                    println("chat")
+                    println(chat)
+                    println(chat?.chatStatus)
+                    if((userId!=userOfferer.uid) || (chat!=null && chat!!.chatStatus==1)){
+                        assignButton.visibility=View.GONE
+                        rejectButton.visibility=View.GONE
+                    }
+                    if(chat!=null && chat!!.chatStatus==1){
+                        titleChat.setText("This timeslot request was rejected!")
+                    }
                     getChatMessages()
                 }
             }
@@ -84,10 +113,8 @@ class ChatFragment : Fragment() {
             }
         }
 
-        chatTextView = view.findViewById(R.id.edit_gchat_message)
-        sendButton = view.findViewById(R.id.button_gchat_send)
 
-        (activity as MainActivity).supportActionBar?.title = userOfferer.fullname
+
 
         sendButton.setOnClickListener{
             if(chatTextView.text.toString() != "" && chatId != null){
@@ -96,11 +123,41 @@ class ChatFragment : Fragment() {
                 createChat()
             }
         }
+        rejectButton.setOnClickListener{
+            if(chatId!=null){
+                timeSlotVM.rejectChat("LKM0KgFeF9VeRHwhzTApsMQZ6Qt1", slot.id, chatId!!) //TODO:userId
+                val snackbar = Snackbar.make(
+                    requireView(),
+                    "This timeslot was refused sucessufully for the this user",
+                    Snackbar.LENGTH_LONG
+                )
+                val sbView: View = snackbar.view
+                context?.let {
+                    ContextCompat.getColor(
+                        it,
+                        R.color.primary_light
+                    )
+                }
+                    ?.let { it2 -> sbView.setBackgroundColor(it2) }
+                snackbar.show()
+                assignButton.visibility=View.GONE
+                rejectButton.visibility=View.GONE
+                titleChat.setText("This timeslot request was rejected")
+            }
+        }
+        assignButton.setOnClickListener{
+            Log.d("assign timeslot", slot.toString())
+            slot.status=1; //assigned
+            slot.idReceiver=userOfferer.uid
+            println(slot.status)
+            println(slot.idReceiver)
+            println(userId)
+            timeSlotVM.updateSlot(userId, slot)
+            //TODO: investire credit
+        }
 
         return view
     }
-
-
 
 
     fun getChatMessages(){

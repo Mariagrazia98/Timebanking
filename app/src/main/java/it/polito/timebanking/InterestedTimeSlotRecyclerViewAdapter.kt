@@ -14,17 +14,15 @@ import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 
 
-class MyTimeSlotRecyclerViewAdapter(
+class InterestedTimeSlotRecyclerViewAdapter(
     val data: Map<User, List<TimeSlot>>,
-    read_only: Boolean
 ) :
 
-    RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>(), Filterable {
+    RecyclerView.Adapter<InterestedTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>(), Filterable {
     var list = data.toMutableMap().values.flatten()
     var originalList = data.toMutableMap().values.flatten()
-    val read_only: Boolean = read_only
 
-    class ItemSlotViewHolder(v: View, read_only: Boolean) : RecyclerView.ViewHolder(v) {
+    class ItemSlotViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val title: TextView = v.findViewById(R.id.slot_title)
         private val date: TextView = v.findViewById(R.id.slot_date)
         private val time: TextView = v.findViewById(R.id.slot_time)
@@ -36,31 +34,23 @@ class MyTimeSlotRecyclerViewAdapter(
         val chatButton: ImageButton? = v.findViewById(R.id.chatButton)
 
 
-        fun bind(item: TimeSlot, read_only: Boolean, user: User) {
+        fun bind(item: TimeSlot, user: User) {
             title.text = item.title
             date.text = item.date
             time.text = item.time
             duration.text = item.duration.toString()
 
-            if (read_only) {
-                if (ivSlot != null) {
-                    Glide.with(ivSlot.context).load(user.imagePath).into(ivSlot)
-                }
-                name?.text = user.fullname
-
+            if (ivSlot != null) {
+                Glide.with(ivSlot.context).load(user.imagePath).into(ivSlot)
             }
+            name?.text = user.fullname
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemSlotViewHolder {
-        var vg: View?
-        if (read_only)
-            vg = LayoutInflater.from(parent.context)
-                .inflate(R.layout.fragment_other_time_slot, parent, false)
-        else
-            vg = LayoutInflater.from(parent.context)
-                .inflate(R.layout.fragment_my_time_slot, parent, false)
-        return ItemSlotViewHolder(vg, read_only)
+        val vg: View = LayoutInflater.from(parent.context)
+            .inflate(R.layout.fragment_other_time_slot, parent, false)
+        return ItemSlotViewHolder(vg)
     }
 
     override fun onBindViewHolder(holder: ItemSlotViewHolder, position: Int) {
@@ -71,8 +61,8 @@ class MyTimeSlotRecyclerViewAdapter(
                 user = it
             }
         }
-        item.let { holder.bind(it, read_only, user) }
-        val bundle = bundleOf("read_only" to read_only, "mychats" to false)
+        item.let { holder.bind(it, user) }
+        val bundle = bundleOf("read_only" to true, "mychats" to false)
         bundle.putSerializable("user", user)
         bundle.putSerializable("slot", item)
 

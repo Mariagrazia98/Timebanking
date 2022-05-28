@@ -25,7 +25,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/textPositive"
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
                     android:text="absolutely yes"
@@ -34,26 +34,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/ratingEditBar" />
 
                 <TextView
-                    android:id="@+id/textView11"
+                    android:id="@+id/textNegative"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="definitely no"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="@+id/ratingEditBar"
-                    app:layout_constraintTop_toBottomOf="@+id/ratingEditBar" />
-
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="60dp"
-                    android:text="Give reasons for your answer"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ratingEditBar" />
 
                 <TextView
@@ -68,21 +54,31 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/titleReview" />
 
-                <EditText
-                    android:id="@+id/commentReview"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/commentContainer"
                     android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_marginStart="35dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="50dp"
                     android:layout_marginEnd="35dp"
-                    android:background="@drawable/border_all"
-                    android:gravity="start"
-                    android:padding="8dp"
-                    android:text="Amazing experience, i learned so much!"
-                    android:textSize="14sp"
+                    app:boxBackgroundMode="outline"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:hintTextAppearance="@style/TextLabel"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                    app:layout_constraintTop_toBottomOf="@+id/textNegative">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/commentReview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="text"
+                        android:textSize="15sp"
+                        android:hint="@string/hintComment"
+                        android:gravity="start"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/sendReviewBtn"
@@ -93,7 +89,7 @@
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/commentReview" />
+                    app:layout_constraintTop_toBottomOf="@+id/commentContainer" />
 
                 <TextView
                     android:id="@+id/titleReview"
@@ -113,6 +109,7 @@
                     android:layout_height="42dp"
                     android:layout_marginTop="23dp"
                     android:isIndicator="false"
+                    android:progressBackgroundTint="@color/light_divider"
                     android:progressTint="@color/accent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

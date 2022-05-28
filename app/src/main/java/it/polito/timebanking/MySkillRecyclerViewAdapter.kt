@@ -19,7 +19,7 @@ class MySkillRecyclerViewAdapter(val data: List<String>, id: String) : RecyclerV
     val userId: String = id
 
     class SkillViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val cv: CardView = v.findViewById(R.id.cv)
+        val cv: CardView = v.findViewById(R.id.cvLastRating)
         private val title: TextView = v.findViewById(R.id.skill_title)
 
         fun bind(item: String) {

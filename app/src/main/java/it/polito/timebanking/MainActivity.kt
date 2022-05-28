@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         val log_item = navView.menu.findItem(R.id.nav_log)
         val profile_item = navView.menu.findItem(R.id.profileMenuItem)
         val adv_item = navView.menu.findItem(R.id.advMenuItem)
+        val interested_item = navView.menu.findItem(R.id.interestedAdvMenuItem)
 
 
         //initialize the FirebaseAuth instance
@@ -102,6 +103,7 @@ class MainActivity : AppCompatActivity() {
 
                 profile_item.isVisible = false
                 adv_item.isVisible = false
+                interested_item.isVisible = false
 
             } else {
                 profileViewModel.getUserById(userState!!.uid)
@@ -125,6 +127,7 @@ class MainActivity : AppCompatActivity() {
 
                 profile_item.isVisible = true
                 adv_item.isVisible = true
+                interested_item.isVisible = true
 
             }
 
@@ -144,6 +147,8 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.showProfileFragment, bundle)
             } else if (item.itemId == R.id.advMenuItem) {
                 navController.navigate(R.id.timeSlotListFragment, bundle)
+            }else if (item.itemId == R.id.interestedAdvMenuItem) {
+                    navController.navigate(R.id.interestedTimeSlotListFragment, bundle)
             } else if (item.itemId == R.id.skillsMenuItem) {
                 navController.navigate(R.id.skillsListFragment, bundle)
             }else if (item.itemId == R.id.nav_log) {

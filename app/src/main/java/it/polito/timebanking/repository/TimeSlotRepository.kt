@@ -184,14 +184,7 @@ class TimeSlotRepository {
         }
     }
 
-
-
-
-
-
-
-
-
+    /*** CHAT ***/
     suspend fun getChatId(userId: String, slotId: String, uidOfferer: String): String? {
         return try {
             val data = Firebase.firestore
@@ -337,6 +330,29 @@ class TimeSlotRepository {
         }
     }
 
+
+
+    suspend fun getChat(userId: String, slotId: String, uidOfferer: String) : Result<Chat?> {
+        return try {
+            val chat = Firebase.firestore
+                .collection("users")
+                .document(uidOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .whereEqualTo("receiverUid", userId)
+                .get()
+                .await()
+
+            var chatObject:Chat?=null;
+            chat.forEach{
+                chatObject= Chat(it.id, it.data.getValue("receiverUid").toString(), it.data.getValue("chatStatus").toString().toInt() )
+            }
+            Result.success(chatObject)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
     //retrieve the chat messages exchanged between the current user (offerer) and another user who is asking for the timeslot
     suspend fun getSlotChatWithAsker(uidCurrent: String, slotId: String, chatId: String): Result<List<ChatMessage>?> {
         return try {
@@ -359,6 +375,24 @@ class TimeSlotRepository {
         }
     }
 
+    suspend fun updateChatStatus(userId: String, timeslotId:String, chatId: String): Boolean {
+        return try {
+            Firebase.firestore
+                .collection("users")
+                .document(userId)
+                .collection("timeslots")
+                .document(timeslotId)
+                .collection("chats")
+                .document(chatId)
+                .update(mapOf(
+                    "chatStatus" to 1,
+                ))
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 
     suspend fun getInterestedSlotsByUser(userId: String): Result<Map<User, List<TimeSlot>>> {
         try {

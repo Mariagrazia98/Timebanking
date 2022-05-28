@@ -84,9 +84,6 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
 
 
 
-
-
-
     fun getChatId(userId :String, slotId: String, uidOfferer: String) : LiveData<String?>{
         val res = MutableLiveData<String?>()
         viewModelScope.launch{
@@ -96,6 +93,14 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
+    fun getChat(userId :String, slotId: String, uidOfferer: String) : LiveData<Chat?>{
+        val res = MutableLiveData<Chat?>()
+        viewModelScope.launch{
+            val result = repo.getChat(userId, slotId, uidOfferer)
+            res.postValue(result.getOrNull())
+        }
+        return res
+    }
     fun getNewChatId(userIdOfferer :String, slotId: String) : String{
         return repo.getNewChatId(userIdOfferer, slotId)
     }
@@ -152,6 +157,14 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
+    fun rejectChat(userId: String, timeslotId: String, chatId: String): LiveData<Boolean> {
+        val res = MutableLiveData<Boolean>()
+        viewModelScope.launch{
+            val result = repo.updateChatStatus(userId, timeslotId, chatId)
+            res.postValue(result)
+        }
+        return res
+    }
 
     fun getInterestedSlotsByUser(userId: String) :LiveData<Map<User, List<TimeSlot>>>{
         val res = MutableLiveData<Map<User, List<TimeSlot>>>()

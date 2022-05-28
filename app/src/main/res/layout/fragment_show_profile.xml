@@ -9,7 +9,7 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -245,7 +245,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/TitleRating" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/ratingAvg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -257,7 +257,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/TitleRating" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cv"
+                    android:id="@+id/cvLastRating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
@@ -267,7 +267,7 @@
                     app:cardUseCompatPadding="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8">
+                    app:layout_constraintTop_toBottomOf="@+id/numReviews">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -336,7 +336,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/numReviews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5 reviews"
@@ -344,6 +344,22 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+                <TextView
+                    android:id="@+id/alertNoReviews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="50dp"
+                    android:gravity="center"
+                    android:text="There is no avaible review"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="20sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TitleRating" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

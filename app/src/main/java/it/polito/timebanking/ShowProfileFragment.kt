@@ -7,13 +7,13 @@ import android.util.DisplayMetrics
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import it.polito.timebanking.viewmodel.ReviewViewModel
 
@@ -27,10 +27,14 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var descriptionView: TextView
     lateinit var imageView: ImageView
     lateinit var frameLayout: FrameLayout
-
     lateinit var nicknameTextView: TextView
     lateinit var locationTextView: TextView
     lateinit var descriptionTextView: TextView
+    lateinit var ratingBar: RatingBar
+    lateinit var numReviews: TextView
+    lateinit var avgRatings: TextView
+    lateinit var cv: CardView
+    lateinit var alertNoReviews: TextView
 
     var h: Int = 0
     var w: Int = 0
@@ -77,11 +81,11 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             })
         }
 
-        setVariables(view)
 
         read_only = arguments?.getBoolean("read_only")?:false
-
         userId = arguments?.getString("userId")!!
+        setVariables(view)
+
         profileVM.getUserById(userId)
             .observe(viewLifecycleOwner, Observer { user ->
                 if (user != null) {
@@ -137,6 +141,25 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         nicknameTextView=view.findViewById(R.id.nicknameText)
         locationTextView=view.findViewById(R.id.locationText)
         descriptionTextView=view.findViewById(R.id.descriptionText)
+        ratingBar=view.findViewById(R.id.ratingBar)
+        numReviews=view.findViewById(R.id.numReviews)
+        avgRatings=view.findViewById(R.id.ratingAvg)
+        cv=view.findViewById(R.id.cvLastRating)
+        reviewsVM.getReviewsByUser(userId).observe(viewLifecycleOwner){ reviews ->
+            if(reviews.size != 0) {
+                val avg = reviews.map { r -> r.rating }.average()
+                ratingBar.rating = avg.toFloat()
+                val text = "${reviews.size} reviews"
+                numReviews.text = text
+                avgRatings.text = avg.toString()
+            }
+            else{
+                ratingBar.visibility = View.GONE
+                numReviews.visibility = View.GONE
+                avgRatings.visibility = View.GONE
+                cv.visibility = View.GONE
+            }
+        }
     }
 
     fun convertDpToPixel(dp: Int): Float {

@@ -85,5 +85,7 @@
     <string name="ratingTitle">Would you suggest this user?</string>
     <string name="ratingAdvice">The user gave you all the information you needed, used correct language, was prompt in replying</string>
     <string name="skillListTitle">Select the skill you are interested in</string>
+    <string name="suggestReview">Amazing experience, i learned so much!</string>
+    <string name="hintComment">Give reasons for your answer</string>
 
 </resources>

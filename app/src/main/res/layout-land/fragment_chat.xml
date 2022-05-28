@@ -76,7 +76,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button4"
+                android:id="@+id/rejectButton"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button5"
+                android:id="@+id/assignButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

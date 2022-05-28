@@ -54,4 +54,12 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
 
     }
 
+    fun updateUserCredit(uid: String, newCredit: Int) : LiveData<Boolean> {
+        val res = MutableLiveData<Boolean>()
+        viewModelScope.launch {
+            val result = repo.updateCreditUser(uid, newCredit)
+            res.postValue(result)
+        }
+        return res
+    }
 }

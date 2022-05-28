@@ -220,7 +220,8 @@ class MainActivity : AppCompatActivity() {
                                 uid = user.uid,
                                 fullname = if (user.displayName != null) user.displayName.toString() else "",
                                 email = user.email!!,
-                                imagePath = if (user.photoUrl != null) user.photoUrl!!.toString() else null
+                                imagePath = if (user.photoUrl != null) user.photoUrl!!.toString() else null,
+                                credit=50,
                             )
                             profileViewModel.addUser(newUser)
                                 .observe(this, Observer { isSuccess ->
@@ -274,8 +275,4 @@ class MainActivity : AppCompatActivity() {
     fun onClickEditRating(v:View) {
         navController.navigate(R.id.action_showProfileFragment_to_editReviewFragment)
     }
-
-
-
-
 }

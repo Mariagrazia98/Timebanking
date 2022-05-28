@@ -114,7 +114,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             bundle.putSerializable("slot", timeslot)
             seeChatsButton.setOnClickListener {
                 NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(
-                    R.id.action_timeSlotDetailsFragment_to_chatFragment,
+                    R.id.action_timeSlotDetailsFragment_to_chatListFragment,
                     bundle
                 )
             }

@@ -63,4 +63,19 @@ class UserRepository() {
             false
         }
     }
+
+    suspend fun updateCreditUser(uid: String, newCredit: Int): Boolean? {
+        return try {
+            Firebase.firestore
+                .collection("users")
+                .document(uid)
+                .update(mapOf(
+                    "credit" to newCredit ,
+                ))
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 }

@@ -20,6 +20,7 @@ import it.polito.timebanking.viewmodel.ReviewViewModel
 import org.w3c.dom.Text
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
+    lateinit var creditView:TextView
     lateinit var fullnameView: TextView
     lateinit var ageView: TextView
     lateinit var nicknameView: TextView
@@ -95,6 +96,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         profileVM.getUserById(userId)
             .observe(viewLifecycleOwner, Observer { user ->
                 if (user != null) {
+                    creditView.text=user.credit.toString()
                     fullnameView.text = user.fullname
                     ageView.text = user.age.toString()
                     emailView.text = user.email
@@ -136,6 +138,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     }
 
     private fun setVariables(view: View) {
+        creditView=view.findViewById(R.id.credit)
         fullnameView = view.findViewById(R.id.fullName)
         ageView = view.findViewById(R.id.age)
         nicknameView = view.findViewById(R.id.nickname)

@@ -5,10 +5,7 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import it.polito.timebanking.model.Chat
-import it.polito.timebanking.model.ChatMessage
-import it.polito.timebanking.model.TimeSlot
-import it.polito.timebanking.model.User
+import it.polito.timebanking.model.*
 import kotlinx.coroutines.tasks.await
 
 class TimeSlotRepository {
@@ -184,216 +181,6 @@ class TimeSlotRepository {
         }
     }
 
-    /*** CHAT ***/
-    suspend fun getChatId(userId: String, slotId: String, uidOfferer: String): String? {
-        return try {
-            val data = Firebase.firestore
-                .collection("users")
-                .document(uidOfferer)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .whereEqualTo("receiverUid", userId)
-                .get()
-                .await()
-
-            var chatId: String? = null
-            data.documents.map{
-                chatId = it.id
-            }
-            chatId
-        } catch (e: Exception) {
-            e.toString()
-        }
-    }
-
-    fun getNewChatId(userIdOfferer: String, slotId: String): String {
-        return try {
-            val data = Firebase.firestore
-                .collection("users")
-                .document(userIdOfferer)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .document()
-                .id
-            data
-        } catch (e: Exception) {
-            e.toString()
-        }
-    }
-
-    suspend fun addChat(userIdOfferer: String, slotId: String, chatId: String, chat: Chat): Boolean {
-        return try {
-            Firebase.firestore
-                .collection("users")
-                .document(userIdOfferer)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .document(chatId)
-                .set(chat, SetOptions.merge())
-                .await()
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
-
-    fun getNewChatMessageId(userId: String, slotId: String, chatId: String): String {
-        return try {
-            val data = Firebase.firestore
-                .collection("users")
-                .document(userId)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .document(chatId)
-                .collection("messageList")
-                .document()
-                .id
-            data
-        } catch (e: Exception) {
-            e.toString()
-        }
-    }
-
-    suspend fun addChatMessage(userIdOfferer: String, slotId: String, chatId: String, msg: ChatMessage): Boolean {
-        return try {
-            Firebase.firestore
-                .collection("users")
-                .document(userIdOfferer)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .document(chatId)
-                .collection("messageList")
-                .document(msg.id)
-                .set(msg, SetOptions.merge())
-                .await()
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
-
-    //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
-    suspend fun getSlotChatWithOfferer(uidCurrent: String, uidOfferer: String, slotId: String, chatId: String): Result<MutableList<ChatMessage>?> {
-        return try {
-            val chatMessages = Firebase.firestore
-                .collection("users")
-                .document(uidOfferer)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .document(chatId)
-                .collection("messageList")
-                .get()
-                .await()
-
-            var messageList: MutableList<ChatMessage>? = mutableListOf()
-            chatMessages.forEach{
-                messageList?.add(it.toObject(ChatMessage::class.java))
-            }
-
-            Result.success(messageList)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    //retrieve all started chats (incoming requests by other user to the offerer -> current user) for a specific timeslot
-    suspend fun getChatsSlotIncomingRequests(uidCurrent: String, slotId: String) : Result<List<Chat>?> {
-        return try {
-            val chats = Firebase.firestore
-                .collection("users")
-                .document(uidCurrent)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .get()
-                .await()
-
-            //val allChats : MutableList<Chat>? = chats.toObjects(Chat::class.java)
-
-            var chatList: MutableList<Chat>? = mutableListOf()
-            chats.forEach{
-                val chatMap = it.data
-                val chat = Chat(it.id, chatMap.getValue("receiverUid").toString())
-                //chatList?.add(it.toObject(Chat::class.java))
-                chatList?.add(chat)
-            }
-
-            Result.success(chatList)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-
-
-    suspend fun getChat(userId: String, slotId: String, uidOfferer: String) : Result<Chat?> {
-        return try {
-            val chat = Firebase.firestore
-                .collection("users")
-                .document(uidOfferer)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .whereEqualTo("receiverUid", userId)
-                .get()
-                .await()
-
-            var chatObject:Chat?=null;
-            chat.forEach{
-                chatObject= Chat(it.id, it.data.getValue("receiverUid").toString(), it.data.getValue("chatStatus").toString().toInt() )
-            }
-            Result.success(chatObject)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-    //retrieve the chat messages exchanged between the current user (offerer) and another user who is asking for the timeslot
-    suspend fun getSlotChatWithAsker(uidCurrent: String, slotId: String, chatId: String): Result<List<ChatMessage>?> {
-        return try {
-            val messages = Firebase.firestore
-                .collection("users")
-                .document(uidCurrent)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .document(chatId)
-                .collection("messageList")
-                .get()
-                .await()
-
-            val messageList : MutableList<ChatMessage>? = messages.toObjects(ChatMessage::class.java)
-
-            Result.success(messageList)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun updateChatStatus(userId: String, timeslotId:String, chatId: String): Boolean {
-        return try {
-            Firebase.firestore
-                .collection("users")
-                .document(userId)
-                .collection("timeslots")
-                .document(timeslotId)
-                .collection("chats")
-                .document(chatId)
-                .update(mapOf(
-                    "chatStatus" to 1,
-                ))
-                .await()
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
-
     suspend fun getInterestedSlotsByUser(userId: String): Result<Map<User, List<TimeSlot>>> {
         try {
             val users = Firebase.firestore
@@ -447,4 +234,180 @@ class TimeSlotRepository {
             return Result.failure(e)
         }
     }
+
+
+    /*** CHAT ***/
+    suspend fun getChat(idAsker: String, slotId: String, idOfferer: String) : Result<Chat?> {
+        return try {
+            val chat = Firebase.firestore
+                .collection("users")
+                .document(idOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .whereEqualTo("receiverUid", idAsker)
+                .get()
+                .await()
+
+            var chatObject:Chat?=null;
+            chat.forEach{
+                chatObject= Chat(it.id, it.data.getValue("receiverUid").toString(), it.data.getValue("chatStatus").toString().toInt() )
+            }
+            Result.success(chatObject)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    fun getNewChatId(idOfferer: String, slotId: String): String {
+        return try {
+            val data = Firebase.firestore
+                .collection("users")
+                .document(idOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .document()
+                .id
+            data
+        } catch (e: Exception) {
+            e.toString()
+        }
+    }
+
+    suspend fun addChat(idOfferer: String, slotId: String, chatId: String, chat: Chat): Boolean {
+        return try {
+            Firebase.firestore
+                .collection("users")
+                .document(idOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .document(chatId)
+                .set(chat, SetOptions.merge())
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun getNewChatMessageId(idOfferer: String, slotId: String, chatId: String): String {
+        return try {
+            val data = Firebase.firestore
+                .collection("users")
+                .document(idOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .document(chatId)
+                .collection("messageList")
+                .document()
+                .id
+            data
+        } catch (e: Exception) {
+            e.toString()
+        }
+    }
+
+    suspend fun addChatMessage(idOfferer: String, slotId: String, chatId: String, msg: ChatMessage): Boolean {
+        return try {
+            Firebase.firestore
+                .collection("users")
+                .document(idOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .document(chatId)
+                .collection("messageList")
+                .document(msg.id)
+                .set(msg, SetOptions.merge())
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
+    suspend fun getSlotChatMessages(idOfferer: String, slotId: String, chatId: String): Result<MutableList<ChatMessage>?> {
+        return try {
+            val chatMessages = Firebase.firestore
+                .collection("users")
+                .document(idOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .document(chatId)
+                .collection("messageList")
+                .get()
+                .await()
+
+            var messageList: MutableList<ChatMessage>? = mutableListOf()
+            chatMessages.forEach{
+                messageList?.add(it.toObject(ChatMessage::class.java))
+            }
+
+            Result.success(messageList)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    //retrieve all started chats (incoming requests by other user to the offerer -> current user) for a specific timeslot
+    suspend fun getChatsSlotIncomingRequests(idOfferer: String, slotId: String) : Result<List<ChatUser>?> {
+        return try {
+            val chats = Firebase.firestore
+                .collection("users")
+                .document(idOfferer)
+                .collection("timeslots")
+                .document(slotId)
+                .collection("chats")
+                .get()
+                .await()
+
+            //val allChats : MutableList<Chat>? = chats.toObjects(Chat::class.java)
+
+            var chatList: MutableList<ChatUser>? = mutableListOf()
+            chats.forEach{
+                val chatMap = it.data
+
+                val otherUserId = chatMap.getValue("receiverUid").toString()
+                val user = Firebase.firestore
+                    .collection("users")
+                    .document(otherUserId)
+                    .get()
+                    .await()
+
+                val chat = ChatUser(it.id, chatMap.getValue("receiverUid").toString(), chatMap.getValue("chatStatus").toString().toInt(), user.toObject(User::class.java)!!)
+                //chatList?.add(it.toObject(Chat::class.java))
+                chatList?.add(chat)
+            }
+
+            Result.success(chatList)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun updateChatStatus(idOfferer: String, timeslotId:String, chatId: String): Boolean {
+        return try {
+            Firebase.firestore
+                .collection("users")
+                .document(idOfferer)
+                .collection("timeslots")
+                .document(timeslotId)
+                .collection("chats")
+                .document(chatId)
+                .update(mapOf(
+                    "chatStatus" to 1,
+                ))
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+
 }

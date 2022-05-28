@@ -33,6 +33,7 @@ import com.google.firebase.storage.ktx.storage
 import de.hdodenhof.circleimageview.CircleImageView
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
+import org.w3c.dom.Text
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -47,6 +48,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var userId: String
     lateinit var fv: View
 
+    lateinit var credit:TextView
     lateinit var fullnameView: EditText
     lateinit var ageView: EditText
     lateinit var nicknameView: EditText
@@ -191,16 +193,18 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
                         builder.setMessage("Do you want to update the profile?")
                             .setPositiveButton("Confirm") { dialog, id ->
-                                user = User()
-                                user.fullname = fullnameView.text.toString()
-                                user.nickname = nicknameView.text.toString()
-                                user.email = emailView.text.toString()
-                                user.location = locationView.text.toString()
-                                user.skills = skillsList
-                                user.description = descriptionView.text.toString()
-                                user.age = Integer.parseInt(ageView.text.toString())
-                                user.imagePath = currentPhotoPath
-                                user.uid = userId
+                                user = User(
+                                    uid = userId,
+                                    fullname=fullnameView.text.toString(),
+                                    nickname = nicknameView.text.toString(),
+                                    email = emailView.text.toString(),
+                                    location = locationView.text.toString(),
+                                    skills = skillsList,
+                                    description = descriptionView.text.toString(),
+                                    age = Integer.parseInt(ageView.text.toString()),
+                                    imagePath = currentPhotoPath,
+                                    credit=credit.toString().toInt()
+                                )
                                 profileVM.updateUser(user).observe(viewLifecycleOwner, Observer {
                                     if (it) {
                                         val snackbar = Snackbar.make(
@@ -293,6 +297,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
     fun setVariables(view: View) {
+        credit=view.findViewById(R.id.credit)
         fullnameView = view.findViewById(R.id.Edit_FullName)
         ageView = view.findViewById(R.id.edit_age)
         nicknameView = view.findViewById(R.id.Edit_Nickname)
@@ -447,7 +452,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        profileVM.setUser(user = User(user.uid, user.fullname,nicknameView.text.toString(), user.email, locationView.text.toString(), descriptionView.text.toString(),skillsList,  ageView.text.toString().toInt(), user.imagePath))
+        profileVM.setUser(user = User(user.uid, user.fullname,nicknameView.text.toString(), user.email, locationView.text.toString(), descriptionView.text.toString(),skillsList,  ageView.text.toString().toInt(), user.imagePath, credit = credit.toString().toInt()))
         outState.putString("imagePath", currentPhotoPath)
     }
 }

@@ -5,10 +5,7 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import it.polito.timebanking.model.Chat
-import it.polito.timebanking.model.ChatMessage
-import it.polito.timebanking.model.TimeSlot
-import it.polito.timebanking.model.User
+import it.polito.timebanking.model.*
 import kotlinx.coroutines.tasks.await
 
 class TimeSlotRepository {
@@ -303,7 +300,7 @@ class TimeSlotRepository {
     }
 
     //retrieve all started chats (incoming requests by other user to the offerer -> current user) for a specific timeslot
-    suspend fun getChatsSlotIncomingRequests(uidCurrent: String, slotId: String) : Result<List<Chat>?> {
+    suspend fun getChatsSlotIncomingRequests(uidCurrent: String, slotId: String) : Result<List<ChatUser>?> {
         return try {
             val chats = Firebase.firestore
                 .collection("users")
@@ -316,10 +313,18 @@ class TimeSlotRepository {
 
             //val allChats : MutableList<Chat>? = chats.toObjects(Chat::class.java)
 
-            var chatList: MutableList<Chat>? = mutableListOf()
+            var chatList: MutableList<ChatUser>? = mutableListOf()
             chats.forEach{
                 val chatMap = it.data
-                val chat = Chat(it.id, chatMap.getValue("receiverUid").toString())
+
+                val otherUserId = chatMap.getValue("receiverUid").toString()
+                val user = Firebase.firestore
+                    .collection("users")
+                    .document(otherUserId)
+                    .get()
+                    .await()
+
+                val chat = ChatUser(it.id, chatMap.getValue("receiverUid").toString(), chatMap.getValue("chatStatus").toString().toInt(), user.toObject(User::class.java)!!)
                 //chatList?.add(it.toObject(Chat::class.java))
                 chatList?.add(chat)
             }

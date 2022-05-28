@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_timeSlotDetailsFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_timeSlotDetailsFragment_to_chatListFragment"
+            app:destination="@id/chatListFragment" />
     </fragment>
     <fragment
         android:id="@+id/timeSlotEditFragment"
@@ -114,4 +117,12 @@
         android:id="@+id/editReviewFragment"
         android:name="it.polito.timebanking.EditReviewFragment"
         android:label="EditReviewFragment" />
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="it.polito.timebanking.ChatListFragment"
+        android:label="ChatListFragment" >
+        <action
+            android:id="@+id/action_chatListFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
 </navigation>

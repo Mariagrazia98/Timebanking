@@ -5,10 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import it.polito.timebanking.model.Chat
-import it.polito.timebanking.model.ChatMessage
-import it.polito.timebanking.model.TimeSlot
-import it.polito.timebanking.model.User
+import it.polito.timebanking.model.*
 import it.polito.timebanking.repository.TimeSlotRepository
 import kotlinx.coroutines.launch
 
@@ -138,8 +135,8 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
     }
 
     //retrieve all started chats (incoming requests by other user to the offerer -> current user) for a specific timeslot
-    fun getChatsSlotIncomingRequests(uidCurrent: String, slotId: String) : LiveData<List<Chat>?> {
-        val res = MutableLiveData<List<Chat>?>()
+    fun getChatsSlotIncomingRequests(uidCurrent: String, slotId: String) : LiveData<List<ChatUser>?> {
+        val res = MutableLiveData<List<ChatUser>?>()
         viewModelScope.launch{
             val result = repo.getChatsSlotIncomingRequests(uidCurrent, slotId)
             res.postValue(result.getOrNull())

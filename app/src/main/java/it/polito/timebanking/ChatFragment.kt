@@ -86,6 +86,7 @@ class ChatFragment : Fragment() {
                     if((userId!=userOfferer.uid) || (chat!=null && chat!!.chatStatus==1)){
                         assignButton.visibility=View.GONE
                         rejectButton.visibility=View.GONE
+                        titleChat.visibility=View.GONE
                     }
                     if(chat!=null && chat!!.chatStatus==1){
                         titleChat.setText("This timeslot request was rejected!")

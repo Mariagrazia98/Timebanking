@@ -147,17 +147,20 @@ class ChatFragment : Fragment() {
             if (it != null) {
                 chat = it
                 if(chat!!.chatStatus==1) {
-                     titleChat.setText("This timeslot request was rejected!")
-                        reviewButton.visibility = View.GONE
-                        assignButton.visibility = View.GONE
-                        rejectButton.visibility = View.GONE
+                    reviewButton.visibility = View.GONE
+                    assignButton.visibility = View.GONE
+                    rejectButton.visibility = View.GONE
+                    titleChat.visibility=View.VISIBLE
+                    titleChat.setText("This timeslot request was rejected!")
                 }
                 if (slot.status== 0) {
                     reviewButton.visibility = View.GONE
+                    titleChat.visibility=View.GONE
                 }
                 if ( userId==offererId && slot.status== 0){
                     assignButton.visibility = View.VISIBLE
                     rejectButton.visibility = View.VISIBLE
+                    titleChat.visibility=View.VISIBLE
                 }
                 if ( slot.status == 1){ //timeslot assigned
                     assignButton.visibility = View.GONE

@@ -67,7 +67,9 @@
             android:layout_weight="3"
             android:gravity="center_horizontal|center_vertical"
             android:text="Do you want to assign this timeslot?"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
 
         <LinearLayout
@@ -84,7 +86,8 @@
                 android:text="Review"
                 android:visibility="gone"
                 app:strokeColor="@color/primary"
-                app:strokeWidth="2dp" />
+                app:strokeWidth="2dp"
+                tools:visibility="visible" />
         </LinearLayout>
 
         <LinearLayout
@@ -106,7 +109,8 @@
                 app:cornerRadius="8dp"
                 app:rippleColor="@android:color/white"
                 app:strokeColor="@color/primary"
-                app:strokeWidth="2dp" />
+                app:strokeWidth="2dp"
+                tools:visibility="visible" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/assignButton"
@@ -116,7 +120,8 @@
                 android:text="Assign"
                 android:visibility="gone"
                 app:cornerRadius="8dp"
-                app:strokeColor="@color/primary" />
+                app:strokeColor="@color/primary"
+                tools:visibility="visible" />
 
         </LinearLayout>
 

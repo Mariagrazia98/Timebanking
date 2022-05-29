@@ -3,16 +3,12 @@ package it.polito.timebanking
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.SearchView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import it.polito.timebanking.R
-import it.polito.timebanking.model.ChatUser
 import it.polito.timebanking.model.TimeSlot
-import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 

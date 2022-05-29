@@ -14,15 +14,9 @@ import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 
 
-class MyTimeSlotRecyclerViewAdapter(
-    val data: Map<User, List<TimeSlot>>,
-    read_only: Boolean
-) :
-
-    RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>(), Filterable {
+class MyTimeSlotRecyclerViewAdapter(val data: Map<User, List<TimeSlot>>, val read_only: Boolean) : RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>(), Filterable {
     var list = data.toMutableMap().values.flatten()
     var originalList = data.toMutableMap().values.flatten()
-    val read_only: Boolean = read_only
 
     class ItemSlotViewHolder(v: View, read_only: Boolean) : RecyclerView.ViewHolder(v) {
         private val title: TextView = v.findViewById(R.id.slot_title)
@@ -53,7 +47,7 @@ class MyTimeSlotRecyclerViewAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemSlotViewHolder {
-        var vg: View?
+        val vg: View?
         if (read_only)
             vg = LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_other_time_slot, parent, false)
@@ -124,7 +118,7 @@ class MyTimeSlotRecyclerViewAdapter(
                 } else
                     filteredRes = originalList
 
-                resCount = filteredRes!!.size
+                resCount = filteredRes.size
                 val results = FilterResults()
                 results.values = filteredRes
                 return results
@@ -141,8 +135,8 @@ class MyTimeSlotRecyclerViewAdapter(
     }
 
     fun getFilteredResultsByDate(str: String): MutableList<TimeSlot> {
-        var results = mutableListOf<TimeSlot>()
-        var date = str.split('=')[1]
+        val results = mutableListOf<TimeSlot>()
+        val date = str.split('=')[1]
 
         for (item in list) {
             if (item.date == date) {
@@ -154,10 +148,10 @@ class MyTimeSlotRecyclerViewAdapter(
     }
 
     fun getFilteredResultsByDuration(str: String): MutableList<TimeSlot> {
-        var results = mutableListOf<TimeSlot>()
-        var duration = str.split('=')[1].replace("\\s".toRegex(), "").split("-")
-        var sx = duration[0].toInt()
-        var dx = duration[1].toInt()
+        val results = mutableListOf<TimeSlot>()
+        val duration = str.split('=')[1].replace("\\s".toRegex(), "").split("-")
+        val sx = duration[0].toInt()
+        val dx = duration[1].toInt()
         for (item in list) {
             if (item.duration >= sx && item.duration <= dx) {
                 results.add(item)
@@ -167,8 +161,8 @@ class MyTimeSlotRecyclerViewAdapter(
     }
 
     fun getFilteredResultsByStartTime(str: String): MutableList<TimeSlot> {
-        var results = mutableListOf<TimeSlot>()
-        var duration = str.split('=')[1]
+        val results = mutableListOf<TimeSlot>()
+        val duration = str.split('=')[1]
 
         for (item in list) {
             if (item.time >= duration) {

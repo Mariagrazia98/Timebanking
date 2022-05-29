@@ -64,13 +64,13 @@ class MySkillRecyclerViewAdapter(val data: List<String>, id: String) : RecyclerV
     }
 
     fun getFilteredResults(str: String): MutableList<String> {
-        var text = str
-        var results = mutableListOf<String>()
+        val text = str
+        val results = mutableListOf<String>()
         if (text.isEmpty()) {
             results.addAll(originalList)
         } else {
             for (item in originalList) {
-                if (item.toLowerCase().contains(text)) {
+                if (item.lowercase().contains(text)) {
                     results.add(item)
                 }
             }

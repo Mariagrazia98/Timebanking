@@ -1,6 +1,5 @@
 package it.polito.timebanking
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import it.polito.timebanking.model.ChatMessage
 import it.polito.timebanking.model.User
-import java.text.SimpleDateFormat
 
 
 class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val userOfferer: User) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {

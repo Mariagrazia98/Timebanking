@@ -18,7 +18,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.bumptech.glide.Glide
@@ -112,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                             navTitle.text= user.fullname
                             navSubtitle.text=user.email
                             if(user.imagePath!=null){
-                                var imageHeader=  headerView.findViewById<CircleImageView>(R.id.imageViewHeader)
+                                val imageHeader=  headerView.findViewById<CircleImageView>(R.id.imageViewHeader)
                                 Glide.with(this /* context */).load(user.imagePath).into(imageHeader)
                             }
                         }

@@ -1,7 +1,5 @@
 package it.polito.timebanking
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,21 +8,16 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import it.polito.timebanking.model.Chat
 import it.polito.timebanking.model.ChatUser
 import it.polito.timebanking.model.TimeSlot
-import it.polito.timebanking.viewmodel.ProfileViewModel
-import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 
-class ChatTitleAdapter(val data: List<ChatUser>, slot: TimeSlot) : RecyclerView.Adapter<ChatTitleAdapter.ChatTitleViewHolder>() {
+class ChatTitleAdapter(val data: List<ChatUser>, val slot: TimeSlot) : RecyclerView.Adapter<ChatTitleAdapter.ChatTitleViewHolder>() {
 
     var list = data.toMutableList()
-    val slot: TimeSlot = slot
 
     class ChatTitleViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val cv: CardView = v.findViewById(R.id.chatTitleCv)
@@ -57,7 +50,6 @@ class ChatTitleAdapter(val data: List<ChatUser>, slot: TimeSlot) : RecyclerView.
                 bundle
             )
         }
-
     }
 
     override fun getItemCount(): Int = list.size

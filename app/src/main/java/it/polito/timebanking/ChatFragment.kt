@@ -1,9 +1,6 @@
 package it.polito.timebanking
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
@@ -69,7 +66,7 @@ class ChatFragment : Fragment() {
         assignButton = view.findViewById(R.id.assignButton)
         reviewButton = view.findViewById(R.id.reviewButton)
         otherUser = (arguments?.getSerializable("user") as User?)!!
-        var slotId = (arguments?.getSerializable("slot") as TimeSlot?)!!.id
+        val slotId = (arguments?.getSerializable("slot") as TimeSlot?)!!.id
 
         mychats = arguments?.getBoolean("mychats")?:false
 
@@ -127,7 +124,7 @@ class ChatFragment : Fragment() {
                                     offererId,
                                     userOffer!!.credit + slot.duration
                                 ) //increment credit offer
-                                slot.status=1; //assigned
+                                slot.status=1 //assigned
                                 slot.idReceiver=chat!!.receiverUid
                                 timeSlotVM.updateSlot(userId, slot)//update timeslot status
                                 titleChat.visibility=View.GONE
@@ -211,16 +208,16 @@ class ChatFragment : Fragment() {
 
     fun sendMessage(){
         val msgId = timeSlotVM.getNewChatMessageId(offererId, slot.id, chat!!.id)
-        val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //TODO: controllare
-        val time = SimpleDateFormat("HH:mm:ss").format(Date()) //TODO: controllare
+        val date = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(Date()) //TODO: controllare
+        val time = SimpleDateFormat("HH:mm:ss", Locale.ITALY).format(Date()) //TODO: controllare
         val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
-        val ret = timeSlotVM.addChatMessage(offererId, slot.id, chat!!.id, msg)
+        timeSlotVM.addChatMessage(offererId, slot.id, chat!!.id, msg)
         chatTextView.setText("")
     }
 
     fun createChat(){
         val chatId = timeSlotVM.getNewChatId(offererId, slot.id)
-        timeSlotVM.addChat(offererId, slot.id, chatId.toString(), Chat(chatId.toString(), userId))
+        timeSlotVM.addChat(offererId, slot.id, chatId, Chat(chatId, userId))
         getChat(true) //get chat and send message
     }
 

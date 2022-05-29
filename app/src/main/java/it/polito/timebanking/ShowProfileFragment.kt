@@ -17,7 +17,6 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import it.polito.timebanking.model.Review
 import it.polito.timebanking.viewmodel.ReviewViewModel
-import org.w3c.dom.Text
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     lateinit var creditView:TextView
@@ -171,7 +170,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 val text = "${reviews.size} reviews"
                 numReviews.text = text
                 avgRatings.text = avg.toString()
-                var last : Review = reviews[reviews.size-1]
+                val last : Review = reviews[reviews.size-1]
                 reviewerName.text = last.nameReviewer
                 ratingLR.rating = last.rating
                 commentReview.text = last.comment

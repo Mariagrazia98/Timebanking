@@ -82,7 +82,7 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
         }
 
         list = arrayListOf("Date (ascending)","Date (descending)", "Duration (ascending)", "Duration (descending)")
-        var arrayAdapter = ArrayAdapter(
+        val arrayAdapter = ArrayAdapter(
             (activity as MainActivity).applicationContext,
             android.R.layout.simple_spinner_dropdown_item,
             list
@@ -172,7 +172,7 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
     }
 
     private fun saveBundle() {
-        var outState = Bundle()
+        val outState = Bundle()
         outState.putInt("SX_SLIDER", sx)
         outState.putInt("DX_SLIDER", dx)
         outState.putString("DATE", dateView.text.toString())

@@ -194,7 +194,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                                 ts.duration = durationView.text.toString().toInt()
                                 ts.location = locationView.text.toString()
                                 ts.skills = timeslotSkills
-                                var snackbarMessage="";
+                                var snackbarMessage=""
                                 if(userId == "") { //edit
                                     ts.id = timeslot!!.id
                                     snackbarMessage= "Time slot updated"
@@ -302,7 +302,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     }
 
     private fun validateProfile():Boolean {
-        var isValid: Boolean = true
+        var isValid = true
         if(titleView.text.isEmpty()){
             titleView.error="Title should not be empty"
             isValid = false
@@ -317,8 +317,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             descriptionView.error=null
         }
 
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
-        val sdfTime =  SimpleDateFormat("HH:mm")
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY)
+        val sdfTime =  SimpleDateFormat("HH:mm", Locale.ITALY)
 
         if(sdf.format(sdf.parse(dateView.text.toString())) == sdf.format(Calendar.getInstance().time) && sdfTime.format(sdfTime.parse(timeView.text.toString())) < sdfTime.format(Calendar.getInstance().time)){
             timeView.error="Time should be greater than now"

@@ -2,8 +2,6 @@ package it.polito.timebanking
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.text.format.Time
-import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.ImageView
@@ -19,8 +17,6 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.TimeSlotViewModel

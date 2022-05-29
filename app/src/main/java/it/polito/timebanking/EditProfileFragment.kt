@@ -33,7 +33,6 @@ import com.google.firebase.storage.ktx.storage
 import de.hdodenhof.circleimageview.CircleImageView
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
-import org.w3c.dom.Text
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -176,7 +175,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         })
 
-        handleButton();
+        handleButton()
     }
 
 

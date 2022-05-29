@@ -13,6 +13,7 @@ import android.widget.RatingBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import it.polito.timebanking.model.Review
+import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.ReviewViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -22,6 +23,10 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
     lateinit var comment: EditText
     lateinit var sendReviewBtn: Button
     lateinit var reviewsVM: ReviewViewModel
+    lateinit var userId: String
+    lateinit var userIdReviewer: String
+    lateinit var profileVM: ProfileViewModel
+    lateinit var nameReviewer: String
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         //delete edit_button
@@ -36,6 +41,8 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
     ): View? {
         (activity as MainActivity).supportActionBar?.title = "Edit Review"
         reviewsVM = ViewModelProvider(requireActivity()).get(ReviewViewModel::class.java)
+        profileVM = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
+
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -45,15 +52,20 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         comment = view.findViewById(R.id.commentReview)
         sendReviewBtn = view.findViewById(R.id.sendReviewBtn)
         ratingBar = view.findViewById(R.id.ratingEditBar)
-
         sendReviewBtn.setOnClickListener {
             sendReview()
+        }
+
+        userId = arguments?.getString("userId")  ?: ""
+        userIdReviewer = arguments?.getString(userIdReviewer) ?: ""
+
+        profileVM.getUserById(userIdReviewer).observe(viewLifecycleOwner){
+            nameReviewer = it?.nickname ?: ""
         }
     }
 
     private fun sendReview() {
-        //TODO id management
-        val id = reviewsVM.getNewReviewId("eRJhLDrANkXQj8ZLTMTeSh9uqj43")
+        val id = reviewsVM.getNewReviewId(userId)
         val review = Review()
         review.comment = comment.text.toString()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -62,9 +74,9 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         }
         review.rating = ratingBar.rating
         review.id = id
-        review.nameReviewer = "Mariagrazia"
+        review.nameReviewer = nameReviewer
         review.type = 0
-        reviewsVM.updateReview("eRJhLDrANkXQj8ZLTMTeSh9uqj43", review).observe(viewLifecycleOwner) {
+        reviewsVM.updateReview(userId, review).observe(viewLifecycleOwner) {
             Log.d("debugReview", it.toString())
         }
     }

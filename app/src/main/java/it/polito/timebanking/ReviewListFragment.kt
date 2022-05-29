@@ -21,7 +21,6 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
  * A fragment representing a list of Items.
  */
 class ReviewListFragment : Fragment() {
-    lateinit var profileVM: ProfileViewModel
     lateinit var reviewsVM: ReviewViewModel
     lateinit var reviewList: LiveData<MutableList<Review>>
     var userId: String? = null
@@ -33,7 +32,6 @@ class ReviewListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_reviews_list, container, false)
         val rv = view.findViewById<RecyclerView>(R.id.reviewsRv)
         userId = arguments?.getString("userId")
-        profileVM = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
         reviewsVM = ViewModelProvider(requireActivity()).get(ReviewViewModel::class.java)
         reviewList = reviewsVM.getReviewsByUser(userId!!)
         reviewList.observe(viewLifecycleOwner){

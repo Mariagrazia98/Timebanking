@@ -1,7 +1,5 @@
 package it.polito.timebanking.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -321,7 +319,7 @@ class TimeSlotRepository {
                 .get()
                 .await()
 
-            var chatObject:Chat?=null;
+            var chatObject:Chat?=null
             chat.forEach{
                 chatObject= Chat(it.id, it.data.getValue("receiverUid").toString(), it.data.getValue("chatStatus").toString().toInt() )
             }
@@ -415,7 +413,7 @@ class TimeSlotRepository {
                 .get()
                 .await()
 
-            var messageList: MutableList<ChatMessage>? = mutableListOf()
+            val messageList: MutableList<ChatMessage>? = mutableListOf()
             chatMessages.forEach{
                 messageList?.add(it.toObject(ChatMessage::class.java))
             }

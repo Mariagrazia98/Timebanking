@@ -2,14 +2,10 @@ package it.polito.timebanking
 
 import android.os.Bundle
 import android.view.*
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
-import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.polito.timebanking.viewmodel.TimeSlotViewModel

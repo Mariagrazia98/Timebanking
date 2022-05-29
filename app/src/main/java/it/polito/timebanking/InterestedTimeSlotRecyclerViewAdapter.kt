@@ -144,10 +144,10 @@ class InterestedTimeSlotRecyclerViewAdapter(
     }
 
     fun getFilteredResultsByDuration(str: String): MutableList<TimeSlot> {
-        var results = mutableListOf<TimeSlot>()
-        var duration = str.split('=')[1].replace("\\s".toRegex(), "").split("-")
-        var sx = duration[0].toInt()
-        var dx = duration[1].toInt()
+        val results = mutableListOf<TimeSlot>()
+        val duration = str.split('=')[1].replace("\\s".toRegex(), "").split("-")
+        val sx = duration[0].toInt()
+        val dx = duration[1].toInt()
         for (item in list) {
             if (item.duration >= sx && item.duration <= dx) {
                 results.add(item)
@@ -157,8 +157,8 @@ class InterestedTimeSlotRecyclerViewAdapter(
     }
 
     fun getFilteredResultsByStartTime(str: String): MutableList<TimeSlot> {
-        var results = mutableListOf<TimeSlot>()
-        var duration = str.split('=')[1]
+        val results = mutableListOf<TimeSlot>()
+        val duration = str.split('=')[1]
 
         for (item in list) {
             if (item.time >= duration) {

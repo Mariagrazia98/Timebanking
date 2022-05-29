@@ -38,7 +38,9 @@ class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val us
 
     override fun onBindViewHolder(holder: MessageViewHolder<*>, position: Int) {
         val item = list[position]
-        //Log.d("adapter View", position.toString() + item.content)
+
+        setViewType(position)
+
         when (holder) {
             is SentMessageViewHolder -> holder.bind(item)
             is ReceivedMessageViewHolder -> holder.bind(item)
@@ -49,10 +51,14 @@ class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val us
     override fun getItemCount(): Int = list.size
 
 
-    fun refreshView(){
-        list = data!!.toList()
+    fun setViewType(position: Int){
+        if(position > 0 && list[position].date != list[position-1].date)
+            list[position].type = 1
+        else if(position==0)
+            list[position].type = 1
+        else
+            list[position].type = 0
     }
-
 
     override fun getItemViewType(position: Int): Int {
         if(list[position].idSender == userSenderId)
@@ -68,8 +74,14 @@ class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val us
     class SentMessageViewHolder(val view: View) : MessageViewHolder<ChatMessage>(view) {
         private val messageContent = view.findViewById<TextView>(R.id.text_gchat_message_me)
         private val msgTime = view.findViewById<TextView>(R.id.text_gchat_timestamp_me)
+        private val dateView = view.findViewById<TextView>(R.id.text_gchat_date_me)
 
         override fun bind(item: ChatMessage) {
+            if(item.type == 1){
+                dateView.visibility = View.VISIBLE
+
+                dateView.text = item.date
+            }
             messageContent.text = item.text
             val tlist = item.time.split(":")
             val t = tlist[0] + ":" + tlist[1]
@@ -82,8 +94,14 @@ class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val us
         val profileNameChatView = view.findViewById<TextView>(R.id.text_gchat_user_other)
         val profileImageView = view.findViewById<ImageView>(R.id.image_gchat_profile_other)
         private val msgTime = view.findViewById<TextView>(R.id.text_gchat_timestamp_other)
+        private val dateView = view.findViewById<TextView>(R.id.text_gchat_date_me)
 
         override fun bind(item: ChatMessage) {
+            if(item.type == 1){
+                dateView.visibility = View.VISIBLE
+
+                dateView.text = item.date
+            }
             messageContent.text = item.text
             profileNameChatView.text = user.fullname
             val tlist = item.time.split(":")

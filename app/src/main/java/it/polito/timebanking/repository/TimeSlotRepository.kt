@@ -3,10 +3,7 @@ package it.polito.timebanking.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import it.polito.timebanking.model.*
@@ -94,13 +91,13 @@ class TimeSlotRepository {
     }
 
     fun getSlotFById(uid: String, slotId: String): DocumentReference {
-        val listener = Firebase.firestore
+        val docRef = Firebase.firestore
             .collection("users")
             .document(uid)
             .collection("timeslots")
             .document(slotId)
 
-        return listener
+        return docRef
     }
 
     suspend fun getAllSkills(userId : String): Result<List<String>> {
@@ -350,6 +347,20 @@ class TimeSlotRepository {
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
+    fun getSlotChatMessagesB(idOfferer: String, slotId: String, chatId: String): CollectionReference {
+        val colRef = Firebase.firestore
+            .collection("users")
+            .document(idOfferer)
+            .collection("timeslots")
+            .document(slotId)
+            .collection("chats")
+            .document(chatId)
+            .collection("messageList")
+
+        return colRef
     }
 
     //retrieve all started chats (incoming requests by other user to the offerer -> current user) for a specific timeslot

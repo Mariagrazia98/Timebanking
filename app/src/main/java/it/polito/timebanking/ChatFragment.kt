@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +21,6 @@ import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 class ChatFragment : Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
@@ -85,14 +83,12 @@ class ChatFragment : Fragment() {
             askerId = otherUser.uid
         }
 
+        recyclerView = view.findViewById(R.id.recycler_gchat)
+
         timeSlotVM.getSlotFById(offererId, slotId).observe(viewLifecycleOwner){
             slot = it
             getChat(false)
         }
-
-        recyclerView = view.findViewById(R.id.recycler_gchat)
-
-
 
         sendButton.setOnClickListener{
             if(chatTextView.text.toString() != "" && chat!= null){
@@ -140,9 +136,12 @@ class ChatFragment : Fragment() {
                 }
             }
         }
+
         reviewButton.setOnClickListener{
             //TODO
         }
+
+
         return view
     }
 
@@ -177,10 +176,12 @@ class ChatFragment : Fragment() {
                                 reviewButton.visibility = View.VISIBLE
                     }
                 }
+
                 if(send){
                     sendMessage()
                 }
                 getChatMessages()
+
             }
             else{
                 assignButton.visibility = View.GONE
@@ -193,11 +194,11 @@ class ChatFragment : Fragment() {
 
 
     fun getChatMessages(){
-        timeSlotVM.getSlotChatMessages(offererId, slot.id, chat!!.id).observe(viewLifecycleOwner){
+        timeSlotVM.getSlotChatMessagesB(offererId, slot.id, chat!!.id).observe(viewLifecycleOwner){
             recyclerView.layoutManager = LinearLayoutManager(context)
             if(it!=null) {
                 //controllare sorting
-                var messages = it.sortedWith( compareBy({it.date}, {it.time})).toMutableList()
+                val messages = it.distinctBy{it.id}.sortedWith( compareBy({it.date}, {it.time})).toMutableList()
                 val adapter = ChatAdapter(messages, userId, otherUser)
                 recyclerView.adapter = adapter
             }
@@ -211,7 +212,6 @@ class ChatFragment : Fragment() {
         val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
         val ret = timeSlotVM.addChatMessage(offererId, slot.id, chat!!.id, msg)
         chatTextView.setText("")
-        getChatMessages()
     }
 
     fun createChat(){

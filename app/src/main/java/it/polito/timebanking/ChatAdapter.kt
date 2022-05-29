@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat
 
 class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val userOfferer: User) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {
 
-    var list = data!!.toMutableList()
+    var list = data!!.toList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder<*> {
         val context = parent.context
@@ -48,6 +48,10 @@ class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val us
 
     override fun getItemCount(): Int = list.size
 
+
+    fun refreshView(){
+        list = data!!.toList()
+    }
 
 
     override fun getItemViewType(position: Int): Int {

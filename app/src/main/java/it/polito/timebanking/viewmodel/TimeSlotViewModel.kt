@@ -147,6 +147,28 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
+    //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
+    fun getSlotChatMessagesB(idOfferer: String, slotId: String, chatId: String) : LiveData<List<ChatMessage>> {
+        var cm = MutableLiveData<List<ChatMessage>>()
+
+        var messageList: MutableList<ChatMessage> = mutableListOf()
+        repo.getSlotChatMessagesB(idOfferer, slotId, chatId).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.d("Error", "Error listen failed")
+            }
+            if (snapshot != null ) {
+                snapshot.forEach{
+                    messageList.add(it.toObject(ChatMessage::class.java))
+                }
+                cm.postValue(messageList)
+            } else {
+                Log.d("Error", "Current data null")
+            }
+        }
+
+        return cm
+    }
+
     //retrieve all started chats (incoming requests by other user to the offerer -> current user) for a specific timeslot
     fun getChatsSlotIncomingRequests(idOfferer: String, slotId: String) : LiveData<List<ChatUser>?> {
         val res = MutableLiveData<List<ChatUser>?>()

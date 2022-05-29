@@ -100,6 +100,24 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
+    fun getAcceptedSlotsByUser(userId: String) :LiveData<Map<User, List<TimeSlot>>>{
+        val res = MutableLiveData<Map<User, List<TimeSlot>>>()
+        viewModelScope.launch{
+            val result = repo.getAcceptedSlotsByUser(userId)
+            res.postValue(result.getOrNull())
+        }
+        return res
+    }
+
+    fun getAssignedSlotsByUser(userId: String) :LiveData<Map<User, List<TimeSlot>>>{
+        val res = MutableLiveData<Map<User, List<TimeSlot>>>()
+        viewModelScope.launch{
+            val result = repo.getAssignedSlotsByUser(userId)
+            res.postValue(result.getOrNull())
+        }
+        return res
+    }
+
 
     /*** CHAT ***/
     fun getChat(idAsker :String, slotId: String, idOfferer: String) : LiveData<Chat?>{

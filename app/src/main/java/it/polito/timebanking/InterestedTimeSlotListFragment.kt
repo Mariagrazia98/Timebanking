@@ -35,15 +35,25 @@ class InterestedTimeSlotListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
         userId = arguments?.getString("userId").toString()
-        var adapter: InterestedTimeSlotRecyclerViewAdapter? = null
         val rv = view.findViewById<RecyclerView>(R.id.rv)
+        val ev: TextView = view.findViewById(R.id.empty_view)
         val fab: View = view.findViewById(R.id.fab)
         timeSlotVM.getInterestedSlotsByUser(userId)
             .observe(viewLifecycleOwner){
                 rv.layoutManager = LinearLayoutManager(context)
-                adapter = InterestedTimeSlotRecyclerViewAdapter(it)
-                rv.adapter = adapter
-        }
+                if(!(activity as MainActivity).keepAdapter)
+                    (activity as MainActivity).adapterInterestedTimeSlots = InterestedTimeSlotRecyclerViewAdapter(it)
+                else
+                    (activity as MainActivity).keepAdapter = false
+                rv.adapter = (activity as MainActivity).adapterInterestedTimeSlots
+                if(it.values.isEmpty()){
+                    rv.visibility = View.GONE
+                    ev.visibility = View.VISIBLE
+                }else {
+                    rv.visibility = View.VISIBLE
+                    ev.visibility = View.GONE
+                }
+            }
         fab.visibility = View.GONE
 
         return view

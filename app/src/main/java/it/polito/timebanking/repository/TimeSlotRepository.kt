@@ -1,6 +1,5 @@
 package it.polito.timebanking.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.*
@@ -163,10 +162,10 @@ class TimeSlotRepository {
                                 }
                             }
                         }
-                    }
-                    if(slotsUser.isNotEmpty()){
-                        filteredSlots[u] = ArrayList(slotsUser)
-                        slotsUser.clear()
+                        if(slotsUser.isNotEmpty()){
+                            filteredSlots[u] = ArrayList(slotsUser)
+                            slotsUser.clear()
+                        }
                     }
                 }
             }
@@ -217,10 +216,10 @@ class TimeSlotRepository {
                                 }
                             }
                         }
-                    }
-                    if (slotsUser.isNotEmpty()) {
-                        filteredSlots[u] = ArrayList(slotsUser)
-                        slotsUser.clear()
+                        if (slotsUser.isNotEmpty()) {
+                            filteredSlots[u] = ArrayList(slotsUser)
+                            slotsUser.clear()
+                        }
                     }
                 }
             }
@@ -230,6 +229,84 @@ class TimeSlotRepository {
         }
     }
 
+
+    suspend fun getAcceptedSlotsByUser(userId: String): Result<Map<User, List<TimeSlot>>> {
+        try {
+            val filteredSlots = mutableMapOf<User, List<TimeSlot>>()
+            val slotsUser = mutableListOf<TimeSlot>()
+
+            val user = Firebase.firestore
+                .collection("users")
+                .document(userId)
+                .get()
+                .await()
+
+            val timeslots = Firebase.firestore
+                .collection("users")
+                .document(userId)
+                .collection("timeslots")
+                .get()
+                .await()
+
+            timeslots.documents.map {
+                if (it.data != null) {
+                    it.toObject(TimeSlot::class.java)?.let { it1 ->
+                        if (it1.status == 1) {
+                            slotsUser.add(it1)
+                        }
+                    }
+                }
+            }
+
+            if(slotsUser.isNotEmpty()){
+                user.toObject(User::class.java)?.let{
+                    filteredSlots[it] = ArrayList(slotsUser)
+                }
+            }
+            return Result.success(filteredSlots)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
+
+    suspend fun getAssignedSlotsByUser(userId: String): Result<Map<User, List<TimeSlot>>> {
+        try {
+            val users = Firebase.firestore
+                .collection("users")
+                .get()
+                .await()
+
+            val filteredSlots = mutableMapOf<User, List<TimeSlot>>()
+            val slotsUser = mutableListOf<TimeSlot>()
+            users.forEach { user ->
+                user.toObject(User::class.java).let { u ->
+                    if (u.uid != userId) {
+                        val timeslots = Firebase.firestore
+                            .collection("users")
+                            .document(u.uid)
+                            .collection("timeslots")
+                            .get()
+                            .await()
+
+                        timeslots.forEach { timeslot ->
+                            timeslot.toObject(TimeSlot::class.java).let { t ->
+                                if(t.status == 1 && t.idReceiver == userId){
+                                    slotsUser.add(t)
+                                }
+                            }
+                        }
+                        if (slotsUser.isNotEmpty()) {
+                            filteredSlots[u] = ArrayList(slotsUser)
+                            slotsUser.clear()
+                        }
+                    }
+                }
+            }
+            return Result.success(filteredSlots)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
 
     /*** CHAT ***/
     suspend fun getChat(idAsker: String, slotId: String, idOfferer: String) : Result<Chat?> {

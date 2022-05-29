@@ -1,20 +1,31 @@
 package it.polito.timebanking
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 private const val NUM_TABS = 2
 
-class ViewPagerAdapter(fragment: Fragment) :
-    FragmentStateAdapter(fragment) {
+class ViewPagerAdapter(fragment: Fragment, val userId: String) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int {
         return NUM_TABS
     }
 
     override fun createFragment(position: Int): Fragment {
+        val bundle = bundleOf("userId" to userId)
         when (position) {
-            0 -> return AssignedOrAcceptedTimeSlotListFragment()
-            1 -> return AssignedOrAcceptedTimeSlotListFragment()
+            0 -> {
+                bundle.putString("status", "assigned")
+                val assignedOrAcceptedTimeSlotListFragment = AssignedOrAcceptedTimeSlotListFragment()
+                assignedOrAcceptedTimeSlotListFragment.arguments = bundle
+                return assignedOrAcceptedTimeSlotListFragment
+            }
+            1 -> {
+                bundle.putString("status", "accepted")
+                val assignedOrAcceptedTimeSlotListFragment = AssignedOrAcceptedTimeSlotListFragment()
+                assignedOrAcceptedTimeSlotListFragment.arguments = bundle
+                return assignedOrAcceptedTimeSlotListFragment
+            }
             else -> return AssignedOrAcceptedTimeSlotListFragment()
         }
     }

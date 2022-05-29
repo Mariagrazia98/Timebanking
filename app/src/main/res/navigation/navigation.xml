@@ -68,6 +68,7 @@
     <fragment
         android:id="@+id/tabFragment"
         android:name="it.polito.timebanking.TabFragment"
+        android:label="@string/offers_list"
         tools:layout="@layout/fragment_tab">
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"

@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
 
     var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter? = null
+    var adapterInterestedTimeSlots : InterestedTimeSlotRecyclerViewAdapter? = null
+    var adapterAssignedOrAcceptedTimeSlots : AssignedOrAcceptedTimeSlotRecyclerViewAdapter? = null
     var keepAdapter : Boolean = false //for filter tool
     var filterBundle : Bundle? = null
     private var userState: FirebaseUser? = null
@@ -85,6 +87,7 @@ class MainActivity : AppCompatActivity() {
         val profile_item = navView.menu.findItem(R.id.profileMenuItem)
         val adv_item = navView.menu.findItem(R.id.advMenuItem)
         val interested_item = navView.menu.findItem(R.id.interestedAdvMenuItem)
+        val assigned_or_accepted_item = navView.menu.findItem(R.id.assignedOrAcceptedAdvMenuItem)
 
 
         //initialize the FirebaseAuth instance
@@ -104,6 +107,7 @@ class MainActivity : AppCompatActivity() {
                 profile_item.isVisible = false
                 adv_item.isVisible = false
                 interested_item.isVisible = false
+                assigned_or_accepted_item.isVisible = false
 
             } else {
                 profileViewModel.getUserById(userState!!.uid)
@@ -128,6 +132,7 @@ class MainActivity : AppCompatActivity() {
                 profile_item.isVisible = true
                 adv_item.isVisible = true
                 interested_item.isVisible = true
+                assigned_or_accepted_item.isVisible = true
 
             }
 

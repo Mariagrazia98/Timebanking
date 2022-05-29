@@ -6,6 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import it.polito.timebanking.model.*
 import it.polito.timebanking.repository.TimeSlotRepository
 import kotlinx.coroutines.launch
@@ -36,6 +38,7 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
+    /*
     fun getSlotFById(userId: String, slotId: String) : LiveData<TimeSlot?> {
         val res = MutableLiveData<TimeSlot?>()
         viewModelScope.launch{
@@ -43,6 +46,11 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
             res.postValue(result.getOrNull())
         }
         return res
+    }
+     */
+
+    fun getSlotFById(userId: String, slotId: String) : DocumentReference {
+        return repo.getSlotFById(userId, slotId)
     }
 
     fun getSlotsByUser(userId: String) :LiveData<Map<User, List<TimeSlot>>>{

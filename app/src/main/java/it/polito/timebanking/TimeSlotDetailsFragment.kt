@@ -2,6 +2,8 @@ package it.polito.timebanking
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.text.format.Time
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.ImageView
@@ -17,6 +19,8 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
@@ -74,22 +78,34 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
         seeChatsButton = view.findViewById(R.id.chatsButton)
 
-        timeSlotVM.getSlotFById(user.uid, timeslot.id).observe(viewLifecycleOwner) { t ->
-            if (t != null) {
-                timeslot = t
-                dateView.text = t.date
-                timeView.text = t.time
-                titleView.text = t.title
-                descriptionView.text = t.description
-                locationView.text = t.location
-                durationView.text = t.duration.toString()
-                if (t.skills.isNotEmpty()) {
-                    t.skills.forEach {
-                        addChip(it.trim())
+        timeSlotVM.getSlotFById(user.uid, timeslot.id).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.d("Error", "Error listen failed")
+            }
+            if (snapshot != null && snapshot.exists()) {
+                val ts = snapshot.toObject(TimeSlot::class.java)
+
+                if (ts != null) {
+                    timeslot = ts
+                    dateView.text = ts.date
+                    timeView.text = ts.time
+                    titleView.text = ts.title
+                    descriptionView.text = ts.description
+                    locationView.text = ts.location
+                    durationView.text = ts.duration.toString()
+
+                    if (ts.skills.isNotEmpty()) {
+                        ts.skills.forEach {
+                            addChip(it.trim())
+                        }
                     }
                 }
+
+            } else {
+                Log.d("Error", "Current data null")
             }
         }
+
 
         if(read_only) {
             (activity as MainActivity).supportActionBar?.title = "Offer"

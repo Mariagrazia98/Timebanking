@@ -39,7 +39,7 @@ class ChatListFragment : Fragment() {
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
         profileVM = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
 
-        //val ev: TextView = view.findViewById(R.id.empty_view)
+        val ev: TextView = view.findViewById(R.id.empty_view)
         recyclerView = view.findViewById(R.id.rv)
 
         val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
@@ -56,16 +56,13 @@ class ChatListFragment : Fragment() {
                 recyclerView.adapter = adapter
             }
 
-
-            /*
-            if (it.isEmpty()) {
+            if (it==null || it.isEmpty()) {
                 recyclerView.visibility = View.GONE
                 ev.visibility = View.VISIBLE
             } else {
                 recyclerView.visibility = View.VISIBLE
                 ev.visibility = View.GONE
             }
-             */
         }
 
         return view

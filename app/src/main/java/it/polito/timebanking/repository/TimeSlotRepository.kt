@@ -2,6 +2,10 @@ package it.polito.timebanking.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -89,20 +93,29 @@ class TimeSlotRepository {
         }
     }
 
-    suspend fun getSlotFById(uid: String, slotId: String): Result<TimeSlot?> {
-        return try {
-            val data = Firebase.firestore
+    fun getSlotFById(uid: String, slotId: String): DocumentReference {
+        //var qd: DocumentSnapshot? = null
+
+            val listener = Firebase.firestore
                 .collection("users")
                 .document(uid)
                 .collection("timeslots")
                 .document(slotId)
-                .get()
-                .await()
+                    /*
+                .addSnapshotListener { snapshot, e ->
+                    if (e != null) {
+                        Log.d("Error", "Error listen failed")
+                    }
+                    if (snapshot != null && snapshot.exists()) {
+                        qd = snapshot
 
-            Result.success(data.toObject(TimeSlot::class.java))
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+                    } else {
+                        Log.d("Error", "Current data null")
+                    }
+                }
+                */
+
+        return listener
     }
 
     suspend fun getAllSkills(userId : String): Result<List<String>> {

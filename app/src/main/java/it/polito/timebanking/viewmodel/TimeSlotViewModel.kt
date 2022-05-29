@@ -29,7 +29,6 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun updateSlot(userId: String, slot: TimeSlot) : LiveData<Boolean>{
-        Log.d("VIEW MODEL", "make the query")
         val res = MutableLiveData<Boolean>()
         viewModelScope.launch{
             val result = repo.updateSlot(userId, slot)

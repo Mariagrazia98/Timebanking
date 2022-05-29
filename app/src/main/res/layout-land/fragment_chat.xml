@@ -67,11 +67,32 @@
             android:layout_weight="3"
             android:gravity="center_horizontal|center_vertical"
             android:text="Do you want to assign this timeslot?"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/reviewButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Review"
+                android:visibility="gone"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="2dp"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -83,11 +104,13 @@
                 android:layout_marginEnd="16dp"
                 android:text="Reject"
                 android:textColor="@color/primary"
+                android:visibility="gone"
                 app:backgroundTint="@android:color/transparent"
                 app:cornerRadius="8dp"
                 app:rippleColor="@android:color/white"
                 app:strokeColor="@color/primary"
-                app:strokeWidth="2dp" />
+                app:strokeWidth="2dp"
+                tools:visibility="visible" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/assignButton"
@@ -95,8 +118,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="Assign"
+                android:visibility="gone"
                 app:cornerRadius="8dp"
-                app:strokeColor="@color/primary" />
+                app:strokeColor="@color/primary"
+                tools:visibility="visible" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -134,11 +160,11 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
-            android:layout_marginStart="16dp"
             android:id="@+id/edit_gchat_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:layout_toStartOf="@+id/button_gchat_send"
             android:background="@android:color/transparent"
             android:hint="Enter Message"
@@ -154,7 +180,7 @@
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_send"
             android:textColor="@color/colorPrimary"
-            app:tint="@color/primary"/>
+            app:tint="@color/primary" />
 
     </RelativeLayout>
 

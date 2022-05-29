@@ -34,7 +34,6 @@ class SkillsListFragment : Fragment() {
         val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
         userId = uid.toString()
 
-        Log.d("user",userId)
         timeSlotVM.getAllSkills(userId)
             .observe(viewLifecycleOwner) {
                 recyclerView.layoutManager = LinearLayoutManager(context)

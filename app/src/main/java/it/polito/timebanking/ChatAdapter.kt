@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import it.polito.timebanking.model.ChatMessage
 import it.polito.timebanking.model.User
+import java.text.SimpleDateFormat
 
 
 class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val userOfferer: User) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {
@@ -66,7 +67,9 @@ class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val us
 
         override fun bind(item: ChatMessage) {
             messageContent.text = item.text
-            msgTime.text = item.time
+            val tlist = item.time.split(":")
+            val t = tlist[0] + ":" + tlist[1]
+            msgTime.text = t
         }
     }
 
@@ -79,7 +82,9 @@ class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val us
         override fun bind(item: ChatMessage) {
             messageContent.text = item.text
             profileNameChatView.text = user.fullname
-            msgTime.text = item.time
+            val tlist = item.time.split(":")
+            val t = tlist[0] + ":" + tlist[1]
+            msgTime.text = t
             // Download directly from StorageReference using Glide
             if(user.imagePath!=null)
                 Glide.with(profileImageView.context).load(user.imagePath).into(profileImageView)

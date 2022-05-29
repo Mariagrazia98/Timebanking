@@ -86,41 +86,7 @@ class ChatFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recycler_gchat)
 
-        timeSlotVM.getChat(askerId, slot.id, offererId).observe(viewLifecycleOwner) {
-
-            if (it != null) {
-                chat = it
-                if(chat!!.chatStatus==1) {
-                     titleChat.setText("This timeslot request was rejected!")
-                        reviewButton.visibility = View.GONE
-                        assignButton.visibility = View.GONE
-                        rejectButton.visibility = View.GONE
-                }
-                if (slot.status== 0) {
-                    reviewButton.visibility = View.GONE
-                }
-                if ( userId==offererId && slot.status== 0){
-                    assignButton.visibility = View.VISIBLE
-                    rejectButton.visibility = View.VISIBLE
-                }
-                if ( slot.status == 1){ //timeslot assigned
-                    assignButton.visibility = View.GONE
-                    rejectButton.visibility = View.GONE
-                    reviewButton.visibility = View.GONE
-                    if ((slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
-                                (slot.idReceiver != userId && (slot.reviewState == 0 || slot.reviewState == 2))) {
-                                reviewButton.visibility = View.VISIBLE
-                    }
-                }
-                getChatMessages()
-            }
-            else{
-                assignButton.visibility = View.GONE
-                rejectButton.visibility = View.GONE
-                reviewButton.visibility=View.GONE
-                titleChat.visibility = View.GONE
-            }
-        }
+        getChat(false)
 
         sendButton.setOnClickListener{
             if(chatTextView.text.toString() != "" && chat!= null){
@@ -175,6 +141,48 @@ class ChatFragment : Fragment() {
     }
 
 
+    fun getChat(send: Boolean){
+         timeSlotVM.getChat(askerId, slot.id, offererId).observe(viewLifecycleOwner) {
+
+            if (it != null) {
+                chat = it
+                if(chat!!.chatStatus==1) {
+                     titleChat.setText("This timeslot request was rejected!")
+                        reviewButton.visibility = View.GONE
+                        assignButton.visibility = View.GONE
+                        rejectButton.visibility = View.GONE
+                }
+                if (slot.status== 0) {
+                    reviewButton.visibility = View.GONE
+                }
+                if ( userId==offererId && slot.status== 0){
+                    assignButton.visibility = View.VISIBLE
+                    rejectButton.visibility = View.VISIBLE
+                }
+                if ( slot.status == 1){ //timeslot assigned
+                    assignButton.visibility = View.GONE
+                    rejectButton.visibility = View.GONE
+                    reviewButton.visibility = View.GONE
+                    if ((slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
+                                (slot.idReceiver != userId && (slot.reviewState == 0 || slot.reviewState == 2))) {
+                                reviewButton.visibility = View.VISIBLE
+                    }
+                }
+                if(send){
+                    sendMessage()
+                }
+                getChatMessages()
+            }
+            else{
+                assignButton.visibility = View.GONE
+                rejectButton.visibility = View.GONE
+                reviewButton.visibility=View.GONE
+                titleChat.visibility = View.GONE
+            }
+        }
+    }
+
+
     fun getChatMessages(){
         timeSlotVM.getSlotChatMessages(offererId, slot.id, chat!!.id).observe(viewLifecycleOwner){
             recyclerView.layoutManager = LinearLayoutManager(context)
@@ -190,7 +198,7 @@ class ChatFragment : Fragment() {
     fun sendMessage(){
         val msgId = timeSlotVM.getNewChatMessageId(offererId, slot.id, chat!!.id)
         val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //TODO: controllare
-        val time = SimpleDateFormat("HH:mm").format(Date()) //TODO: controllare
+        val time = SimpleDateFormat("HH:mm:ss").format(Date()) //TODO: controllare
         val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
         val ret = timeSlotVM.addChatMessage(offererId, slot.id, chat!!.id, msg)
         chatTextView.setText("")
@@ -200,7 +208,7 @@ class ChatFragment : Fragment() {
     fun createChat(){
         val chatId = timeSlotVM.getNewChatId(offererId, slot.id)
         timeSlotVM.addChat(offererId, slot.id, chatId.toString(), Chat(chatId.toString(), userId))
-        sendMessage()
+        getChat(true) //get chat and send message
     }
 
     fun printMessage(message:String){

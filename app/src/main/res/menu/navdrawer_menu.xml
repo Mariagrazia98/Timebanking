@@ -18,6 +18,10 @@
             android:id="@+id/interestedAdvMenuItem"
             android:icon="@drawable/ic_list"
             android:title="@string/interested_offers" />
+        <item
+            android:id="@+id/assignedOrAcceptedAdvMenuItem"
+            android:icon="@drawable/ic_list"
+            android:title="@string/assigned_accepted_offers" />
 
     </group>
 

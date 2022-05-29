@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -138,7 +139,10 @@ class ChatFragment : Fragment() {
         }
 
         reviewButton.setOnClickListener{
-            //TODO
+            val bundle = Bundle()
+            bundle.putString("userIdReviewer",userId) //logged user is doing review
+            bundle.putString("userId",otherUser.uid)
+            findNavController().navigate(R.id.action_chatFragment_to_editReviewFragment,bundle)
         }
 
 

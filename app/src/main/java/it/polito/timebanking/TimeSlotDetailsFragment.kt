@@ -78,34 +78,24 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
         seeChatsButton = view.findViewById(R.id.chatsButton)
 
-        timeSlotVM.getSlotFById(user.uid, timeslot.id).addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.d("Error", "Error listen failed")
-            }
-            if (snapshot != null && snapshot.exists()) {
-                val ts = snapshot.toObject(TimeSlot::class.java)
+        timeSlotVM.getSlotFById(user.uid, timeslot.id).observe(viewLifecycleOwner){ ts ->
+            if (ts != null) {
+                timeslot = ts
+                dateView.text = ts.date
+                timeView.text = ts.time
+                titleView.text = ts.title
+                descriptionView.text = ts.description
+                locationView.text = ts.location
+                durationView.text = ts.duration.toString()
 
-                if (ts != null) {
-                    timeslot = ts
-                    dateView.text = ts.date
-                    timeView.text = ts.time
-                    titleView.text = ts.title
-                    descriptionView.text = ts.description
-                    locationView.text = ts.location
-                    durationView.text = ts.duration.toString()
-
-                    if (ts.skills.isNotEmpty()) {
-                        ts.skills.forEach {
-                            addChip(it.trim())
-                        }
+                skillsGroup.removeAllViews()
+                if (ts.skills.isNotEmpty()) {
+                    ts.skills.forEach {
+                        addChip(it.trim())
                     }
                 }
-
-            } else {
-                Log.d("Error", "Current data null")
             }
         }
-
 
         if(read_only) {
             (activity as MainActivity).supportActionBar?.title = "Offer"

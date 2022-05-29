@@ -49,8 +49,21 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
     }
      */
 
-    fun getSlotFById(userId: String, slotId: String) : DocumentReference {
-        return repo.getSlotFById(userId, slotId)
+    fun getSlotFById(userId: String, slotId: String) : MutableLiveData<TimeSlot> {
+        var ts = MutableLiveData<TimeSlot>()
+
+        repo.getSlotFById(userId, slotId).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.d("Error", "Error listen failed")
+            }
+            if (snapshot != null && snapshot.exists()) {
+                ts.postValue(snapshot.toObject(TimeSlot::class.java))
+            } else {
+                Log.d("Error", "Current data null")
+            }
+        }
+
+        return ts
     }
 
     fun getSlotsByUser(userId: String) :LiveData<Map<User, List<TimeSlot>>>{

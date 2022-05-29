@@ -1,5 +1,7 @@
 package it.polito.timebanking
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -111,9 +113,6 @@ class ChatFragment : Fragment() {
 
         assignButton.setOnClickListener{
             profileVM.getUserById(chat!!.receiverUid).observe(viewLifecycleOwner) { userReceiver ->
-                println(userReceiver?.fullname)
-                println(userReceiver?.credit)
-                println(slot.duration)
                 if (userReceiver!!.credit <= slot.duration) {
                     printMessage("The user has not enough credit! It is not possible to assign the timeslot to him")
                 } else {
@@ -125,12 +124,13 @@ class ChatFragment : Fragment() {
                             profileVM.getUserById(chat!!.receiverUid).observe(viewLifecycleOwner
                             ) { userOffer ->
                                 profileVM.updateUserCredit(
-                                    offererId,//TODO UPDATE
+                                    offererId,
                                     userOffer!!.credit + slot.duration
                                 ) //increment credit offer
                                 slot.status=1; //assigned
                                 slot.idReceiver=chat!!.receiverUid
                                 timeSlotVM.updateSlot(userId, slot)//update timeslot status
+                                titleChat.visibility=View.GONE
                             }
                         }
                     }
@@ -162,30 +162,30 @@ class ChatFragment : Fragment() {
                     titleChat.visibility=View.VISIBLE
                     titleChat.setText("This timeslot request was rejected!")
                 }
-                if (slot.status== 0) {
-                    reviewButton.visibility = View.GONE
-                    titleChat.visibility=View.GONE
-                }
-                if ( userId==offererId && slot.status== 0){
-                    assignButton.visibility = View.VISIBLE
-                    rejectButton.visibility = View.VISIBLE
-                    titleChat.visibility=View.VISIBLE
-                }
-                if ( slot.status == 1){ //timeslot assigned
-                    assignButton.visibility = View.GONE
-                    rejectButton.visibility = View.GONE
-                    reviewButton.visibility = View.GONE
-                    if ((slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
-                                (slot.idReceiver != userId && (slot.reviewState == 0 || slot.reviewState == 2))) {
-                                reviewButton.visibility = View.VISIBLE
+                else{
+                    if (slot.status== 0) {
+                        reviewButton.visibility = View.GONE
+                        titleChat.visibility=View.GONE
+                    }
+                    if ( userId==offererId && slot.status== 0){
+                        assignButton.visibility = View.VISIBLE
+                        rejectButton.visibility = View.VISIBLE
+                        titleChat.visibility=View.VISIBLE
+                    }
+                    if ( slot.status == 1){ //timeslot assigned
+                        assignButton.visibility = View.GONE
+                        rejectButton.visibility = View.GONE
+                        reviewButton.visibility = View.GONE
+                        if ((slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
+                            (slot.idReceiver != userId && (slot.reviewState == 0 || slot.reviewState == 2))) {
+                            reviewButton.visibility = View.VISIBLE
+                        }
                     }
                 }
-
                 if(send){
                     sendMessage()
                 }
                 getChatMessages()
-
             }
             else{
                 assignButton.visibility = View.GONE

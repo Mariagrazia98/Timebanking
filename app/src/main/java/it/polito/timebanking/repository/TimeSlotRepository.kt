@@ -94,26 +94,11 @@ class TimeSlotRepository {
     }
 
     fun getSlotFById(uid: String, slotId: String): DocumentReference {
-        //var qd: DocumentSnapshot? = null
-
-            val listener = Firebase.firestore
-                .collection("users")
-                .document(uid)
-                .collection("timeslots")
-                .document(slotId)
-                    /*
-                .addSnapshotListener { snapshot, e ->
-                    if (e != null) {
-                        Log.d("Error", "Error listen failed")
-                    }
-                    if (snapshot != null && snapshot.exists()) {
-                        qd = snapshot
-
-                    } else {
-                        Log.d("Error", "Current data null")
-                    }
-                }
-                */
+        val listener = Firebase.firestore
+            .collection("users")
+            .document(uid)
+            .collection("timeslots")
+            .document(slotId)
 
         return listener
     }

@@ -38,17 +38,6 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
-    /*
-    fun getSlotFById(userId: String, slotId: String) : LiveData<TimeSlot?> {
-        val res = MutableLiveData<TimeSlot?>()
-        viewModelScope.launch{
-            val result = repo.getSlotFById(userId, slotId)
-            res.postValue(result.getOrNull())
-        }
-        return res
-    }
-     */
-
     fun getSlotFById(userId: String, slotId: String) : MutableLiveData<TimeSlot> {
         var ts = MutableLiveData<TimeSlot>()
 

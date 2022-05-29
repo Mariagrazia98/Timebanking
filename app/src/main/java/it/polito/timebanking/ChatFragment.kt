@@ -68,7 +68,8 @@ class ChatFragment : Fragment() {
         assignButton = view.findViewById(R.id.assignButton)
         reviewButton = view.findViewById(R.id.reviewButton)
         otherUser = (arguments?.getSerializable("user") as User?)!!
-        slot = (arguments?.getSerializable("slot") as TimeSlot?)!!
+        var slotId = (arguments?.getSerializable("slot") as TimeSlot?)!!.id
+
         mychats = arguments?.getBoolean("mychats")?:false
 
         (activity as MainActivity).supportActionBar?.title = otherUser.fullname
@@ -84,9 +85,14 @@ class ChatFragment : Fragment() {
             askerId = otherUser.uid
         }
 
+        timeSlotVM.getSlotFById(offererId, slotId).observe(viewLifecycleOwner){
+            slot = it
+            getChat(false)
+        }
+
         recyclerView = view.findViewById(R.id.recycler_gchat)
 
-        getChat(false)
+
 
         sendButton.setOnClickListener{
             if(chatTextView.text.toString() != "" && chat!= null){

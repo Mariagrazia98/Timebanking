@@ -94,12 +94,11 @@ class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val us
         val profileNameChatView = view.findViewById<TextView>(R.id.text_gchat_user_other)
         val profileImageView = view.findViewById<ImageView>(R.id.image_gchat_profile_other)
         private val msgTime = view.findViewById<TextView>(R.id.text_gchat_timestamp_other)
-        private val dateView = view.findViewById<TextView>(R.id.text_gchat_date_me)
+        private val dateView = view.findViewById<TextView>(R.id.text_gchat_date_other)
 
         override fun bind(item: ChatMessage) {
             if(item.type == 1){
                 dateView.visibility = View.VISIBLE
-
                 dateView.text = item.date
             }
             messageContent.text = item.text

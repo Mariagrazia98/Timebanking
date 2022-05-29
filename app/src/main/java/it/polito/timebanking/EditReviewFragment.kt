@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.RatingBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import it.polito.timebanking.model.Review
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.ReviewViewModel
@@ -56,11 +57,14 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
             sendReview()
         }
 
-        userId = arguments?.getString("userId")  ?: ""
-        userIdReviewer = arguments?.getString(userIdReviewer) ?: ""
+        userId = arguments?.getString("userId")!!
+        userIdReviewer = arguments?.getString("userIdReviewer")!!
 
         profileVM.getUserById(userIdReviewer).observe(viewLifecycleOwner){
             nameReviewer = it?.nickname ?: ""
+            Log.d("antodeb","userId $userId")
+            Log.d("antodeb","userIdReviewer $userIdReviewer")
+            Log.d("antodeb","nameReviewer $nameReviewer")
         }
     }
 
@@ -76,8 +80,7 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         review.id = id
         review.nameReviewer = nameReviewer
         review.type = 0
-        reviewsVM.updateReview(userId, review).observe(viewLifecycleOwner) {
-            Log.d("debugReview", it.toString())
-        }
+        reviewsVM.updateReview(userId, review)
+        findNavController().navigateUp()
     }
 }

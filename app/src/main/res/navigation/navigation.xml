@@ -93,9 +93,6 @@
         <action
             android:id="@+id/action_showProfileFragment_to_reviewListFragment"
             app:destination="@id/reviewListFragment" />
-        <action
-            android:id="@+id/action_showProfileFragment_to_editReviewFragment"
-            app:destination="@id/editReviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -125,6 +122,9 @@
         <action
             android:id="@+id/action_chatFragment_to_showProfileFragment"
             app:destination="@id/showProfileFragment" />
+        <action
+            android:id="@+id/action_chatFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/reviewListFragment"

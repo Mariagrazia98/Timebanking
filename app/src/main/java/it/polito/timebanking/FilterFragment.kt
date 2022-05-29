@@ -59,13 +59,10 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
 
         applyBtn.setOnClickListener {
             (activity as MainActivity).adapterTimeSlots?.filter?.filter("duration= $sx - $dx")
-            //Thread.sleep(50)
             if (dateView.text.isNotEmpty())
                 (activity as MainActivity).adapterTimeSlots!!.filter.filter("date=" + dateView.text)
-            //Thread.sleep(50)
             if (timeView.text.isNotEmpty())
                 (activity as MainActivity).adapterTimeSlots!!.filter.filter("time=" + timeView.text)
-            //Thread.sleep(50)
             when (mPosition) {
                 0 -> (activity as MainActivity).adapterTimeSlots!!.filter.filter("order=${list[0]}")
                 1 -> (activity as MainActivity).adapterTimeSlots!!.filter.filter("order=${list[1]}")

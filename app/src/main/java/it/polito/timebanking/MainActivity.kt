@@ -271,11 +271,4 @@ class MainActivity : AppCompatActivity() {
         bundle.putString("userId",userState?.uid)
         navController.navigate(R.id.action_showProfileFragment_to_reviewListFragment,bundle)
     }
-
-    fun onClickEditRating(v:View) {
-        val bundle = Bundle()
-        bundle.putString("userIdReviewer",userState?.uid)
-        bundle.putString("userId","eRJhLDrANkXQj8ZLTMTeSh9uqj43")
-        navController.navigate(R.id.action_showProfileFragment_to_editReviewFragment)
-    }
 }

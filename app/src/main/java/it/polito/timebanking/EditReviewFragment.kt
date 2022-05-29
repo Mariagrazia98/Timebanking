@@ -20,14 +20,15 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
-    lateinit var ratingBar: RatingBar
-    lateinit var comment: EditText
-    lateinit var sendReviewBtn: Button
-    lateinit var reviewsVM: ReviewViewModel
+    private lateinit var ratingBar: RatingBar
+    private lateinit var comment: EditText
+    private lateinit var sendReviewBtn: Button
+    private lateinit var reviewsVM: ReviewViewModel
+    private lateinit var userIdReviewer: String
+    private lateinit var profileVM: ProfileViewModel
+    private lateinit var nameReviewer: String
+
     lateinit var userId: String
-    lateinit var userIdReviewer: String
-    lateinit var profileVM: ProfileViewModel
-    lateinit var nameReviewer: String
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         //delete edit_button

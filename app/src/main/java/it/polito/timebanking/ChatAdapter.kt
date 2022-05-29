@@ -14,7 +14,7 @@ import it.polito.timebanking.model.ChatMessage
 import it.polito.timebanking.model.User
 
 
-class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val userOfferer: User) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {
+class ChatAdapter(var data: List<ChatMessage>?, private val userSenderId: String, private val userOfferer: User) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder<*>>() {
 
     var list = data!!.toList()
 
@@ -49,7 +49,7 @@ class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val us
     override fun getItemCount(): Int = list.size
 
 
-    fun setViewType(position: Int){
+    private fun setViewType(position: Int){
         if(position > 0 && list[position].date != list[position-1].date)
             list[position].type = 1
         else if(position==0)
@@ -90,7 +90,7 @@ class ChatAdapter(var data: List<ChatMessage>?, val userSenderId: String, val us
     class ReceivedMessageViewHolder(val view: View, val user: User) : MessageViewHolder<ChatMessage>(view) {
         private val messageContent = view.findViewById<TextView>(R.id.text_gchat_message_other)
         val profileNameChatView = view.findViewById<TextView>(R.id.text_gchat_user_other)
-        val profileImageView = view.findViewById<ImageView>(R.id.image_gchat_profile_other)
+        private val profileImageView = view.findViewById<ImageView>(R.id.image_gchat_profile_other)
         private val msgTime = view.findViewById<TextView>(R.id.text_gchat_timestamp_other)
         private val dateView = view.findViewById<TextView>(R.id.text_gchat_date_other)
 

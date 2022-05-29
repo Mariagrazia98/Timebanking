@@ -114,7 +114,7 @@ class InterestedTimeSlotRecyclerViewAdapter(
                 } else
                     filteredRes = originalList
 
-                resCount = filteredRes!!.size
+                resCount = filteredRes.size
                 val results = FilterResults()
                 results.values = filteredRes
                 return results
@@ -131,8 +131,8 @@ class InterestedTimeSlotRecyclerViewAdapter(
     }
 
     fun getFilteredResultsByDate(str: String): MutableList<TimeSlot> {
-        var results = mutableListOf<TimeSlot>()
-        var date = str.split('=')[1]
+        val results = mutableListOf<TimeSlot>()
+        val date = str.split('=')[1]
 
         for (item in list) {
             if (item.date == date) {

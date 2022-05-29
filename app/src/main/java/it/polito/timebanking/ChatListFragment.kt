@@ -13,8 +13,8 @@ import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class ChatListFragment : Fragment() {
-    lateinit var timeSlotVM: TimeSlotViewModel
-    lateinit var profileVM: ProfileViewModel
+    private lateinit var timeSlotVM: TimeSlotViewModel
+    private lateinit var profileVM: ProfileViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var userId: String
     lateinit var slot : TimeSlot

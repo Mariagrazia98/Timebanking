@@ -21,8 +21,8 @@ class ChatTitleAdapter(val data: List<ChatUser>, val slot: TimeSlot) : RecyclerV
 
     class ChatTitleViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val cv: CardView = v.findViewById(R.id.chatTitleCv)
-        val chatPersonName: TextView = v.findViewById(R.id.chatPersonName)
-        val imageViewPerson: ImageView = v.findViewById(R.id.imageViewPerson)
+        private val chatPersonName: TextView = v.findViewById(R.id.chatPersonName)
+        private val imageViewPerson: ImageView = v.findViewById(R.id.imageViewPerson)
 
         fun bind(item: ChatUser) {
             chatPersonName.text = item.otherUser.fullname

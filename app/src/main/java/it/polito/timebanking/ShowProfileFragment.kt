@@ -19,35 +19,39 @@ import it.polito.timebanking.model.Review
 import it.polito.timebanking.viewmodel.ReviewViewModel
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
-    lateinit var creditView:TextView
-    lateinit var fullnameView: TextView
-    lateinit var ageView: TextView
-    lateinit var nicknameView: TextView
-    lateinit var emailView: TextView
-    lateinit var locationView: TextView
-    lateinit var skillsGroup: ChipGroup
-    lateinit var descriptionView: TextView
-    lateinit var imageView: ImageView
-    lateinit var frameLayout: FrameLayout
-    lateinit var nicknameTextView: TextView
-    lateinit var locationTextView: TextView
-    lateinit var descriptionTextView: TextView
-    lateinit var ratingBar: RatingBar
-    lateinit var numReviews: TextView
-    lateinit var avgRatings: TextView
-    lateinit var cv: CardView
-    lateinit var alertNoReviews: TextView
-    lateinit var reviewerName: TextView
-    lateinit var typeReview: TextView
-    lateinit var imageReview: ImageView
-    lateinit var commentReview: TextView
-    lateinit var ratingLR: RatingBar
+    private lateinit var creditView:TextView
+    private lateinit var fullnameView: TextView
+    private lateinit var ageView: TextView
+    private lateinit var nicknameView: TextView
+    private lateinit var emailView: TextView
+    private lateinit var locationView: TextView
+    private lateinit var skillsGroup: ChipGroup
+    private lateinit var descriptionView: TextView
+    private lateinit var imageView: ImageView
+    private  lateinit var frameLayout: FrameLayout
+    private lateinit var nicknameTextView: TextView
+    private lateinit var locationTextView: TextView
+    private lateinit var descriptionTextView: TextView
+    private lateinit var ratingBar: RatingBar
+    private lateinit var numReviews: TextView
+    private lateinit var avgRatings: TextView
+    private lateinit var cv: CardView
+    private lateinit var alertNoReviews: TextView
+    private lateinit var reviewerName: TextView
+    private lateinit var typeReview: TextView
+    private lateinit var imageReview: ImageView
+    private  lateinit var commentReview: TextView
+    private lateinit var ratingLR: RatingBar
+
+    lateinit var userId: String
+
+    private lateinit var profileVM: ProfileViewModel
+    private lateinit var reviewsVM: ReviewViewModel
+
+    private var read_only = false
+
     var h: Int = 0
     var w: Int = 0
-    lateinit var userId: String
-    var read_only = false
-    lateinit var profileVM: ProfileViewModel
-    lateinit var reviewsVM: ReviewViewModel
     var id: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {

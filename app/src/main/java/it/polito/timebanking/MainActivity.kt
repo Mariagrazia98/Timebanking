@@ -37,23 +37,24 @@ import it.polito.timebanking.viewmodel.ProfileViewModel
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
 
-    lateinit var navController: NavController
-    lateinit var drawerLayout: DrawerLayout
-    lateinit var navView: NavigationView
+    private lateinit var navController: NavController
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navView: NavigationView
     private lateinit var binding: ActivityMainBinding
     lateinit var headerView:View
     private lateinit var navTitle:TextView
     private lateinit var navSubtitle:TextView
+    private lateinit var mAuth: FirebaseAuth
+
     var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter? = null
     var keepAdapter : Boolean = false //for filter tool
     var filterBundle : Bundle? = null
-    lateinit var mAuth: FirebaseAuth
     private var userState: FirebaseUser? = null
     var slotsToObserve : LiveData<Map<User, List<TimeSlot>>>? = null
     var lastSkill = ""
 
     // Choose authentication providers
-    val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
+    private val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
 
     // See: https://developer.android.com/training/basics/intents/result
     private val signInLauncher =
@@ -139,7 +140,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        navView.setNavigationItemSelectedListener() { item ->
+        navView.setNavigationItemSelectedListener { item ->
             val bundle = bundleOf("userId" to (userState?.uid))
 
             if (item.itemId == R.id.profileMenuItem) {

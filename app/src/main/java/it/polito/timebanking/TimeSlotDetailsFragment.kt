@@ -22,24 +22,25 @@ import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
-    var read_only = false
-    lateinit var timeslot: TimeSlot
-    lateinit var timeSlotVM: TimeSlotViewModel
-    lateinit var dateView: TextView
-    lateinit var timeView: TextView
-    lateinit var titleView: TextView
-    lateinit var descriptionView: TextView
-    lateinit var locationView: TextView
-    lateinit var durationView: TextView
-    lateinit var skillsGroup: ChipGroup
-    lateinit var profileButton: LinearLayout
-    lateinit var profileNameView: TextView
-    lateinit var profileEmailView: TextView
-    lateinit var profileImageView: ImageView
+    private var read_only = false
+
+    private lateinit var timeSlotVM: TimeSlotViewModel
+    private lateinit var dateView: TextView
+    private lateinit var timeView: TextView
+    private lateinit var titleView: TextView
+    private lateinit var descriptionView: TextView
+    private lateinit var locationView: TextView
+    private lateinit var durationView: TextView
+    private lateinit var skillsGroup: ChipGroup
+    private lateinit var profileButton: LinearLayout
+    private lateinit var profileNameView: TextView
+    private lateinit var profileEmailView: TextView
+    private lateinit var profileImageView: ImageView
+
+    private lateinit var seeChatsButton : Button
+
     lateinit var user : User
-
-    lateinit var seeChatsButton : Button
-
+    lateinit var timeslot: TimeSlot
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

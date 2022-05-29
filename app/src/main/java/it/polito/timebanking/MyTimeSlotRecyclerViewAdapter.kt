@@ -26,7 +26,7 @@ class MyTimeSlotRecyclerViewAdapter(val data: Map<User, List<TimeSlot>>, val rea
         private val name: TextView? = v.findViewById(R.id.offererName)
         val cv: CardView = v.findViewById(R.id.cvLastRating)
         val button: ImageButton? = v.findViewById(R.id.button)
-        val ivSlot: ImageView? = v.findViewById(R.id.imageViewSlot)
+        private val ivSlot: ImageView? = v.findViewById(R.id.imageViewSlot)
         val chatButton: ImageButton? = v.findViewById(R.id.chatButton)
 
 

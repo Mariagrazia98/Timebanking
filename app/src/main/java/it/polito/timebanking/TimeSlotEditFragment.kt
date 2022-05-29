@@ -31,24 +31,24 @@ import java.util.*
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     lateinit var timeSlotVM: TimeSlotViewModel
-    lateinit var profileVM: ProfileViewModel
+    private lateinit var profileVM: ProfileViewModel
     lateinit var userId: String
     var timeslot: TimeSlot? = null
     var user : User? = null
-    lateinit var userSkills: MutableList<String>
+    private lateinit var userSkills: MutableList<String>
     var timeslotSkills: MutableList<String> = mutableListOf()
 
-    lateinit var dateInputLayout: TextInputLayout
-    lateinit var timeInputLayout: TextInputLayout
+    private lateinit var dateInputLayout: TextInputLayout
+    private lateinit var timeInputLayout: TextInputLayout
     lateinit var titleView: EditText
     lateinit var descriptionView: EditText
     lateinit var dateView: EditText
     lateinit var timeView: EditText
     lateinit var locationView: EditText
     lateinit var durationView: EditText
-    lateinit var skillsGroup: ChipGroup
-    lateinit var skillsError : TextView
-    lateinit var updateSlotButton: Button
+    private lateinit var skillsGroup: ChipGroup
+    private lateinit var skillsError : TextView
+    private lateinit var updateSlotButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,7 +159,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 val message = if(userId == "") "Please, add at least one skill in your profile before creating a new adv."
                 else "Please, add at least one skill in your profile before editing your adv."
                 builder.setMessage(message)
-                    .setPositiveButton("Update your profile") { dialog, id ->
+                    .setPositiveButton("Update your profile") { _dialog, id ->
                         val u = user?.uid ?: userId
                         val bundle = bundleOf("userId" to u)
                         NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.editProfileFragment, bundle)
@@ -194,7 +194,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                                 ts.duration = durationView.text.toString().toInt()
                                 ts.location = locationView.text.toString()
                                 ts.skills = timeslotSkills
-                                var snackbarMessage=""
+                                var snackbarMessage =""
                                 if(userId == "") { //edit
                                     ts.id = timeslot!!.id
                                     snackbarMessage= "Time slot updated"

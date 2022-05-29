@@ -13,19 +13,20 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class FilterFragment : Fragment(R.layout.fragment_filter) {
-    lateinit var autoCompleteTextView: AutoCompleteTextView
-    lateinit var dateInputLayout: TextInputLayout
-    lateinit var timeInputLayout: TextInputLayout
-    lateinit var dateView: EditText
-    lateinit var timeView: EditText
-    lateinit var rangeSlider: RangeSlider
-    lateinit var resetBtn: Button
-    lateinit var applyBtn: Button
-    lateinit var display: TextView
+    private lateinit var autoCompleteTextView: AutoCompleteTextView
+    private lateinit var dateInputLayout: TextInputLayout
+    private lateinit var timeInputLayout: TextInputLayout
+    private lateinit var dateView: EditText
+    private lateinit var timeView: EditText
+    private lateinit var rangeSlider: RangeSlider
+    private lateinit var resetBtn: Button
+    private lateinit var applyBtn: Button
+    private lateinit var display: TextView
+    private var mPosition : Int? = null
     lateinit var list : ArrayList<String>
-    var mPosition : Int? = null
-    var sx = 30
-    var dx = 240
+
+    private var sx = 30
+    private var dx = 240
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,7 +137,7 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun createBundle() : Bundle {
+  /*  private fun createBundle() : Bundle {
         lateinit var outState : Bundle
         outState.putInt("SX_SLIDER", sx)
         outState.putInt("DX_SLIDER", dx)
@@ -144,7 +145,7 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
         outState.putString("TIME", timeView.text.toString())
         outState.putString("ORDER_BY", autoCompleteTextView.text.toString())
         return outState
-    }
+    }*/
 
     private fun restoreValuesFromBundle(){
         val inState = (activity as MainActivity).filterBundle

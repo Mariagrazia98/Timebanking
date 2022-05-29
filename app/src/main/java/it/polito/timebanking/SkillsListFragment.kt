@@ -14,8 +14,9 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 
 class SkillsListFragment : Fragment() {
-    lateinit var timeSlotVM: TimeSlotViewModel
-    lateinit var searchView: SearchView
+    private lateinit var timeSlotVM: TimeSlotViewModel
+
+    private lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
     lateinit var userId: String
     lateinit var title: TextView

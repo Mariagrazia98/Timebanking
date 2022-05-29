@@ -23,25 +23,25 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ChatFragment : Fragment() {
-    lateinit var timeSlotVM: TimeSlotViewModel
-    lateinit var profileVM:ProfileViewModel
+    private lateinit var timeSlotVM: TimeSlotViewModel
+    private lateinit var profileVM:ProfileViewModel
     lateinit var recyclerView: RecyclerView
 
     lateinit var userId: String
-    lateinit var otherUser : User
+    private lateinit var otherUser : User
     lateinit var slot : TimeSlot
-    var chat:Chat?=null
+    private var chat:Chat?=null
 
-    var mychats = false
-    lateinit var chatTextView: EditText
-    lateinit var sendButton: ImageButton
-    lateinit var rejectButton: Button
-    lateinit var assignButton:Button
-    lateinit var reviewButton:Button
-    lateinit var titleChat: TextView
+    private var mychats = false
+    private lateinit var chatTextView: EditText
+    private lateinit var sendButton: ImageButton
+    private lateinit var rejectButton: Button
+    private lateinit var assignButton:Button
+    private lateinit var reviewButton:Button
+    private lateinit var titleChat: TextView
 
-    lateinit var askerId: String
-    lateinit var offererId: String
+    private lateinit var askerId: String
+    private lateinit var offererId: String
 
 
 
@@ -104,7 +104,7 @@ class ChatFragment : Fragment() {
                 printMessage("This timeslot was refused with success for the this user")
                 assignButton.visibility=View.GONE
                 rejectButton.visibility=View.GONE
-                titleChat.setText("This timeslot request was rejected")
+                titleChat.text="This timeslot request was rejected"
             }
         }
 
@@ -147,7 +147,7 @@ class ChatFragment : Fragment() {
     }
 
 
-    fun getChat(send: Boolean){
+    private fun getChat(send: Boolean){
          timeSlotVM.getChat(askerId, slot.id, offererId).observe(viewLifecycleOwner) {
 
             if (it != null) {
@@ -157,7 +157,7 @@ class ChatFragment : Fragment() {
                     assignButton.visibility = View.GONE
                     rejectButton.visibility = View.GONE
                     titleChat.visibility=View.VISIBLE
-                    titleChat.setText("This timeslot request was rejected!")
+                    titleChat.text="This timeslot request was rejected!"
                 }
                 else{
                     if (slot.status== 0) {
@@ -194,7 +194,7 @@ class ChatFragment : Fragment() {
     }
 
 
-    fun getChatMessages(){
+    private fun getChatMessages(){
         timeSlotVM.getSlotChatMessagesB(offererId, slot.id, chat!!.id).observe(viewLifecycleOwner){
             recyclerView.layoutManager = LinearLayoutManager(context)
             if(it!=null) {
@@ -206,7 +206,7 @@ class ChatFragment : Fragment() {
         }
     }
 
-    fun sendMessage(){
+    private fun sendMessage(){
         val msgId = timeSlotVM.getNewChatMessageId(offererId, slot.id, chat!!.id)
         val date = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(Date()) //TODO: controllare
         val time = SimpleDateFormat("HH:mm:ss", Locale.ITALY).format(Date()) //TODO: controllare
@@ -215,13 +215,13 @@ class ChatFragment : Fragment() {
         chatTextView.setText("")
     }
 
-    fun createChat(){
+    private fun createChat(){
         val chatId = timeSlotVM.getNewChatId(offererId, slot.id)
         timeSlotVM.addChat(offererId, slot.id, chatId, Chat(chatId, userId))
         getChat(true) //get chat and send message
     }
 
-    fun printMessage(message:String){
+    private fun printMessage(message:String){
         val snackbar = Snackbar.make(
             requireView(),
             message,

@@ -2,27 +2,20 @@ package it.polito.timebanking
 
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.timebanking.model.Review
-import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.ReviewViewModel
-import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 /**
  * A fragment representing a list of Items.
  */
 class ReviewListFragment : Fragment() {
-    lateinit var reviewsVM: ReviewViewModel
-    lateinit var reviewList: LiveData<MutableList<Review>>
+    private lateinit var reviewsVM: ReviewViewModel
+    private lateinit var reviewList: LiveData<MutableList<Review>>
     var userId: String? = null
     override fun onCreateView(
         inflater: LayoutInflater,

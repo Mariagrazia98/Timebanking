@@ -45,7 +45,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var profileVM: ProfileViewModel
     lateinit var user: User
     lateinit var userId: String
-    lateinit var fv: View
+    private lateinit var fv: View
 
     lateinit var credit:TextView
     lateinit var fullnameView: EditText
@@ -55,13 +55,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var locationView: EditText
     lateinit var descriptionView: EditText
     lateinit var frameLayout: FrameLayout
-    lateinit var skillsGroup: ChipGroup
+
+    private lateinit var skillsGroup: ChipGroup
     lateinit var skillsAddButton: Button
-    lateinit var addSkillView: EditText
-    lateinit var profileImageView: ImageView
-    lateinit var updateProfileButton: Button
-    lateinit var skillsError : TextView
-    lateinit var headerView:View
+    private lateinit var addSkillView: EditText
+    private lateinit var profileImageView: ImageView
+    private lateinit var updateProfileButton: Button
+    private lateinit var skillsError : TextView
+    private lateinit var headerView:View
 
     var h: Int = 0
     var w: Int = 0
@@ -144,8 +145,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
 
         skillsAddButton.setOnClickListener {
-            if (!addSkillView.text.toString()
-                    .isEmpty() && !skillsList.contains(addSkillView.text.toString())
+            if (addSkillView.text.toString()
+                    .isNotEmpty() && !skillsList.contains(addSkillView.text.toString())
             ) {
                 addChip(addSkillView.text.toString())
                 skillsList.add(addSkillView.text.toString())
@@ -295,7 +296,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         skillsError.visibility = View.GONE
     }
 
-    fun setVariables(view: View) {
+    private fun setVariables(view: View) {
         credit=view.findViewById(R.id.credit)
         fullnameView = view.findViewById(R.id.Edit_FullName)
         ageView = view.findViewById(R.id.edit_age)
@@ -315,14 +316,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
 
     //CAMERA
-    fun handleCameraImage(intent: Intent?) {
+    private fun handleCameraImage(intent: Intent?) {
         bitmap = intent?.extras?.get("data") as Bitmap
         val iv = fv.findViewById<ImageView>(R.id.Edit_imageView)
         iv.setImageBitmap(bitmap)
         saveProfileImage()
     }
 
-    fun handleGalleryImage(uri: Uri?) {
+    private fun handleGalleryImage(uri: Uri?) {
         val iv = fv.findViewById<ImageView>(R.id.Edit_imageView)
         iv.setImageURI(uri)
         bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
@@ -330,7 +331,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
     //result of opening camera
-    val resultLauncherCameraImage =
+    private val resultLauncherCameraImage =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result: ActivityResult ->
@@ -340,20 +341,20 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
 
     //result of opening gallery
-    val resultLauncherGalleryImage =
+    private val resultLauncherGalleryImage =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 handleGalleryImage(uri)
             }
         }
 
-    fun openCamera() {
+    private fun openCamera() {
         //intent to open camera app
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         resultLauncherCameraImage.launch(cameraIntent)
     }
 
-    fun openGallery() {
+    private fun openGallery() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         resultLauncherGalleryImage.launch("image/*")
@@ -388,7 +389,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
 
-    fun saveProfileImage() {
+    private fun saveProfileImage() {
         val wrapper = ContextWrapper(requireActivity().applicationContext)
         var file = wrapper.getDir("images", Context.MODE_PRIVATE)
         val filename = user.uid + ".jpg"

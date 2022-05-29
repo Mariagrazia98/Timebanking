@@ -17,9 +17,9 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
  * A fragment representing a list of Items.
  */
 class TimeSlotListFragment : Fragment() {
-    lateinit var timeSlotVM: TimeSlotViewModel
+    private lateinit var timeSlotVM: TimeSlotViewModel
     lateinit var userId: String
-    var read_only: Boolean = false
+    private var read_only: Boolean = false
     var skill: String = ""
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -46,8 +46,6 @@ class TimeSlotListFragment : Fragment() {
         if (read_only && (activity as MainActivity).lastSkill != skill) {
             (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsBySkill(userId, skill)
             (activity as MainActivity).lastSkill = skill
-        } else if(read_only && (activity as MainActivity).lastSkill == skill){
-
         }
         else {
             (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsByUser(userId)

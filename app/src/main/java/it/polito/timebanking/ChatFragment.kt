@@ -90,6 +90,12 @@ class ChatFragment : Fragment() {
 
             if (it != null) {
                 chat = it
+                if(chat!!.chatStatus==1) {
+                     titleChat.setText("This timeslot request was rejected!")
+                        reviewButton.visibility = View.GONE
+                        assignButton.visibility = View.GONE
+                        rejectButton.visibility = View.GONE
+                }
                 if (slot.status== 0) {
                     reviewButton.visibility = View.GONE
                 }
@@ -97,20 +103,13 @@ class ChatFragment : Fragment() {
                     assignButton.visibility = View.VISIBLE
                     rejectButton.visibility = View.VISIBLE
                 }
-                if ( slot.status == 1){
+                if ( slot.status == 1){ //timeslot assigned
                     assignButton.visibility = View.GONE
                     rejectButton.visibility = View.GONE
-                    titleChat.visibility = View.GONE
-                   // titleChat.setText("This timeslot request was rejected!")
-                    if (slot.idReceiver == userId && (slot.reviewState == 2 || slot.reviewState == 3)) { //current user receiver
-                        reviewButton.visibility = View.GONE
-                    } else if (slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) {
-                        reviewButton.visibility = View.VISIBLE
-                    }
-                    if (slot.idReceiver != userId && (slot.reviewState == 1 || slot.reviewState == 3)) { //current user offer
-                        reviewButton.visibility = View.GONE
-                    } else if (slot.idReceiver != userId && (slot.reviewState == 0 || slot.reviewState == 2)) {
-                        reviewButton.visibility = View.VISIBLE
+                    reviewButton.visibility = View.GONE
+                    if ((slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
+                                (slot.idReceiver != userId && (slot.reviewState == 0 || slot.reviewState == 2))) {
+                                reviewButton.visibility = View.VISIBLE
                     }
                 }
                 getChatMessages()
@@ -190,8 +189,8 @@ class ChatFragment : Fragment() {
 
     fun sendMessage(){
         val msgId = timeSlotVM.getNewChatMessageId(offererId, slot.id, chat!!.id)
-        val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //controllare
-        val time = SimpleDateFormat("HH:mm").format(Date()) //controllare
+        val date = SimpleDateFormat("dd/MM/yyyy").format(Date()) //TODO: controllare
+        val time = SimpleDateFormat("HH:mm").format(Date()) //TODO: controllare
         val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
         val ret = timeSlotVM.addChatMessage(offererId, slot.id, chat!!.id, msg)
         chatTextView.setText("")

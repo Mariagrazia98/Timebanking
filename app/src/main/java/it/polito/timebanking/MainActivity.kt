@@ -139,7 +139,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.editProfileFragment || destination.id == R.id.timeSlotEditFragment) {
+            if (
+                destination.id == R.id.editProfileFragment  ||
+                destination.id == R.id.timeSlotEditFragment ||
+                destination.id == R.id.chatFragment
+            ) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 supportActionBar?.setDisplayShowHomeEnabled(false)
             }

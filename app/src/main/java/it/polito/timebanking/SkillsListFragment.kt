@@ -51,6 +51,7 @@ class SkillsListFragment : Fragment() {
                 }
             }
 
+        (activity as MainActivity).lastSkill = ""
         return view
     }
 

@@ -47,6 +47,9 @@ class TimeSlotListFragment : Fragment() {
             (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsBySkill(userId, skill)
             (activity as MainActivity).lastSkill = skill
         }
+        else if(read_only && (activity as MainActivity).lastSkill == skill){
+            //non toccarmi
+        }
         else {
             (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsByUser(userId)
         }

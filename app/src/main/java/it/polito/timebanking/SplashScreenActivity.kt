@@ -13,11 +13,9 @@ import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var timeSlotVM: TimeSlotViewModel
-    private lateinit var skills: List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        timeSlotVM = ViewModelProvider(this).get(TimeSlotViewModel::class.java)
         Handler().postDelayed(Runnable { //This method will be executed once the timer is over
             // Start your app main activity
             val i = Intent(this@SplashScreenActivity, MainActivity::class.java)

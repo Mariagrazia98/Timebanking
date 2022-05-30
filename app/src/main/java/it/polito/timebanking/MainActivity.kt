@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
 
     var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter? = null
-    var adapterInterestedTimeSlots : InterestedTimeSlotRecyclerViewAdapter? = null
     var keepAdapter : Boolean = false //for filter tool
     var filterBundle : Bundle? = null
     private var userState: FirebaseUser? = null

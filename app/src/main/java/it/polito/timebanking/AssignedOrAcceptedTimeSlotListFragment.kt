@@ -15,16 +15,6 @@ class AssignedOrAcceptedTimeSlotListFragment: Fragment() {
     lateinit var userId: String
     lateinit var status: String
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.filterBtn -> {
-                findNavController().navigate(R.id.action_timeSlotListFragment_to_filterFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
@@ -45,12 +35,7 @@ class AssignedOrAcceptedTimeSlotListFragment: Fragment() {
 
         (activity as MainActivity).slotsToObserve?.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
-
-            if(!(activity as MainActivity).keepAdapter)
-                (activity as MainActivity).adapterInterestedTimeSlots = InterestedTimeSlotRecyclerViewAdapter(it, status)
-            else
-                (activity as MainActivity).keepAdapter = false
-            rv.adapter = (activity as MainActivity).adapterInterestedTimeSlots
+            rv.adapter = InterestedTimeSlotRecyclerViewAdapter(it, status)
 
             if(it.values.isEmpty()){
                 rv.visibility = View.GONE
@@ -69,7 +54,6 @@ class AssignedOrAcceptedTimeSlotListFragment: Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.filter_button, menu)
         menu.findItem(R.id.edit_button).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }

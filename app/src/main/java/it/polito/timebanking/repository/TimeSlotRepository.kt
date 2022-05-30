@@ -400,32 +400,7 @@ class TimeSlotRepository {
     }
 
     //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
-    suspend fun getSlotChatMessages(idOfferer: String, slotId: String, chatId: String): Result<MutableList<ChatMessage>?> {
-        return try {
-            val chatMessages = Firebase.firestore
-                .collection("users")
-                .document(idOfferer)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .document(chatId)
-                .collection("messageList")
-                .get()
-                .await()
-
-            val messageList: MutableList<ChatMessage>? = mutableListOf()
-            chatMessages.forEach{
-                messageList?.add(it.toObject(ChatMessage::class.java))
-            }
-
-            Result.success(messageList)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
-    fun getSlotChatMessagesB(idOfferer: String, slotId: String, chatId: String): CollectionReference {
+    fun getSlotChatMessages(idOfferer: String, slotId: String, chatId: String): CollectionReference {
         val colRef = Firebase.firestore
             .collection("users")
             .document(idOfferer)

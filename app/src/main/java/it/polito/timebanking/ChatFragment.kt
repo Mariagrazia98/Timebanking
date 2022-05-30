@@ -1,13 +1,9 @@
 package it.polito.timebanking
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -241,7 +237,7 @@ class ChatFragment : Fragment() {
 
 
     private fun getChatMessages() {
-        timeSlotVM.getSlotChatMessagesB(offererId, slot.id, chat!!.id).observe(viewLifecycleOwner) {
+        timeSlotVM.getSlotChatMessages(offererId, slot.id, chat!!.id).observe(viewLifecycleOwner) {
             recyclerView.layoutManager = LinearLayoutManager(context)
             if (it != null) {
                 //TODO: controllare sorting

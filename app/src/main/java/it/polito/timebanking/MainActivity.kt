@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 
     var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter? = null
     var adapterInterestedTimeSlots : InterestedTimeSlotRecyclerViewAdapter? = null
-    var adapterAssignedOrAcceptedTimeSlots : AssignedOrAcceptedTimeSlotRecyclerViewAdapter? = null
     var keepAdapter : Boolean = false //for filter tool
     var filterBundle : Bundle? = null
     private var userState: FirebaseUser? = null

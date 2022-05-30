@@ -13,20 +13,17 @@ class ViewPagerAdapter(fragment: Fragment, val userId: String) : FragmentStateAd
 
     override fun createFragment(position: Int): Fragment {
         val bundle = bundleOf("userId" to userId)
-        return when (position) {
+        when (position) {
             0 -> {
                 bundle.putString("status", "assigned")
-                val assignedOrAcceptedTimeSlotListFragment = AssignedOrAcceptedTimeSlotListFragment()
-                assignedOrAcceptedTimeSlotListFragment.arguments = bundle
-                assignedOrAcceptedTimeSlotListFragment
+
             }
             1 -> {
                 bundle.putString("status", "accepted")
-                val assignedOrAcceptedTimeSlotListFragment = AssignedOrAcceptedTimeSlotListFragment()
-                assignedOrAcceptedTimeSlotListFragment.arguments = bundle
-                assignedOrAcceptedTimeSlotListFragment
             }
-            else -> AssignedOrAcceptedTimeSlotListFragment()
         }
+        val assignedOrAcceptedTimeSlotListFragment = AssignedOrAcceptedTimeSlotListFragment()
+        assignedOrAcceptedTimeSlotListFragment.arguments = bundle
+        return assignedOrAcceptedTimeSlotListFragment
     }
 }

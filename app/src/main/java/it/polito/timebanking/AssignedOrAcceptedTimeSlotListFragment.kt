@@ -47,10 +47,10 @@ class AssignedOrAcceptedTimeSlotListFragment: Fragment() {
             rv.layoutManager = LinearLayoutManager(context)
 
             if(!(activity as MainActivity).keepAdapter)
-                (activity as MainActivity).adapterAssignedOrAcceptedTimeSlots = AssignedOrAcceptedTimeSlotRecyclerViewAdapter(it)
+                (activity as MainActivity).adapterInterestedTimeSlots = InterestedTimeSlotRecyclerViewAdapter(it)
             else
                 (activity as MainActivity).keepAdapter = false
-            rv.adapter = (activity as MainActivity).adapterAssignedOrAcceptedTimeSlots
+            rv.adapter = (activity as MainActivity).adapterInterestedTimeSlots
 
             if(it.values.isEmpty()){
                 rv.visibility = View.GONE

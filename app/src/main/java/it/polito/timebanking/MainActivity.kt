@@ -45,13 +45,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navTitle:TextView
     private lateinit var navSubtitle:TextView
     private lateinit var mAuth: FirebaseAuth
-
     var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter? = null
     var keepAdapter : Boolean = false //for filter tool
     var filterBundle : Bundle? = null
     private var userState: FirebaseUser? = null
     var slotsToObserve : LiveData<Map<User, List<TimeSlot>>>? = null
     var lastSkill = ""
+    var reviewsListOf = ""
+
 
     // Choose authentication providers
     private val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
@@ -275,7 +276,6 @@ class MainActivity : AppCompatActivity() {
 
     fun onClickSeeAllReviews(v:View) {
         val bundle = Bundle()
-        bundle.putString("userId",userState?.uid)
         navController.navigate(R.id.action_showProfileFragment_to_reviewListFragment,bundle)
     }
 }

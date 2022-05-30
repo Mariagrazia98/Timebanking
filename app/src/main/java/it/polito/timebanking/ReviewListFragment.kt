@@ -24,7 +24,7 @@ class ReviewListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_reviews_list, container, false)
         val rv = view.findViewById<RecyclerView>(R.id.reviewsRv)
-        userId = arguments?.getString("userId")
+        userId = (activity as MainActivity).reviewsListOf
         reviewsVM = ViewModelProvider(requireActivity()).get(ReviewViewModel::class.java)
         reviewList = reviewsVM.getReviewsByUser(userId!!)
         reviewList.observe(viewLifecycleOwner){

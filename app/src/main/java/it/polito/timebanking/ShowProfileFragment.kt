@@ -132,13 +132,13 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                             addChip(it.trim())
                         }
                     }
+                    (activity as MainActivity).reviewsListOf = user.uid
 
                     // Download directly from StorageReference using Glide
                     if(user.imagePath!=null)
                         Glide.with(this /* context */).load(user.imagePath).into(imageView)
                 }
             })
-
     }
 
     private fun setVariables(view: View) {

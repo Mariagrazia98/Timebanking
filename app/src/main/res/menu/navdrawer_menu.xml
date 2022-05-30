@@ -16,11 +16,11 @@
             android:title="@string/available_skills" />
         <item
             android:id="@+id/interestedAdvMenuItem"
-            android:icon="@drawable/ic_list"
+            android:icon="@drawable/ic_interested"
             android:title="@string/interested_offers" />
         <item
             android:id="@+id/assignedOrAcceptedAdvMenuItem"
-            android:icon="@drawable/ic_list"
+            android:icon="@drawable/ic_assigned_accepted"
             android:title="@string/assigned_accepted_offers" />
 
     </group>

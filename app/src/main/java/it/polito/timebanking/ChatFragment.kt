@@ -3,6 +3,7 @@ package it.polito.timebanking
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
@@ -125,7 +126,7 @@ class ChatFragment : Fragment() {
                         userReceiver.credit - slot.duration
                     ).observe(viewLifecycleOwner) {
                         if (it) {
-                            profileVM.getUserById(chat!!.receiverUid).observe(
+                            profileVM.getUserById(offererId).observe(
                                 viewLifecycleOwner
                             ) { userOffer ->
                                 profileVM.updateUserCredit(
@@ -206,7 +207,7 @@ class ChatFragment : Fragment() {
                         assignButton.visibility = View.GONE
                         rejectButton.visibility = View.GONE
                         reviewButton.visibility = View.GONE
-                        if(userId==slot.idReceiver  || userId==offererId){ //the slot was already assigned to someone
+                        if(userId!=slot.idReceiver  && userId!=offererId){ //the slot was already assigned to someone
                             titleChat.visibility = View.VISIBLE
                             titleChat.text = "This timeslot request was already assigned to somebody!"
                         }

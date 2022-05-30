@@ -1,5 +1,6 @@
 package it.polito.timebanking
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 
@@ -24,13 +26,15 @@ class MyTimeSlotRecyclerViewAdapter(val data: Map<User, List<TimeSlot>>, val rea
         private val time: TextView = v.findViewById(R.id.slot_time)
         private val duration: TextView = v.findViewById(R.id.slot_duration)
         private val name: TextView? = v.findViewById(R.id.offererName)
+        private val ivSlot: ImageView? = v.findViewById(R.id.imageViewSlot)
+
         val cv: CardView = v.findViewById(R.id.cvLastRating)
         val button: ImageButton? = v.findViewById(R.id.button)
-        private val ivSlot: ImageView? = v.findViewById(R.id.imageViewSlot)
         val chatButton: ImageButton? = v.findViewById(R.id.chatButton)
+        val currentUser = FirebaseAuth.getInstance().currentUser
 
 
-        fun bind(item: TimeSlot, read_only: Boolean, user: User) {
+        fun bind(item: TimeSlot, read_only: Boolean, ownerTimeslot: User) {
             title.text = item.title
             date.text = item.date
             time.text = item.time
@@ -38,10 +42,9 @@ class MyTimeSlotRecyclerViewAdapter(val data: Map<User, List<TimeSlot>>, val rea
 
             if (read_only) {
                 if (ivSlot != null) {
-                    Glide.with(ivSlot.context).load(user.imagePath).into(ivSlot)
+                    Glide.with(ivSlot.context).load(ownerTimeslot.imagePath).into(ivSlot)
                 }
-                name?.text = user.fullname
-
+                name?.text = ownerTimeslot.fullname
             }
         }
     }
@@ -85,10 +88,15 @@ class MyTimeSlotRecyclerViewAdapter(val data: Map<User, List<TimeSlot>>, val rea
         }
 
         holder.chatButton?.setOnClickListener {
-            findNavController(FragmentManager.findFragment(it)).navigate(
-                R.id.action_timeSlotListFragment_to_chatFragment,
-                bundle
-            )
+            if (FirebaseAuth.getInstance().currentUser==null){
+                Toast.makeText(holder.chatButton.context, "Please, login before starting a chat!", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                findNavController(FragmentManager.findFragment(it)).navigate(
+                    R.id.action_timeSlotListFragment_to_chatFragment,
+                    bundle
+                )
+            }
         }
     }
 

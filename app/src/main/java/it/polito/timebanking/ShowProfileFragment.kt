@@ -42,7 +42,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var imageReview: ImageView
     private  lateinit var commentReview: TextView
     private lateinit var ratingLR: RatingBar
-
+    private lateinit var titleRating: TextView
     lateinit var userId: String
 
     private lateinit var profileVM: ProfileViewModel
@@ -99,6 +99,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         profileVM.getUserById(userId)
             .observe(viewLifecycleOwner, Observer { user ->
                 if (user != null) {
+                    titleRating.text = "About ${user.nickname}"
                     creditView.text=user.credit.toString()
                     fullnameView.text = user.fullname
                     ageView.text = user.age.toString()
@@ -163,6 +164,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         typeReview=view.findViewById(R.id.typeReviewLR)
         commentReview=view.findViewById(R.id.reviewTextLR)
         imageReview=view.findViewById(R.id.imageViewLR)
+        titleRating=view.findViewById(R.id.titleRating)
         reviewsVM.getReviewsByUser(userId).observe(viewLifecycleOwner){ reviews ->
             if(reviews.size != 0) {
                 alertNoReviews.visibility= View.GONE

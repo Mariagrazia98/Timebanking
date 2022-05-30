@@ -256,15 +256,16 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/light_divider"
-                android:paddingBottom="16dp">
+                android:layout_margin="16dp"
+                android:background="@drawable/review_cont_round_corners"
+                >
 
                 <TextView
-                    android:id="@+id/TitleRating"
+                    android:id="@+id/titleRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="About You"
+                    android:text="About User"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textSize="26dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -284,7 +285,7 @@
                     android:secondaryProgressTint="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/TitleRating" />
+                    app:layout_constraintTop_toBottomOf="@+id/titleRating" />
 
                 <TextView
                     android:id="@+id/ratingAvg"
@@ -296,19 +297,21 @@
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
                     app:layout_constraintEnd_toStartOf="@+id/ratingBar"
-                    app:layout_constraintTop_toBottomOf="@+id/TitleRating" />
+                    app:layout_constraintTop_toBottomOf="@+id/titleRating" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvLastRating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
                     android:backgroundTint="#FFFFFF"
                     app:cardBackgroundColor="@color/light_divider"
                     app:cardCornerRadius="10dp"
                     app:cardUseCompatPadding="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/numReviews">
@@ -449,7 +452,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/TitleRating" />
+                    app:layout_constraintTop_toBottomOf="@+id/titleRating" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

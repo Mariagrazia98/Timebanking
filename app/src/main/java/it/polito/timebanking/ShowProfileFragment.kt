@@ -182,7 +182,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 commentReview.text = last.comment
                 if(last.type == 0){
                     typeReview.text = "as Offerer"
-                    imageReview.setImageResource(R.drawable.teacher)
+                    //imageReview.setImageResource(R.drawable.teacher)
                 }
             }
             else{

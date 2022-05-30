@@ -89,15 +89,23 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         review.rating = ratingBar.rating
         review.id = id
         review.nameReviewer = nameReviewer
-        review.type = 0
         review.timeSlotId = tsId
         review.userIdReviewer = userIdReviewer
+        //dobbiamo capire il ruolo di chi sta avendo la review (userId) -> type
+        //e da chi sta arrivando la review -> role
+        var roleReviewer = ""
+        if(userId == idReceiver) {
+            //quello che riceve la review è chi ha usufruito
+            review.type = 1
+            roleReviewer = "Offerer"
+        }
+        else{
+            review.type = 0
+            roleReviewer = "Receiver"
+
+        }
+        timeSlotVM.updateReviewState(userId,tsId,roleReviewer,oldReviewState)
         reviewsVM.updateReview(userId, review)
-        //dobbiamo capire il ruolo di chi sta avendo la review (userId)
-        var role = "Receiver"
-        if(userId != idReceiver)
-            role = "Offerer"
-        timeSlotVM.updateReviewState(userId,tsId,role,oldReviewState)
         Toast.makeText(context, "Review completed!", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }

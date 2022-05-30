@@ -197,6 +197,12 @@
                 android:paddingEnd="10dp"
                 android:textColor="@color/primary_text" />
 
+            <Button
+                android:id="@+id/chatsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="See timeslot chats" />
+
         </LinearLayout>
     </ScrollView>
 

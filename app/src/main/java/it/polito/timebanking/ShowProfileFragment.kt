@@ -67,7 +67,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         profileVM = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
         reviewsVM = ViewModelProvider(requireActivity()).get(ReviewViewModel::class.java)
@@ -139,6 +138,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                         Glide.with(this /* context */).load(user.imagePath).into(imageView)
                 }
             })
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setVariables(view: View) {

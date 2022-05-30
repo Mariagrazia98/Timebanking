@@ -34,14 +34,13 @@ class SkillsListFragment : Fragment() {
         val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
         userId = uid.toString()
 
-        timeSlotVM.getAllSkills(userId)
+        (activity as MainActivity).skills
             .observe(viewLifecycleOwner) {
-                (activity as MainActivity).skills = it
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 adapter = MySkillRecyclerViewAdapter(it.distinct(), userId)
                 recyclerView.adapter = adapter
 
-                if ((activity as MainActivity).skills.isEmpty()) {
+                if (it.isEmpty()) {
                     recyclerView.visibility = View.GONE
                     title.visibility = View.GONE
                     ev.visibility = View.VISIBLE

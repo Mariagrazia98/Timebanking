@@ -358,7 +358,7 @@
 
                                 <ImageView
                                     android:id="@+id/reviewImageLR"
-                                    android:layout_width="5dp"
+                                    android:layout_width="0dp"
                                     android:layout_height="27dp"
                                     android:layout_weight="1"
                                     app:srcCompat="@drawable/student" />
@@ -447,7 +447,7 @@
                     android:gravity="center"
                     android:text="@string/noAvailableReview"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

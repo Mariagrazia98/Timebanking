@@ -22,11 +22,10 @@ class InterestedTimeSlotListFragment : Fragment() {
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         val ev: TextView = view.findViewById(R.id.empty_view)
         val fab: View = view.findViewById(R.id.fab)
-        timeSlotVM.getInterestedSlotsByUser(userId)
-            .observe(viewLifecycleOwner){
+        (activity as MainActivity).interestedSlots.observe(viewLifecycleOwner){
                 rv.layoutManager = LinearLayoutManager(context)
                 rv.adapter = InterestedTimeSlotRecyclerViewAdapter(it, "interested", null)
-                if(it.values.isEmpty()){
+                if(it.isEmpty()){
                     rv.visibility = View.GONE
                     ev.visibility = View.VISIBLE
                 }else {

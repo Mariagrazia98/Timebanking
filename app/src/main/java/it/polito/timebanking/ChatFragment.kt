@@ -211,10 +211,15 @@ class ChatFragment : Fragment() {
                             titleChat.visibility = View.VISIBLE
                             titleChat.text = "This timeslot request was already assigned to somebody!"
                         }
-                        else if ((slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
-                            (slot.idReceiver != userId && (slot.reviewState == 0 || slot.reviewState == 2))
-                        ) {
+                        else if (
+                            (slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
+                            (offererId == userId && askerId == slot.idReceiver && (slot.reviewState == 0 || slot.reviewState == 2))
+                        ){
                             reviewButton.visibility = View.VISIBLE
+                        }
+                        else if(askerId != slot.idReceiver){
+                            titleChat.visibility = View.VISIBLE
+                            titleChat.text = "This timeslot request was already assigned to somebody!"
                         }
                     }
                 }

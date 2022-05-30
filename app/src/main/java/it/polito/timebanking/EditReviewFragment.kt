@@ -32,9 +32,9 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
     private lateinit var profileVM: ProfileViewModel
     private lateinit var nameReviewer: String
     private lateinit var tsId: String
-    lateinit var userId: String
+    var userId: String = ""
     var oldReviewState = -1
-    lateinit var idReceiver : String
+    private var idReceiver : String = ""
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         //delete edit_button
@@ -102,7 +102,6 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         else{
             review.type = 0
             roleReviewer = "Receiver"
-
         }
         timeSlotVM.updateReviewState(userId,tsId,roleReviewer,oldReviewState)
         reviewsVM.updateReview(userId, review)

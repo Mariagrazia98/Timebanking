@@ -15,6 +15,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -54,7 +55,8 @@ class MainActivity : AppCompatActivity() {
     var slotsToObserve : LiveData<Map<User, List<TimeSlot>>>? = null
     var lastSkill = ""
     var reviewsListOf = ""
-    lateinit var skills : List<String>
+    var skills : MutableLiveData<List<String>> = MutableLiveData<List<String>>()
+    var interestedSlots: MutableLiveData<Map<User,List<TimeSlot>>> = MutableLiveData<Map<User,List<TimeSlot>>>()
 
     // Choose authentication providers
     private val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
@@ -124,7 +126,11 @@ class MainActivity : AppCompatActivity() {
                     })
 
                 timeSlotViewModel.getAllSkills(userState!!.uid).observe(this){
-                    skills = it
+                    skills.postValue(it)
+                }
+
+                timeSlotViewModel.getInterestedSlotsByUser(userState!!.uid).observe(this){
+                    interestedSlots.postValue(it)
                 }
 
                 log_item.title = "Logout"

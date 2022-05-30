@@ -157,7 +157,8 @@ class ChatFragment : Fragment() {
             for (ith in it) {
                 if (ith.timeSlotId == slotId && ith.userIdReviewer == userId) {
                     reviewButton.isEnabled = false
-                    Toast.makeText(context, "You already reviewed this!", Toast.LENGTH_SHORT).show()
+                    titleChat.visibility = View.VISIBLE
+                    titleChat.text="You already reviewed this!"
                 }
             }
         }

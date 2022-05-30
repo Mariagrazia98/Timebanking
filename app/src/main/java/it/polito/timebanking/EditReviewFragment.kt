@@ -15,8 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import it.polito.timebanking.model.Review
+import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.ReviewViewModel
+import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -25,11 +27,14 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
     private lateinit var comment: EditText
     private lateinit var sendReviewBtn: Button
     private lateinit var reviewsVM: ReviewViewModel
+    private lateinit var timeSlotVM: TimeSlotViewModel
     private lateinit var userIdReviewer: String
     private lateinit var profileVM: ProfileViewModel
     private lateinit var nameReviewer: String
     private lateinit var tsId: String
     lateinit var userId: String
+    var oldReviewState = -1
+    lateinit var idReceiver : String
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         //delete edit_button
@@ -45,6 +50,7 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         (activity as MainActivity).supportActionBar?.title = "Edit Review"
         reviewsVM = ViewModelProvider(requireActivity()).get(ReviewViewModel::class.java)
         profileVM = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
+        timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
 
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -66,6 +72,10 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         profileVM.getUserById(userIdReviewer).observe(viewLifecycleOwner){
             nameReviewer = it?.nickname ?: ""
         }
+        timeSlotVM.getSlotFById(userId,tsId).observe(viewLifecycleOwner){
+            oldReviewState = it.reviewState
+            idReceiver = it.idReceiver!!
+        }
     }
 
     private fun sendReview() {
@@ -83,6 +93,11 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         review.timeSlotId = tsId
         review.userIdReviewer = userIdReviewer
         reviewsVM.updateReview(userId, review)
+        //dobbiamo capire il ruolo di chi sta avendo la review (userId)
+        var role = "Receiver"
+        if(userId != idReceiver)
+            role = "Offerer"
+        timeSlotVM.updateReviewState(userId,tsId,role,oldReviewState)
         Toast.makeText(context, "Review completed!", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }

@@ -493,5 +493,31 @@ class TimeSlotRepository {
         }
     }
 
+    //update reviewState
+    suspend fun updateReviewState(userReviewedId: String, timeslotId:String, role: String, oldReviewState: Int): Boolean {
+        return try {
+            var code = 0
+            if(oldReviewState == 0){
+                if(role=="Offerer")
+                    code = 1
+                else
+                    code = 2 //receiver
+            }
+            else
+                code = 3
+            Firebase.firestore
+                .collection("users")
+                .document(userReviewedId)
+                .collection("timeslots")
+                .document(timeslotId)
+                .update(mapOf(
+                    "reviewState" to code,
+                ))
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 
 }

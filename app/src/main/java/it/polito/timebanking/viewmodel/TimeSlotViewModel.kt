@@ -205,4 +205,14 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
+    //review State
+    fun updateReviewState(userReviewedId: String, slotId:String, role: String, oldReviewState: Int): LiveData<Boolean> {
+        val res = MutableLiveData<Boolean>()
+        viewModelScope.launch{
+            val result = repo.updateReviewState(userReviewedId,slotId,role,oldReviewState)
+            res.postValue(result)
+        }
+        return res
+    }
+
 }

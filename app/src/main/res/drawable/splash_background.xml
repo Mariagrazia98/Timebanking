@@ -5,11 +5,8 @@
     <item
         android:drawable="@drawable/bg_gradient"/>
     <item
-        android:width="30dp"
-        android:height="30dp"
-        android:gravity="center"
-        >
-        <bitmap android:gravity="center"
-            android:src="@drawable/ic_launcher"/>
-    </item>
+        android:width="360dp"
+        android:height="650dp"
+        android:drawable="@drawable/logo"
+        android:gravity="center"/>
 </layer-list>

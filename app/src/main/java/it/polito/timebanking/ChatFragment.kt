@@ -156,9 +156,10 @@ class ChatFragment : Fragment() {
             //if yes, disable button
             for (ith in it) {
                 if (ith.timeSlotId == slotId && ith.userIdReviewer == userId) {
-                    reviewButton.isEnabled = false
+                    reviewButton.visibility = View.GONE
                     titleChat.visibility = View.VISIBLE
                     titleChat.text="You already reviewed this!"
+
                 }
             }
         }

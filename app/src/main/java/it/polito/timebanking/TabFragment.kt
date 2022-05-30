@@ -8,7 +8,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class TabFragment: Fragment(R.layout.fragment_tab) {
-    private val tabTitle = arrayOf("Assigned", "Accepted")
+    private val tabTitle = arrayOf("Assigned to me", "Accepted by me")
     lateinit var userId: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

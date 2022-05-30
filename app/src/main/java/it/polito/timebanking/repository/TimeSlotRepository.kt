@@ -233,11 +233,6 @@ class TimeSlotRepository {
             val filteredSlots = mutableMapOf<User, List<TimeSlot>>()
             val slotsUser = mutableListOf<TimeSlot>()
             var receiver: User? = null
-            val user = Firebase.firestore
-                .collection("users")
-                .document(userId)
-                .get()
-                .await()
 
             val timeslots = Firebase.firestore
                 .collection("users")

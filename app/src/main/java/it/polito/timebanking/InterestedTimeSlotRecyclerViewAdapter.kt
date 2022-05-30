@@ -33,7 +33,7 @@ class InterestedTimeSlotRecyclerViewAdapter(
         val chatButton: ImageButton? = v.findViewById(R.id.chatButton)
 
 
-        fun bind(item: TimeSlot, user: User) {
+        fun bind(item: TimeSlot, user: User, status:String) {
             title.text = item.title
             date.text = item.date
             time.text = item.time
@@ -42,7 +42,14 @@ class InterestedTimeSlotRecyclerViewAdapter(
             if (ivSlot != null) {
                 Glide.with(ivSlot.context).load(user.imagePath).into(ivSlot)
             }
-            name?.text = user.fullname
+
+            if(status == "accepted"){
+                val assignedTo = "Assigned to:\n" + user.fullname
+                name?.isSingleLine = false
+                name?.text = assignedTo
+            }else{
+                name?.text = user.fullname
+            }
         }
     }
 
@@ -60,7 +67,7 @@ class InterestedTimeSlotRecyclerViewAdapter(
                 user = it
             }
         }
-        item.let { holder.bind(it, user) }
+        item.let { holder.bind(it, user, status) }
         val bundle = bundleOf("read_only" to true)
         if(status == "interested" || status == "assigned")
             bundle.putBoolean( "mychats", false)

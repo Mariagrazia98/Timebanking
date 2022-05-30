@@ -33,9 +33,11 @@ import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
+import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
+    private val timeSlotViewModel: TimeSlotViewModel by viewModels()
 
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     var slotsToObserve : LiveData<Map<User, List<TimeSlot>>>? = null
     var lastSkill = ""
     var reviewsListOf = ""
-
+    lateinit var skills : List<String>
 
     // Choose authentication providers
     private val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
@@ -120,6 +122,10 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     })
+
+                timeSlotViewModel.getAllSkills(userState!!.uid).observe(this){
+                    skills = it
+                }
 
                 log_item.title = "Logout"
                 log_item.setIcon(R.drawable.ic_logout)

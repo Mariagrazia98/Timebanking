@@ -36,11 +36,12 @@ class SkillsListFragment : Fragment() {
 
         timeSlotVM.getAllSkills(userId)
             .observe(viewLifecycleOwner) {
+                (activity as MainActivity).skills = it
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 adapter = MySkillRecyclerViewAdapter(it.distinct(), userId)
                 recyclerView.adapter = adapter
 
-                if (it.isEmpty()) {
+                if ((activity as MainActivity).skills.isEmpty()) {
                     recyclerView.visibility = View.GONE
                     title.visibility = View.GONE
                     ev.visibility = View.VISIBLE

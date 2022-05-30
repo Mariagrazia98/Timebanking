@@ -232,7 +232,7 @@ class TimeSlotRepository {
         try {
             val filteredSlots = mutableMapOf<User, List<TimeSlot>>()
             val slotsUser = mutableListOf<TimeSlot>()
-
+            var receiver: User? = null
             val user = Firebase.firestore
                 .collection("users")
                 .document(userId)
@@ -248,16 +248,24 @@ class TimeSlotRepository {
 
             timeslots.documents.map {
                 if (it.data != null) {
-                    it.toObject(TimeSlot::class.java)?.let { it1 ->
-                        if (it1.status == 1) {
-                            slotsUser.add(it1)
+                    it.toObject(TimeSlot::class.java)?.let { timeslot ->
+                        if (timeslot.status == 1) {
+                            slotsUser.add(timeslot)
+                            receiver = timeslot.idReceiver?.let { receiver ->
+                                Firebase.firestore
+                                    .collection("users")
+                                    .document(receiver)
+                                    .get()
+                                    .await()
+                                    .toObject(User::class.java)
+                            }
                         }
                     }
                 }
             }
 
             if(slotsUser.isNotEmpty()){
-                user.toObject(User::class.java)?.let{
+                receiver?.let{
                     filteredSlots[it] = ArrayList(slotsUser)
                 }
             }

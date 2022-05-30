@@ -16,6 +16,7 @@ import it.polito.timebanking.model.User
 
 class InterestedTimeSlotRecyclerViewAdapter(
     val data: Map<User, List<TimeSlot>>,
+    val status: String
 ) :
 
     RecyclerView.Adapter<InterestedTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>(), Filterable {
@@ -62,7 +63,11 @@ class InterestedTimeSlotRecyclerViewAdapter(
             }
         }
         item.let { holder.bind(it, user) }
-        val bundle = bundleOf("read_only" to true, "mychats" to false)
+        val bundle = bundleOf("read_only" to true)
+        if(status == "interested" || status == "assigned")
+            bundle.putBoolean( "mychats", false)
+        else if(status== "accepted")
+            bundle.putBoolean( "mychats", true)
         bundle.putSerializable("user", user)
         bundle.putSerializable("slot", item)
 

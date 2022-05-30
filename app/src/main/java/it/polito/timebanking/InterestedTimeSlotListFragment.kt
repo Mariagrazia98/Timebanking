@@ -38,7 +38,7 @@ class InterestedTimeSlotListFragment : Fragment() {
             .observe(viewLifecycleOwner){
                 rv.layoutManager = LinearLayoutManager(context)
                 if(!(activity as MainActivity).keepAdapter)
-                    (activity as MainActivity).adapterInterestedTimeSlots = InterestedTimeSlotRecyclerViewAdapter(it)
+                    (activity as MainActivity).adapterInterestedTimeSlots = InterestedTimeSlotRecyclerViewAdapter(it, "interested")
                 else
                     (activity as MainActivity).keepAdapter = false
                 rv.adapter = (activity as MainActivity).adapterInterestedTimeSlots

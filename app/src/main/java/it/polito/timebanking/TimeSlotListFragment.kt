@@ -47,15 +47,12 @@ class TimeSlotListFragment : Fragment() {
             (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsBySkill(userId, skill)
             (activity as MainActivity).lastSkill = skill
         }
-        else if(read_only && (activity as MainActivity).lastSkill == skill){
-            //non toccarmi
-        }
-        else {
+        else if(!read_only){
             (activity as MainActivity).slotsToObserve = timeSlotVM.getSlotsByUser(userId)
         }
 
         if(read_only){
-            (activity as MainActivity).supportActionBar?.title = "Offers list"
+            (activity as MainActivity).supportActionBar?.title = " $skill offers list"
             fab.visibility = View.GONE
         }
 

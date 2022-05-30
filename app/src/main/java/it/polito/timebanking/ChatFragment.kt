@@ -78,7 +78,7 @@ class ChatFragment : Fragment() {
 
         mychats = arguments?.getBoolean("mychats") ?: false
 
-        (activity as MainActivity).supportActionBar?.title = otherUser.fullname
+        (activity as MainActivity).supportActionBar?.title = "Chat with ${otherUser.fullname}"
 
         val uid = arguments?.getString("userId") ?: FirebaseAuth.getInstance().currentUser?.uid
         userId = uid.toString()

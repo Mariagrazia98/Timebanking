@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -27,7 +28,7 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
     private lateinit var userIdReviewer: String
     private lateinit var profileVM: ProfileViewModel
     private lateinit var nameReviewer: String
-
+    private lateinit var tsId: String
     lateinit var userId: String
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -60,12 +61,10 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
 
         userId = arguments?.getString("userId")!!
         userIdReviewer = arguments?.getString("userIdReviewer")!!
+        tsId = arguments?.getString("timeslotId")!!
 
         profileVM.getUserById(userIdReviewer).observe(viewLifecycleOwner){
             nameReviewer = it?.nickname ?: ""
-            Log.d("antodeb","userId $userId")
-            Log.d("antodeb","userIdReviewer $userIdReviewer")
-            Log.d("antodeb","nameReviewer $nameReviewer")
         }
     }
 
@@ -81,7 +80,10 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         review.id = id
         review.nameReviewer = nameReviewer
         review.type = 0
+        review.timeSlotId = tsId
+        review.userIdReviewer = userIdReviewer
         reviewsVM.updateReview(userId, review)
+        Toast.makeText(context, "Review completed!", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }
 }

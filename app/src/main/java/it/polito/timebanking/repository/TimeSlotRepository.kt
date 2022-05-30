@@ -101,27 +101,26 @@ class TimeSlotRepository {
         try {
             val users = Firebase.firestore
                 .collection("users")
+                .whereNotEqualTo("uid", userId)
                 .get()
                 .await()
 
             val skills = mutableListOf<String>()
             users.forEach { user ->
                 user.toObject(User::class.java).let { u ->
-                    if (u.uid != userId) {
-                        val timeslots = Firebase.firestore
-                            .collection("users")
-                            .document(u.uid)
-                            .collection("timeslots")
-                            .whereEqualTo("status", 0)
-                            .get()
-                            .await()
+                    val timeslots = Firebase.firestore
+                        .collection("users")
+                        .document(u.uid)
+                        .collection("timeslots")
+                        .whereEqualTo("status", 0)
+                        .get()
+                        .await()
 
-                        timeslots.documents.map {
-                            if (it.data != null) {
-                                it.toObject(TimeSlot::class.java)?.let { it1 ->
-                                    it1.skills.forEach { it2 ->
-                                        skills.add(it2)
-                                    }
+                    timeslots.documents.map {
+                        if (it.data != null) {
+                            it.toObject(TimeSlot::class.java)?.let { it1 ->
+                                it1.skills.forEach { it2 ->
+                                    skills.add(it2)
                                 }
                             }
                         }
@@ -138,6 +137,7 @@ class TimeSlotRepository {
         try {
             val users = Firebase.firestore
                 .collection("users")
+                .whereNotEqualTo("uid", userId)
                 .get()
                 .await()
 
@@ -145,27 +145,25 @@ class TimeSlotRepository {
             val slotsUser = mutableListOf<TimeSlot>()
             users.forEach { user ->
                 user.toObject(User::class.java).let { u ->
-                    if (u.uid != userId) {
-                        val timeslots = Firebase.firestore
-                            .collection("users")
-                            .document(u.uid)
-                            .collection("timeslots")
-                            .whereEqualTo("status", 0)
-                            .get()
-                            .await()
-                        timeslots.documents.map {
-                            if (it.data != null) {
-                                it.toObject(TimeSlot::class.java)?.let { it1 ->
-                                    if (it1.skills.contains(skill)) {
-                                        slotsUser.add(it1)
-                                    }
+                    val timeslots = Firebase.firestore
+                        .collection("users")
+                        .document(u.uid)
+                        .collection("timeslots")
+                        .whereEqualTo("status", 0)
+                        .get()
+                        .await()
+                    timeslots.documents.map {
+                        if (it.data != null) {
+                            it.toObject(TimeSlot::class.java)?.let { it1 ->
+                                if (it1.skills.contains(skill)) {
+                                    slotsUser.add(it1)
                                 }
                             }
                         }
-                        if(slotsUser.isNotEmpty()){
-                            filteredSlots[u] = ArrayList(slotsUser)
-                            slotsUser.clear()
-                        }
+                    }
+                    if(slotsUser.isNotEmpty()){
+                        filteredSlots[u] = ArrayList(slotsUser)
+                        slotsUser.clear()
                     }
                 }
             }

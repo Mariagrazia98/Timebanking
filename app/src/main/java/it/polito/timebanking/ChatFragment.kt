@@ -159,7 +159,6 @@ class ChatFragment : Fragment() {
                     reviewButton.visibility = View.GONE
                     titleChat.visibility = View.VISIBLE
                     titleChat.text="You already reviewed this!"
-
                 }
             }
         }
@@ -187,7 +186,7 @@ class ChatFragment : Fragment() {
 
             if (it != null) {
                 chat = it
-                if (chat!!.chatStatus == 1) {
+                if (chat!!.chatStatus == 1) { //rejected slot for the user
                     reviewButton.visibility = View.GONE
                     assignButton.visibility = View.GONE
                     rejectButton.visibility = View.GONE
@@ -207,7 +206,11 @@ class ChatFragment : Fragment() {
                         assignButton.visibility = View.GONE
                         rejectButton.visibility = View.GONE
                         reviewButton.visibility = View.GONE
-                        if ((slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
+                        if(userId==slot.idReceiver  || userId==offererId){ //the slot was already assigned to someone
+                            titleChat.visibility = View.VISIBLE
+                            titleChat.text = "This timeslot request was already assigned to somebody!"
+                        }
+                        else if ((slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
                             (slot.idReceiver != userId && (slot.reviewState == 0 || slot.reviewState == 2))
                         ) {
                             reviewButton.visibility = View.VISIBLE
@@ -232,7 +235,7 @@ class ChatFragment : Fragment() {
         timeSlotVM.getSlotChatMessagesB(offererId, slot.id, chat!!.id).observe(viewLifecycleOwner) {
             recyclerView.layoutManager = LinearLayoutManager(context)
             if (it != null) {
-                //controllare sorting
+                //TODO: controllare sorting
                 val messages =
                     it.distinctBy { it.id }.sortedWith(compareBy({ it.date }, { it.time }))
                         .toMutableList()

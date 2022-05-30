@@ -6,8 +6,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import it.polito.timebanking.model.*
 import it.polito.timebanking.repository.TimeSlotRepository
 import kotlinx.coroutines.launch
@@ -155,21 +153,11 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
     }
 
     //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
-    fun getSlotChatMessages(idOfferer: String, slotId: String, chatId: String) : MutableLiveData<MutableList<ChatMessage>?> {
-        val res = MutableLiveData<MutableList<ChatMessage>?>()
-        viewModelScope.launch{
-            val result = repo.getSlotChatMessages(idOfferer, slotId, chatId)
-            res.postValue(result.getOrNull())
-        }
-        return res
-    }
-
-    //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
-    fun getSlotChatMessagesB(idOfferer: String, slotId: String, chatId: String) : LiveData<List<ChatMessage>> {
+    fun getSlotChatMessages(idOfferer: String, slotId: String, chatId: String) : LiveData<List<ChatMessage>> {
         var cm = MutableLiveData<List<ChatMessage>>()
 
         var messageList: MutableList<ChatMessage> = mutableListOf()
-        repo.getSlotChatMessagesB(idOfferer, slotId, chatId).addSnapshotListener { snapshot, e ->
+        repo.getSlotChatMessages(idOfferer, slotId, chatId).addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.d("Error", "Error listen failed")
             }

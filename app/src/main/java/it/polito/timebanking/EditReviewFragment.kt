@@ -35,6 +35,10 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
     var userId: String = ""
     var oldReviewState = -1
     private var idReceiver : String = ""
+    private val review = Review()
+    var roleReviewer = ""
+    var userIdOfferer = ""
+    var userIdReceiver = ""
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         //delete edit_button
@@ -68,19 +72,19 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         userId = arguments?.getString("userId")!!
         userIdReviewer = arguments?.getString("userIdReviewer")!!
         tsId = arguments?.getString("timeslotId")!!
+        userIdOfferer = arguments?.getString("userIdOfferer")!!
+        userIdReceiver = arguments?.getString("userIdReceiver")!!
 
         profileVM.getUserById(userIdReviewer).observe(viewLifecycleOwner){
             nameReviewer = it?.nickname ?: ""
         }
-        timeSlotVM.getSlotFById(userId,tsId).observe(viewLifecycleOwner){
+        timeSlotVM.getSlotFById(userIdOfferer,tsId).observe(viewLifecycleOwner){
             oldReviewState = it.reviewState
-            idReceiver = it.idReceiver!!
         }
     }
 
     private fun sendReview() {
         val id = reviewsVM.getNewReviewId(userId)
-        val review = Review()
         review.comment = comment.text.toString()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -93,18 +97,18 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         review.userIdReviewer = userIdReviewer
         //dobbiamo capire il ruolo di chi sta avendo la review (userId) -> type
         //e da chi sta arrivando la review -> role
-        var roleReviewer = ""
-        if(userId == idReceiver) {
-            //quello che riceve la review è chi ha usufruito
-            review.type = 1
-            roleReviewer = "Offerer"
-        }
-        else{
-            review.type = 0
+
+        if(userIdReviewer == idReceiver) {
+            review.type = 0//la recensione valuta l'offerente
             roleReviewer = "Receiver"
         }
-        timeSlotVM.updateReviewState(userId,tsId,roleReviewer,oldReviewState)
-        reviewsVM.updateReview(userId, review)
+        else if(userIdReviewer == userIdOfferer){
+            review.type =  1//la recensione valuta il usufruitore
+            roleReviewer = "Offerer"
+
+        }
+        timeSlotVM.updateReviewState(userIdOfferer,tsId,roleReviewer,oldReviewState)
+        reviewsVM.updateReview(userIdOfferer, review)
         Toast.makeText(context, "Review completed!", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }

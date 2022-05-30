@@ -149,6 +149,9 @@ class ChatFragment : Fragment() {
             bundle.putString("userIdReviewer", userId) //logged user is doing review
             bundle.putString("userId", otherUser.uid)
             bundle.putString("timeslotId", slotId)
+            bundle.putString("userIdOfferer", offererId)
+            bundle.putString("userIdReceiver", slot.idReceiver)
+
             findNavController().navigate(R.id.action_chatFragment_to_editReviewFragment, bundle)
         }
 

@@ -112,6 +112,7 @@ class TimeSlotRepository {
                             .collection("users")
                             .document(u.uid)
                             .collection("timeslots")
+                            .whereEqualTo("status", 0)
                             .get()
                             .await()
 
@@ -149,6 +150,7 @@ class TimeSlotRepository {
                             .collection("users")
                             .document(u.uid)
                             .collection("timeslots")
+                            .whereEqualTo("status", 0)
                             .get()
                             .await()
                         timeslots.documents.map {

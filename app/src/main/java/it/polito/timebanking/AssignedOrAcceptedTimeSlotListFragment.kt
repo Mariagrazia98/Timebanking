@@ -8,17 +8,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class AssignedOrAcceptedTimeSlotListFragment: Fragment() {
     lateinit var timeSlotVM: TimeSlotViewModel
-    lateinit var userId: String
+    lateinit var ownerUser: User
     lateinit var status: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
         timeSlotVM = ViewModelProvider(requireActivity()).get(TimeSlotViewModel::class.java)
-        userId = arguments?.getString("userId").toString()
+        ownerUser = arguments?.getSerializable("ownerUser") as User
         status = arguments?.getString("status").toString()
 
         val ev: TextView = view.findViewById(R.id.empty_view)
@@ -26,16 +27,16 @@ class AssignedOrAcceptedTimeSlotListFragment: Fragment() {
         val fab: View = view.findViewById(R.id.fab)
 
         if (status == "accepted") {
-            (activity as MainActivity).slotsToObserve = timeSlotVM.getAcceptedSlotsByUser(userId)
+            (activity as MainActivity).slotsToObserve = timeSlotVM.getAcceptedSlotsByUser(ownerUser.uid)
         } else{
-            (activity as MainActivity).slotsToObserve = timeSlotVM.getAssignedSlotsByUser(userId)
+            (activity as MainActivity).slotsToObserve = timeSlotVM.getAssignedSlotsByUser(ownerUser.uid)
         }
 
         fab.visibility = View.GONE
 
         (activity as MainActivity).slotsToObserve?.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
-            rv.adapter = InterestedTimeSlotRecyclerViewAdapter(it, status)
+            rv.adapter = InterestedTimeSlotRecyclerViewAdapter(it, status, ownerUser)
 
             if(it.values.isEmpty()){
                 rv.visibility = View.GONE

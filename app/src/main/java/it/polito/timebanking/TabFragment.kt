@@ -2,14 +2,20 @@ package it.polito.timebanking
 
 import android.os.Bundle
 import android.view.*
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import de.hdodenhof.circleimageview.CircleImageView
+import it.polito.timebanking.viewmodel.ProfileViewModel
 
 class TabFragment: Fragment(R.layout.fragment_tab) {
     private val tabTitle = arrayOf("Assigned to me", "Accepted by me")
     lateinit var userId: String
+    private val profileViewModel: ProfileViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_tab, container, false)
@@ -17,12 +23,15 @@ class TabFragment: Fragment(R.layout.fragment_tab) {
         val tl = view.findViewById<TabLayout>(R.id.tabs)
         userId = arguments?.getString("userId").toString()
 
-        pager.adapter = ViewPagerAdapter(this, userId)
-        TabLayoutMediator(tl, pager){
-                tab, position ->
-            tab.text = tabTitle[position]
-        }.attach()
+        profileViewModel.getUserById(userId)
+            .observe(viewLifecycleOwner){
+                pager.adapter = it?.let { it1 -> ViewPagerAdapter(this, it1)}
 
+                TabLayoutMediator(tl, pager){
+                        tab, position ->
+                    tab.text = tabTitle[position]
+                }.attach()
+        }
         return view
     }
 

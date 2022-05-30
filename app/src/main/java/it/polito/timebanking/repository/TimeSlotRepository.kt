@@ -177,6 +177,7 @@ class TimeSlotRepository {
         try {
             val users = Firebase.firestore
                 .collection("users")
+                .whereNotEqualTo("uid", userId)
                 .get()
                 .await()
 
@@ -184,41 +185,39 @@ class TimeSlotRepository {
             val slotsUser = mutableListOf<TimeSlot>()
             users.forEach { user ->
                 user.toObject(User::class.java).let { u ->
-                    if (u.uid != userId) {
-                        val timeslots = Firebase.firestore
-                            .collection("users")
-                            .document(u.uid)
-                            .collection("timeslots")
-                            .get()
-                            .await()
+                    val timeslots = Firebase.firestore
+                        .collection("users")
+                        .document(u.uid)
+                        .collection("timeslots")
+                        .get()
+                        .await()
 
-                        timeslots.forEach { timeslot ->
-                            timeslot.toObject(TimeSlot::class.java).let { t ->
-                                val chats = Firebase.firestore
-                                    .collection("users")
-                                    .document(u.uid)
-                                    .collection("timeslots")
-                                    .document(t.id)
-                                    .collection("chats")
-                                    .get()
-                                    .await()
+                    timeslots.forEach { timeslot ->
+                        timeslot.toObject(TimeSlot::class.java).let { t ->
+                            val chats = Firebase.firestore
+                                .collection("users")
+                                .document(u.uid)
+                                .collection("timeslots")
+                                .document(t.id)
+                                .collection("chats")
+                                .whereEqualTo("receiverUid", userId)
+                                .get()
+                                .await()
 
-                                chats.documents.map {
-                                    if (it.data != null) {
-                                        it.toObject(Chat::class.java).let { it1 ->
-                                            if (it1?.receiverUid == userId) {
-                                                slotsUser.add(t)
-                                            }
-                                        }
+                            chats.documents.map {
+                                if (it.data != null) {
+                                    it.toObject(Chat::class.java).let { it1 ->
+                                        slotsUser.add(t)
                                     }
                                 }
                             }
                         }
-                        if (slotsUser.isNotEmpty()) {
-                            filteredSlots[u] = ArrayList(slotsUser)
-                            slotsUser.clear()
-                        }
                     }
+                    if (slotsUser.isNotEmpty()) {
+                        filteredSlots[u] = ArrayList(slotsUser)
+                        slotsUser.clear()
+                    }
+
                 }
             }
             return Result.success(filteredSlots)
@@ -231,37 +230,36 @@ class TimeSlotRepository {
     suspend fun getAcceptedSlotsByUser(userId: String): Result<Map<User, List<TimeSlot>>> {
         try {
             val filteredSlots = mutableMapOf<User, List<TimeSlot>>()
-            val slotsUser = mutableListOf<TimeSlot>()
             var receiver: User? = null
 
             val timeslots = Firebase.firestore
                 .collection("users")
                 .document(userId)
                 .collection("timeslots")
+                .whereEqualTo("status", 1)
                 .get()
                 .await()
 
             timeslots.documents.map {
                 if (it.data != null) {
                     it.toObject(TimeSlot::class.java)?.let { timeslot ->
-                        if (timeslot.status == 1) {
-                            slotsUser.add(timeslot)
-                            receiver = timeslot.idReceiver?.let { receiver ->
-                                Firebase.firestore
-                                    .collection("users")
-                                    .document(receiver)
-                                    .get()
-                                    .await()
-                                    .toObject(User::class.java)
-                            }
+                        receiver = timeslot.idReceiver?.let { receiver ->
+                            Firebase.firestore
+                                .collection("users")
+                                .document(receiver)
+                                .get()
+                                .await()
+                                .toObject(User::class.java)
+                        }
+
+                        receiver?.let{ r ->
+                            if(!filteredSlots.containsKey(r))
+                                filteredSlots[r] = listOf()
+                            val tmp = filteredSlots[r]?.toMutableList()
+                            tmp?.add(timeslot)
+                            filteredSlots[r] = tmp!!
                         }
                     }
-                }
-            }
-
-            if(slotsUser.isNotEmpty()){
-                receiver?.let{
-                    filteredSlots[it] = ArrayList(slotsUser)
                 }
             }
             return Result.success(filteredSlots)
@@ -274,6 +272,7 @@ class TimeSlotRepository {
         try {
             val users = Firebase.firestore
                 .collection("users")
+                .whereNotEqualTo("uid", userId)
                 .get()
                 .await()
 
@@ -281,25 +280,23 @@ class TimeSlotRepository {
             val slotsUser = mutableListOf<TimeSlot>()
             users.forEach { user ->
                 user.toObject(User::class.java).let { u ->
-                    if (u.uid != userId) {
-                        val timeslots = Firebase.firestore
-                            .collection("users")
-                            .document(u.uid)
-                            .collection("timeslots")
-                            .get()
-                            .await()
+                    val timeslots = Firebase.firestore
+                        .collection("users")
+                        .document(u.uid)
+                        .collection("timeslots")
+                        .whereEqualTo("status", 1)
+                        .whereEqualTo("idReceiver", userId)
+                        .get()
+                        .await()
 
-                        timeslots.forEach { timeslot ->
-                            timeslot.toObject(TimeSlot::class.java).let { t ->
-                                if(t.status == 1 && t.idReceiver == userId){
-                                    slotsUser.add(t)
-                                }
-                            }
+                    timeslots.forEach { timeslot ->
+                        timeslot.toObject(TimeSlot::class.java).let { t ->
+                            slotsUser.add(t)
                         }
-                        if (slotsUser.isNotEmpty()) {
-                            filteredSlots[u] = ArrayList(slotsUser)
-                            slotsUser.clear()
-                        }
+                    }
+                    if (slotsUser.isNotEmpty()) {
+                        filteredSlots[u] = ArrayList(slotsUser)
+                        slotsUser.clear()
                     }
                 }
             }

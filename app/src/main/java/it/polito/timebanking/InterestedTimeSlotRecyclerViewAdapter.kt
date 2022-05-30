@@ -10,13 +10,15 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.bumptech.glide.Glide
+import de.hdodenhof.circleimageview.CircleImageView
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 
 
 class InterestedTimeSlotRecyclerViewAdapter(
     val data: Map<User, List<TimeSlot>>,
-    val status: String
+    val status: String,
+    val ownerUser: User?
 ) :
 
     RecyclerView.Adapter<InterestedTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>() {
@@ -31,6 +33,7 @@ class InterestedTimeSlotRecyclerViewAdapter(
         val button: ImageButton? = v.findViewById(R.id.button)
         val ivSlot: ImageView? = v.findViewById(R.id.imageViewSlot)
         val chatButton: ImageButton? = v.findViewById(R.id.chatButton)
+        val imageView : CircleImageView? = v.findViewById(R.id.imageViewSlot)
 
 
         fun bind(item: TimeSlot, user: User, status:String) {
@@ -44,9 +47,11 @@ class InterestedTimeSlotRecyclerViewAdapter(
             }
 
             if(status == "accepted"){
-                val assignedTo = "Assigned to:\n" + user.fullname
+                val assignedTo = "Assigned to: " + user.fullname
                 name?.isSingleLine = false
                 name?.text = assignedTo
+
+                imageView?.visibility = View.GONE
             }else{
                 name?.text = user.fullname
             }
@@ -68,29 +73,28 @@ class InterestedTimeSlotRecyclerViewAdapter(
             }
         }
         item.let { holder.bind(it, user, status) }
+
         val bundle = bundleOf("read_only" to true)
         if(status == "interested" || status == "assigned")
             bundle.putBoolean( "mychats", false)
         else if(status== "accepted")
             bundle.putBoolean( "mychats", true)
-        bundle.putSerializable("user", user)
         bundle.putSerializable("slot", item)
 
         holder.cv.setOnClickListener {
+            if(status == "assigned" || status == "interested"){
+                bundle.putSerializable("user", user)
+            }else {
+                bundle.putSerializable("user", ownerUser)
+            }
             findNavController(FragmentManager.findFragment(it)).navigate(
                 R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment,
                 bundle
             )
         }
 
-        holder.button?.setOnClickListener {
-            findNavController(FragmentManager.findFragment(it)).navigate(
-                R.id.action_timeSlotListFragment_to_timeSlotEditFragment2,
-                bundle
-            )
-        }
-
         holder.chatButton?.setOnClickListener {
+            bundle.putSerializable("user", user)
             findNavController(FragmentManager.findFragment(it)).navigate(
                 R.id.action_timeSlotListFragment_to_chatFragment,
                 bundle

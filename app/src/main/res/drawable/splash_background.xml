@@ -5,8 +5,8 @@
     <item
         android:drawable="@drawable/bg_gradient"/>
     <item
-        android:width="360dp"
-        android:height="650dp"
+        android:width="340dp"
+        android:height="600dp"
         android:drawable="@drawable/logo"
         android:gravity="center"/>
 </layer-list>

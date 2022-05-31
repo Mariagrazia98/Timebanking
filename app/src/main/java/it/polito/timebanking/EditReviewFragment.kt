@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RatingBar
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -32,6 +29,8 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
     private lateinit var profileVM: ProfileViewModel
     private lateinit var nameReviewer: String
     private lateinit var tsId: String
+    private lateinit var alertMissingRating: TextView
+
     var userId: String = ""
     var oldReviewState = -1
     private var idReceiver : String = ""
@@ -65,8 +64,12 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         comment = view.findViewById(R.id.commentReview)
         sendReviewBtn = view.findViewById(R.id.sendReviewBtn)
         ratingBar = view.findViewById(R.id.ratingEditBar)
+        alertMissingRating = view.findViewById(R.id.alertMissingRating)
         sendReviewBtn.setOnClickListener {
-            sendReview()
+            if(ratingBar.rating.toInt() == 0)
+                alertMissingRating.visibility = View.VISIBLE
+            else
+                sendReview()
         }
 
         userId = arguments?.getString("userId")!!

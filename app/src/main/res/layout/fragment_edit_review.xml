@@ -25,6 +25,18 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/alertMissingRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rating is missing"
+                    android:textColor="@color/danger_text"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/ratingEditBar"
+                    app:layout_constraintEnd_toEndOf="@+id/ratingEditBar"
+                    app:layout_constraintStart_toStartOf="@+id/ratingEditBar" />
+
+                <TextView
                     android:id="@+id/textPositive"
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
@@ -107,7 +119,7 @@
                     android:id="@+id/ratingEditBar"
                     android:layout_width="wrap_content"
                     android:layout_height="42dp"
-                    android:layout_marginTop="23dp"
+                    android:layout_marginTop="28dp"
                     android:isIndicator="false"
                     android:progressBackgroundTint="@color/light_divider"
                     android:progressTint="@color/accent"

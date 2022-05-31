@@ -6,13 +6,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import it.polito.timebanking.MainActivity
-import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 
 class SplashScreenActivity : AppCompatActivity() {
-    private lateinit var timeSlotVM: TimeSlotViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

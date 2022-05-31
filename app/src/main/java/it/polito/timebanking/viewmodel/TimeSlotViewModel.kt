@@ -36,7 +36,7 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun getSlotFById(userId: String, slotId: String) : MutableLiveData<TimeSlot> {
-        var ts = MutableLiveData<TimeSlot>()
+        val ts = MutableLiveData<TimeSlot>()
 
         repo.getSlotFById(userId, slotId).addSnapshotListener { snapshot, e ->
             if (e != null) {
@@ -117,18 +117,9 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
 
 
     /*** CHAT ***/
-    fun getChat(idAsker :String, slotId: String, idOfferer: String) : LiveData<Chat?>{
-        val res = MutableLiveData<Chat?>()
-        viewModelScope.launch{
-            val result = repo.getChat(idAsker, slotId, idOfferer)
-            res.postValue(result.getOrNull())
-        }
-        return res
-    }
-
-    fun getChatLive(idAsker :String, slotId: String, idOfferer: String) : MutableLiveData<Chat?> {
-        var chatObject = MutableLiveData<Chat?>()
-        repo.getChatLive(idAsker, slotId, idOfferer).addSnapshotListener { value, e ->
+    fun getChat(idAsker :String, slotId: String, idOfferer: String) : MutableLiveData<Chat?> {
+        val chatObject = MutableLiveData<Chat?>()
+        repo.getChat(idAsker, slotId, idOfferer).addSnapshotListener { value, e ->
             if (e != null) {
                 Log.d("Error", "Error listen failed")
             }
@@ -169,9 +160,9 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
 
     //retrieve the chat messages exchanged between the offerer of a specific timeslot and the current user who is asking the timeslot
     fun getSlotChatMessages(idOfferer: String, slotId: String, chatId: String) : LiveData<List<ChatMessage>> {
-        var cm = MutableLiveData<List<ChatMessage>>()
+        val cm = MutableLiveData<List<ChatMessage>>()
 
-        var messageList: MutableList<ChatMessage> = mutableListOf()
+        val messageList: MutableList<ChatMessage> = mutableListOf()
         repo.getSlotChatMessages(idOfferer, slotId, chatId).addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.d("Error", "Error listen failed")

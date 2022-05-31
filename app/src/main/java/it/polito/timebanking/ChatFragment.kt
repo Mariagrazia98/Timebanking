@@ -185,7 +185,7 @@ class ChatFragment : Fragment() {
 
 
     private fun getChat(send: Boolean) {
-        timeSlotVM.getChatLive(askerId, slot.id, offererId).observe(viewLifecycleOwner) {
+        timeSlotVM.getChat(askerId, slot.id, offererId).observe(viewLifecycleOwner) {
 
             if (it != null) {
                 chat = it
@@ -243,10 +243,8 @@ class ChatFragment : Fragment() {
         timeSlotVM.getSlotChatMessages(offererId, slot.id, chat!!.id).observe(viewLifecycleOwner) {
             recyclerView.layoutManager = LinearLayoutManager(context)
             if (it != null) {
-                //TODO: controllare sorting
-                val messages =
-                    it.distinctBy { it.id }.sortedWith(compareBy({ it.date }, { it.time }))
-                        .toMutableList()
+                val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY)
+                val messages = it.distinctBy { it.id }.sortedWith(compareBy({ dateFormatter.parse(it.date) }, {it.time})).toMutableList()
                 val adapter = ChatAdapter(messages, userId, otherUser)
                 recyclerView.adapter = adapter
             }
@@ -255,8 +253,8 @@ class ChatFragment : Fragment() {
 
     private fun sendMessage() {
         val msgId = timeSlotVM.getNewChatMessageId(offererId, slot.id, chat!!.id)
-        val date = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(Date()) //TODO: controllare
-        val time = SimpleDateFormat("HH:mm:ss", Locale.ITALY).format(Date()) //TODO: controllare
+        val date = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(Date())
+        val time = SimpleDateFormat("HH:mm:ss", Locale.ITALY).format(Date())
         val msg = ChatMessage(msgId, userId, chatTextView.text.toString(), 0, date, time)
         timeSlotVM.addChatMessage(offererId, slot.id, chat!!.id, msg)
         chatTextView.setText("")

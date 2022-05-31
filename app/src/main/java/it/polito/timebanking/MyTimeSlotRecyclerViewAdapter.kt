@@ -1,6 +1,5 @@
 package it.polito.timebanking
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View

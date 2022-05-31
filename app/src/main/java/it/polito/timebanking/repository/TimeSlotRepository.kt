@@ -6,7 +6,6 @@ import com.google.firebase.ktx.Firebase
 import it.polito.timebanking.model.*
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -320,29 +319,7 @@ class TimeSlotRepository {
     }
 
     /*** CHAT ***/
-    suspend fun getChat(idAsker: String, slotId: String, idOfferer: String) : Result<Chat?> {
-        return try {
-            val chat = Firebase.firestore
-                .collection("users")
-                .document(idOfferer)
-                .collection("timeslots")
-                .document(slotId)
-                .collection("chats")
-                .whereEqualTo("receiverUid", idAsker)
-                .get()
-                .await()
-
-            var chatObject:Chat?=null
-            chat.forEach{
-                chatObject= Chat(it.id, it.data.getValue("receiverUid").toString(), it.data.getValue("chatStatus").toString().toInt() )
-            }
-            Result.success(chatObject)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    fun getChatLive(idAsker: String, slotId: String, idOfferer: String): Query {
+    fun getChat(idAsker: String, slotId: String, idOfferer: String): Query {
         val docRef = Firebase.firestore
             .collection("users")
             .document(idOfferer)
@@ -450,9 +427,7 @@ class TimeSlotRepository {
                 .get()
                 .await()
 
-            //val allChats : MutableList<Chat>? = chats.toObjects(Chat::class.java)
-
-            var chatList: MutableList<ChatUser>? = mutableListOf()
+            val chatList: MutableList<ChatUser> = mutableListOf()
             chats.forEach{
                 val chatMap = it.data
 
@@ -464,8 +439,8 @@ class TimeSlotRepository {
                     .await()
 
                 val chat = ChatUser(it.id, chatMap.getValue("receiverUid").toString(), chatMap.getValue("chatStatus").toString().toInt(), user.toObject(User::class.java)!!)
-                //chatList?.add(it.toObject(Chat::class.java))
-                chatList?.add(chat)
+
+                chatList.add(chat)
             }
 
             Result.success(chatList)

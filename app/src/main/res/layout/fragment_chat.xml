@@ -20,10 +20,10 @@
         <TextView
             android:id="@+id/assignQuestion"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="3"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Do you want to assign this timeslot?"
+            android:text="@string/do_you_want_to_assign_this_timeslot"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="18sp"
             android:visibility="gone"
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="Review"
+                android:text="@string/review"
                 android:visibility="gone"
                 app:strokeColor="@color/primary"
                 app:strokeWidth="2dp"
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="Reject"
+                android:text="@string/reject"
                 android:textColor="@color/primary"
                 android:visibility="gone"
                 app:backgroundTint="@android:color/transparent"
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Assign"
+                android:text="@string/assign"
                 android:visibility="gone"
                 app:cornerRadius="8dp"
                 app:strokeColor="@color/primary"
@@ -125,7 +125,7 @@
             android:layout_marginStart="16dp"
             android:layout_toStartOf="@+id/button_gchat_send"
             android:background="@android:color/transparent"
-            android:hint="Enter Message"
+            android:hint="@string/enter_message"
             android:inputType="text"
             android:maxLines="6"
             tools:ignore="Autofill" />
@@ -138,7 +138,8 @@
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_send"
             android:textColor="@color/colorPrimary"
-            app:tint="@color/primary" />
+            app:tint="@color/primary"
+            android:contentDescription="@string/send_button"/>
 
     </RelativeLayout>
 

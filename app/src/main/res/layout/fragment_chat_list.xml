@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Still no interested users :("
+        android:text="@string/still_no_interested_users"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

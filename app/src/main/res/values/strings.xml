@@ -96,5 +96,12 @@
     <string name="as_receiver">as Receiver</string>
     <string name="see_all_reviews">See all reviews</string>
     <string name="review_comment">review comment</string>
+    <string name="do_you_want_to_assign_this_timeslot">Do you want to assign this timeslot?</string>
+    <string name="review">Review</string>
+    <string name="reject">Reject</string>
+    <string name="assign">Assign</string>
+    <string name="enter_message">Enter Message</string>
+    <string name="send_button">send button</string>
+    <string name="still_no_interested_users">Still no interested users :(</string>
 
 </resources>

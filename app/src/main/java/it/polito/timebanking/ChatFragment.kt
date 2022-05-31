@@ -158,7 +158,7 @@ class ChatFragment : Fragment() {
                 if (ith.timeSlotId == slotId && ith.userIdReviewer == userId) {
                     reviewButton.visibility = View.GONE
                     titleChat.visibility = View.VISIBLE
-                    titleChat.text="You already reviewed this!"
+                    titleChat.text = "You already reviewed this!"
                 }
             }
         }
@@ -187,38 +187,36 @@ class ChatFragment : Fragment() {
             if (it != null) {
                 chat = it
                 if (chat!!.chatStatus == 1) { //rejected slot for the user
-                    reviewButton.visibility = View.GONE
-                    assignButton.visibility = View.GONE
-                    rejectButton.visibility = View.GONE
+                    /*   These buttons are visible default
+                         reviewButton.visibility = View.GONE
+                         assignButton.visibility = View.GONE
+                         rejectButton.visibility = View.GONE */
                     titleChat.visibility = View.VISIBLE
                     titleChat.text = "This timeslot request was rejected!"
                 } else {
-                    if (slot.status == 0) {
-                        reviewButton.visibility = View.GONE
-                        titleChat.visibility = View.GONE
-                    }
-                    if (userId == offererId && slot.status == 0) {
+                    /* if (slot.status == 0) {
+                         //reviewButton.visibility = View.GONE
+                         titleChat.visibility = View.GONE
+                     }*/
+                    if (userId == offererId && slot.status == 0) { //current user: the offer, timeslot available
                         assignButton.visibility = View.VISIBLE
                         rejectButton.visibility = View.VISIBLE
                         titleChat.visibility = View.VISIBLE
                     }
                     if (slot.status == 1) { //timeslot assigned
-                        assignButton.visibility = View.GONE
-                        rejectButton.visibility = View.GONE
-                        reviewButton.visibility = View.GONE
-                        if(userId!=slot.idReceiver  && userId!=offererId){ //the slot was already assigned to someone
+                        /* assignButton.visibility = View.GONE
+                         rejectButton.visibility = View.GONE
+                         reviewButton.visibility = View.GONE*/
+                        if ((userId != slot.idReceiver && userId != offererId) || askerId != slot.idReceiver) { //the slot was already assigned to someone
                             titleChat.visibility = View.VISIBLE
-                            titleChat.text = "This timeslot request was already assigned to somebody!"
-                        }
-                        else if (
+                            titleChat.text =
+                                "This timeslot request was already assigned to somebody!"
+                        } else if (
                             (slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
                             (offererId == userId && askerId == slot.idReceiver && (slot.reviewState == 0 || slot.reviewState == 2))
-                        ){
+                        ) {
+                            //the current user is the asker or the offer of the timeslot and he has not already done the review
                             reviewButton.visibility = View.VISIBLE
-                        }
-                        else if(askerId != slot.idReceiver){
-                            titleChat.visibility = View.VISIBLE
-                            titleChat.text = "This timeslot request was already assigned to somebody!"
                         }
                     }
                 }
@@ -226,12 +224,12 @@ class ChatFragment : Fragment() {
                     sendMessage()
                 }
                 getChatMessages()
-            } else {
+            } /*else {
                 assignButton.visibility = View.GONE
                 rejectButton.visibility = View.GONE
                 reviewButton.visibility = View.GONE
                 titleChat.visibility = View.GONE
-            }
+            }*/
         }
     }
 

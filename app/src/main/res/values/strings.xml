@@ -16,6 +16,7 @@
     <string name="location">Torino</string>
     <string name="skills">Android developer, Electrician</string>
     <string name="description">Frequento il Politecnico di Torino, mi piace cucinare e ascoltare musica</string>
+    <string name="timebanking_credit">TimeBanking credit</string>
 
     <!-- Profile Labels -->
     <string name="fullname_text">Fullname</string>
@@ -90,5 +91,10 @@
     <string name="hintComment">Give reasons for your answer</string>
     <string name="noAvailableReview">There is no available review</string>
     <string name="assigned_accepted_offers">Assigned/Accepted offers</string>
+    <string name="timebanking_icon">Timebanking icon</string>
+    <string name="minutes">minutes</string>
+    <string name="as_receiver">as Receiver</string>
+    <string name="see_all_reviews">See all reviews</string>
+    <string name="review_comment">review comment</string>
 
 </resources>

@@ -118,8 +118,8 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
             roleReviewer = "Offerer"
 
         }
-        timeSlotVM.updateReviewState(userIdOfferer,tsId,roleReviewer,oldReviewState)
-        reviewsVM.updateReview(userIdOfferer, review)
+        timeSlotVM.updateReviewState(userId,tsId,roleReviewer,oldReviewState)
+        reviewsVM.updateReview(userId, review)
         Toast.makeText(context, "Review completed!", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }

@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,17 +11,18 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
+import it.polito.timebanking.R
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 
 
-class InterestedTimeSlotRecyclerViewAdapter(
+class InterestedTimeSlotAdapter(
     val data: Map<User, List<TimeSlot>>,
     val status: String,
     val ownerUser: User?
 ) :
 
-    RecyclerView.Adapter<InterestedTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>() {
+    RecyclerView.Adapter<InterestedTimeSlotAdapter.ItemSlotViewHolder>() {
     var list = data.toMutableMap().values.flatten()
     class ItemSlotViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val title: TextView = v.findViewById(R.id.slot_title)

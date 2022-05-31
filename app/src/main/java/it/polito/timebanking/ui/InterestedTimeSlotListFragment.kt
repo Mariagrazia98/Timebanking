@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.os.Bundle
 import android.view.*
@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import it.polito.timebanking.MainActivity
+import it.polito.timebanking.R
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 class InterestedTimeSlotListFragment : Fragment() {
@@ -24,7 +26,7 @@ class InterestedTimeSlotListFragment : Fragment() {
         val fab: View = view.findViewById(R.id.fab)
         (activity as MainActivity).interestedSlots.observe(viewLifecycleOwner){
                 rv.layoutManager = LinearLayoutManager(context)
-                rv.adapter = InterestedTimeSlotRecyclerViewAdapter(it, "interested", null)
+                rv.adapter = InterestedTimeSlotAdapter(it, "interested", null)
                 if(it.isEmpty()){
                     rv.visibility = View.GONE
                     ev.visibility = View.VISIBLE

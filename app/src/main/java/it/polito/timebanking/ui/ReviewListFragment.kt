@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.os.Bundle
 import android.view.*
@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import it.polito.timebanking.MainActivity
+import it.polito.timebanking.R
 import it.polito.timebanking.model.Review
 import it.polito.timebanking.viewmodel.ReviewViewModel
 
@@ -29,7 +31,7 @@ class ReviewListFragment : Fragment() {
         reviewList = reviewsVM.getReviewsByUser(userId!!)
         reviewList.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
-            val adapter = reviewList.value?.let { it1 -> MyReviewRecycleViewAdapter(it1.toList()) }
+            val adapter = reviewList.value?.let { it1 -> ReviewAdapter(it1.toList()) }
             rv.adapter = adapter
         }
         return view

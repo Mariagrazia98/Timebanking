@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,11 +11,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import it.polito.timebanking.R
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 
 
-class MyTimeSlotRecyclerViewAdapter(val data: Map<User, List<TimeSlot>>, val read_only: Boolean) : RecyclerView.Adapter<MyTimeSlotRecyclerViewAdapter.ItemSlotViewHolder>(), Filterable {
+class TimeSlotAdapter(val data: Map<User, List<TimeSlot>>, val read_only: Boolean) : RecyclerView.Adapter<TimeSlotAdapter.ItemSlotViewHolder>(), Filterable {
     var list = data.toMutableMap().values.flatten()
     var originalList = data.toMutableMap().values.flatten()
 

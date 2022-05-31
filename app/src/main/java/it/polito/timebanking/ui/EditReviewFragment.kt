@@ -1,22 +1,18 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
-import android.content.Context
-import android.media.AudioManager
-import android.media.ToneGenerator
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
-import android.os.Vibrator
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import it.polito.timebanking.MainActivity
+import it.polito.timebanking.R
 import it.polito.timebanking.model.Review
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.ReviewViewModel

@@ -35,6 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import it.polito.timebanking.databinding.ActivityMainBinding
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
+import it.polito.timebanking.ui.TimeSlotAdapter
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navTitle:TextView
     private lateinit var navSubtitle:TextView
     private lateinit var mAuth: FirebaseAuth
-    var adapterTimeSlots : MyTimeSlotRecyclerViewAdapter? = null
+    var adapterTimeSlots : TimeSlotAdapter? = null
     var keepAdapter : Boolean = false //for filter tool
     var filterBundle : Bundle? = null
     private var userState: FirebaseUser? = null

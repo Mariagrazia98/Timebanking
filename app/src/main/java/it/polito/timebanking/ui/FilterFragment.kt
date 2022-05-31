@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -8,6 +8,8 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.textfield.TextInputLayout
+import it.polito.timebanking.MainActivity
+import it.polito.timebanking.R
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +7,10 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import it.polito.timebanking.R
 import it.polito.timebanking.model.Review
 
-class MyReviewRecycleViewAdapter(data: List<Review>) : RecyclerView.Adapter<MyReviewRecycleViewAdapter.ReviewViewHolder>(){
+class ReviewAdapter(data: List<Review>) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>(){
 
     var list = data
 

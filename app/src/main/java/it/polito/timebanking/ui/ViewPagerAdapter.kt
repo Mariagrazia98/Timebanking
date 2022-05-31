@@ -1,8 +1,9 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import it.polito.timebanking.model.User
+import it.polito.timebanking.ui.AssignedOrAcceptedTimeSlotListFragment
 
 private const val NUM_TABS = 2
 

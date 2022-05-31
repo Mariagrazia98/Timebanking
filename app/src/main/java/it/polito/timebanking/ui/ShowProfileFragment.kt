@@ -1,10 +1,9 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -16,6 +15,8 @@ import com.google.android.material.chip.ChipGroup
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import it.polito.timebanking.MainActivity
+import it.polito.timebanking.R
 import it.polito.timebanking.model.Review
 import it.polito.timebanking.viewmodel.ReviewViewModel
 import java.math.RoundingMode

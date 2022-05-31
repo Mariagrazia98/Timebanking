@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +11,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
+import it.polito.timebanking.R
 
-class MySkillRecyclerViewAdapter(val data: List<String>, id: String) : RecyclerView.Adapter<MySkillRecyclerViewAdapter.SkillViewHolder>(), Filterable {
+class SkillAdapter(val data: List<String>, id: String) : RecyclerView.Adapter<SkillAdapter.SkillViewHolder>(), Filterable {
 
     var list = data.toMutableList()
     var originalList = data.toMutableList()

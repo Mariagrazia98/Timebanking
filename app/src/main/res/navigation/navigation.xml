@@ -8,7 +8,7 @@
     >
     <fragment
         android:id="@+id/timeSlotDetailsFragment"
-        android:name="it.polito.timebanking.TimeSlotDetailsFragment"
+        android:name="it.polito.timebanking.ui.TimeSlotDetailsFragment"
         android:label="@string/my_offer"
         tools:layout="@layout/fragment_time_slot_details">
         <action
@@ -26,12 +26,12 @@
     </fragment>
     <fragment
         android:id="@+id/timeSlotEditFragment"
-        android:name="it.polito.timebanking.TimeSlotEditFragment"
+        android:name="it.polito.timebanking.ui.TimeSlotEditFragment"
         android:label="@string/editAdvertisement"
         tools:layout="@layout/fragment_time_slot_edit" />
     <fragment
         android:id="@+id/timeSlotListFragment"
-        android:name="it.polito.timebanking.TimeSlotListFragment"
+        android:name="it.polito.timebanking.ui.TimeSlotListFragment"
         android:label="@string/myOffersList"
         tools:layout="@layout/fragment_time_slot_list">
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/interestedTimeSlotListFragment"
-        android:name="it.polito.timebanking.InterestedTimeSlotListFragment"
+        android:name="it.polito.timebanking.ui.InterestedTimeSlotListFragment"
         android:label="@string/interestedOffersList"
         tools:layout="@layout/fragment_time_slot_list">
         <action
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/tabFragment"
-        android:name="it.polito.timebanking.TabFragment"
+        android:name="it.polito.timebanking.ui.TabFragment"
         android:label="@string/offers_list"
         tools:layout="@layout/fragment_tab">
         <action
@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/showProfileFragment"
-        android:name="it.polito.timebanking.ShowProfileFragment"
+        android:name="it.polito.timebanking.ui.ShowProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_show_profile">
         <action
@@ -97,12 +97,12 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="it.polito.timebanking.EditProfileFragment"
+        android:name="it.polito.timebanking.ui.EditProfileFragment"
         android:label="@string/edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/skillsListFragment"
-        android:name="it.polito.timebanking.SkillsListFragment"
+        android:name="it.polito.timebanking.ui.SkillsListFragment"
         android:label="@string/available_skills_list">
         <action
             android:id="@+id/action_skillsListFragment_to_timeSlotListFragment"
@@ -110,7 +110,7 @@
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
-        android:name="it.polito.timebanking.FilterFragment"
+        android:name="it.polito.timebanking.ui.FilterFragment"
         android:label="FilterFragment" >
         <action
             android:id="@+id/action_filterFragment_to_timeSlotListFragment"
@@ -118,7 +118,7 @@
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
-        android:name="it.polito.timebanking.ChatFragment"
+        android:name="it.polito.timebanking.ui.ChatFragment"
         android:label="ChatFragment" >
         <action
             android:id="@+id/action_chatFragment_to_showProfileFragment"
@@ -129,15 +129,15 @@
     </fragment>
     <fragment
         android:id="@+id/reviewListFragment"
-        android:name="it.polito.timebanking.ReviewListFragment"
+        android:name="it.polito.timebanking.ui.ReviewListFragment"
         android:label="ReviewListFragment" />
     <fragment
         android:id="@+id/editReviewFragment"
-        android:name="it.polito.timebanking.EditReviewFragment"
+        android:name="it.polito.timebanking.ui.EditReviewFragment"
         android:label="EditReviewFragment" />
     <fragment
         android:id="@+id/chatListFragment"
-        android:name="it.polito.timebanking.ChatListFragment"
+        android:name="it.polito.timebanking.ui.ChatListFragment"
         android:label="ChatListFragment" >
         <action
             android:id="@+id/action_chatListFragment_to_chatFragment"

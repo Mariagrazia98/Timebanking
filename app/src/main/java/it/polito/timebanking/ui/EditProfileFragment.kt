@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -15,7 +15,6 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
@@ -32,6 +31,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import de.hdodenhof.circleimageview.CircleImageView
+import it.polito.timebanking.MainActivity
+import it.polito.timebanking.R
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import java.io.File
@@ -414,7 +415,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
                     profileVM.updateUser(user).observe(viewLifecycleOwner, Observer {
                         if (it) {
-                            Glide.with(requireContext()).load(user.imagePath).into( headerView.findViewById<CircleImageView>(R.id.imageViewHeader))
+                            Glide.with(requireContext()).load(user.imagePath).into( headerView.findViewById<CircleImageView>(
+                                R.id.imageViewHeader
+                            ))
                             val snackbar = Snackbar.make(
                                 requireView(), "Upload photo successfully!", Snackbar.LENGTH_SHORT
                             )

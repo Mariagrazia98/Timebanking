@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.os.Bundle
 import android.view.*
@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import it.polito.timebanking.MainActivity
+import it.polito.timebanking.R
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
 /**
@@ -59,7 +61,7 @@ class TimeSlotListFragment : Fragment() {
         (activity as MainActivity).slotsToObserve?.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
             if(!(activity as MainActivity).keepAdapter)
-                (activity as MainActivity).adapterTimeSlots = MyTimeSlotRecyclerViewAdapter(it, read_only)
+                (activity as MainActivity).adapterTimeSlots = TimeSlotAdapter(it, read_only)
             else
                 (activity as MainActivity).keepAdapter = false
             rv.adapter = (activity as MainActivity).adapterTimeSlots

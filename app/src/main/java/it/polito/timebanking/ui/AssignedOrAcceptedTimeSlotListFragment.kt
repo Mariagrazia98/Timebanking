@@ -1,13 +1,14 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import it.polito.timebanking.MainActivity
+import it.polito.timebanking.R
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 
@@ -36,7 +37,7 @@ class AssignedOrAcceptedTimeSlotListFragment: Fragment() {
 
         (activity as MainActivity).slotsToObserve?.observe(viewLifecycleOwner){
             rv.layoutManager = LinearLayoutManager(context)
-            rv.adapter = InterestedTimeSlotRecyclerViewAdapter(it, status, ownerUser)
+            rv.adapter = InterestedTimeSlotAdapter(it, status, ownerUser)
 
             if(it.values.isEmpty()){
                 rv.visibility = View.GONE

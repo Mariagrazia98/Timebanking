@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -22,6 +22,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import it.polito.timebanking.MainActivity
+import it.polito.timebanking.R
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
@@ -162,7 +164,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     .setPositiveButton("Update your profile") { _dialog, id ->
                         val u = user?.uid ?: userId
                         val bundle = bundleOf("userId" to u)
-                        NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.editProfileFragment, bundle)
+                        NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(
+                            R.id.editProfileFragment, bundle)
                     }
                 builder.show()
             }

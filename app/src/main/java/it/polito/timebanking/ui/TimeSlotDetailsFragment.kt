@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -17,6 +17,8 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import it.polito.timebanking.MainActivity
+import it.polito.timebanking.R
 import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.TimeSlotViewModel

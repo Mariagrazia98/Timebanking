@@ -1,4 +1,4 @@
-package it.polito.timebanking
+package it.polito.timebanking.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import it.polito.timebanking.R
 import it.polito.timebanking.model.ChatUser
 import it.polito.timebanking.model.TimeSlot
 

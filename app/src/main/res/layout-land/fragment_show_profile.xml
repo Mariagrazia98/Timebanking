@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:text="TimeBanking credit"
+                    android:text="@string/timebanking_credit"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/primary_dark" />
 
@@ -79,7 +79,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/ic_time" />
+                        android:src="@drawable/ic_time"
+                        android:contentDescription="@string/timebanking_icon"/>
 
                     <TextView
                         android:id="@+id/credit"
@@ -98,14 +99,15 @@
                         android:layout_marginRight="5dp"
                         android:textAlignment="textEnd"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:text="minutes" />
+                        android:text="@string/minutes" />
 
                     <ImageView
                         android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
-                        android:src="@drawable/ic_time" />
+                        android:src="@drawable/ic_time"
+                        android:contentDescription="@string/timebanking_icon"/>
 
                 </LinearLayout>
 
@@ -129,7 +131,8 @@
                     android:paddingEnd="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/primary_text"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    tools:text="mario.rossi@gmail.com"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -177,7 +180,8 @@
                         android:paddingEnd="10dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="@color/primary_text"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        tools:text="Mario98"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -193,7 +197,8 @@
                             android:paddingEnd="10dp"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="@color/primary_text"
-                            android:textStyle="italic" />
+                            android:textStyle="italic"
+                            tools:text="24"/>
 
                         <TextView
                             android:id="@+id/yo"
@@ -226,7 +231,8 @@
                     android:paddingEnd="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/primary_text"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    tools:text="Turin"/>
 
                 <TextView
                     android:id="@+id/descriptionText"
@@ -248,7 +254,8 @@
                     android:paddingRight="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/primary_text"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    tools:text="@string/description"/>
 
                 <TextView
                     android:id="@+id/skillsText"
@@ -365,12 +372,12 @@
 
                                     <TextView
                                         android:id="@+id/typeReviewLR"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="4dp"
                                         android:layout_weight="1"
                                         android:gravity="end"
-                                        android:text="as Receiver"
+                                        android:text="@string/as_receiver"
                                         android:textSize="15sp" />
 
                                 </LinearLayout>
@@ -430,7 +437,7 @@
                                 android:focusable="true"
                                 android:gravity="center"
                                 android:onClick="onClickSeeAllReviews"
-                                android:text="See all reviews"
+                                android:text="@string/see_all_reviews"
                                 android:textColor="@color/primary"
                                 android:textSize="15sp" />
 

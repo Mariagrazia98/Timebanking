@@ -177,7 +177,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 df.roundingMode = RoundingMode.CEILING
                 var avgText = df.format(avg)
                 avgText = avgText.replace(',','.')
-                Log.d("anto",avgText)
                 ratingBar.rating = avgText.toFloat()
                 val text = "${reviews.size} reviews"
                 numReviews.text = text

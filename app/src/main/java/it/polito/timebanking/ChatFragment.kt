@@ -151,20 +151,6 @@ class ChatFragment : Fragment() {
             findNavController().navigate(R.id.action_chatFragment_to_editReviewFragment, bundle)
         }
 
-        /*
-        reviewsVM.getReviewsByUser(otherUser.uid).observe(viewLifecycleOwner) {
-            //check if I have already reviewed him
-            //if yes, disable button
-            for (ith in it) {
-                if (ith.timeSlotId == slotId && ith.userIdReviewer == userId) {
-                    reviewButton.visibility = View.GONE
-                    titleChat.visibility = View.VISIBLE
-                    titleChat.text = "You have already reviewed this!"
-                }
-            }
-        }
-        */
-
 
         requireActivity()
             .onBackPressedDispatcher
@@ -190,17 +176,9 @@ class ChatFragment : Fragment() {
             if (it != null) {
                 chat = it
                 if (chat!!.chatStatus == 1) { //rejected slot for the user
-                    /*   These buttons are visible default
-                         reviewButton.visibility = View.GONE
-                         assignButton.visibility = View.GONE
-                         rejectButton.visibility = View.GONE */
                     titleChat.visibility = View.VISIBLE
                     titleChat.text = "This timeslot request was rejected!"
                 } else {
-                    /* if (slot.status == 0) {
-                         //reviewButton.visibility = View.GONE
-                         titleChat.visibility = View.GONE
-                     }*/
                     if (userId == offererId && slot.status == 0) { //current user: the offer, timeslot available
                         assignButton.visibility = View.VISIBLE
                         rejectButton.visibility = View.VISIBLE
@@ -229,12 +207,7 @@ class ChatFragment : Fragment() {
                     sendMessage()
                 }
                 getChatMessages()
-            } /*else {
-                assignButton.visibility = View.GONE
-                rejectButton.visibility = View.GONE
-                reviewButton.visibility = View.GONE
-                titleChat.visibility = View.GONE
-            }*/
+            }
         }
     }
 

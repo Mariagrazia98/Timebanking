@@ -69,10 +69,8 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         ratingBar = view.findViewById(R.id.ratingEditBar)
         alertMissingRating = view.findViewById(R.id.alertMissingRating)
         sendReviewBtn.setOnClickListener {
-            val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
             if(ratingBar.rating.toInt() == 0) {
                 alertMissingRating.visibility = View.VISIBLE
-                toneGen1.startTone(ToneGenerator.TONE_SUP_PIP, 150)
             }
             else
                 sendReview()

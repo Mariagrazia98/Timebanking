@@ -5,7 +5,6 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,18 +15,11 @@
         <activity
             android:name="it.polito.timebanking.MainActivity"
             android:exported="true">
-        </activity>
-        <activity
-            android:name=".SplashScreenActivity"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

@@ -45,10 +45,7 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:orientation="vertical">
-
-
 
                 <TextView
                     android:id="@+id/fullName"
@@ -60,6 +57,17 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                     android:textColor="@color/primary_text"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/timeCreditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:text="TimeBanking credit"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/primary_dark" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -81,7 +89,7 @@
                         android:layout_marginRight="5dp"
                         android:textAlignment="textEnd"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:text="10" />
+                        tools:text="10" />
                     <TextView
                         android:id="@+id/creditText"
                         android:layout_width="wrap_content"
@@ -96,7 +104,7 @@
                         android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:src="@drawable/ic_time" />
 
                 </LinearLayout>
@@ -274,9 +282,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="About User"
+                        tools:text="About User"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        android:textSize="26dp"
+                        android:textSize="26sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -302,7 +310,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
-                        android:text="3.5"
+                        tools:text="3.5"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
                         app:layout_constraintEnd_toStartOf="@+id/ratingBar"
@@ -345,7 +353,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
                                     android:layout_weight="1"
-                                    android:text="User x"
+                                    tools:text="User x"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                                     android:textSize="15sp" />
 
@@ -361,7 +369,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="4dp"
                                         android:layout_weight="1"
-                                        android:gravity="right"
+                                        android:gravity="end"
                                         android:text="as Receiver"
                                         android:textSize="15sp" />
 
@@ -412,7 +420,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="14dp"
                                     android:layout_weight="1"
-                                    android:text="Amazing teacher!"
+                                    tools:text="Amazing teacher!"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                                     android:textSize="16sp" />
 
@@ -441,8 +449,8 @@
                         android:id="@+id/numReviews"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5 reviews"
-                        android:textSize="18dp"
+                        tools:text="5 reviews"
+                        android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/ratingBar" />

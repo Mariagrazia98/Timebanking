@@ -469,7 +469,7 @@ class TimeSlotRepository {
     }
 
     //update reviewState
-    suspend fun updateReviewState(userReviewedId: String, timeslotId:String, role: String, oldReviewState: Int): Boolean {
+    suspend fun updateReviewState(userIdOfferer:String, timeslotId:String, role: String, oldReviewState: Int): Boolean {
         return try {
             var code = 0
             if(oldReviewState == 0){
@@ -482,7 +482,7 @@ class TimeSlotRepository {
                 code = 3
             Firebase.firestore
                 .collection("users")
-                .document(userReviewedId)
+                .document(userIdOfferer)
                 .collection("timeslots")
                 .document(timeslotId)
                 .update(mapOf(

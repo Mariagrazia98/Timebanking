@@ -119,11 +119,7 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
             roleReviewer = "Offerer"
 
         }
-        Log.d("anto","userIdReviewer $userIdReviewer")
-        Log.d("anto","userId $userId")
-        Log.d("anto","userIdOfferer $userIdOfferer")
-        Log.d("anto","userIdReceiver $userIdReceiver")
-        timeSlotVM.updateReviewState(userId,tsId,roleReviewer,oldReviewState)
+        timeSlotVM.updateReviewState(userIdOfferer,tsId,roleReviewer,oldReviewState)
         reviewsVM.updateReview(userId, review)
         Toast.makeText(context, "Review completed!", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()

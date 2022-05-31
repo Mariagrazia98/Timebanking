@@ -1,18 +1,21 @@
 package it.polito.timebanking
 
+import android.content.Context
+import android.media.AudioManager
+import android.media.ToneGenerator
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import it.polito.timebanking.model.Review
-import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.ReviewViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
@@ -66,8 +69,11 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         ratingBar = view.findViewById(R.id.ratingEditBar)
         alertMissingRating = view.findViewById(R.id.alertMissingRating)
         sendReviewBtn.setOnClickListener {
-            if(ratingBar.rating.toInt() == 0)
+            val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+            if(ratingBar.rating.toInt() == 0) {
                 alertMissingRating.visibility = View.VISIBLE
+                toneGen1.startTone(ToneGenerator.TONE_SUP_PIP, 150)
+            }
             else
                 sendReview()
         }

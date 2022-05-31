@@ -151,6 +151,7 @@ class ChatFragment : Fragment() {
             findNavController().navigate(R.id.action_chatFragment_to_editReviewFragment, bundle)
         }
 
+        /*
         reviewsVM.getReviewsByUser(otherUser.uid).observe(viewLifecycleOwner) {
             //check if I have already reviewed him
             //if yes, disable button
@@ -158,10 +159,12 @@ class ChatFragment : Fragment() {
                 if (ith.timeSlotId == slotId && ith.userIdReviewer == userId) {
                     reviewButton.visibility = View.GONE
                     titleChat.visibility = View.VISIBLE
-                    titleChat.text = "You already reviewed this!"
+                    titleChat.text = "You have already reviewed this!"
                 }
             }
         }
+        */
+
 
         requireActivity()
             .onBackPressedDispatcher
@@ -204,19 +207,21 @@ class ChatFragment : Fragment() {
                         titleChat.visibility = View.VISIBLE
                     }
                     if (slot.status == 1) { //timeslot assigned
-                        /* assignButton.visibility = View.GONE
+                         assignButton.visibility = View.GONE
                          rejectButton.visibility = View.GONE
-                         reviewButton.visibility = View.GONE*/
+                         reviewButton.visibility = View.GONE
                         if ((userId != slot.idReceiver && userId != offererId) || askerId != slot.idReceiver) { //the slot was already assigned to someone
                             titleChat.visibility = View.VISIBLE
-                            titleChat.text =
-                                "This timeslot request was already assigned to somebody!"
+                            titleChat.text = "This timeslot request was already assigned to somebody!"
                         } else if (
                             (slot.idReceiver == userId && (slot.reviewState == 0 || slot.reviewState == 1)) ||
                             (offererId == userId && askerId == slot.idReceiver && (slot.reviewState == 0 || slot.reviewState == 2))
                         ) {
                             //the current user is the asker or the offer of the timeslot and he has not already done the review
                             reviewButton.visibility = View.VISIBLE
+                        }else{
+                            titleChat.visibility = View.VISIBLE
+                            titleChat.text = "You have already reviewed this!"
                         }
                     }
                 }

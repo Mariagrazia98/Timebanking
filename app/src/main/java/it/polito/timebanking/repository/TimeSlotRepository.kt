@@ -5,6 +5,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import it.polito.timebanking.model.*
 import kotlinx.coroutines.tasks.await
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TimeSlotRepository {
 
@@ -119,9 +123,14 @@ class TimeSlotRepository {
                     timeslots.documents.map {
                         if (it.data != null) {
                             it.toObject(TimeSlot::class.java)?.let { it1 ->
-                                it1.skills.forEach { it2 ->
-                                    skills.add(it2)
+                                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY)
+
+                                if(formatter.parse(it1.date)!! >= Date()){
+                                    it1.skills.forEach { it2 ->
+                                        skills.add(it2)
+                                    }
                                 }
+
                             }
                         }
                     }
@@ -155,8 +164,12 @@ class TimeSlotRepository {
                     timeslots.documents.map {
                         if (it.data != null) {
                             it.toObject(TimeSlot::class.java)?.let { it1 ->
-                                if (it1.skills.contains(skill)) {
-                                    slotsUser.add(it1)
+                                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY)
+
+                                if(formatter.parse(it1.date)!! >= Date()) {
+                                    if (it1.skills.contains(skill)) {
+                                        slotsUser.add(it1)
+                                    }
                                 }
                             }
                         }

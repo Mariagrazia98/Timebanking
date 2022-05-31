@@ -126,6 +126,21 @@ class TimeSlotViewModel(application: Application): AndroidViewModel(application)
         return res
     }
 
+    fun getChatLive(idAsker :String, slotId: String, idOfferer: String) : MutableLiveData<Chat?> {
+        var chatObject = MutableLiveData<Chat?>()
+        repo.getChatLive(idAsker, slotId, idOfferer).addSnapshotListener { value, e ->
+            if (e != null) {
+                Log.d("Error", "Error listen failed")
+            }
+            else{
+                for(doc in value!!){
+                    chatObject.postValue(Chat(doc.id, doc.data.getValue("receiverUid").toString(), doc.data.getValue("chatStatus").toString().toInt()))
+                }
+            }
+        }
+        return chatObject
+    }
+
     fun getNewChatId(idOfferer :String, slotId: String) : String{
         return repo.getNewChatId(idOfferer, slotId)
     }

@@ -329,6 +329,18 @@ class TimeSlotRepository {
         }
     }
 
+    fun getChatLive(idAsker: String, slotId: String, idOfferer: String): Query {
+        val docRef = Firebase.firestore
+            .collection("users")
+            .document(idOfferer)
+            .collection("timeslots")
+            .document(slotId)
+            .collection("chats")
+            .whereEqualTo("receiverUid", idAsker)
+
+        return docRef
+    }
+
     fun getNewChatId(idOfferer: String, slotId: String): String {
         return try {
             val data = Firebase.firestore

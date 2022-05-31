@@ -182,7 +182,7 @@ class ChatFragment : Fragment() {
 
 
     private fun getChat(send: Boolean) {
-        timeSlotVM.getChat(askerId, slot.id, offererId).observe(viewLifecycleOwner) {
+        timeSlotVM.getChatLive(askerId, slot.id, offererId).observe(viewLifecycleOwner) {
 
             if (it != null) {
                 chat = it

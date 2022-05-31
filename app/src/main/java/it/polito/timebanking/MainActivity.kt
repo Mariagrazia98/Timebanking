@@ -1,8 +1,10 @@
 package it.polito.timebanking
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Vibrator
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -22,11 +24,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.bumptech.glide.Glide
-import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
 import de.hdodenhof.circleimageview.CircleImageView
@@ -35,6 +37,7 @@ import it.polito.timebanking.model.TimeSlot
 import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
+
 
 class MainActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
@@ -67,10 +70,13 @@ class MainActivity : AppCompatActivity() {
             this.onSignInResult(res)
         }
 
+    lateinit var vibrator : Vibrator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //vibrator
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         //drawer initialize
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment

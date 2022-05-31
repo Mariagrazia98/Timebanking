@@ -5,6 +5,7 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.Menu
@@ -71,6 +72,9 @@ class EditReviewFragment : Fragment(R.layout.fragment_edit_review) {
         sendReviewBtn.setOnClickListener {
             if(ratingBar.rating.toInt() == 0) {
                 alertMissingRating.visibility = View.VISIBLE
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    (activity as MainActivity).vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+                }
             }
             else
                 sendReview()

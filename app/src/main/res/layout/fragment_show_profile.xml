@@ -356,13 +356,6 @@
                                     android:text="as Receiver"
                                     android:textSize="15sp" />
 
-                                <ImageView
-                                    android:id="@+id/reviewImageLR"
-                                    android:layout_width="0dp"
-                                    android:layout_height="27dp"
-                                    android:layout_weight="1"
-                                    app:srcCompat="@drawable/student" />
-
                             </LinearLayout>
 
                         </LinearLayout>

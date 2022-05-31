@@ -39,7 +39,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var alertNoReviews: TextView
     private lateinit var reviewerName: TextView
     private lateinit var typeReview: TextView
-    private lateinit var imageReview: ImageView
     private  lateinit var commentReview: TextView
     private lateinit var ratingLR: RatingBar
     private lateinit var titleRating: TextView
@@ -163,7 +162,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         ratingLR=view.findViewById(R.id.ratingBarDisplayLR)
         typeReview=view.findViewById(R.id.typeReviewLR)
         commentReview=view.findViewById(R.id.reviewTextLR)
-        imageReview=view.findViewById(R.id.imageViewLR)
         titleRating=view.findViewById(R.id.titleRating)
         reviewsVM.getReviewsByUser(userId).observe(viewLifecycleOwner){ reviews ->
             if(reviews.size != 0) {
@@ -182,7 +180,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 commentReview.text = last.comment
                 if(last.type == 0){
                     typeReview.text = "as Offerer"
-                    //imageReview.setImageResource(R.drawable.teacher)
                 }
             }
             else{

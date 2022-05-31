@@ -124,7 +124,7 @@ class TimeSlotRepository {
                             it.toObject(TimeSlot::class.java)?.let { it1 ->
                                 val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY)
 
-                                if(formatter.parse(it1.date)!! >= Date()){
+                                if(formatter.parse(it1.date)!! >= formatter.parse(formatter.format(Calendar.getInstance().time))){
                                     it1.skills.forEach { it2 ->
                                         skills.add(it2)
                                     }
@@ -165,7 +165,7 @@ class TimeSlotRepository {
                             it.toObject(TimeSlot::class.java)?.let { it1 ->
                                 val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY)
 
-                                if(formatter.parse(it1.date)!! >= Date()) {
+                                if(formatter.parse(it1.date)!! >= formatter.parse(formatter.format(Calendar.getInstance().time))) {
                                     if (it1.skills.contains(skill)) {
                                         slotsUser.add(it1)
                                     }

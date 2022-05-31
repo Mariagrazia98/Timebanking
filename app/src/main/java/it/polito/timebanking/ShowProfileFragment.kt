@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -17,6 +18,8 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import it.polito.timebanking.model.Review
 import it.polito.timebanking.viewmodel.ReviewViewModel
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var creditView:TextView
@@ -169,11 +172,16 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 ratingBar.visibility = View.VISIBLE
                 numReviews.visibility = View.VISIBLE
                 avgRatings.visibility = View.VISIBLE
-                val avg = reviews.map { r -> r.rating }.average()
-                ratingBar.rating = avg.toFloat()
+                var avg = reviews.map { r -> r.rating }.average()
+                val df = DecimalFormat("#.#")
+                df.roundingMode = RoundingMode.CEILING
+                var avgText = df.format(avg)
+                avgText = avgText.replace(',','.')
+                Log.d("anto",avgText)
+                ratingBar.rating = avgText.toFloat()
                 val text = "${reviews.size} reviews"
                 numReviews.text = text
-                avgRatings.text = avg.toString()
+                avgRatings.text = avgText
                 val last : Review = reviews[reviews.size-1]
                 reviewerName.text = last.nameReviewer
                 ratingLR.rating = last.rating

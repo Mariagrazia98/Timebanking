@@ -21,9 +21,14 @@ class ReviewAdapter(data: List<Review>) : RecyclerView.Adapter<ReviewAdapter.Rev
         private val name: TextView = v.findViewById(R.id.nameReviewer)
         private val type: TextView = v.findViewById(R.id.typeReview)
         private val image: ImageView = v.findViewById(R.id.reviewImage)
+        private val imgComment: ImageView = v.findViewById(R.id.imgComment)
 
         fun bind(item: Review) {
             reviewText.text = item.comment
+            if(item.comment.isEmpty()) {
+                imgComment.visibility = View.GONE
+                reviewText.visibility = View.GONE
+            }
             rating.rating = item.rating
             date.text = item.date
             name.text = item.nameReviewer

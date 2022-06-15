@@ -5,11 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:name="it.polito.mainActivity.TimeSlotListFragment"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         app:layoutManager="LinearLayoutManager"
@@ -18,8 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".ui.TimeSlotListFragment"
-        tools:listitem="@layout/fragment_my_time_slot">
-    </androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/fragment_my_time_slot" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

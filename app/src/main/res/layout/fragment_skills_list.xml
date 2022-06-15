@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/skillsTitle"
         tools:context=".ui.TimeSlotListFragment"
-        tools:listitem="@layout/fragment_skill"></androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/fragment_skill" />
 
     <TextView
         android:id="@+id/empty_view"

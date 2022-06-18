@@ -49,7 +49,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var userId: String
     private lateinit var fv: View
 
-    lateinit var creditView:TextView
+    //lateinit var creditView:TextView
     lateinit var fullnameView: EditText
     lateinit var ageView: EditText
     lateinit var nicknameView: EditText
@@ -123,7 +123,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
                 }
 
-                creditView.setText(user.credit.toString())
+                //creditView.setText(user.credit.toString())
                 fullnameView.setText(user.fullname)
                 ageView.setText(user.age.toString())
                 nicknameView.setText(user.nickname)
@@ -206,7 +206,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                                     description = descriptionView.text.toString(),
                                     age = Integer.parseInt(ageView.text.toString()),
                                     imagePath = currentPhotoPath,
-                                    credit=creditView.text.toString().toInt()
+                                    //credit=creditView.text.toString().toInt()
                                 )
                                 profileVM.updateUser(user).observe(viewLifecycleOwner, Observer {
                                     if (it) {
@@ -300,7 +300,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
     private fun setVariables(view: View) {
-        creditView=view.findViewById(R.id.credit)
+        //creditView=view.findViewById(R.id.credit)
         fullnameView = view.findViewById(R.id.Edit_FullName)
         ageView = view.findViewById(R.id.edit_age)
         nicknameView = view.findViewById(R.id.Edit_Nickname)
@@ -457,7 +457,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        profileVM.setUser(user = User(user.uid, user.fullname,nicknameView.text.toString(), user.email, locationView.text.toString(), descriptionView.text.toString(),skillsList,  ageView.text.toString().toInt(), user.imagePath, credit = creditView.text.toString().toInt()))
+        profileVM.setUser(user = User(user.uid, user.fullname,nicknameView.text.toString(), user.email, locationView.text.toString(), descriptionView.text.toString(),skillsList,  ageView.text.toString().toInt(), user.imagePath))
         outState.putString("imagePath", currentPhotoPath)
     }
 }

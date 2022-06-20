@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
@@ -29,6 +31,7 @@ import it.polito.timebanking.model.User
 import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
+import java.time.LocalTime
 import java.util.*
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
@@ -63,6 +66,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         super.onPrepareOptionsMenu(menu)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -148,6 +152,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             (activity as MainActivity).supportActionBar?.title = "Create advertisement"
             updateSlotButton.text = "CREATE TIMESLOT"
             dateView.setText(SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis()))
+            timeView.setText(SimpleDateFormat("HH:mm", Locale.ITALY).format(Date()).toString())
         }
         profileVM.getUserById(user?.uid ?: userId).observe(viewLifecycleOwner) {
             userSkills = it?.skills ?: mutableListOf()

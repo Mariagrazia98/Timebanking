@@ -1,9 +1,12 @@
 package it.polito.timebanking.ui
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -21,6 +24,7 @@ import it.polito.timebanking.viewmodel.ProfileViewModel
 import it.polito.timebanking.viewmodel.ReviewViewModel
 import it.polito.timebanking.viewmodel.TimeSlotViewModel
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 class ChatFragment : Fragment() {
@@ -172,6 +176,7 @@ class ChatFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun getChat(send: Boolean) {
         timeSlotVM.getChat(askerId, slot.id, offererId).observe(viewLifecycleOwner) {
 
@@ -198,7 +203,22 @@ class ChatFragment : Fragment() {
                             (offererId == userId && askerId == slot.idReceiver && (slot.reviewState == 0 || slot.reviewState == 2))
                         ) {
                             //the current user is the asker or the offer of the timeslot and he has not already done the review
-                            reviewButton.visibility = View.VISIBLE
+
+                            titleChat.visibility = View.VISIBLE
+
+                            val formatter = SimpleDateFormat("dd/MM/yyyy")
+                            val currentDate = formatter.format(Date())
+
+                                if(slot.date.compareTo(currentDate)>0) {
+                                //slot.date is before currentDate
+                                    titleChat.visibility = View.VISIBLE
+                                    titleChat.text = "Wait the execution of timeslot to review the user!"
+                                }
+                                else{
+                                    titleChat.text = "The timeslot was completed. Review the user!"
+                                    reviewButton.visibility = View.VISIBLE
+                                    reviewButton.isEnabled = true
+                                }
                         }else{
                             titleChat.visibility = View.VISIBLE
                             titleChat.text = "You have already reviewed this!"

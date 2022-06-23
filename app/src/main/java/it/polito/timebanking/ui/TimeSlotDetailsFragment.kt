@@ -40,6 +40,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     private lateinit var profileImageView: ImageView
 
     private lateinit var seeChatsButton : Button
+    private lateinit var startChatButton : Button
 
     lateinit var user : User
     lateinit var timeslot: TimeSlot
@@ -76,6 +77,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         profileImageView = view.findViewById(R.id.imageViewSlot)
 
         seeChatsButton = view.findViewById(R.id.chatsButton)
+        startChatButton = view.findViewById(R.id.startChatButton)
 
         timeSlotVM.getSlotFById(user.uid, timeslot.id).observe(viewLifecycleOwner){ ts ->
             if (ts != null) {
@@ -111,8 +113,19 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             }
 
             seeChatsButton.visibility = View.GONE
+
+            val bundle = bundleOf("read_only" to read_only, "mychats" to false)
+            bundle.putSerializable("user", user)
+            bundle.putSerializable("slot", timeslot)
+            startChatButton.setOnClickListener {
+                NavHostFragment.findNavController(FragmentManager.findFragment(it)).navigate(
+                    R.id.action_timeSlotDetailsFragment_to_chatFragment,
+                    bundle
+                )
+            }
         }else{
             profileButton.visibility = View.GONE
+            startChatButton.visibility = View.GONE
 
             val bundle = bundleOf("read_only" to read_only, "mychats" to true)
             bundle.putSerializable("user", user)

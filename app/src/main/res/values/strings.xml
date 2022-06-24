@@ -38,15 +38,15 @@
     <string name="sampleDuration">120</string>
 
     <!-- Time slot Labels -->
-    <string name="title_advertisement_text">Title advertisement</string>
-    <string name="description_advertisement_text">Description of offered service</string>
-    <string name="date_time_advertisement_text">Date and time of the advertisement</string>
-    <string name="duration_advertisement_text">Duration of the offered time slot (minutes)</string>
-    <string name="location_advertisement_text">Location advertisement</string>
+    <string name="title_advertisement_text">Title</string>
+    <string name="description_advertisement_text">Description</string>
+    <string name="date_time_advertisement_text">Date and time</string>
+    <string name="duration_advertisement_text">Duration (minutes)</string>
+    <string name="location_advertisement_text">Location</string>
     <string name="date_slot_text">Date</string>
     <string name="start_slot_text">Start</string>
     <string name="duration_slot_text">Duration (min)</string>
-    <string name="no_data_available">No slots available</string>
+    <string name="no_data_available">No timeslots available</string>
 
     <!-- Buttons and menu voices -->
     <string name="button_add_skills">Add skill</string>
@@ -67,15 +67,15 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profile">Profile</string>
-    <string name="myOffersList">My offers list</string>
-    <string name="my_offers">My offers</string>
-    <string name="my_offer">My offer</string>
-    <string name="offers_list">Offers list</string>
-    <string name="interested_offers">Interested offers</string>
-    <string name="interestedOffersList">Interested offers list</string>
+    <string name="myOffersList">My timeslots list</string>
+    <string name="my_offers">My timeslots</string>
+    <string name="my_offer">My timeslot</string>
+    <string name="offers_list">Timeslots list</string>
+    <string name="interested_offers">Interested timeslots</string>
+    <string name="interestedOffersList">Interested timeslots list</string>
     <string name="available_skills">Available skills</string>
     <string name="available_skills_list">Available skills list</string>
-    <string name="editAdvertisement">Edit Offer</string>
+    <string name="editAdvertisement">Edit timeslot</string>
     <string name="edit_profile">Edit Profile</string>
 
     <!--  -->
@@ -90,7 +90,7 @@
     <string name="suggestReview">Amazing experience, i learned so much!</string>
     <string name="hintComment">Give reasons for your answer</string>
     <string name="noAvailableReview">There is no available review</string>
-    <string name="assigned_accepted_offers">Assigned/Accepted offers</string>
+    <string name="assigned_accepted_offers">Assigned/Accepted timeslots</string>
     <string name="timebanking_icon">Timebanking icon</string>
     <string name="minutes">minutes</string>
     <string name="as_receiver">as Receiver</string>

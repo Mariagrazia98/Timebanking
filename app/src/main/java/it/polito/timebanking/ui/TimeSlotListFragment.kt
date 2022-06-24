@@ -54,7 +54,7 @@ class TimeSlotListFragment : Fragment() {
         }
 
         if(read_only){
-            (activity as MainActivity).supportActionBar?.title = " $skill offers list"
+            (activity as MainActivity).supportActionBar?.title = " $skill timeslots"
             fab.visibility = View.GONE
         }
 

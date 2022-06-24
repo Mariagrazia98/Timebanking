@@ -136,7 +136,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         }
 
         if(timeslot != null){ //edit
-            (activity as MainActivity).supportActionBar?.title = "Edit advertisement"
+            (activity as MainActivity).supportActionBar?.title = "Edit timeslot"
 
             if(savedInstanceState != null){
                 timeslot = timeSlotVM.getSlot()
@@ -149,7 +149,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             timeView.setText(timeslot!!.time)
 
         }else{ //create
-            (activity as MainActivity).supportActionBar?.title = "Create advertisement"
+            (activity as MainActivity).supportActionBar?.title = "Create timeslot"
             updateSlotButton.text = "CREATE TIMESLOT"
             dateView.setText(SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(System.currentTimeMillis()))
             timeView.setText(SimpleDateFormat("HH:mm", Locale.ITALY).format(Date()).toString())

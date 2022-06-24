@@ -99,7 +99,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         }
 
         if(read_only) {
-            (activity as MainActivity).supportActionBar?.title = "Offer details"
+            (activity as MainActivity).supportActionBar?.title = "Timeslot details"
 
             profileNameView.text = user.fullname
             profileEmailView.text = user.email

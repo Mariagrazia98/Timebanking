@@ -119,6 +119,10 @@ class MainActivity : AppCompatActivity() {
                 interested_item.isVisible = false
                 assigned_or_accepted_item.isVisible = false
 
+                timeSlotViewModel.getAllSkills("").observe(this){
+                    skills.postValue(it)
+                }
+
             } else {
                 profileViewModel.getUserById(userState!!.uid)
                     .observe(this, Observer { user ->

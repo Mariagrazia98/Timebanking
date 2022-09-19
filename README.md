@@ -1,5 +1,5 @@
 # Timebanking
-Android based project for the Human Computer Interaction course at Politecnico di Torino
+Android based project for the Mobile Application Development course at Politecnico di Torino
 The application implements timebanking concept:
 - The app supports reciprocal service exchange that uses units of time as currency
 - Subscribers of the app have a time credit (in hours) that can be consumed asking other users to perform jobs for them and that is increased doing works for others

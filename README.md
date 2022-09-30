@@ -14,8 +14,8 @@ Pietro Borgaro
 How to start TurinXStudents
 
 
-How to start Timebanking
-Open the project with Android Studio
-Build -> Clean Project
-Build -> Make project
-Run the project
+How to start Timebanking; 
+- Open the project with Android Studio
+- Build -> Clean Project
+- Build -> Make project
+- Run the project
